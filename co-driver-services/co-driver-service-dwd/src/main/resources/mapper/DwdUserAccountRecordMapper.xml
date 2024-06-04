@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserAccountRecordMapper">
+
+    <delete id="delete">
+        delete
+        from dwd_user_account_record
+        where dates = #{dates}
+    </delete>
+    <select id="getRecordCount" resultType="java.lang.Long">
+        select count(1)
+        from diversion.user_account_record uac
+        where uac.dates = #{dates}
+    </select>
+    <select id="queryStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAccountRecord">
+        select uac.dates,
+               'diversion.user_account_record'                                         `source`,
+               uac.id                                                                  `source_id`,
+               uac.user_id,
+               (case uac.is_add when 0 then 0 - uac.amount when 1 then uac.amount end) amount,
+               uac.source                                                              `record_type`,
+               (case uac.source
+                    when 1 then 'game'
+                    when 2 then 'withdraw'
+                    when 3 then 'withdraw return'
+                    when 4 then
+                        'first_amount'
+                    when 5 then uac.source_id end)                                     `operation`,
+               gc.game_name,
+               uv.max_pvn                                                              version,
+               u.pkg,
+               IFNULL(uh.address, 'IN')                                                country,
+               u.dates                                                                 register_dates,
+               u.create_time                                                           register_date,
+               uv.pvn                                                                  register_version,
+               TIMESTAMPDIFF(DAY, u.create_time, uac.create_time)                      register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, uac.dates)                                  register_day,
+               uac.create_time
+        from diversion.user_account_record uac
+                 INNER JOIN diversion.user u on (uac.user_id = u.id)
+                 LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn, max(uv.pvn) max_pvn
+                            FROM diversion.user_version uv
+                            where uv.dates <![CDATA[ <=]]> #{dates}
+                            GROUP BY user_id) uv on (uv.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
+                 LEFT JOIN diversion.ab_game_config gc on (gc.id = uac.source_id)
+        where uac.dates = #{dates} limit #{rows}
+        OFFSET #{startRows}
+    </select>
+</mapper>

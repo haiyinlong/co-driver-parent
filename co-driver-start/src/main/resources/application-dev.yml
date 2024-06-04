@@ -1,0 +1,34 @@
+spring:
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      primary: mysql
+      strict: false
+      datasource:
+        mysql:
+          username: leomaster
+          password: leomastermysql
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://192.168.8.12:3306/ads?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+  data:
+    redis:
+      port: 6379
+      host: 192.168.8.12
+
+co-driver:
+  rabbitmq:
+    host: mq1.ronoinfo.com
+    port: 5672
+    username: dev
+    password: G8bUCHDxOMOnUtoEzjky9a9xo2Oul6vS
+    virtualHost: /devhost
+    
+logging:
+  level:
+    com:
+      leo:
+        ad:
+          codriver:
+            dwd:
+              dao:
+                DwdUserBalanceRecordMapper: debug

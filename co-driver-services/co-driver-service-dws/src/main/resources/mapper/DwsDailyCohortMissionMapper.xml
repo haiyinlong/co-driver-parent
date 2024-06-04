@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyCohortMissionMapper">
+    <delete id="delete">
+        delete
+        from dws_daily_package_cohort_mission
+        where dates = #{dates}
+    </delete>
+    <select id="statistics" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageCohortMission">
+        select dws_cohort_m.id,
+               #{dates}                                                            dates,
+               q.register_dates,
+               q.pkg,
+               q.register_version,
+               q.country,
+               q.event_type,
+               q.cohort_day,
+               q.cohort_user_num,
+               IFNULL(d_user.user_num, 0)                                          register_user_num,
+               IFNULL(ROUND(q.cohort_user_num / IFNULL(d_user.user_num, 0), 8), 0) conversion_rate
+        from (select cohort_q.register_dates,
+                     cohort_q.pkg,
+                     cohort_q.register_version,
+                     cohort_q.country,
+                     cohort_q.`event_type`,
+                     cohort_q.cohort_day,
+                     COUNT(DISTINCT dufm.user_id) cohort_user_num
+              FROM (SELECT ufm.`pkg`,
+                           ufm.register_version,
+                           ufm.`country`,
+                           ufm.event_type,
+                           ufm.`register_dates`                                   register_dates,
+                           TIMESTAMPDIFF(DAY, ufm.register_date, ufm.create_time) cohort_day
+                    FROM dwd_user_finish_mission ufm
+                    WHERE ufm.dates = #{dates}
+                    GROUP BY ufm.`pkg`,
+                             ufm.`register_version`,
+                             ufm.`country`,
+                             ufm.event_type,
+                             ufm.`register_dates`,
+                             TIMESTAMPDIFF(DAY, ufm.register_date, ufm.create_time)) cohort_q
+                       left join dwd_user_finish_mission dufm
+                                 on (cohort_q.pkg = dufm.pkg
+                                     and cohort_q.`register_version` = dufm.register_version
+                                     and cohort_q.`country` = dufm.country
+                                     and cohort_q.`event_type` = dufm.event_type
+                                     and cohort_q.`register_dates` = dufm.register_dates
+                                     and cohort_q.cohort_day = TIMESTAMPDIFF(DAY, dufm.register_date, dufm.create_time)
+                                     )
+              GROUP BY cohort_q.pkg, cohort_q.`register_version`, cohort_q.`country`, cohort_q.`register_dates`,
+                       cohort_q.`event_type`, cohort_q.cohort_day) q
+                 LEFT JOIN dws_daily_package_cohort_mission dws_cohort_m
+                           on (q.register_dates = dws_cohort_m.register_dates and
+                               q.register_version = dws_cohort_m.register_version and
+                               q.country = dws_cohort_m.country and
+                               q.pkg = dws_cohort_m.pkg and
+                               q.event_type = dws_cohort_m.event_type and
+                               q.cohort_day = dws_cohort_m.cohort_day)
+                 LEFT JOIN dws_daily_package_register d_user
+                           on (q.register_dates = d_user.dates and q.register_version = d_user.version and
+                               q.country = d_user.country and q.pkg = d_user.pkg)
+    </select>
+</mapper>

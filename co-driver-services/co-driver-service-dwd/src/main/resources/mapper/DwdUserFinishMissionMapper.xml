@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserFinishMissionMapper">
+
+    <delete id="delete">
+        delete
+        from dwd_user_finish_mission
+        where dates = #{dates}
+    </delete>
+    <select id="statisticsAid" resultType="com.leo.ad.codriver.dwd.entity.DwdUserFinishMission">
+        <![CDATA[
+        SELECT um.finish_dates                dates,
+               m.pkg,
+               IFNULL(uh.address, 'IN')       country,
+               IFNULL(uvp.min_pvn, 'unknown') register_version,
+               IFNULL(uvp.max_pvn, 'unknown') version,
+               u.id                           user_id,
+               m.event_param                  event_type,
+               um.state,
+               um.updated                     create_time,
+               u.dates                        register_dates,
+               u.create_time                  register_date
+        from diversion.user_mission um
+                 INNER JOIN diversion.mission m on (m.id = um.mission_id)
+                 INNER JOIN diversion.`user` u on (um.user_id = u.aid and m.pkg = u.pkg)
+                 LEFT JOIN diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+                 LEFT JOIN (select uv.user_id, MAX(pvn) max_pvn, MIN(pvn) min_pvn
+                            from diversion.user_version uv
+                            where uv.dates <= #{dates}
+                            GROUP BY uv.user_id) uvp on (uvp.user_id = u.id)
+        where um.finish_dates = #{dates}
+        ]]>
+    </select>
+
+    <select id="statisticsUserId" resultType="com.leo.ad.codriver.dwd.entity.DwdUserFinishMission">
+        <![CDATA[
+        SELECT um.finish_dates                dates,
+               m.pkg,
+               IFNULL(uh.address, 'IN')       country,
+               IFNULL(uvp.min_pvn, 'unknown') register_version,
+               IFNULL(uvp.max_pvn, 'unknown') version,
+               u.id                           user_id,
+               m.event_param                  event_type,
+               um.state,
+               um.updated                     create_time,
+               u.dates                        register_dates,
+               u.create_time                  register_date
+        from diversion.user_mission um
+                 INNER JOIN diversion.mission m on (m.id = um.mission_id)
+                 INNER JOIN diversion.`user` u on (um.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+                 LEFT JOIN (select uv.user_id, MAX(pvn) max_pvn, MIN(pvn) min_pvn
+                            from diversion.user_version uv
+                            where uv.dates <= #{dates}
+                            GROUP BY uv.user_id) uvp on (uvp.user_id = u.id)
+        where um.finish_dates = #{dates}
+        ]]>
+    </select>
+
+</mapper>

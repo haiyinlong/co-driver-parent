@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserWithdrawRecordMapper">
+
+    <delete id="delete">
+        delete
+        from dwd_user_withdraw_record
+        where dates = #{dates}
+    </delete>
+    <select id="getWithdrawCount" resultType="java.lang.Long">
+        select count(1)
+        from withdraw.withdraw_record wr
+        where wr.dates = #{dates}
+    </select>
+    <select id="queryWithdrawList" resultType="com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord">
+        select wr.dates,
+               wr.id                                                    source_id,
+               wr.project_name,
+               wr.user_id,
+               wr.withdraw_type,
+               wr.status,
+               wr.amount,
+               IFNULL(wr.fee, 0)                                        fee,
+               #{singleFee}                                             `exchange_rate`,
+               ROUND(wr.amount / #{singleFee}, 8)                       `change_amount`,
+               ROUND((IFNULL(wr.fee, 0)) / #{singleFee}, 8)             `change_fee`,
+               ROUND((IFNULL(wr.fee, 0) + wr.amount) / #{singleFee}, 8) change_total_amount,
+               wr.num,
+               uv.max_pvn                                               version,
+               u.pkg,
+               IFNULL(uh.address, 'IN')                                 country,
+               u.dates                                                  register_dates,
+               u.create_time                                            register_date,
+               uv.pvn                                                   register_version,
+               TIMESTAMPDIFF(DAY, u.create_time, wr.created)            register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, wr.dates)                    register_day,
+               wr.created                                               create_time
+        from withdraw.withdraw_record wr
+                 INNER JOIN diversion.`user` u on (wr.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+                 LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn, max(uv.pvn) max_pvn
+                            FROM diversion.user_version uv
+                            where uv.dates <![CDATA[ <=]]> #{dates}
+                            GROUP BY user_id) uv on (uv.user_id = u.id)
+        where wr.dates = #{dates} limit #{rows}
+        OFFSET #{startRows}
+    </select>
+
+</mapper>

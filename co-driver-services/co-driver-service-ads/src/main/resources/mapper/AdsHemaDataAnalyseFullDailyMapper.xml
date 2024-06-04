@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.ads.dao.AdsHemaDataAnalyseFullDailyMapper">
+
+    <delete id="delete">
+        delete
+        from ads_hema_data_analyse_full_daily
+        where dates = #{dates}
+    </delete>
+    <select id="queryStatisticsActiveList"
+            resultType="com.leo.ad.codriver.ads.entity.AdsHemaDataAnalyseFullDailyDTO">
+        select pl.dates,
+               dc.channel_id,
+               dc.channel_name,
+               dc.pkg,
+               pl.country,
+               pl.version,
+               0                                  user_type,
+               pl.user_num                        login_user_num,
+               urp.user_num                       register_pkg_user_num,
+               pr.user_num                        register_user_num,
+               pp.change_total_cost               pkg_promotion_total_cost,
+               hema_e.match_page_show_user_num,
+               hema_e.game_start_num,
+               hema_e.game_finish_total_time,
+               hema_e.promotion_total_coin,
+               hema_e.promotion_total_life_gain,
+               hema_e.game_enter_only_user_num,
+               hema_e.game_slots_total_bet,
+               hema_e.game_slots_bet_num,
+               hema_e.game_slots_bet_user_num,
+               hema_e.show_offer_page_user_num,
+               hema_e.click_task_user_num,
+               hema_e.web_loading_user_num,
+               hema_e.download_pag_show_user_num,
+               hema_e.download_pag_click_user_num,
+               hema_e.show_withdraw_page_user_num,
+               hema_e.gold_game_enter_only_user_num,
+               hema_e.gold_game_slots_spin_num,
+               hema_e.gold_game_slots_spin_total_bet,
+               hema_account.ludo_total_amount,
+               hema_account.slot_deduction_total_amount,
+               hema_account.slot_addition_total_amount,
+               withdraw.success_change_amount_fee withdraw_total_amount,
+               puc.user_num                       conversion_user_num,
+               pkg_payment.user_num               payment_user_num,
+               pkg_payment.change_amount          payment_amount,
+               retention1.retention_user_num      retention1,
+               retention7.retention_user_num      retention7
+        from dws_daily_package_login pl
+                 INNER JOIN dim_channel dc on (pl.pkg = dc.pkg and product_id = 44)
+                 LEFT JOIN dws_daily_package_promotion pp
+                           on (pl.pkg = pp.pkg and pp.product_id = 44 and pl.dates = pp.dates)
+                 LEFT JOIN dws_user_register_pkg_full_daily urp on (pl.pkg = urp.pkg and pl.dates = urp.dates)
+                 LEFT JOIN dws_daily_package_register pr
+                           on (pl.dates = pr.dates and pl.pkg = pr.pkg and pl.country = pr.country and
+                               pl.version = pr.version)
+                 LEFT JOIN dws_hema_event_full_daily hema_e
+                           on (pl.dates = hema_e.dates and pl.pkg = hema_e.pkg and pl.country = hema_e.country and
+                               pl.version = hema_e.version and hema_e.user_type = 0)
+                 LEFT JOIN dws_hema_account_full_daily hema_account
+                           on (pl.dates = hema_account.dates and pl.pkg = hema_account.pkg and
+                               pl.country = hema_account.country and pl.version = hema_account.version and
+                               hema_account.user_type = 0)
+                 LEFT JOIN dws_withdraw_full_daily withdraw
+                           on (pl.dates = withdraw.dates and pl.pkg = withdraw.pkg and pl.country = withdraw.country and
+                               pl.version = withdraw.version and withdraw.user_type = 0)
+                 LEFT JOIN dws_daily_package_payment pkg_payment
+                           on (pl.dates = pkg_payment.dates and pl.pkg = pkg_payment.pkg and
+                               pl.country = pkg_payment.country and pl.version = pkg_payment.version)
+                 LEFT JOIN dws_daily_package_user_conversion puc
+                           on (pl.dates = puc.dates and pl.pkg = puc.pkg and pl.country = puc.country and
+                               pl.version = puc.version and puc.user_type = 0)
+                 LEFT JOIN dws_daily_package_retention retention1
+                           on (pl.dates = retention1.register_dates and pl.pkg = retention1.pkg and
+                               pl.country = retention1.country and pl.version = retention1.version and
+                               retention1.register_day = 1)
+                 LEFT JOIN dws_daily_package_retention retention7
+                           on (pl.dates = retention7.register_dates and pl.pkg = retention7.pkg and
+                               pl.country = retention7.country and pl.version = retention7.version and
+                               retention7.register_day = 7)
+        WHERE pl.dates = #{dates}
+    </select>
+    <select id="queryStatisticsNewList"
+            resultType="com.leo.ad.codriver.ads.entity.AdsHemaDataAnalyseFullDailyDTO">
+        select pl.dates,
+               dc.channel_id,
+               dc.channel_name,
+               dc.pkg,
+               pl.country,
+               pl.version,
+               1                                  user_type,
+               pl.user_num                        login_user_num,
+               urp.user_num                       register_pkg_user_num,
+               pr.user_num                        register_user_num,
+               pp.change_total_cost               pkg_promotion_total_cost,
+               hema_e.match_page_show_user_num,
+               hema_e.game_start_num,
+               hema_e.game_finish_total_time,
+               hema_e.promotion_total_coin,
+               hema_e.promotion_total_life_gain,
+               hema_e.game_enter_only_user_num,
+               hema_e.game_slots_total_bet,
+               hema_e.game_slots_bet_num,
+               hema_e.game_slots_bet_user_num,
+               hema_e.show_offer_page_user_num,
+               hema_e.click_task_user_num,
+               hema_e.web_loading_user_num,
+               hema_e.download_pag_show_user_num,
+               hema_e.download_pag_click_user_num,
+               hema_e.show_withdraw_page_user_num,
+               hema_e.gold_game_enter_only_user_num,
+               hema_e.gold_game_slots_spin_num,
+               hema_e.gold_game_slots_spin_total_bet,
+               hema_account.ludo_total_amount,
+               hema_account.slot_deduction_total_amount,
+               hema_account.slot_addition_total_amount,
+               withdraw.success_change_amount_fee withdraw_total_amount,
+               puc.user_num                       conversion_user_num,
+               pkg_payment.user_num               payment_user_num,
+               pkg_payment.change_amount          payment_amount,
+               retention1.retention_user_num      retention1,
+               retention7.retention_user_num      retention7
+        from dws_daily_package_login pl
+                 INNER JOIN dim_channel dc on (pl.pkg = dc.pkg and product_id = 44)
+                 LEFT JOIN dws_daily_package_promotion pp
+                           on (pl.pkg = pp.pkg and pp.product_id = 44 and pl.dates = pp.dates)
+                 LEFT JOIN dws_user_register_pkg_full_daily urp on (pl.pkg = urp.pkg and pl.dates = urp.dates)
+                 LEFT JOIN dws_daily_package_register pr
+                           on (pl.dates = pr.dates and pl.pkg = pr.pkg and pl.country = pr.country and
+                               pl.version = pr.version)
+                 LEFT JOIN dws_hema_event_full_daily hema_e
+                           on (pl.dates = hema_e.dates and pl.pkg = hema_e.pkg and pl.country = hema_e.country and
+                               pl.version = hema_e.version and hema_e.user_type = 1)
+                 LEFT JOIN dws_hema_account_full_daily hema_account
+                           on (pl.dates = hema_account.dates and pl.pkg = hema_account.pkg and
+                               pl.country = hema_account.country and pl.version = hema_account.version and
+                               hema_account.user_type = 1)
+                 LEFT JOIN dws_withdraw_full_daily withdraw
+                           on (pl.dates = withdraw.dates and pl.pkg = withdraw.pkg and pl.country = withdraw.country and
+                               pl.version = withdraw.version and withdraw.user_type = 1)
+                 LEFT JOIN dws_daily_package_payment pkg_payment
+                           on (pl.dates = pkg_payment.dates and pl.pkg = pkg_payment.pkg and
+                               pl.country = pkg_payment.country and pl.version = pkg_payment.version)
+                 LEFT JOIN dws_daily_package_user_conversion puc
+                           on (pl.dates = puc.dates and pl.pkg = puc.pkg and pl.country = puc.country and
+                               pl.version = puc.version and puc.user_type = 1)
+                 LEFT JOIN dws_daily_package_retention retention1
+                           on (pl.dates = retention1.register_dates and pl.pkg = retention1.pkg and
+                               pl.country = retention1.country and pl.version = retention1.version and
+                               retention1.register_day = 1)
+                 LEFT JOIN dws_daily_package_retention retention7
+                           on (pl.dates = retention7.register_dates and pl.pkg = retention7.pkg and
+                               pl.country = retention7.country and pl.version = retention7.version and
+                               retention7.register_day = 7)
+        WHERE pl.dates = #{dates}
+    </select>
+</mapper>

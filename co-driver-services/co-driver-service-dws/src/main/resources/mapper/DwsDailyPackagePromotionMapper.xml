@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackagePromotionMapper">
+    <delete id="deleteDailyPackagePromotion">
+        delete
+        from dws_daily_package_promotion
+        where dates = #{dates}
+    </delete>
+    <insert id="syncDailyPackagePromotion">
+        insert into dws_daily_package_promotion(dates, project_id, product_id, product_name, channel_id, channel_name,
+                                                pkg, total_cost, `exchange_rate`, change_total_cost)
+        select ac.dates,
+               p.project_type,
+               p.id,
+               p.project_name,
+               c.channel,
+               c.channel_name,
+               ac.pkg,
+               SUM(ac.cost),
+               #{singleFee},
+               ROUND(SUM(ac.cost) / #{singleFee}, 8)
+        from ads.adjust_cost ac
+                 left join sys_channel c on (ac.pkg = c.pkg)
+                 left join sys_project p on (c.project_id = p.id)
+        where ac.dates = #{dates}
+        GROUP BY ac.dates, p.project_type, p.id, p.project_name, c.channel, c.channel_name, ac.pkg
+    </insert>
+    <select id="list" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackagePromotion">
+        select id,
+               dates,
+               project_id,
+               product_id,
+               product_name,
+               channel_id,
+               channel_name,
+               pkg,
+               total_cost,
+               `exchange_rate`,
+               change_total_cost
+        from dws_daily_package_promotion
+        where dates = #{dates}
+    </select>
+</mapper>

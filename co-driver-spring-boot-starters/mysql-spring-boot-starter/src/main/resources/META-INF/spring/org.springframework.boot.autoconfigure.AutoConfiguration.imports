@@ -1,0 +1,3 @@
+com.leo.ad.codriver.starter.mysql.DwBatchMapper
+com.leo.ad.codriver.starter.mysql.config.MybatisPlusConfig
+com.alibaba.druid.spring.boot3.autoconfigure.DruidDataSourceAutoConfigure

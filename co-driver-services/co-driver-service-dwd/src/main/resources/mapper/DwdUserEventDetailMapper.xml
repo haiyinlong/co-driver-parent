@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserEventDetailMapper">
+
+    <delete id="delete">
+        delete
+        from dwd_user_event_detail
+        where dates = #{dates}
+        <if test="source != null">
+            and source = #{source}
+        </if>
+    </delete>
+
+    <select id="getEventReportCount" resultType="java.lang.Long">
+        select count(1)
+        from diversion.event_report er
+                 INNER JOIN diversion.user u on (er.user_id = u.aid and u.pkg = er.pkg)
+        where er.dates = #{dates}
+          and er.event_msg is not null
+          and JSON_VALID(er.event_msg)
+          and JSON_LENGTH(er.event_msg) > 0
+    </select>
+    <select id="queryEventReport" resultType="com.leo.ad.codriver.dwd.entity.DwdUserEventDetail">
+        select 'diversion.event_report'                          source,
+               er.id                                             source_id,
+               er.dates,
+               IFNULL(u.id, er.user_id)                          user_id,
+               er.event_id,
+               er.event_msg,
+               IFNULL(er.event_msg ->> '$.pvn', 'unknown')       version,
+               u.dates                                           register_dates,
+               u.create_time                                     register_date,
+               u.pkg,
+               uvq.pvn                                           register_version,
+               IFNULL(uh.address, 'IN')                          country,
+               TIMESTAMPDIFF(DAY, u.create_time, er.create_time) register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, er.dates)             register_day,
+               er.create_time
+        from diversion.event_report er
+                 INNER JOIN diversion.user u on (er.user_id = u.aid and u.pkg = er.pkg)
+                 LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn
+                            FROM diversion.user_version uv
+                            where uv.dates <![CDATA[ <=  ]]>  #{dates}
+                            GROUP BY user_id) uvq on (uvq.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
+        where er.dates = #{dates}
+          and er.event_msg is not null
+          and JSON_VALID(er.event_msg)
+          and JSON_LENGTH(er.event_msg) > 0
+            limit #{rows}
+        OFFSET #{startRows}
+
+    </select>
+    <select id="getReportEventCount" resultType="java.lang.Long">
+        select count(1)
+        from ads.report_event re
+        where re.dates = #{dates}
+          and re.user_id is not null
+          and re.event_msg is not null
+          and JSON_VALID(re.event_msg)
+    </select>
+    <select id="queryReportEvent" resultType="com.leo.ad.codriver.dwd.entity.DwdUserEventDetail">
+        select 'ads.report_event'                                source,
+               re.id                                             source_id,
+               re.dates,
+               re.user_id,
+               re.event_id,
+               re.event_msg,
+               IFNULL(re.event_msg ->> '$.pvn', 'unknown')       version,
+               u.dates                                           register_dates,
+               u.create_time                                     register_date,
+               u.pkg,
+               uv.pvn                                            register_version,
+               IFNULL(uh.address, 'IN')                          country,
+               TIMESTAMPDIFF(DAY, u.create_time, re.create_time) register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, re.dates)             register_day,
+               re.create_time
+        from ads.report_event re
+                 INNER JOIN diversion.user u on (re.user_id = u.id)
+                 LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn
+                            FROM diversion.user_version uv
+                            where uv.dates <![CDATA[ <=  ]]>  #{dates}
+                            GROUP BY user_id) uv on (uv.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
+        where re.dates = #{dates}
+          and re.event_msg is not null
+          and JSON_VALID(re.event_msg)
+          and JSON_LENGTH(re.event_msg) > 0
+            limit #{rows}
+        OFFSET #{startRows}
+    </select>
+    <select id="getReportPointCount" resultType="java.lang.Long">
+
+        select count(1)
+        from diversion.report_point rp
+                 INNER JOIN diversion.user u on (rp.user_id = u.aid and u.pkg = rp.pkg)
+        where rp.create_time >=
+              STR_TO_DATE(CONCAT(DATE_FORMAT(#{dates}, '%Y-%m-%d'), ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+          AND rp.create_time <![CDATA[ <=]]>
+              STR_TO_DATE(CONCAT(DATE_FORMAT(#{dates}, '%Y-%m-%d'), ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+          and rp.event_msg is not null
+          and JSON_VALID(rp.event_msg)
+          and JSON_LENGTH(rp.event_msg) > 0
+
+    </select>
+    <select id="queryReportPoint"
+            resultType="com.leo.ad.codriver.dwd.entity.DwdUserEventDetail">
+
+        select 'diversion.report_point'                           source,
+               rp.id                                              source_id,
+               DATE_FORMAT(rp.create_time, '%Y%m%d')              dates,
+               IFNULL(u.id, rp.user_id)                           user_id,
+               rp.event_id,
+               rp.event_msg,
+               IFNULL(rp.event_msg ->> '$.nf_version', 'unknown') version,
+               u.dates                                            register_dates,
+               u.create_time                                      register_date,
+               u.pkg,
+               uv.pvn                                             register_version,
+               IFNULL(uh.address, 'IN')                           country,
+               TIMESTAMPDIFF(DAY, u.create_time, rp.create_time)  register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, #{dates})              register_day,
+               rp.create_time
+        from diversion.report_point rp
+                 INNER JOIN diversion.user u on (rp.user_id = u.aid and u.pkg = rp.pkg)
+                 LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn
+                            FROM diversion.user_version uv
+                            where uv.dates <![CDATA[ <=  ]]>   #{dates}
+                            GROUP BY user_id) uv on (uv.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
+        where rp.create_time >=
+              STR_TO_DATE(CONCAT(DATE_FORMAT(#{dates}, '%Y-%m-%d'), ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+          AND rp.create_time <![CDATA[ <=  ]]> STR_TO_DATE(CONCAT(DATE_FORMAT(#{dates}, '%Y-%m-%d'), ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+          and rp.event_msg is not null
+          and JSON_VALID(rp.event_msg)
+          and JSON_LENGTH(rp.event_msg) > 0
+            limit #{rows}
+        OFFSET #{startRows}
+    </select>
+    <select id="getAdsReportPointCount" resultType="java.lang.Long">
+        select count(1)
+        from ads.report_point rp
+        where rp.user_id is not null
+          and rp.create_time >=
+              STR_TO_DATE(CONCAT(DATE_FORMAT(#{dates}, '%Y-%m-%d'), ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+          AND rp.create_time <![CDATA[ <=  ]]> STR_TO_DATE(CONCAT(DATE_FORMAT(#{dates}, '%Y-%m-%d'), ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+          and rp.event_msg is not null
+          and JSON_VALID(rp.event_msg)
+          and JSON_LENGTH(rp.event_msg) > 0
+    </select>
+    <select id="queryAdsReportPoint" resultType="com.leo.ad.codriver.dwd.entity.DwdUserEventDetail">
+        select 'ads.report_point'                                source,
+               rp.id                                             source_id,
+               DATE_FORMAT(rp.create_time, '%Y%m%d')             dates,
+               rp.user_id,
+               rp.event_id,
+               rp.event_msg,
+               IFNULL(rp.event_msg ->> '$.pvn', 'unknown')       version,
+               u.dates                                           register_dates,
+               u.create_time                                     register_date,
+               u.pkg,
+               uv.pvn                                            register_version,
+               IFNULL(uh.address, 'IN')                          country,
+               TIMESTAMPDIFF(DAY, u.create_time, rp.create_time) register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, #{dates})             register_day,
+               rp.create_time
+        from ads.report_point rp
+                 INNER JOIN diversion.user u on (rp.user_id = u.id)
+                 LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn
+                            FROM diversion.user_version uv
+                            where uv.dates  <![CDATA[ <=  ]]> #{dates}
+                            GROUP BY user_id) uv on (uv.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
+        where rp.create_time >=
+              STR_TO_DATE(CONCAT(DATE_FORMAT(#{dates}, '%Y-%m-%d'), ' 00:00:00'), '%Y-%m-%d %H:%i:%s')
+          AND rp.create_time <![CDATA[ <=  ]]> STR_TO_DATE(CONCAT(DATE_FORMAT(#{dates}, '%Y-%m-%d'), ' 23:59:59'), '%Y-%m-%d %H:%i:%s')
+          and rp.event_msg is not null
+          and JSON_VALID(rp.event_msg)
+          and JSON_LENGTH(rp.event_msg) > 0
+            limit #{rows}
+        OFFSET #{startRows}
+    </select>
+</mapper>

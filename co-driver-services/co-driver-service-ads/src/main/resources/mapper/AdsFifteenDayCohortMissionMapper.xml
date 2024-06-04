@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.ads.dao.AdsFifteenDayCohortMissionMapper">
+
+    <delete id="delete">
+        <if test="list != null and list.size() > 0">
+            delete
+            from ads_fifteen_day_cohort_finish_mission
+            where dates in
+            <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+
+    </delete>
+    <select id="statistics" resultType="com.leo.ad.codriver.ads.entity.AdsFifteenDayCohortFinishMission">
+        select
+        dr.dates,
+        dr.pkg,
+        dr.version,
+        dr.country,
+        dr.user_num,
+        dr.event_param event_type,
+        p.project_type project_id,
+        p.id product_id,
+        p.project_name product_name,
+        c.channel channel_id,
+        c.channel_name,
+        IFNULL(cohort_0.cohort_user_num, 0) cohort0_user_num,
+        IFNULL(cohort_1.cohort_user_num, 0) cohort1_user_num,
+        IFNULL(cohort_2.cohort_user_num, 0) cohort2_user_num,
+        IFNULL(cohort_3.cohort_user_num, 0) cohort3_user_num,
+        IFNULL(cohort_4.cohort_user_num, 0) cohort4_user_num,
+        IFNULL(cohort_5.cohort_user_num, 0) cohort5_user_num,
+        IFNULL(cohort_6.cohort_user_num, 0) cohort6_user_num,
+        IFNULL(cohort_7.cohort_user_num, 0) cohort7_user_num,
+        IFNULL(cohort_8.cohort_user_num, 0) cohort8_user_num,
+        IFNULL(cohort_9.cohort_user_num, 0) cohort9_user_num,
+        IFNULL(cohort_10.cohort_user_num, 0) cohort10_user_num,
+        IFNULL(cohort_11.cohort_user_num, 0) cohort11_user_num,
+        IFNULL(cohort_12.cohort_user_num, 0) cohort12_user_num,
+        IFNULL(cohort_13.cohort_user_num, 0) cohort13_user_num,
+        IFNULL(cohort_14.cohort_user_num, 0) cohort14_user_num,
+        (
+        IFNULL(cohort_0.cohort_user_num, 0) + IFNULL(cohort_1.cohort_user_num, 0) +
+        IFNULL(cohort_2.cohort_user_num, 0) + IFNULL(cohort_3.cohort_user_num, 0) +
+        IFNULL(cohort_4.cohort_user_num, 0) + IFNULL(cohort_5.cohort_user_num, 0) +
+        IFNULL(cohort_6.cohort_user_num, 0) + IFNULL(cohort_7.cohort_user_num, 0) +
+        IFNULL(cohort_8.cohort_user_num, 0) + IFNULL(cohort_9.cohort_user_num, 0) +
+        IFNULL(cohort_10.cohort_user_num, 0) + IFNULL(cohort_11.cohort_user_num, 0) +
+        IFNULL(cohort_12.cohort_user_num, 0) + IFNULL(cohort_13.cohort_user_num, 0) +
+        IFNULL(cohort_14.cohort_user_num, 0)
+        ) cohort_total_user_num,
+        IFNULL(
+        ROUND((
+        IFNULL(cohort_0.cohort_user_num, 0) + IFNULL(cohort_1.cohort_user_num, 0) +
+        IFNULL(cohort_2.cohort_user_num, 0) + IFNULL(cohort_3.cohort_user_num, 0) +
+        IFNULL(cohort_4.cohort_user_num, 0) + IFNULL(cohort_5.cohort_user_num, 0) +
+        IFNULL(cohort_6.cohort_user_num, 0) + IFNULL(cohort_7.cohort_user_num, 0) +
+        IFNULL(cohort_8.cohort_user_num, 0) + IFNULL(cohort_9.cohort_user_num, 0) +
+        IFNULL(cohort_10.cohort_user_num, 0) + IFNULL(cohort_11.cohort_user_num, 0) +
+        IFNULL(cohort_12.cohort_user_num, 0) + IFNULL(cohort_13.cohort_user_num, 0) +
+        IFNULL(cohort_14.cohort_user_num, 0)
+        ) / dr.user_num,
+        8
+        ),
+        0
+        ) cohort_total_rate
+        from (
+        select dr.dates, dr.pkg, dr.version, dr.country, dr.user_num, u.event_param from dws_daily_package_register dr
+        LEFT JOIN diversion.mission u on (u.pkg = dr.pkg and u.del = 0)
+        where dr.dates in
+        <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        and u.event_param is not null
+        GROUP BY dr.dates, dr.pkg, dr.version, dr.country, dr.user_num, u.event_param
+        ) dr
+        LEFT JOIN dws_daily_package_cohort_mission cohort_0 ON (
+        dr.dates = cohort_0.register_dates
+        AND dr.pkg = cohort_0.pkg
+        AND dr.country = cohort_0.country
+        AND dr.version = cohort_0.register_version
+        AND cohort_0.cohort_day = 0
+        AND cohort_0.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_1 ON (
+        dr.dates = cohort_1.register_dates
+        AND dr.pkg = cohort_1.pkg
+        AND dr.country = cohort_1.country
+        AND dr.version = cohort_1.register_version
+        AND cohort_1.cohort_day = 1
+        AND cohort_1.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_2 ON (
+        dr.dates = cohort_2.register_dates
+        AND dr.pkg = cohort_2.pkg
+        AND dr.country = cohort_2.country
+        AND dr.version = cohort_2.register_version
+        AND cohort_2.cohort_day = 2
+        AND cohort_2.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_3 ON (
+        dr.dates = cohort_3.register_dates
+        AND dr.pkg = cohort_3.pkg
+        AND dr.country = cohort_3.country
+        AND dr.version = cohort_3.register_version
+        AND cohort_3.cohort_day = 3
+        AND cohort_3.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_4 ON (
+        dr.dates = cohort_4.register_dates
+        AND dr.pkg = cohort_4.pkg
+        AND dr.country = cohort_4.country
+        AND dr.version = cohort_4.register_version
+        AND cohort_4.cohort_day = 4
+        AND cohort_4.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_5 ON (
+        dr.dates = cohort_5.register_dates
+        AND dr.pkg = cohort_5.pkg
+        AND dr.country = cohort_5.country
+        AND dr.version = cohort_5.register_version
+        AND cohort_5.cohort_day = 5
+        AND cohort_5.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_6 ON (
+        dr.dates = cohort_6.register_dates
+        AND dr.pkg = cohort_6.pkg
+        AND dr.country = cohort_6.country
+        AND dr.version = cohort_6.register_version
+        AND cohort_6.cohort_day = 6
+        AND cohort_6.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_7 ON (
+        dr.dates = cohort_7.register_dates
+        AND dr.pkg = cohort_7.pkg
+        AND dr.country = cohort_7.country
+        AND dr.version = cohort_7.register_version
+        AND cohort_7.cohort_day = 7
+        AND cohort_7.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_8 ON (
+        dr.dates = cohort_8.register_dates
+        AND dr.pkg = cohort_8.pkg
+        AND dr.country = cohort_8.country
+        AND dr.version = cohort_8.register_version
+        AND cohort_8.cohort_day = 8
+        AND cohort_8.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_9 ON (
+        dr.dates = cohort_9.register_dates
+        AND dr.pkg = cohort_9.pkg
+        AND dr.country = cohort_9.country
+        AND dr.version = cohort_9.register_version
+        AND cohort_9.cohort_day = 9
+        AND cohort_9.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_10 ON (
+        dr.dates = cohort_10.register_dates
+        AND dr.pkg = cohort_10.pkg
+        AND dr.country = cohort_10.country
+        AND dr.version = cohort_10.register_version
+        AND cohort_10.cohort_day = 10
+        AND cohort_10.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_11 ON (
+        dr.dates = cohort_11.register_dates
+        AND dr.pkg = cohort_11.pkg
+        AND dr.country = cohort_11.country
+        AND dr.version = cohort_11.register_version
+        AND cohort_11.cohort_day = 11
+        AND cohort_11.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_12 ON (
+        dr.dates = cohort_12.register_dates
+        AND dr.pkg = cohort_12.pkg
+        AND dr.country = cohort_12.country
+        AND dr.version = cohort_12.register_version
+        AND cohort_12.cohort_day = 12
+        AND cohort_12.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_13 ON (
+        dr.dates = cohort_13.register_dates
+        AND dr.pkg = cohort_13.pkg
+        AND dr.country = cohort_13.country
+        AND dr.version = cohort_13.register_version
+        AND cohort_13.cohort_day = 13
+        AND cohort_13.event_type = dr.event_param
+        )
+        LEFT JOIN dws_daily_package_cohort_mission cohort_14 ON (
+        dr.dates = cohort_14.register_dates
+        AND dr.pkg = cohort_14.pkg
+        AND dr.country = cohort_14.country
+        AND dr.version = cohort_14.register_version
+        AND cohort_14.cohort_day = 14
+        AND cohort_14.event_type = dr.event_param
+        )
+        LEFT JOIN sys_channel c ON (dr.pkg = c.pkg)
+        LEFT JOIN sys_project p ON (c.project_id = p.id)
+
+    </select>
+</mapper>

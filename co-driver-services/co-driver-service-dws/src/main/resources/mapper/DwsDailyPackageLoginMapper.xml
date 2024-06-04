@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageLoginMapper">
+
+    <delete id="delete">
+        delete
+        from dws_daily_package_login
+        where dates = #{dates}
+    </delete>
+    <insert id="syncDailyPackageLogin">
+        insert into dws_daily_package_login (dates, pkg, country, version, user_num)
+        select dates, pkg, country, version, count(DISTINCT user_id) user_num
+        from dwd_user_login_record
+        where dates = #{dates}
+        group by dates, pkg, country, version
+
+    </insert>
+    <select id="list" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageLogin">
+        select pl.id,
+               pl.dates,
+               pl.pkg,
+               pl.country,
+               pl.version,
+               pl.user_num
+        from dws_daily_package_login pl
+                 inner join sys_channel c on (c.pkg = pl.pkg)
+        where pl.dates = #{dates}
+          and c.project_id = #{productId}
+    </select>
+</mapper>

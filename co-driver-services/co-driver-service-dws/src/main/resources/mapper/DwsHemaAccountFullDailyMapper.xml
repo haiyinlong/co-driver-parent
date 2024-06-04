@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsHemaAccountFullDailyMapper">
+
+    <delete id="delete">
+        delete
+        from dws_hema_account_full_daily
+        where dates = #{dates}
+    </delete>
+    <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsHemaAccountFullDaily">
+        select duar.dates,
+               duar.pkg,
+               duar.country,
+               duar.version,
+               0                                                                                         user_type,
+               sum(IF(duar.record_type = 1 and duar.game_name = 'slot', duar.amount, 0))                 slot_total_amount,
+               count(DISTINCT
+                     (case when duar.record_type = 1 and duar.game_name = 'slot' then duar.user_id end)) slot_user_num,
+               count(case when duar.record_type = 1 and duar.game_name = 'slot' then 'slot' end)         slot_num,
+
+               sum(IF(duar.record_type = 1 and duar.game_name = 'slot' and duar.amount <![CDATA[ < ]]> 0, duar.amount,
+                      0))                                                                                slot_deduction_total_amount,
+               count(DISTINCT
+                     (case
+                          when duar.record_type = 1 and duar.game_name = 'slot' and duar.amount <![CDATA[ < ]]> 0
+                              then duar.user_id end))                                                    slot_deduction_user_num,
+               count(case
+                         when duar.record_type = 1 and duar.game_name = 'slot' and duar.amount <![CDATA[ < ]]> 0
+                             then 'slot' end)                                                            slot_deduction_num,
+
+               sum(IF(duar.record_type = 1 and duar.game_name = 'slot' and duar.amount >= 0, duar.amount,
+                      0))                                                                                slot_addition_total_amount,
+               count(DISTINCT
+                     (case
+                          when duar.record_type = 1 and duar.game_name = 'slot' and duar.amount >= 0
+                              then duar.user_id end))                                                    slot_addition_user_num,
+               count(case
+                         when duar.record_type = 1 and duar.game_name = 'slot' and duar.amount >= 0
+                             then 'slot' end)                                                            slot_addition_num,
+
+               sum(IF(duar.record_type = 1 and duar.game_name = 'ludo', duar.amount, 0))                 ludo_total_amount,
+               count(DISTINCT
+                     (case when duar.record_type = 1 and duar.game_name = 'ludo' then duar.user_id end)) ludo_user_num,
+               count(case when duar.record_type = 1 and duar.game_name = 'ludo' then 'ludo' end)         ludo_num,
+
+               sum(IF(duar.record_type = 2 or duar.record_type = 3, duar.amount, 0))                     withdraw_total_amount,
+               count(DISTINCT (case when duar.record_type = 2 then duar.user_id end))                    withdraw_user_num,
+               count(case when duar.record_type = 2 then duar.record_type end)                           withdraw_num,
+
+               sum(IF(duar.record_type = 4, duar.amount, 0))                                             first_total_amount,
+               count(DISTINCT (case when duar.record_type = 4 then duar.user_id end))                    first_user_num,
+               count(case when duar.record_type = 4 then duar.record_type end)                           first_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'newusergift', duar.amount,
+                      0))                                                                                new_user_gift_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'newusergift'
+                                       then duar.user_id end))                                           new_user_gift_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'newusergift'
+                             then duar.record_type end)                                                  new_user_gift_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_register', duar.amount,
+                      0))                                                                                offer_task_register_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_register'
+                                       then duar.user_id end))                                           offer_task_register_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_register'
+                             then duar.record_type end)                                                  offer_task_register_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'super_dice_roll', duar.amount,
+                      0))                                                                                super_dice_roll_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'super_dice_roll'
+                                       then duar.user_id end))                                           super_dice_roll_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'super_dice_roll'
+                             then duar.record_type end)                                                  super_dice_roll_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'piggy_bank_break', duar.amount,
+                      0))                                                                                piggy_bank_break_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'piggy_bank_break'
+                                       then duar.user_id end))                                           piggy_bank_break_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'piggy_bank_break'
+                             then duar.record_type end)                                                  piggy_bank_break_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'daily_checkin', duar.amount,
+                      0))                                                                                daily_checkin_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'daily_checkin'
+                                       then duar.user_id end))                                           daily_checkin_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'daily_checkin'
+                             then duar.record_type end)                                                  daily_checkin_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'lucky_scratch_card', duar.amount,
+                      0))                                                                                lucky_scratch_card_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'lucky_scratch_card'
+                                       then duar.user_id end))                                           lucky_scratch_card_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'lucky_scratch_card'
+                             then duar.record_type end)                                                  lucky_scratch_card_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'newuser_recharge_gift', duar.amount,
+                      0))                                                                                new_user_recharge_gift_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'newuser_recharge_gift'
+                                       then duar.user_id end))                                           new_user_recharge_gift_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'newuser_recharge_gift'
+                             then duar.record_type end)                                                  new_user_recharge_gift_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'slot_ranking', duar.amount,
+                      0))                                                                                slot_ranking_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'slot_ranking'
+                                       then duar.user_id end))                                           slot_ranking_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'slot_ranking'
+                             then duar.record_type end)                                                  slot_ranking_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_rechargefirst', duar.amount,
+                      0))                                                                                offer_task_recharge_first_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_rechargefirst'
+                                       then duar.user_id end))                                           offer_task_recharge_first_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_rechargefirst'
+                             then duar.record_type end)                                                  offer_task_recharge_first_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge200', duar.amount,
+                      0))                                                                                offer_task_recharge200_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge200'
+                                       then duar.user_id end))                                           offer_task_recharge200_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge200'
+                             then duar.record_type end)                                                  offer_task_recharge200_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge300', duar.amount,
+                      0))                                                                                offer_task_recharge300_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge300'
+                                       then duar.user_id end))                                           offer_task_recharge300_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge300'
+                             then duar.record_type end)                                                  offer_task_recharge300_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge500', duar.amount,
+                      0))                                                                                offer_task_recharge500_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge500'
+                                       then duar.user_id end))                                           offer_task_recharge500_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge500'
+                             then duar.record_type end)                                                  offer_task_recharge500_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge1000', duar.amount,
+                      0))                                                                                offer_task_recharge1000_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge1000'
+                                       then duar.user_id end))                                           offer_task_recharge1000_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge1000'
+                             then duar.record_type end)                                                  offer_task_recharge1000_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge2000', duar.amount,
+                      0))                                                                                offer_task_recharge2000_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge2000'
+                                       then duar.user_id end))                                           offer_task_recharge2000_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge2000'
+                             then duar.record_type end)                                                  offer_task_recharge2000_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge3000', duar.amount,
+                      0))                                                                                offer_task_recharge3000_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge3000'
+                                       then duar.user_id end))                                           offer_task_recharge3000_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge3000'
+                             then duar.record_type end)                                                  offer_task_recharge3000_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge5000', duar.amount,
+                      0))                                                                                offer_task_recharge5000_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge5000'
+                                       then duar.user_id end))                                           offer_task_recharge5000_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge5000'
+                             then duar.record_type end)                                                  offer_task_recharge5000_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_reward_1000', duar.amount,
+                      0))                                                                                spin_reward1000_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_reward_1000'
+                                       THEN duar.user_id END))                                           spin_reward1000_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_reward_1000'
+                             THEN duar.record_type END)                                                  spin_reward1000_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_5_chest', duar.amount,
+                      0))                                                                                spin5_chest_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_5_chest'
+                                       THEN duar.user_id END))                                           spin5_chest_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_5_chest'
+                             THEN duar.record_type END)                                                  spin5_chest_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_10_chest', duar.amount,
+                      0))                                                                                spin10_chest_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_10_chest'
+                                       THEN duar.user_id END))                                           spin10_chest_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_10_chest'
+                             THEN duar.record_type END)                                                  spin10_chest_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_15_chest', duar.amount,
+                      0))                                                                                spin15_chest_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_15_chest'
+                                       THEN duar.user_id END))                                           spin15_chest_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_15_chest'
+                             THEN duar.record_type END)                                                  spin15_chest_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_20_chest', duar.amount,
+                      0))                                                                                spin20_chest_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_20_chest'
+                                       THEN duar.user_id END))                                           spin20_chest_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_20_chest'
+                             THEN duar.record_type END)                                                  spin20_chest_num
+
+        from dwd_user_account_record duar
+                 inner join (select pkg from dim_channel where product_id = 44) sc on (sc.pkg = duar.pkg)
+        where duar.dates = #{dates}
+        group by duar.dates, duar.pkg, duar.country, duar.version
+    </select>
+    <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsHemaAccountFullDaily">
+        select duar.dates,
+               duar.pkg,
+               duar.country,
+               duar.version,
+               1                                                                                         user_type,
+               sum(IF(duar.record_type = 1 and duar.game_name = 'slot', duar.amount, 0))                 slot_total_amount,
+               count(DISTINCT
+                     (case when duar.record_type = 1 and duar.game_name = 'slot' then duar.user_id end)) slot_user_num,
+               count(case when duar.record_type = 1 and duar.game_name = 'slot' then 'slot' end)         slot_num,
+
+               sum(IF(duar.record_type = 1 and duar.game_name = 'slot' and duar.amount <![CDATA[ < ]]> 0, duar.amount,
+                      0))                                                                                slot_deduction_total_amount,
+               count(DISTINCT
+                     (case
+                          when duar.record_type = 1 and duar.game_name = 'slot' and duar.amount <![CDATA[ < ]]> 0
+                              then duar.user_id end))                                                    slot_deduction_user_num,
+               count(case
+                         when duar.record_type = 1 and duar.game_name = 'slot' and duar.amount <![CDATA[ < ]]> 0
+                             then 'slot' end)                                                            slot_deduction_num,
+
+               sum(IF(duar.record_type = 1 and duar.game_name = 'slot' and duar.amount >= 0, duar.amount,
+                      0))                                                                                slot_addition_total_amount,
+               count(DISTINCT
+                     (case
+                          when duar.record_type = 1 and duar.game_name = 'slot' and duar.amount >= 0
+                              then duar.user_id end))                                                    slot_addition_user_num,
+               count(case
+                         when duar.record_type = 1 and duar.game_name = 'slot' and duar.amount >= 0
+                             then 'slot' end)                                                            slot_addition_num,
+
+               sum(IF(duar.record_type = 1 and duar.game_name = 'ludo', duar.amount, 0))                 ludo_total_amount,
+               count(DISTINCT
+                     (case when duar.record_type = 1 and duar.game_name = 'ludo' then duar.user_id end)) ludo_user_num,
+               count(case when duar.record_type = 1 and duar.game_name = 'ludo' then 'ludo' end)         ludo_num,
+
+               sum(IF(duar.record_type = 2 or duar.record_type = 3, duar.amount, 0))                     withdraw_total_amount,
+               count(DISTINCT (case when duar.record_type = 2 then duar.user_id end))                    withdraw_user_num,
+               count(case when duar.record_type = 2 then duar.record_type end)                           withdraw_num,
+
+               sum(IF(duar.record_type = 4, duar.amount, 0))                                             first_total_amount,
+               count(DISTINCT (case when duar.record_type = 4 then duar.user_id end))                    first_user_num,
+               count(case when duar.record_type = 4 then duar.record_type end)                           first_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'newusergift', duar.amount,
+                      0))                                                                                new_user_gift_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'newusergift'
+                                       then duar.user_id end))                                           new_user_gift_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'newusergift'
+                             then duar.record_type end)                                                  new_user_gift_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_register', duar.amount,
+                      0))                                                                                offer_task_register_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_register'
+                                       then duar.user_id end))                                           offer_task_register_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_register'
+                             then duar.record_type end)                                                  offer_task_register_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'super_dice_roll', duar.amount,
+                      0))                                                                                super_dice_roll_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'super_dice_roll'
+                                       then duar.user_id end))                                           super_dice_roll_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'super_dice_roll'
+                             then duar.record_type end)                                                  super_dice_roll_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'piggy_bank_break', duar.amount,
+                      0))                                                                                piggy_bank_break_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'piggy_bank_break'
+                                       then duar.user_id end))                                           piggy_bank_break_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'piggy_bank_break'
+                             then duar.record_type end)                                                  piggy_bank_break_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'daily_checkin', duar.amount,
+                      0))                                                                                daily_checkin_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'daily_checkin'
+                                       then duar.user_id end))                                           daily_checkin_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'daily_checkin'
+                             then duar.record_type end)                                                  daily_checkin_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'lucky_scratch_card', duar.amount,
+                      0))                                                                                lucky_scratch_card_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'lucky_scratch_card'
+                                       then duar.user_id end))                                           lucky_scratch_card_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'lucky_scratch_card'
+                             then duar.record_type end)                                                  lucky_scratch_card_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'newuser_recharge_gift', duar.amount,
+                      0))                                                                                new_user_recharge_gift_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'newuser_recharge_gift'
+                                       then duar.user_id end))                                           new_user_recharge_gift_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'newuser_recharge_gift'
+                             then duar.record_type end)                                                  new_user_recharge_gift_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'slot_ranking', duar.amount,
+                      0))                                                                                slot_ranking_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'slot_ranking'
+                                       then duar.user_id end))                                           slot_ranking_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'slot_ranking'
+                             then duar.record_type end)                                                  slot_ranking_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_rechargefirst', duar.amount,
+                      0))                                                                                offer_task_recharge_first_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_rechargefirst'
+                                       then duar.user_id end))                                           offer_task_recharge_first_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_rechargefirst'
+                             then duar.record_type end)                                                  offer_task_recharge_first_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge200', duar.amount,
+                      0))                                                                                offer_task_recharge200_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge200'
+                                       then duar.user_id end))                                           offer_task_recharge200_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge200'
+                             then duar.record_type end)                                                  offer_task_recharge200_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge300', duar.amount,
+                      0))                                                                                offer_task_recharge300_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge300'
+                                       then duar.user_id end))                                           offer_task_recharge300_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge300'
+                             then duar.record_type end)                                                  offer_task_recharge300_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge500', duar.amount,
+                      0))                                                                                offer_task_recharge500_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge500'
+                                       then duar.user_id end))                                           offer_task_recharge500_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge500'
+                             then duar.record_type end)                                                  offer_task_recharge500_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge1000', duar.amount,
+                      0))                                                                                offer_task_recharge1000_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge1000'
+                                       then duar.user_id end))                                           offer_task_recharge1000_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge1000'
+                             then duar.record_type end)                                                  offer_task_recharge1000_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge2000', duar.amount,
+                      0))                                                                                offer_task_recharge2000_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge2000'
+                                       then duar.user_id end))                                           offer_task_recharge2000_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge2000'
+                             then duar.record_type end)                                                  offer_task_recharge2000_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge3000', duar.amount,
+                      0))                                                                                offer_task_recharge3000_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge3000'
+                                       then duar.user_id end))                                           offer_task_recharge3000_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge3000'
+                             then duar.record_type end)                                                  offer_task_recharge3000_num,
+
+               sum(IF(duar.record_type = 5 and duar.operation = 'offertask_recharge5000', duar.amount,
+                      0))                                                                                offer_task_recharge5000_total_amount,
+               count(DISTINCT (case
+                                   when duar.record_type = 5 and duar.operation = 'offertask_recharge5000'
+                                       then duar.user_id end))                                           offer_task_recharge5000_user_num,
+               count(case
+                         when duar.record_type = 5 and duar.operation = 'offertask_recharge5000'
+                             then duar.record_type end)                                                  offer_task_recharge5000_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_reward_1000', duar.amount,
+                      0))                                                                                spin_reward1000_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_reward_1000'
+                                       THEN duar.user_id END))                                           spin_reward1000_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_reward_1000'
+                             THEN duar.record_type END)                                                  spin_reward1000_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_5_chest', duar.amount,
+                      0))                                                                                spin5_chest_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_5_chest'
+                                       THEN duar.user_id END))                                           spin5_chest_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_5_chest'
+                             THEN duar.record_type END)                                                  spin5_chest_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_10_chest', duar.amount,
+                      0))                                                                                spin10_chest_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_10_chest'
+                                       THEN duar.user_id END))                                           spin10_chest_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_10_chest'
+                             THEN duar.record_type END)                                                  spin10_chest_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_15_chest', duar.amount,
+                      0))                                                                                spin15_chest_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_15_chest'
+                                       THEN duar.user_id END))                                           spin15_chest_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_15_chest'
+                             THEN duar.record_type END)                                                  spin15_chest_num,
+
+               sum(IF(duar.record_type = 5 AND duar.operation = 'spin_20_chest', duar.amount,
+                      0))                                                                                spin20_chest_total_amount,
+               count(DISTINCT (CASE
+                                   WHEN duar.record_type = 5 AND duar.operation = 'spin_20_chest'
+                                       THEN duar.user_id END))                                           spin20_chest_user_num,
+               count(CASE
+                         WHEN duar.record_type = 5 AND duar.operation = 'spin_20_chest'
+                             THEN duar.record_type END)                                                  spin20_chest_num
+
+
+        from dwd_user_account_record duar
+                 inner join (select pkg from dim_channel where product_id = 44) sc on (sc.pkg = duar.pkg)
+        where duar.dates = #{dates}
+          and duar.register_day = 0
+        group by duar.dates, duar.pkg, duar.country, duar.version
+
+    </select>
+</mapper>

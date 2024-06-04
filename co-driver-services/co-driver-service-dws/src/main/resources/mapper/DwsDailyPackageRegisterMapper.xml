@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageRegisterMapper">
+
+    <delete id="delete">
+        delete
+        from dws_daily_package_register
+        where dates = #{dates}
+    </delete>
+    <select id="statistics" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageRegister">
+        select dates, pkg, country, version, count(1) user_num
+        from dwd_user_register
+        where dates = #{dates}
+        group by dates, pkg, country, version
+    </select>
+    <select id="query" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageRegister">
+        select id, dates, pkg, country, version, user_num
+        from dws_daily_package_register
+        where dates = #{dates}
+          and pkg = #{pkg}
+          and version = #{version}
+          and country = #{country}
+    </select>
+</mapper>

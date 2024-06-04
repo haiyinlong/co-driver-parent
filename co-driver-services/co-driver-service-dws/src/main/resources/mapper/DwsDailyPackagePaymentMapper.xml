@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackagePaymentMapper">
+    <delete id="delete">
+        delete
+        from dws_daily_package_payment
+        where dates = #{dates}
+    </delete>
+    <insert id="syncDailyPackagePayment">
+        insert into dws_daily_package_payment(dates, pkg, country, `version`, user_num, pay_amount, exchange_rate,
+                                              change_amount)
+        select pay_t.dates,
+               c.pkg,
+               'IN'                                      country,
+               pay_t.version,
+               pay_t.user_num,
+               pay_t.pay_amount,
+               #{singleFee}                              exchange_rate,
+               ROUND(pay_t.pay_amount / #{singleFee}, 8) change_amount
+        from (select t.dates,
+                     SUBSTRING_INDEX(t.campaign_name, '_', 1)                           channel,
+                     SUBSTRING_INDEX(SUBSTRING_INDEX(t.campaign_name, '_', 2), '_', -1) version,
+                     sum(d0_recharge_count)                                             user_num,
+                     sum(d0_recharge)                                                   pay_amount
+              from diversion.pay_record t
+              where t.dates = #{dates}
+                and d0_recharge > 0
+                and campaign_name is not null
+              GROUP BY t.dates, SUBSTRING_INDEX(t.campaign_name, '_', 1),
+                       SUBSTRING_INDEX(SUBSTRING_INDEX(t.campaign_name, '_', 2), '_', -1)) pay_t
+                 LEFT JOIN sys_channel c on (c.channel = pay_t.channel)
+
+    </insert>
+
+    <select id="query" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackagePayment">
+        select id,
+               dates,
+               pkg,
+               country,
+               version,
+               user_num
+        from dws_daily_package_payment
+        where dates = #{dates}
+          and pkg = #{pkg}
+          and version = #{version}
+          and country = #{country}
+    </select>
+
+</mapper>

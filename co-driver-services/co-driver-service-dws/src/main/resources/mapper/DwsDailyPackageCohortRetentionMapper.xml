@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageCohortRetentionMapper">
+    <delete id="delete">
+        delete
+        from dws_daily_package_cohort_retention
+        where dates = #{dates}
+    </delete>
+    <select id="statistics" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageCohortRetention">
+        select dws_cr.id,
+               #{dates}                                                            dates,
+               q.register_dates,
+               q.pkg,
+               q.register_version,
+               q.country,
+               q.register_cohort_day                                               cohort_day,
+               q.cohort_user_num                                                   retention_user_num,
+               IFNULL(d_user.user_num, 0)                                          register_user_num,
+               IFNULL(ROUND(q.cohort_user_num / IFNULL(d_user.user_num, 0), 8), 0) retention_rate
+        from (select cohort_q.register_dates,
+                     cohort_q.pkg,
+                     cohort_q.register_version,
+                     cohort_q.country,
+                     cohort_q.register_cohort_day,
+                     COUNT(DISTINCT ulr.user_id) cohort_user_num
+              FROM (SELECT dulr.`pkg`,
+                           dulr.register_version,
+                           dulr.`country`,
+                           dulr.`register_dates`,
+                           dulr.`register_cohort_day`
+                    FROM dwd_user_login_record dulr
+                    WHERE dulr.dates = #{dates}
+                    GROUP BY dulr.`pkg`,
+                             dulr.`register_version`,
+                             dulr.`country`,
+                             dulr.`register_dates`,
+                             dulr.`register_cohort_day`) cohort_q
+                       INNER JOIN dwd_user_login_record ulr
+                                  ON (cohort_q.pkg = ulr.pkg and
+                                      cohort_q.`register_version` = ulr.register_version and
+                                      cohort_q.`country` = ulr.country and
+                                      cohort_q.`register_dates` = ulr.register_dates and
+                                      cohort_q.register_cohort_day = ulr.register_cohort_day)
+              GROUP BY cohort_q.pkg, cohort_q.`register_version`, cohort_q.`country`, cohort_q.`register_dates`,
+                       cohort_q.register_cohort_day) q
+                 LEFT JOIN dws_daily_package_cohort_retention dws_cr
+                           on (q.register_dates = dws_cr.register_dates and
+                               q.register_version = dws_cr.register_version and
+                               q.country = dws_cr.country and
+                               q.pkg = dws_cr.pkg and
+                               q.register_cohort_day = dws_cr.cohort_day)
+                 INNER JOIN dws_daily_package_register d_user
+                            on (q.register_dates = d_user.dates and q.register_version = d_user.version and
+                                q.country = d_user.country and q.pkg = d_user.pkg)
+    </select>
+</mapper>

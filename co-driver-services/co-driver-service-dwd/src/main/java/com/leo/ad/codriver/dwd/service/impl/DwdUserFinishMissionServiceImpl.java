@@ -1,0 +1,39 @@
+package com.leo.ad.codriver.dwd.service.impl;
+
+import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
+import com.leo.ad.codriver.dwd.dao.DwdUserFinishMissionMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserFinishMission;
+import com.leo.ad.codriver.dwd.service.DwdService;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
+import java.util.List;
+
+/**
+ * @author HaiYinLong
+ * @version 2024/04/09 15:15
+ **/
+@Service
+@AllArgsConstructor
+@Slf4j
+public class DwdUserFinishMissionServiceImpl implements DwdService {
+    private final DwdUserFinishMissionMapper dwdUserFinishMissionMapper;
+    private final DwBatchMapper<DwdUserFinishMission, DwdUserFinishMissionMapper> dwBatchMapper;
+
+    @Override
+    @ShowExecuteTime(name = "dwdUserFinishMission syncData")
+    public void syncData(Integer dates) {
+        dwdUserFinishMissionMapper.delete(dates);
+        List<DwdUserFinishMission> dwdUserFinishMissions = dwdUserFinishMissionMapper.statisticsUserId(dates);
+        if (!CollectionUtils.isEmpty(dwdUserFinishMissions)) {
+            dwBatchMapper.batchInsert(dwdUserFinishMissions, DwdUserFinishMissionMapper.class);
+        }
+        dwdUserFinishMissions = dwdUserFinishMissionMapper.statisticsAid(dates);
+        if (!CollectionUtils.isEmpty(dwdUserFinishMissions)) {
+            dwBatchMapper.batchInsert(dwdUserFinishMissions, DwdUserFinishMissionMapper.class);
+        }
+    }
+}

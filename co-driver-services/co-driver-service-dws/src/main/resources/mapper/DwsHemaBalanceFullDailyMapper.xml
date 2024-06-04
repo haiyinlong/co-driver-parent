@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsHemaBalanceFullDailyMapper">
+
+    <delete id="delete">
+        delete
+        from dws_hema_balance_full_daily
+        where dates = #{dates}
+    </delete>
+    <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsHemaBalanceFullDaily">
+        select dwlr.dates,
+               dubr.pkg,
+               dubr.country,
+               dwlr.version,
+               0                                                                       user_type,
+               count(DISTINCT dubr.user_id)                                            user_num,
+               sum(IFNULL(dubr.balance, 0))                                            total_balance,
+               sum(IFNULL(dubr.n1, 0))                                                 total_n1,
+               sum(IFNULL(dubr.n2, 0))                                                 total_n2,
+               sum(IFNULL(dubr.points, 0))                                             total_points,
+               count(DISTINCT (CASE
+                                   WHEN IFNULL(dubr.balance, 0) BETWEEN 3000 AND 5001
+                                       THEN dubr.user_id END))                         balance3000_to5000_user_num,
+               count(DISTINCT (CASE
+                                   WHEN IFNULL(dubr.balance, 0) BETWEEN 1000 AND 3001
+                                       THEN dubr.user_id END))                         balance1000_to3000_user_num,
+               count(DISTINCT (CASE
+                                   WHEN IFNULL(dubr.balance, 0) BETWEEN 0 AND 1001
+                                       THEN dubr.user_id END))                         balance0_to1000_user_num,
+               count(DISTINCT
+                     (CASE WHEN IFNULL(dubr.balance, 0) > 5000 THEN dubr.user_id END)) balance_greater_than5000_user_num
+        from dwd_user_balance_record dubr
+                 INNER JOIN dwd_user_login_record dwlr on (dubr.user_id = dwlr.user_id and dwlr.dates = #{dates})
+        GROUP BY dubr.pkg, dubr.country, dwlr.version
+    </select>
+    <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsHemaBalanceFullDaily">
+        select dur.dates,
+               dubr.pkg,
+               dubr.country,
+               dur.version,
+               1                                                                       user_type,
+               sum(IFNULL(dubr.balance, 0))                                            total_balance,
+               sum(IFNULL(dubr.n1, 0))                                                 total_n1,
+               sum(IFNULL(dubr.n2, 0))                                                 total_n2,
+               sum(IFNULL(dubr.points, 0))                                             total_points,
+               count(DISTINCT dubr.user_id)                                            user_num,
+               count(DISTINCT (CASE
+                                   WHEN IFNULL(dubr.balance, 0) BETWEEN 3000 AND 5001
+                                       THEN dubr.user_id END))                         balance3000_to5000_user_num,
+               count(DISTINCT (CASE
+                                   WHEN IFNULL(dubr.balance, 0) BETWEEN 1000 AND 3001
+                                       THEN dubr.user_id END))                         balance1000_to3000_user_num,
+               count(DISTINCT (CASE
+                                   WHEN IFNULL(dubr.balance, 0) BETWEEN 0 AND 1001
+                                       THEN dubr.user_id END))                         balance0_to1000_user_num,
+               count(DISTINCT
+                     (CASE WHEN IFNULL(dubr.balance, 0) > 5000 THEN dubr.user_id END)) balance_greater_than5000_user_num
+        from dwd_user_balance_record dubr
+                 INNER JOIN dwd_user_register dur on (dubr.user_id = dur.user_id and dur.dates = #{dates})
+        GROUP BY dubr.pkg, dubr.country, dur.version
+
+    </select>
+</mapper>

@@ -1,0 +1,102 @@
+package com.leo.ad.codriver.dws.entity;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
+
+import java.math.BigDecimal;
+
+@Data
+@TableName("dws_hema_account_full_daily")
+public class DwsHemaAccountFullDaily {
+
+    @TableId(type = IdType.AUTO)
+    private Long id;
+    private Integer dates;
+    private String pkg;
+    private String country;
+    private String version;
+    private Integer userType;
+    private BigDecimal slotTotalAmount;
+    private Long slotUserNum;
+    private Long slotNum;
+    private BigDecimal slotDeductionTotalAmount;
+    private Long slotDeductionUserNum;
+    private Long slotDeductionNum;
+    private BigDecimal slotAdditionTotalAmount;
+    private Long slotAdditionUserNum;
+    private Long slotAdditionNum;
+    private BigDecimal ludoTotalAmount;
+    private Long ludoUserNum;
+    private Long ludoNum;
+    private BigDecimal withdrawTotalAmount;
+    private Long withdrawUserNum;
+    private Long withdrawNum;
+    private BigDecimal firstTotalAmount;
+    private Long firstUserNum;
+    private Long firstNum;
+    private BigDecimal newUserGiftTotalAmount;
+    private Long newUserGiftUserNum;
+    private Long newUserGiftNum;
+    private BigDecimal offerTaskRegisterTotalAmount;
+    private Long offerTaskRegisterUserNum;
+    private Long offerTaskRegisterNum;
+    private BigDecimal superDiceRollTotalAmount;
+    private Long superDiceRollUserNum;
+    private Long superDiceRollNum;
+    private BigDecimal piggyBankBreakTotalAmount;
+    private Long piggyBankBreakUserNum;
+    private Long piggyBankBreakNum;
+    private BigDecimal dailyCheckinTotalAmount;
+    private Long dailyCheckinUserNum;
+    private Long dailyCheckinNum;
+    private BigDecimal luckyScratchCardTotalAmount;
+    private Long luckyScratchCardUserNum;
+    private Long luckyScratchCardNum;
+    private BigDecimal newUserRechargeGiftTotalAmount;
+    private Long newUserRechargeGiftUserNum;
+    private Long newUserRechargeGiftNum;
+    private BigDecimal slotRankingTotalAmount;
+    private Long slotRankingUserNum;
+    private Long slotRankingNum;
+    private BigDecimal offerTaskRechargeFirstTotalAmount;
+    private Long offerTaskRechargeFirstUserNum;
+    private Long offerTaskRechargeFirstNum;
+    private BigDecimal offerTaskRecharge200TotalAmount;
+    private Long offerTaskRecharge200UserNum;
+    private Long offerTaskRecharge200Num;
+    private BigDecimal offerTaskRecharge300TotalAmount;
+    private Long offerTaskRecharge300UserNum;
+    private Long offerTaskRecharge300Num;
+    private BigDecimal offerTaskRecharge500TotalAmount;
+    private Long offerTaskRecharge500UserNum;
+    private Long offerTaskRecharge500Num;
+    private BigDecimal offerTaskRecharge1000TotalAmount;
+    private Long offerTaskRecharge1000UserNum;
+    private Long offerTaskRecharge1000Num;
+    private BigDecimal offerTaskRecharge2000TotalAmount;
+    private Long offerTaskRecharge2000UserNum;
+    private Long offerTaskRecharge2000Num;
+    private BigDecimal offerTaskRecharge3000TotalAmount;
+    private Long offerTaskRecharge3000UserNum;
+    private Long offerTaskRecharge3000Num;
+    private BigDecimal offerTaskRecharge5000TotalAmount;
+    private Long offerTaskRecharge5000UserNum;
+    private Long offerTaskRecharge5000Num;
+    private BigDecimal spinReward1000TotalAmount;
+    private Long spinReward1000UserNum;
+    private Long spinReward1000Num;
+    private BigDecimal spin5ChestTotalAmount;
+    private Long spin5ChestUserNum;
+    private Long spin5ChestNum;
+    private BigDecimal spin10ChestTotalAmount;
+    private Long spin10ChestUserNum;
+    private Long spin10ChestNum;
+    private BigDecimal spin15ChestTotalAmount;
+    private Long spin15ChestUserNum;
+    private Long spin15ChestNum;
+    private BigDecimal spin20ChestTotalAmount;
+    private Long spin20ChestUserNum;
+    private Long spin20ChestNum;
+}

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyCohortConversionMapper">
+    <delete id="delete">
+        delete
+        from dws_daily_package_cohort_conversion
+        where dates = #{dates}
+    </delete>
+    <select id="statisticsCohortConversion" resultType="com.leo.ad.codriver.dws.entity.DwsDailyCohortConversion">
+        select dws_cohort.id,
+               #{dates}                                                            dates,
+               q.register_dates,
+               q.pkg,
+               q.register_version,
+               q.country,
+               q.cohort_day,
+               q.cohort_user_num,
+               IFNULL(d_user.user_num, 0)                                          register_user_num,
+               IFNULL(ROUND(q.cohort_user_num / IFNULL(d_user.user_num, 0), 8), 0) conversion_rate
+        from (select cohort_q.register_dates,
+                     cohort_q.pkg,
+                     cohort_q.register_version,
+                     cohort_q.country,
+                     cohort_q.cohort_day,
+                     COUNT(DISTINCT duc.user_id) cohort_user_num
+              FROM (SELECT du.`pkg`,
+                           du.register_version,
+                           du.`country`,
+                           du.`register_dates`                                  register_dates,
+                           TIMESTAMPDIFF(DAY, du.register_date, du.create_time) cohort_day
+                    FROM dwd_user_conversion du
+                    WHERE du.dates = #{dates}
+                    GROUP BY du.`pkg`,
+                             du.`register_version`,
+                             du.`country`,
+                             du.`register_dates`,
+                             TIMESTAMPDIFF(DAY, du.register_date, du.create_time)) cohort_q
+                       left join dwd_user_conversion duc
+                                 on (cohort_q.pkg = duc.pkg and cohort_q.`register_version` = duc.register_version and
+                                     cohort_q.`country` = duc.country and
+                                     cohort_q.`register_dates` = duc.register_dates and
+                                     cohort_q.cohort_day = TIMESTAMPDIFF(DAY, duc.register_date, duc.create_time))
+              GROUP BY cohort_q.pkg, cohort_q.`register_version`, cohort_q.`country`, cohort_q.`register_dates`,
+                       cohort_q.cohort_day) q
+                 LEFT JOIN dws_daily_package_cohort_conversion dws_cohort
+                           on (q.register_dates = dws_cohort.register_dates and
+                               q.register_version =
+                               dws_cohort.register_version and
+                               q.country = dws_cohort.country and
+                               q.pkg = dws_cohort.pkg and
+                               q.cohort_day = dws_cohort.cohort_day)
+                 LEFT JOIN dws_daily_package_register d_user
+                           on (q.register_dates = d_user.dates and q.register_version = d_user.version and
+                               q.country = d_user.country and q.pkg = d_user.pkg)
+
+    </select>
+</mapper>
