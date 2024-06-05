@@ -25,7 +25,8 @@ import org.springframework.context.annotation.Primary;
 @EnableConfigurationProperties(RabbitMqProperties.class)
 @ConditionalOnClass(RabbitMqProperties.class)
 public class RabbitMqConfig {
-    @Bean
+    @Bean("coDriverConnectionFactory")
+    @Primary
     @ConditionalOnMissingBean
     public ConnectionFactory connectionFactory(RabbitMqProperties rabbitmqProperties) {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory();
