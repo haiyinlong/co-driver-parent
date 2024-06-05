@@ -7,6 +7,7 @@ import com.leo.ad.codriver.dwd.entity.DwdUserBalanceRecord;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class DwdUserBalanceRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserBalanceRecord syncData")
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         // 查询统计总数据，然后分页进行获取
         long recordCount = dwdUserBalanceRecordMapper.getRecordCount();

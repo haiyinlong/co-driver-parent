@@ -8,6 +8,7 @@ import com.leo.ad.codriver.dwd.entity.DwdUserLoginRecord;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class DwdUserLoginRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserLoginRecord  syncData")
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwdUserLoginRecordMapper.delete(dates);
         // 分页查询数据

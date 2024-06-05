@@ -5,6 +5,7 @@ import com.leo.ad.codriver.dws.dao.DwsDailyPackageCohortRetentionMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageCohortRetention;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
@@ -31,6 +32,7 @@ public class DwsDailyPackageCohortRetentionServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "dwsDailyPackageCohortRetention syncData")
     @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         long startTime = System.currentTimeMillis();
         dwsDailyPackageCohortRetentionMapper.delete(dates);

@@ -5,6 +5,7 @@ import com.leo.ad.codriver.ads.entity.AdsFifteenDayCohortFinishMission;
 import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.DateUtils;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,7 @@ public class AdsFifteenDayCohortMissionServiceImpl
     @Override
     @ShowExecuteTime(name = "adsFifteenDayCohortMission syncData")
     @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         // 每次统计15天的数据，删除15天前的数据
         List<Integer> statisticsDates = DateUtils.getDates(dates, -15);

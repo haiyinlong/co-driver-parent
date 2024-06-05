@@ -5,6 +5,7 @@ import com.leo.ad.codriver.dws.dao.DwsWithdrawFullDailyMapper;
 import com.leo.ad.codriver.dws.entity.DwsWithdrawFullDaily;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class DwsWithdrawFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsWithdrawFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwsWithdrawFullDailyMapper.delete(dates);
         List<DwsWithdrawFullDaily> withdrawFullDailies = dwsWithdrawFullDailyMapper.queryStatisticsActiveList(dates);

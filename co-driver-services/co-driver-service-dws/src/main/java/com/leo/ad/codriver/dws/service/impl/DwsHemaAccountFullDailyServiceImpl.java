@@ -5,6 +5,7 @@ import com.leo.ad.codriver.dws.dao.DwsHemaAccountFullDailyMapper;
 import com.leo.ad.codriver.dws.entity.DwsHemaAccountFullDaily;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class DwsHemaAccountFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsHemaAccountFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwsHemaAccountFullDailyMapper.delete(dates);
         List<DwsHemaAccountFullDaily> hemaAccountFullDailies =

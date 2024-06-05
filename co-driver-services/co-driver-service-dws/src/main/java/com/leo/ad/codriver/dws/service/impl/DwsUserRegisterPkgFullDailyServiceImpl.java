@@ -5,6 +5,7 @@ import com.leo.ad.codriver.dws.dao.DwsUserRegisterPkgFullDailyMapper;
 import com.leo.ad.codriver.dws.entity.DwsUserRegisterPkgFullDaily;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -30,6 +31,7 @@ public class DwsUserRegisterPkgFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "dwsUserRegisterPkgFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwsUserRegisterPkgFullDailyMapper.delete(dates);
         List<DwsUserRegisterPkgFullDaily> statistics = dwsUserRegisterPkgFullDailyMapper.statistics(dates);

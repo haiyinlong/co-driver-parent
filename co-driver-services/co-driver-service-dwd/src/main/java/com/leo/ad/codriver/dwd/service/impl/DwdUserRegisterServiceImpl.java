@@ -7,6 +7,7 @@ import com.leo.ad.codriver.dwd.entity.DwdUserRegister;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class DwdUserRegisterServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserRegister syncData")
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwdUserRegisterMapper.delete(dates);
         Long totalRecord = dwdUserRegisterMapper.getStatisticsCount(dates);

@@ -5,6 +5,7 @@ import com.leo.ad.codriver.dws.dao.DwsDailyCohortMissionMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageCohortMission;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,7 @@ public class DwsDailyPackageCohortMissionServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "dwsDailyPackageCohortMission")
     @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwsDailyCohortMissionMapper.delete(dates);
         List<DwsDailyPackageCohortMission> dwsDailyCohortConversions = dwsDailyCohortMissionMapper.statistics(dates);

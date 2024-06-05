@@ -8,6 +8,7 @@ import com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,7 @@ public class DwdUserWithdrawRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserWithdrawRecord syncData")
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         // 先删除数据
         dwdUserWithdrawRecordMapper.delete(dates);

@@ -5,6 +5,7 @@ import com.leo.ad.codriver.dwd.dao.DwdUserFinishMissionMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserFinishMission;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,7 @@ public class DwdUserFinishMissionServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserFinishMission syncData")
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwdUserFinishMissionMapper.delete(dates);
         List<DwdUserFinishMission> dwdUserFinishMissions = dwdUserFinishMissionMapper.statisticsUserId(dates);

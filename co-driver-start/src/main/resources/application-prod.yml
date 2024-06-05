@@ -23,6 +23,9 @@ spring:
             validation-query: select 'x'
             max-pool-prepared-statement-per-connection-size: 20
             filters: config,stat
+  redis:
+    redisson:
+      file: classpath:redisson-prod.yml
   data:
     redis:
       sentinel:

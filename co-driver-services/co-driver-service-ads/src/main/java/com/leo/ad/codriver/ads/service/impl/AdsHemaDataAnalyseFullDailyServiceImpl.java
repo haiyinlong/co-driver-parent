@@ -6,6 +6,7 @@ import com.leo.ad.codriver.ads.entity.AdsHemaDataAnalyseFullDailyDTO;
 import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,6 +33,7 @@ public class AdsHemaDataAnalyseFullDailyServiceImpl
     @Override
     @ShowExecuteTime(name = "AdsHemaDataAnalyseFullDaily")
     @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         adsHemaDataAnalyseFullDailyMapper.delete(dates);
         // 统计活跃维度

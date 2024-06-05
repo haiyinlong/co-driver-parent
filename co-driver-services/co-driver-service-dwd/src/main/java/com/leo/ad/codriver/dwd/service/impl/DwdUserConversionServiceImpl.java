@@ -7,6 +7,7 @@ import com.leo.ad.codriver.dwd.entity.DwdUserConversion;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class DwdUserConversionServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserConversion syncData")
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwdUserConversionMapper.delete(dates);
         // 查询自己的转化记录
@@ -44,7 +46,7 @@ public class DwdUserConversionServiceImpl implements DwdService {
 
         for (int i = 0; i < hemaTotalPageNum; i++) {
             List<DwdUserConversion> dwdUserConversionList = dwdUserConversionMapper.statisticsFromHemaOfferRecord(dates,
-                    BatchConst.BATCH_NUMBER.intValue(), i * BatchConst.BATCH_NUMBER.intValue());
+                    BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             dwBatchMapper.batchInsert(dwdUserConversionList, DwdUserConversionMapper.class);
         }
     }

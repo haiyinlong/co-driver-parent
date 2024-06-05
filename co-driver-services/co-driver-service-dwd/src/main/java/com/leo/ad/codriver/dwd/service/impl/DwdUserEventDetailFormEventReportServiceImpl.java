@@ -8,6 +8,7 @@ import com.leo.ad.codriver.dwd.entity.DwdUserEventDetail;
 import com.leo.ad.codriver.dwd.service.DwdEventService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,6 +30,7 @@ public class DwdUserEventDetailFormEventReportServiceImpl implements DwdEventSer
 
     @Override
     @ShowExecuteTime(name = "dwdUserEventDetail form eventReport syncData")
+    @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         // 先删除数据
         long startTime = System.currentTimeMillis();
