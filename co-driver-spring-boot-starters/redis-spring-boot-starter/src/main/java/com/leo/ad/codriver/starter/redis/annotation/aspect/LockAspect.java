@@ -36,7 +36,6 @@ public class LockAspect {
 
     @Around("lockPointCut()")
     public Object lockAround(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("进入方法lockAround");
         Map<String, Object> methodParams = getMethodParams(joinPoint);
 
         String lockKey = getLockKey(methodParams, joinPoint);
@@ -46,7 +45,6 @@ public class LockAspect {
 
         RLock lock = redissonClient.getLock(lockKey);
         Object proceed = false;
-        log.info("创建lock 对象");
         if (lock.tryLock()) {
             try {
                 proceed = joinPoint.proceed();
