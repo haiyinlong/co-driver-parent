@@ -15,19 +15,20 @@
                u.pkg,
                IFNULL(uv.max_pvn, 'unknown')                                                         version,
                IFNULL(uv.min_pvn, 'unknown')                                                         register_version,
-               'IN'                                                                                  country,
+               IFNULL(uh.address, 'IN')                                                              country,
                u.create_time                                                                         register_date,
                u.dates                                                                               register_dates,
                CONVERT(r.user_id, SIGNED)                                                            user_id,
                type,
                DATE_FORMAT(FROM_UNIXTIME(CONVERT(r.time_stamp, SIGNED) / 1000), '%Y-%m-%d %H:%i:%s') create_time
         from diversion.offer_record r
+                 LEFT JOIN diversion.user u on (r.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
                  LEFT JOIN (SELECT user_id, max(pvn) max_pvn, min(pvn) min_pvn
                             FROM diversion.user_version
                             where dates <= #{dates}
                             GROUP BY user_id) uv
                            ON r.user_id = uv.user_id
-                 left join diversion.user u on (r.user_id = u.id)
         where r.dates = #{dates}
           and r.user_id REGEXP '^-?[0-9]+$'
         limit #{rows}
