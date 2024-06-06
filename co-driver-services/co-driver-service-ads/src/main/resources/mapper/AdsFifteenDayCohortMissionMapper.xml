@@ -3,7 +3,7 @@
 
 <mapper namespace="com.leo.ad.codriver.ads.dao.AdsFifteenDayCohortMissionMapper">
 
-    <delete id="delete">
+    <delete id="deleteByDates">
         <if test="list != null and list.size() > 0">
             delete
             from ads_fifteen_day_cohort_finish_mission

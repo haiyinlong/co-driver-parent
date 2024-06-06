@@ -3,7 +3,7 @@
 
 <mapper namespace="com.leo.ad.codriver.dws.dao.DwsHemaEventFullDailyMapper">
 
-    <delete id="delete">
+    <delete id="deleteByDates">
         delete
         from dws_hema_event_full_daily
         where dates = #{dates}

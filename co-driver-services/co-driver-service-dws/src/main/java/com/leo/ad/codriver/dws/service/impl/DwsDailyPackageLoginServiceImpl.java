@@ -25,7 +25,7 @@ public class DwsDailyPackageLoginServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwsDailyPackageLoginMapper.delete(dates);
+        dwsDailyPackageLoginMapper.deleteByDates(dates);
         dwsDailyPackageLoginMapper.syncDailyPackageLogin(dates);
     }
 }

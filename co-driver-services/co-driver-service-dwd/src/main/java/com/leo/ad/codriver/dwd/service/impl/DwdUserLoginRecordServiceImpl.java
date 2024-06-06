@@ -33,7 +33,7 @@ public class DwdUserLoginRecordServiceImpl implements DwdService {
     @ShowExecuteTime(name = "dwdUserLoginRecord  syncData")
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwdUserLoginRecordMapper.delete(dates);
+        dwdUserLoginRecordMapper.deleteByDates(dates);
         // 分页查询数据
         List<Long> userIds = dwdUserLoginRecordMapper.queryLoginUserIds(dates);
         long totalPageNum = LongUtils.divide((long) userIds.size(), BatchConst.BATCH_NUMBER.longValue());

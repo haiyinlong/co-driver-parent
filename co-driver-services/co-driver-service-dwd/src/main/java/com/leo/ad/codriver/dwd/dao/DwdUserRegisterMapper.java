@@ -17,7 +17,7 @@ import java.util.List;
 @DS("mysql")
 public interface DwdUserRegisterMapper extends BaseMapper<DwdUserRegister> {
 
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     List<DwdUserRegister> statistics(@Param("dates") Integer dates, @Param("rows") Integer rows,
                                      @Param("startRows") Integer startRows);

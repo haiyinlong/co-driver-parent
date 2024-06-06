@@ -29,7 +29,7 @@ public class AdsFifteenDayCohortMissionServiceImpl
     public void syncData(Integer dates) {
         // 每次统计15天的数据，删除15天前的数据
         List<Integer> statisticsDates = DateUtils.getDates(dates, -15);
-        adsFifteenDayCohortMissionMapper.delete(statisticsDates);
+        adsFifteenDayCohortMissionMapper.deleteByDates(statisticsDates);
         List<AdsFifteenDayCohortFinishMission> fifteenDayCohortConversions =
                 adsFifteenDayCohortMissionMapper.statistics(statisticsDates);
         fifteenDayCohortConversions.forEach(adsFifteenDayCohortMissionMapper::insert);

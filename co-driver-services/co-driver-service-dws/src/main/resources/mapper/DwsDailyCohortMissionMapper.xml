@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyCohortMissionMapper">
-    <delete id="delete">
+    <delete id="deleteByDates">
         delete
         from dws_daily_package_cohort_mission
         where dates = #{dates}

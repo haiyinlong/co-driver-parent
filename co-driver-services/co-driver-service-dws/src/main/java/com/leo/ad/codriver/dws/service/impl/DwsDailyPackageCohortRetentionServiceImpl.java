@@ -35,7 +35,7 @@ public class DwsDailyPackageCohortRetentionServiceImpl implements DwsService {
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         long startTime = System.currentTimeMillis();
-        dwsDailyPackageCohortRetentionMapper.delete(dates);
+        dwsDailyPackageCohortRetentionMapper.deleteByDates(dates);
         log.info("{} dwsDailyPackageCohortRetention 删除历史数据, 耗时:{} ", dates,
                 (System.currentTimeMillis() - startTime) / 1000);
         startTime = System.currentTimeMillis();

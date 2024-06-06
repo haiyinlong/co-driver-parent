@@ -16,7 +16,7 @@ import java.util.List;
 @DS("mysql")
 public interface DwsDailyPackageRegisterMapper extends BaseMapper<DwsDailyPackageRegister> {
 
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     List<DwsDailyPackageRegister> statistics(@Param("dates") Integer dates);
 

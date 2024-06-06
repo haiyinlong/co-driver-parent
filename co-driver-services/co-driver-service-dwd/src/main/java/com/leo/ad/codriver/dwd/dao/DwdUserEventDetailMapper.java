@@ -17,7 +17,7 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DwdUserEventDetailMapper extends BaseMapper<DwdUserEventDetail> {
-    void delete(@Param("dates") Integer dates, @Param("source") String source);
+    void deleteByDates(@Param("dates") Integer dates, @Param("source") String source);
 
     long getEventReportCount(@Param("dates") Integer dates);
 

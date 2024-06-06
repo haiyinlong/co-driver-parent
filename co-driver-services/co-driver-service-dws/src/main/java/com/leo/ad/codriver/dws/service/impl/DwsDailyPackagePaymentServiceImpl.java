@@ -27,7 +27,7 @@ public class DwsDailyPackagePaymentServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwsDailyPackagePaymentMapper.delete(dates);
+        dwsDailyPackagePaymentMapper.deleteByDates(dates);
         dwsDailyPackagePaymentMapper.syncDailyPackagePayment(dates, exchangeRate.getIndianToDollar());
     }
 }

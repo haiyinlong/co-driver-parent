@@ -26,12 +26,3 @@ co-driver:
     password: G8bUCHDxOMOnUtoEzjky9a9xo2Oul6vS
     virtualHost: /devhost
 
-logging:
-  level:
-    com:
-      leo:
-        ad:
-          codriver:
-            dwd:
-              dao:
-                DwdUserBalanceRecordMapper: debug

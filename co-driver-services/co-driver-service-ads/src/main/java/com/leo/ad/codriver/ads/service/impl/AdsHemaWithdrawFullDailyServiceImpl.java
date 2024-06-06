@@ -35,7 +35,7 @@ public class AdsHemaWithdrawFullDailyServiceImpl
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        adsHemaWithdrawFullDailyMapper.delete(dates);
+        adsHemaWithdrawFullDailyMapper.deleteByDates(dates);
         // 统计活跃维度
         List<AdsHemaWithdrawFullDailyDTO> withdrawFullDailyDTOList =
                 adsHemaWithdrawFullDailyMapper.queryStatisticsActiveList(dates);

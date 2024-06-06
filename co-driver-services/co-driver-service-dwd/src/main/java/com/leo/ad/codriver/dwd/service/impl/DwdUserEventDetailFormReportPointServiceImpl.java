@@ -32,7 +32,7 @@ public class DwdUserEventDetailFormReportPointServiceImpl implements DwdEventSer
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         // 先删除数据
-        dwdUserEventDetailMapper.delete(dates, "diversion.report_point");
+        dwdUserEventDetailMapper.deleteByDates(dates, "diversion.report_point");
         // 查询统计总数据，然后分页进行获取
         long diversionEventReportCount = dwdUserEventDetailMapper.getReportPointCount(dates);
         long totalPage = LongUtils.divide(diversionEventReportCount, BatchConst.BATCH_NUMBER.longValue());

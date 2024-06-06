@@ -16,7 +16,7 @@ import java.util.List;
 @DS("mysql")
 public interface DwsDailyPackageLoginMapper extends BaseMapper<DwsDailyPackageLogin> {
 
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     void syncDailyPackageLogin(@Param("dates") Integer dates);
 

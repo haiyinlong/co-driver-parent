@@ -4,7 +4,7 @@
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserLoginRecordMapper">
 
 
-    <delete id="delete">
+    <delete id="deleteByDates">
         delete
         from dwd_user_login_record
         where dates = #{dates}

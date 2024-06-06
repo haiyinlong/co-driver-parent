@@ -29,7 +29,7 @@ public class DwdUserConversionServiceImpl implements DwdService {
     @ShowExecuteTime(name = "dwdUserConversion syncData")
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwdUserConversionMapper.delete(dates);
+        dwdUserConversionMapper.deleteByDates(dates);
         // 查询自己的转化记录
         Long totalRecord = dwdUserConversionMapper.countFromOfferRecord(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());

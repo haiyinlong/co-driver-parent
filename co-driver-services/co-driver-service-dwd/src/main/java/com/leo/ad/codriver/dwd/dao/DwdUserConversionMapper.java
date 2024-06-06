@@ -40,5 +40,5 @@ public interface DwdUserConversionMapper extends BaseMapper<DwdUserConversion> {
 
     Long countFromHemaOfferRecord(@Param("dates") Integer dates);
 
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 }

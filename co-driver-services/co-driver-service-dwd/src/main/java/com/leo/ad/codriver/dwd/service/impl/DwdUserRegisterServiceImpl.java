@@ -29,7 +29,7 @@ public class DwdUserRegisterServiceImpl implements DwdService {
     @ShowExecuteTime(name = "dwdUserRegister syncData")
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwdUserRegisterMapper.delete(dates);
+        dwdUserRegisterMapper.deleteByDates(dates);
         Long totalRecord = dwdUserRegisterMapper.getStatisticsCount(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         for (int i = 0; i < totalPageNum; i++) {

@@ -33,7 +33,7 @@ public class DwsWithdrawFullDailyServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwsWithdrawFullDailyMapper.delete(dates);
+        dwsWithdrawFullDailyMapper.deleteByDates(dates);
         List<DwsWithdrawFullDaily> withdrawFullDailies = dwsWithdrawFullDailyMapper.queryStatisticsActiveList(dates);
         if (!CollectionUtils.isEmpty(withdrawFullDailies)) {
             log.info("{} DwsWithdrawFullDaily syncActiveData 更新插入数据{}条", dates, withdrawFullDailies.size());

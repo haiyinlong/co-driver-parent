@@ -28,7 +28,7 @@ public class DwdUserFinishMissionServiceImpl implements DwdService {
     @ShowExecuteTime(name = "dwdUserFinishMission syncData")
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwdUserFinishMissionMapper.delete(dates);
+        dwdUserFinishMissionMapper.deleteByDates(dates);
         List<DwdUserFinishMission> dwdUserFinishMissions = dwdUserFinishMissionMapper.statisticsUserId(dates);
         if (!CollectionUtils.isEmpty(dwdUserFinishMissions)) {
             dwBatchMapper.batchInsert(dwdUserFinishMissions, DwdUserFinishMissionMapper.class);

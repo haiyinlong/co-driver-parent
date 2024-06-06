@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface AdsHemaWithdrawFullDailyMapper extends BaseMapper<AdsHemaWithdrawFullDaily> {
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     List<AdsHemaWithdrawFullDailyDTO> queryStatisticsActiveList(@Param("dates") Integer dates);
 

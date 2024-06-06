@@ -36,7 +36,7 @@ public class DwsDailyPackageCohortConversionServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwsDailyCohortConversionMapper.delete(dates);
+        dwsDailyCohortConversionMapper.deleteByDates(dates);
         List<DwsDailyCohortConversion> dwsDailyCohortConversions =
                 dwsDailyCohortConversionMapper.statisticsCohortConversion(dates);
         dwBatchMapper.batchInsert(dwsDailyCohortConversions, DwsDailyCohortConversionMapper.class);

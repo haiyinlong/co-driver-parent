@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface AdsFifteenDayCohortConversionMapper extends BaseMapper<AdsFifteenDayCohortConversion> {
-    void delete(@Param("list") List<Integer> dates);
+    void deleteByDates(@Param("list") List<Integer> dates);
 
     List<AdsFifteenDayCohortConversion> statistics(@Param("list") List<Integer> dates);
 

@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 @Mapper
 @DS("mysql")
 public interface DwsDailyPackagePaymentMapper extends BaseMapper<DwsDailyPackagePayment> {
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     void syncDailyPackagePayment(@Param("dates") Integer dates, @Param("singleFee") BigDecimal singleFee);
 

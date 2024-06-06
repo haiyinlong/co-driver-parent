@@ -164,6 +164,18 @@
                     </filesets>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> <!-- Check for the latest version -->
+                <configuration>
+                    <source>17</source> <!-- or your project's Java version -->
+                    <target>17</target> <!-- or your project's Java version -->
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

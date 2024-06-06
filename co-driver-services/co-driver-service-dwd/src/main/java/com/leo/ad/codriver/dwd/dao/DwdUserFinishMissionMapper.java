@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DwdUserFinishMissionMapper extends BaseMapper<DwdUserFinishMission> {
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     List<DwdUserFinishMission> statisticsAid(@Param("dates") Integer dates);
 

@@ -17,7 +17,7 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DwdUserAccountRecordMapper extends BaseMapper<DwdUserAccountRecord> {
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     long getRecordCount(@Param("dates") Integer dates);
 

@@ -33,7 +33,7 @@ public class DwsUserRegisterPkgFullDailyServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwsUserRegisterPkgFullDailyMapper.delete(dates);
+        dwsUserRegisterPkgFullDailyMapper.deleteByDates(dates);
         List<DwsUserRegisterPkgFullDaily> statistics = dwsUserRegisterPkgFullDailyMapper.statistics(dates);
         if (CollectionUtils.isEmpty(statistics)) {
             return;

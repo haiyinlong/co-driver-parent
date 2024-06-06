@@ -23,7 +23,7 @@ public class DwsDailyPackageUserConversionServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwsDailyPackageUserConversionMapper.delete(dates);
+        dwsDailyPackageUserConversionMapper.deleteByDates(dates);
         dwsDailyPackageUserConversionMapper.syncActiveList(dates);
         dwsDailyPackageUserConversionMapper.syncNewList(dates);
     }

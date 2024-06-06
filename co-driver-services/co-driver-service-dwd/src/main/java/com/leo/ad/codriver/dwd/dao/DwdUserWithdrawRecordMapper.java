@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DwdUserWithdrawRecordMapper extends BaseMapper<DwdUserWithdrawRecord> {
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     long getWithdrawCount(@Param("dates") Integer dates);
 

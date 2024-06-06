@@ -3,8 +3,7 @@
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserConversionMapper">
 
-
-    <delete id="delete">
+    <delete id="deleteByDates">
         delete
         from dwd_user_conversion
         where dates = #{dates}

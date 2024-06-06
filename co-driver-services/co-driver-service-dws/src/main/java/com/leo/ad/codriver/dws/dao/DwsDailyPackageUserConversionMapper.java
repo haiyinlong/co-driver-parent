@@ -13,7 +13,7 @@ import org.apache.ibatis.annotations.Param;
 @Mapper
 @DS("mysql")
 public interface DwsDailyPackageUserConversionMapper extends BaseMapper<DwsDailyPackageUserConversion> {
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     void syncActiveList(@Param("dates") Integer dates);
 

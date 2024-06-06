@@ -35,7 +35,7 @@ public class AdsHemaDataAnalyseFullDailyServiceImpl
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        adsHemaDataAnalyseFullDailyMapper.delete(dates);
+        adsHemaDataAnalyseFullDailyMapper.deleteByDates(dates);
         // 统计活跃维度
         List<AdsHemaDataAnalyseFullDailyDTO> dataAnalyseFullDailyDTOS =
                 adsHemaDataAnalyseFullDailyMapper.queryStatisticsActiveList(dates);

@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DwsHemaAccountFullDailyMapper extends BaseMapper<DwsHemaAccountFullDaily> {
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     List<DwsHemaAccountFullDaily> queryStatisticsActiveList(@Param("dates") Integer dates);
 

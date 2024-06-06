@@ -3,7 +3,7 @@
 
 <mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageLoginMapper">
 
-    <delete id="delete">
+    <delete id="deleteByDates">
         delete
         from dws_daily_package_login
         where dates = #{dates}

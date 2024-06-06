@@ -32,7 +32,7 @@ public class DwdUserWithdrawRecordServiceImpl implements DwdService {
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         // 先删除数据
-        dwdUserWithdrawRecordMapper.delete(dates);
+        dwdUserWithdrawRecordMapper.deleteByDates(dates);
         // 查询统计总数据，然后分页进行获取
         long recordCount = dwdUserWithdrawRecordMapper.getWithdrawCount(dates);
         long totalPage = LongUtils.divide(recordCount, BatchConst.BATCH_NUMBER.longValue());

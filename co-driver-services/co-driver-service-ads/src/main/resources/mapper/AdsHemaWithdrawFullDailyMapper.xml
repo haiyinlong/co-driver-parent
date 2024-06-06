@@ -3,7 +3,7 @@
 
 <mapper namespace="com.leo.ad.codriver.ads.dao.AdsHemaWithdrawFullDailyMapper">
 
-    <delete id="delete">
+    <delete id="deleteByDates">
         delete
         from ads_hema_withdraw_full_daily
         where dates = #{dates}

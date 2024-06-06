@@ -33,7 +33,7 @@ public class DwsHemaBalanceFullDailyServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwsHemaBalanceFullDailyMapper.delete(dates);
+        dwsHemaBalanceFullDailyMapper.deleteByDates(dates);
         List<DwsHemaBalanceFullDaily> hemaBalanceFullDailies =
                 dwsHemaBalanceFullDailyMapper.queryStatisticsActiveList(dates);
         if (!CollectionUtils.isEmpty(hemaBalanceFullDailies)) {

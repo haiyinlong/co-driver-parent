@@ -15,7 +15,7 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DwsWithdrawFullDailyMapper extends BaseMapper<DwsWithdrawFullDaily> {
-    void delete(@Param("dates") Integer dates);
+    void deleteByDates(@Param("dates") Integer dates);
 
     List<DwsWithdrawFullDaily> queryStatisticsActiveList(@Param("dates") Integer dates);
 
