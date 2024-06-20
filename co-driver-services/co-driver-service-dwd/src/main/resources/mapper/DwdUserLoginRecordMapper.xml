@@ -9,54 +9,31 @@
         from dwd_user_login_record
         where dates = #{dates}
     </delete>
-    <select id="queryLoginUserIds" resultType="java.lang.Long">
-        select u.id
-        from diversion.user u
-        where last_login_dates = #{dates}
-        order by u.id
+    <select id="getStatisticsCount" resultType="java.lang.Long">
+        select count(1)
+        FROM diversion.login_log ll
+        WHERE ll.dates = #{dates}
     </select>
     <select id="statistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserLoginRecord">
-        select #{dates} dates,
-        u.id user_id,
-        u.dates register_dates,
-        u.create_time register_date,
-        u.pkg,
-        u.last_login create_time,
-        min(uv.pvn) register_version,
-        max(uv.pvn) version,
-        IFNULL(uh.address, 'IN') country,
-        TIMESTAMPDIFF(DAY, u.create_time, u.last_login) register_cohort_day,
-        TIMESTAMPDIFF(DAY, u.dates, #{dates}) register_day
-        from diversion.user u
-        INNER JOIN diversion.user_version uv on (uv.user_id = u.id and uv.dates <![CDATA[ <= ]]>  #{dates})
-        left join diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
-        where u.id in
-        <foreach collection="userIds" item="item" index="index" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        group by u.id, u.dates, u.pkg, u.create_time, u.last_login, IFNULL(uh.address, 'IN')
-        union
-        select #{dates} dates,
-        u.id user_id,
-        u.dates register_dates,
-        u.create_time register_date,
-        u.pkg,
-        u.last_login create_time,
-        min(huv.pvn) register_version,
-        max(huv.pvn) version,
-        IFNULL(uh.address, 'IN') country,
-        TIMESTAMPDIFF(DAY, u.create_time, u.last_login) register_cohort_day,
-        TIMESTAMPDIFF(DAY, u.dates, #{dates}) register_day
-        from diversion.user u
-        INNER JOIN diversion.user_version uv on (uv.user_id = u.id and uv.dates = #{dates})
-        INNER JOIN diversion.user_version huv on (huv.user_id = u.id and huv.dates
-        <![CDATA[   <   ]]> #{dates} )
-        left join diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
-        where u.id in
-        <foreach collection="userIds" item="item" index="index" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-        group by u.id, u.dates, u.pkg, u.create_time, u.last_login, IFNULL(uh.address, 'IN')
+        SELECT ll.user_id,
+               ll.dates,
+               ll.create_time,
+               u.dates                                           register_dates,
+               u.create_time                                     register_date,
+               u.pkg,
+               IFNULL(uh.address, 'IN')                          country,
+               TIMESTAMPDIFF(DAY, u.create_time, ll.create_time) register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, ll.dates)             register_day,
+               uvm.pvn                                           register_version,
+               ll.pvn                                            version
+        FROM diversion.login_log ll
+                 INNER JOIN diversion.`user` u on (ll.user_id = u.id)
+                 LEFT JOIN diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+                 LEFT JOIN (SELECT user_id, min(pvn) pvn FROM diversion.user_version group by user_id) uvm
+                           on (uvm.user_id = ll.user_id)
+        WHERE ll.dates = #{dates} limit #{rows}
+        offset #{startRows}
     </select>
+
 
 </mapper>

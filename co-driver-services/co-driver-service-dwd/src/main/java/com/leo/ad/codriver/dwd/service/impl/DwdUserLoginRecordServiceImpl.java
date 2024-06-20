@@ -34,21 +34,13 @@ public class DwdUserLoginRecordServiceImpl implements DwdService {
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         dwdUserLoginRecordMapper.deleteByDates(dates);
-        // 分页查询数据
-        List<Long> userIds = dwdUserLoginRecordMapper.queryLoginUserIds(dates);
-        long totalPageNum = LongUtils.divide((long) userIds.size(), BatchConst.BATCH_NUMBER.longValue());
-
+        Long totalRecord = dwdUserLoginRecordMapper.getStatisticsCount(dates);
+        long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         AsyncThreadExecutor asyncThreadExecutor = AsyncThreadExecutor.of((int) totalPageNum);
         for (int i = 0; i < totalPageNum; i++) {
             int index = i;
             asyncThreadExecutor.execute(() -> {
-                int startIndex = index * BatchConst.BATCH_NUMBER.intValue();
-                int endIndex = (index + 1) * BatchConst.BATCH_NUMBER.intValue();
-                if (endIndex > userIds.size()) {
-                    endIndex = userIds.size();
-                }
-                List<Long> ids = userIds.subList(startIndex, endIndex);
-                List<DwdUserLoginRecord> dwdUserLoginRecords = dwdUserLoginRecordMapper.statistics(dates, ids);
+                List<DwdUserLoginRecord> dwdUserLoginRecords = dwdUserLoginRecordMapper.statistics(dates, BatchConst.BATCH_NUMBER, index * BatchConst.BATCH_NUMBER);
                 dwBatchMapper.batchInsert(dwdUserLoginRecords, DwdUserLoginRecordMapper.class);
             });
         }

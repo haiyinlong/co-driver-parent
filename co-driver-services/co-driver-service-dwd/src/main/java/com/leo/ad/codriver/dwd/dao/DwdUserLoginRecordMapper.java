@@ -19,7 +19,8 @@ import java.util.List;
 public interface DwdUserLoginRecordMapper extends BaseMapper<DwdUserLoginRecord> {
     void deleteByDates(@Param("dates") Integer dates);
 
-    List<Long> queryLoginUserIds(@Param("dates") Integer dates);
+    Long getStatisticsCount(@Param("dates") Integer dates);
 
-    List<DwdUserLoginRecord> statistics(@Param("dates") Integer dates, @Param("userIds") List<Long> userIds);
+    List<DwdUserLoginRecord> statistics(@Param("dates") Integer dates, @Param("rows") Integer rows,
+                                        @Param("startRows") Integer startRows);
 }

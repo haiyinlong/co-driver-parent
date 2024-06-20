@@ -31,7 +31,11 @@
                count(DISTINCT
                      (CASE WHEN IFNULL(dubr.balance, 0) > 5000 THEN dubr.user_id END)) balance_greater_than5000_user_num
         from dwd_user_balance_record dubr
-                 INNER JOIN dwd_user_login_record dwlr on (dubr.user_id = dwlr.user_id and dwlr.dates = #{dates})
+                 INNER JOIN (select dates, user_id, version
+                             from dwd_user_login_record
+                             where dates = #{dates}
+                             GROUP BY dates, user_id, version) dwlr
+                            on (dubr.user_id = dwlr.user_id)
         GROUP BY dubr.pkg, dubr.country, dwlr.version
     </select>
     <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsHemaBalanceFullDaily">
