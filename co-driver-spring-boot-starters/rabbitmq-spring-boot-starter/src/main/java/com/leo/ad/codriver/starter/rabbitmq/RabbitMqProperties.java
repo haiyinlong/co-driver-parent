@@ -15,6 +15,15 @@ public class RabbitMqProperties {
     private String username;
     private String password;
     private String virtualHost;
+    private boolean enable = false;
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setEnable(boolean enable) {
+        this.enable = enable;
+    }
 
     public String getHost() {
         return host;

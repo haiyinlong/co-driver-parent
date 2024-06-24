@@ -23,13 +23,13 @@
                      SUBSTRING_INDEX(SUBSTRING_INDEX(t.campaign_name, '_', 2), '_', -1) version,
                      sum(d0_recharge_count)                                             user_num,
                      sum(d0_recharge)                                                   pay_amount
-              from diversion.pay_record t
+              from ods_pay_record t
               where t.dates = #{dates}
                 and d0_recharge > 0
                 and campaign_name is not null
               GROUP BY t.dates, SUBSTRING_INDEX(t.campaign_name, '_', 1),
                        SUBSTRING_INDEX(SUBSTRING_INDEX(t.campaign_name, '_', 2), '_', -1)) pay_t
-                 LEFT JOIN sys_channel c on (c.channel = pay_t.channel)
+                 LEFT JOIN dim_channel c on (c.channel_id = pay_t.channel)
 
     </insert>
 

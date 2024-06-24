@@ -5,8 +5,9 @@
 
     <select id="getRecordCount" resultType="java.lang.Long">
         select count(1)
-        from diversion.user_account ua
-                 INNER JOIN diversion.`user` u on (ua.user_id = u.id)
+        from ods_user_account ua
+                 INNER JOIN ods_user u
+                            on (ua.user_id = u.id)
     </select>
     <select id="queryStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserBalanceRecord">
         select dwbr.id,
@@ -19,11 +20,10 @@
                ua.points,
                ua.transfer,
                now()                    update_time
-        from diversion.user_account ua
-                 INNER JOIN diversion.`user` u on (ua.user_id = u.id)
-                 LEFT JOIN diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
+        from ods_user_account ua
+                 INNER JOIN ods_user u on (ua.user_id = u.id)
+                 LEFT JOIN ods_user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
                  LEFT JOIN dwd_user_balance_record dwbr on (dwbr.user_id = ua.user_id)
-            limit #{rows}
-        OFFSET #{startRows}
+        limit #{rows} OFFSET #{startRows}
     </select>
 </mapper>

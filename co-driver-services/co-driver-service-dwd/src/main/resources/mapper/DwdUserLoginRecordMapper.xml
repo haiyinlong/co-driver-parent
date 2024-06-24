@@ -11,7 +11,7 @@
     </delete>
     <select id="getStatisticsCount" resultType="java.lang.Long">
         select count(1)
-        FROM diversion.login_log ll
+        FROM ods_login_log ll
         WHERE ll.dates = #{dates}
     </select>
     <select id="statistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserLoginRecord">
@@ -26,13 +26,13 @@
                TIMESTAMPDIFF(DAY, u.dates, ll.dates)             register_day,
                uvm.pvn                                           register_version,
                ll.pvn                                            version
-        FROM diversion.login_log ll
-                 INNER JOIN diversion.`user` u on (ll.user_id = u.id)
-                 LEFT JOIN diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
-                 LEFT JOIN (SELECT user_id, min(pvn) pvn FROM diversion.user_version group by user_id) uvm
+        FROM ods_login_log ll
+                 INNER JOIN ods_user u on (ll.user_id = u.id)
+                 LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+                 LEFT JOIN (SELECT user_id, min(pvn) pvn FROM ods_user_version group by user_id) uvm
                            on (uvm.user_id = ll.user_id)
-        WHERE ll.dates = #{dates} limit #{rows}
-        offset #{startRows}
+        WHERE ll.dates = #{dates}
+        limit #{rows} offset #{startRows}
     </select>
 
 

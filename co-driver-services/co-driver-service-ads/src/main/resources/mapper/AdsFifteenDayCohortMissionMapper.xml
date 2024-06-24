@@ -22,10 +22,10 @@
         dr.country,
         dr.user_num,
         dr.event_param event_type,
-        p.project_type project_id,
-        p.id product_id,
-        p.project_name product_name,
-        c.channel channel_id,
+        c.project_id,
+        c.product_id,
+        c.product_name,
+        c.channel_id,
         c.channel_name,
         IFNULL(cohort_0.cohort_user_num, 0) cohort0_user_num,
         IFNULL(cohort_1.cohort_user_num, 0) cohort1_user_num,
@@ -69,7 +69,7 @@
         ) cohort_total_rate
         from (
         select dr.dates, dr.pkg, dr.version, dr.country, dr.user_num, u.event_param from dws_daily_package_register dr
-        LEFT JOIN diversion.mission u on (u.pkg = dr.pkg and u.del = 0)
+        LEFT JOIN ods_mission u on (u.pkg = dr.pkg and u.del = 0)
         where dr.dates in
         <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
             #{item}
@@ -197,8 +197,7 @@
         AND cohort_14.cohort_day = 14
         AND cohort_14.event_type = dr.event_param
         )
-        LEFT JOIN sys_channel c ON (dr.pkg = c.pkg)
-        LEFT JOIN sys_project p ON (c.project_id = p.id)
+        LEFT JOIN dim_channel c ON (dr.pkg = c.pkg)
 
     </select>
 </mapper>

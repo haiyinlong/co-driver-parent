@@ -6,10 +6,10 @@ spring:
       strict: false
       datasource:
         mysql:
-          username: ads
-          password: 3eNAojt5VrqSEQUi38CIRMx0Pzu0LLh7
+          username: seatunnel
+          password: seatunnelMysql
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://172.31.33.72:3306/ads?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+          url: jdbc:mysql://172.31.36.29:3306/analysis_data?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
           druid:
             initial-size: 10
             min-idle: 10
@@ -40,7 +40,13 @@ spring:
           max-wait: -1ms      # 连接池最大阻塞等待时间（使用负值表示没有限制）
           max-idle: 10      # 连接池中的最大空闲连接
           min-idle: 5       # 连接池中的最小空闲连接
-
+  rabbitmq:
+    listener:
+      direct:
+        auto-startup: ${co-driver.rabbitmq.enable}
+      simple:
+        auto-startup: ${co-driver.rabbitmq.enable}
+### 生产环境需要开启 enable
 co-driver:
   rabbitmq:
     host: mq1.ronoinfo.com
@@ -48,4 +54,9 @@ co-driver:
     username: max
     password: XzP9ZYrchRvrnpeVGZ1LJBeeZwkVSBIPZ
     virtualHost: /maxhost
+    enable: true
 
+management:
+  health:
+    rabbit:
+      enabled: ${co-driver.rabbitmq.enable}

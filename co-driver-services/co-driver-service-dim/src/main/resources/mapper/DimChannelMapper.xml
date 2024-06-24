@@ -10,8 +10,8 @@
                c.channel      channel_id,
                c.channel_name,
                c.pkg
-        from sys_channel c
-                 left join sys_project p on (c.project_id = p.id)
+        from ods_sys_channel c
+                 left join ods_sys_project p on (c.project_id = p.id)
     </insert>
 
     <select id="truncate">

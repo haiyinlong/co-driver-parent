@@ -10,12 +10,12 @@
     </delete>
     <select id="getRecordCount" resultType="java.lang.Long">
         select count(1)
-        from diversion.user_account_record uac
+        from ods_user_account_record uac
         where uac.dates = #{dates}
     </select>
     <select id="queryStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAccountRecord">
         select uac.dates,
-               'diversion.user_account_record'                                         `source`,
+               'ods_user_account_record' `source`,
                uac.id                                                                  `source_id`,
                uac.user_id,
                (case uac.is_add when 0 then 0 - uac.amount when 1 then uac.amount end) amount,
@@ -37,15 +37,15 @@
                TIMESTAMPDIFF(DAY, u.create_time, uac.create_time)                      register_cohort_day,
                TIMESTAMPDIFF(DAY, u.dates, uac.dates)                                  register_day,
                uac.create_time
-        from diversion.user_account_record uac
-                 INNER JOIN diversion.user u on (uac.user_id = u.id)
+        from ods_user_account_record uac
+                 INNER JOIN ods_user u on (uac.user_id = u.id)
                  LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn, max(uv.pvn) max_pvn
-                            FROM diversion.user_version uv
+                            FROM ods_user_version uv
                             where uv.dates <![CDATA[ <=]]> #{dates}
                             GROUP BY user_id) uv on (uv.user_id = u.id)
-                 LEFT JOIN diversion.user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
-                 LEFT JOIN diversion.ab_game_config gc on (gc.id = uac.source_id)
-        where uac.dates = #{dates} limit #{rows}
-        OFFSET #{startRows}
+                 LEFT JOIN ods_user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
+                 LEFT JOIN ods_ab_game_config gc on (gc.id = uac.source_id)
+        where uac.dates = #{dates}
+        limit #{rows} OFFSET #{startRows}
     </select>
 </mapper>

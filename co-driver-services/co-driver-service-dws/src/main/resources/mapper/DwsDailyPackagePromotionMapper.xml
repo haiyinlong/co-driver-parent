@@ -11,20 +11,19 @@
         insert into dws_daily_package_promotion(dates, project_id, product_id, product_name, channel_id, channel_name,
                                                 pkg, total_cost, `exchange_rate`, change_total_cost)
         select ac.dates,
-               p.project_type,
-               p.id,
-               p.project_name,
-               c.channel,
+               c.project_id,
+               c.product_id,
+               c.product_name,
+               c.channel_id,
                c.channel_name,
                ac.pkg,
                SUM(ac.cost),
                #{singleFee},
                ROUND(SUM(ac.cost) / #{singleFee}, 8)
-        from ads.adjust_cost ac
-                 left join sys_channel c on (ac.pkg = c.pkg)
-                 left join sys_project p on (c.project_id = p.id)
+        from ods_adjust_cost ac
+                 left join dim_channel c on (ac.pkg = c.pkg)
         where ac.dates = #{dates}
-        GROUP BY ac.dates, p.project_type, p.id, p.project_name, c.channel, c.channel_name, ac.pkg
+        GROUP BY ac.dates, c.project_id, c.product_id, c.product_name, c.channel_id, c.channel_name, ac.pkg
     </insert>
     <select id="list" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackagePromotion">
         select id,

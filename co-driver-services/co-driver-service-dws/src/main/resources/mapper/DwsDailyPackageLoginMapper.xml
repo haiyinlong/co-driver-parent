@@ -24,7 +24,7 @@
                pl.version,
                pl.user_num
         from dws_daily_package_login pl
-                 inner join sys_channel c on (c.pkg = pl.pkg)
+                 inner join dim_channel c on (c.pkg = pl.pkg)
         where pl.dates = #{dates}
           and c.project_id = #{productId}
     </select>

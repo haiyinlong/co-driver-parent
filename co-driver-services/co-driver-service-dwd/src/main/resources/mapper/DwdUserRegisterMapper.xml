@@ -15,21 +15,21 @@
                IFNULL(uh.address, 'IN')  country,
                IFNULL(uv.pvn, 'unknown') version,
                u.create_time
-        from diversion.user u
+        from ods_user u
                  LEFT JOIN (SELECT uv.user_id, uv.pvn
                             FROM (SELECT user_id, MIN(create_time) AS min_create_time
-                                  FROM diversion.user_version
+                                  FROM ods_user_version
                                   GROUP BY user_id) min_uv
-                                     INNER JOIN diversion.user_version uv
+                                     INNER JOIN ods_user_version uv
                                                 ON min_uv.user_id = uv.user_id AND min_uv.min_create_time = uv.create_time) uv
                            ON u.id = uv.user_id
-                 LEFT JOIN diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
-        where u.dates = #{dates} limit #{rows}
-        offset #{startRows}
+                 LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+        where u.dates = #{dates}
+        limit #{rows} offset #{startRows}
     </select>
     <select id="getStatisticsCount" resultType="java.lang.Long">
         select count(u.id)
-        from diversion.user u
+        from ods_user u
         where u.dates = #{dates}
     </select>
 </mapper>

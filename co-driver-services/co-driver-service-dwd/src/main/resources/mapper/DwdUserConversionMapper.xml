@@ -20,23 +20,22 @@
                CONVERT(r.user_id, SIGNED)                                                            user_id,
                type,
                DATE_FORMAT(FROM_UNIXTIME(CONVERT(r.time_stamp, SIGNED) / 1000), '%Y-%m-%d %H:%i:%s') create_time
-        from diversion.offer_record r
-                 LEFT JOIN diversion.user u on (r.user_id = u.id)
-                 LEFT JOIN diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+        from ods_offer_record r
+                 LEFT JOIN ods_user u on (r.user_id = u.id)
+                 LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
                  LEFT JOIN (SELECT user_id, max(pvn) max_pvn, min(pvn) min_pvn
-                            FROM diversion.user_version
+                            FROM ods_user_version
                             where dates <= #{dates}
                             GROUP BY user_id) uv
                            ON r.user_id = uv.user_id
         where r.dates = #{dates}
           and r.user_id REGEXP '^-?[0-9]+$'
-        limit #{rows}
-        offset #{startRows}
+        limit #{rows} offset #{startRows}
         ]]>
     </select>
     <select id="countFromOfferRecord" resultType="java.lang.Long">
         select count(r.id)
-        from diversion.offer_record r
+        from ods_offer_record r
         where r.dates = #{dates}
           and r.user_id REGEXP '^-?[0-9]+$'
     </select>
@@ -53,24 +52,23 @@
                u.id                                                                                  user_id,
                r.type,
                DATE_FORMAT(FROM_UNIXTIME(CONVERT(r.time_stamp, SIGNED) / 1000), '%Y-%m-%d %H:%i:%s') create_time
-        FROM diversion.offer_record r
-                 LEFT JOIN diversion.user u ON r.user_id = u.aid
-                 left join diversion.user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+        FROM ods_offer_record r
+                 LEFT JOIN ods_user u ON r.user_id = u.aid
+                 left join ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
                  LEFT JOIN (SELECT user_id, max(pvn) max_pvn, min(pvn) min_pvn
-                            FROM diversion.user_version
+                            FROM ods_user_version
                             where dates <= #{dates}
                             GROUP BY user_id) uv
                            ON u.id = uv.user_id
         WHERE r.dates = #{dates}
           AND u.id IS NOT NULL
-            limit #{rows}
-        offset #{startRows}
+        limit #{rows} offset #{startRows}
         ]]>
     </select>
     <select id="countFromHemaOfferRecord" resultType="java.lang.Long">
         SELECT count(r.id)
-        FROM diversion.offer_record r
-                 LEFT JOIN diversion.user u ON r.user_id = u.aid
+        FROM ods_offer_record r
+                 LEFT JOIN ods_user u ON r.user_id = u.aid
         WHERE r.dates = #{dates}
           AND u.id IS NOT NULL
     </select>
