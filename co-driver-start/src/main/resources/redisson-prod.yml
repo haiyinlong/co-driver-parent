@@ -23,7 +23,7 @@ sentinelServersConfig:
     - "redis://172.31.46.109:16379"
     - "redis://172.31.41.23:16379"
   masterName: "redis1"
-  database: 0
+  database: 1
 codec: !<org.redisson.codec.Kryo5Codec> { }
 # 线程池数量。默认值: 当前处理核数量 * 2
 threads: 16

@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * TestSendMsg
  *
@@ -29,5 +32,14 @@ public class TestSendMsg {
         dataChangeDTO.setChangeType("ss");
         dataChangeDTO.setDates(123);
         rabbitTemplate.convertAndSend("data_change_exchange", "data_change_queue", dataChangeDTO);
+    }
+
+    @GetMapping("/send/userChange")
+    @Operation(summary = "发送消息到ods_user_change_queue")
+    public void mqSendUserChangeMsg() {
+        Map<String, String> dataMap = new HashMap<>();
+        dataMap.put("name", "demo");
+        dataMap.put("age", "18");
+        rabbitTemplate.convertAndSend("co_driver_exchange", "ods_user_change_queue", dataMap);
     }
 }

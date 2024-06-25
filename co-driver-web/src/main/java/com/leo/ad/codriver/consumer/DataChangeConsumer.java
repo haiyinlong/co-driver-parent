@@ -23,9 +23,8 @@ public class DataChangeConsumer {
     private final AdsService adsHemaDataAnalyseFullDailyServiceImpl;
     private static final String PROMOTE = "promote";
 
-    @RabbitListener(queues = {"data_change_queue"})
+    @RabbitListener(queues = {"data_change_queue"}, autoStartup = "${co-driver.rabbitmq.listener.data_change_queue.enable:true}")
     public void notifyDataChange(String dataChangeMsg) {
-        log.info("消费者收到消息:{}", dataChangeMsg);
         DataChangeDTO dataChangeDTO = JSONObject.parseObject(dataChangeMsg, DataChangeDTO.class);
         if (PROMOTE.equals(dataChangeDTO.getChangeType())) {
             dwsDailyPackagePromotionServiceImpl.syncData(dataChangeDTO.getDates());

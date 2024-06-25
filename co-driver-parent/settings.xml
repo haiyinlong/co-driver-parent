@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.2.0"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.2.0 https://maven.apache.org/xsd/settings-1.2.0.xsd">
+
+    <pluginGroups>
+    </pluginGroups>
+    <proxies>
+    </proxies>
+    <servers>
+        <server>
+            <id>uhi</id>
+            <username>61e53fb0ae805dbacc45dc32</username>
+            <password>4Jon6tF7chz9</password>
+        </server>
+    </servers>
+    <activeProfiles>
+        <activeProfile>rdc</activeProfile>
+    </activeProfiles>
+    <mirrors>
+        <mirror>
+            <id>mirror</id>
+            <mirrorOf>central,jcenter,!uhi</mirrorOf>
+            <name>mirror</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public</url>
+        </mirror>
+    </mirrors>
+    <profiles>
+        <profile>
+            <id>rdc</id>
+            <properties>
+                <altReleaseDeploymentRepository>
+                    uhi::default::https://packages.aliyun.com/61e53fc60e8bd55d5a5a9489/maven/uhi
+                </altReleaseDeploymentRepository>
+            </properties>
+        </profile>
+    </profiles>
+</settings>

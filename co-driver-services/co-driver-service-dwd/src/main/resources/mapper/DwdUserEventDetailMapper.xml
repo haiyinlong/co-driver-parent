@@ -60,7 +60,7 @@
           and JSON_VALID(re.event_msg)
     </select>
     <select id="queryReportEvent" resultType="com.leo.ad.codriver.dwd.entity.DwdUserEventDetail">
-        select 'ads.report_event'                                source,
+        select 'ods_report_event'                                source,
                re.id                                             source_id,
                re.dates,
                re.user_id,
@@ -105,7 +105,7 @@
     <select id="queryReportPoint"
             resultType="com.leo.ad.codriver.dwd.entity.DwdUserEventDetail">
 
-        select 'ods_report_point'                                 source,
+        select 'ods_report_point_diversion'                       source,
                rp.id                                              source_id,
                DATE_FORMAT(rp.create_time, '%Y%m%d')              dates,
                IFNULL(u.id, rp.user_id)                           user_id,
@@ -147,7 +147,7 @@
           and JSON_LENGTH(rp.event_msg) > 0
     </select>
     <select id="queryAdsReportPoint" resultType="com.leo.ad.codriver.dwd.entity.DwdUserEventDetail">
-        select 'ads.report_point'                                source,
+        select 'ods_report_point_ads'                            source,
                rp.id                                             source_id,
                DATE_FORMAT(rp.create_time, '%Y%m%d')             dates,
                rp.user_id,

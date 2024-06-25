@@ -20,14 +20,20 @@ spring:
 
 co-driver:
   rabbitmq:
+    enable: true
     host: mq1.ronoinfo.com
     port: 5672
     username: dev
     password: G8bUCHDxOMOnUtoEzjky9a9xo2Oul6vS
     virtualHost: /devhost
-    enable: false
-
+    listener:
+      data_change_queue:
+        enable: false
+      ods_user_change_queue:
+        enable: false
+        
 management:
   health:
     rabbit:
       enabled: ${co-driver.rabbitmq.enable}
+

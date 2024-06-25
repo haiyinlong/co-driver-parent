@@ -1,6 +1,7 @@
 package com.leo.ad.codriver.scheduler;
 
 import com.leo.ad.codriver.ads.service.AdsService;
+import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dim.service.DimService;
 import com.leo.ad.codriver.dwd.service.DwdService;
@@ -24,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DwScheduleTask {
     private final AdsService adsHemaDataAnalyseFullDailyServiceImpl;
+    private final ExchangeRate exchangeRate;
 
     private final List<DwsService> dwsServices;
     private final List<DimService> dimServices;
@@ -35,6 +37,9 @@ public class DwScheduleTask {
     @Scheduled(cron = "0 0 0 * * ?")
     @Async("asyncServiceExecutor")
     public void syncDailyDim() {
+        // 更新汇率
+        exchangeRate.updateFeeUSDToINR();
+        
         long startTime = System.currentTimeMillis();
         log.info("dim 开始同步所有数据");
         for (DimService service : dimServices) {
