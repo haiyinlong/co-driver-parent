@@ -34,7 +34,7 @@ public class DwdUserEventDetailFormEventReportServiceImpl implements DwdEventSer
     public void syncData(Integer dates) {
         // 先删除数据
         long startTime = System.currentTimeMillis();
-        dwdUserEventDetailMapper.deleteByDates(dates, "diversion.event_report");
+        dwdUserEventDetailMapper.deleteByDates(dates, "ods_event_report");
 
         log.info(" {} 删除diversion.event_report 历史数据耗时: {}", dates, (System.currentTimeMillis() - startTime) / 1000);
         // 查询统计总数据，然后分页进行获取
