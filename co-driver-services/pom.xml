@@ -25,22 +25,20 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.leo.ad</groupId>
             <artifactId>co-driver-common</artifactId>
         </dependency>
         <dependency>
             <groupId>com.leo.ad</groupId>
             <artifactId>mysql-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
         </dependency>
         <dependency>
             <groupId>com.leo.ad</groupId>
             <artifactId>redis-spring-boot-starter</artifactId>
-            <version>1.0.0</version>
         </dependency>
     </dependencies>
 </project>
