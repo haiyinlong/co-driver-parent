@@ -58,7 +58,7 @@ co-driver:
     virtualHost: /maxhost
     listener:
       data_change_queue:
-        enable: false
+        enable: true
       ods_user_change_queue:
         enable: true
 
