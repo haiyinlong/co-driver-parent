@@ -1,4 +1,9 @@
 spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.8.12:10000
+        namespace: public
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     dynamic:
@@ -18,6 +23,7 @@ spring:
     redisson:
       file: classpath:redisson-dev.yml
 
+
 co-driver:
   rabbitmq:
     enable: true
@@ -31,7 +37,7 @@ co-driver:
         enable: false
       ods_user_change_queue:
         enable: false
-        
+
 management:
   health:
     rabbit:

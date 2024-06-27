@@ -1,4 +1,9 @@
 spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 172.31.45.176:8848
+        namespace: public
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     dynamic:

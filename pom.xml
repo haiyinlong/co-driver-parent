@@ -17,6 +17,7 @@
         <module>co-driver-start</module>
         <module>co-driver-web</module>
         <module>co-driver-common</module>
+        <module>co-driver-parent</module>
     </modules>
     <properties>
         <revision>1.0</revision>

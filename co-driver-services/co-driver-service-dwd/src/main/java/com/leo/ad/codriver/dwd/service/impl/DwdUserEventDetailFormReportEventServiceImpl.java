@@ -8,7 +8,7 @@ import com.leo.ad.codriver.dwd.service.DwdEventService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.List;
  * @version 2024/04/18 16:47
  **/
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class DwdUserEventDetailFormReportEventServiceImpl implements DwdEventService {
     private final DwdUserEventDetailMapper dwdUserEventDetailMapper;
