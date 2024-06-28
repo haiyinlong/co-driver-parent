@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>co-driver-statistics</artifactId>
+    <version>${revision}</version>
+    <packaging>pom</packaging>
+    <name>co-driver-statistics</name>
+    <description>数据同一处理应用</description>
+    <parent>
+        <groupId>com.leo.ad</groupId>
+        <artifactId>co-driver-parent</artifactId>
+        <version>1.0.2</version>
+        <relativePath>../co-driver-parent</relativePath>
+    </parent>
+    <modules>
+        <module>co-driver-statistics-services</module>
+        <module>co-driver-statistics-start</module>
+        <module>co-driver-statistics-web</module>
+        <module>co-driver-statistics-common</module>
+    </modules>
+    <properties>
+        <revision>1.0</revision>
+        <java.version>17</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <!-- 自定义 web -->
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>co-driver-statistics-web</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 自定义 service -->
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>co-driver-statistics-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>co-driver-statistics-service-common</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>co-driver-statistics-service-dim</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>co-driver-statistics-service-dwd</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>co-driver-statistics-service-dws</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>co-driver-statistics-service-ads</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+                <configuration>
+                    <filesets>
+                        <fileset>
+                            <directory>${basedir}/logs</directory>
+                        </fileset>
+                    </filesets>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version> <!-- Check for the latest version -->
+                <configuration>
+                    <source>17</source> <!-- or your project's Java version -->
+                    <target>17</target> <!-- or your project's Java version -->
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <repositories>
+        <repository>
+            <id>uhi</id>
+            <url>https://packages.aliyun.com/61e53fc60e8bd55d5a5a9489/maven/uhi</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
