@@ -8,8 +8,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @EnableDiscoveryClient
 @EnableFeignClients
 @SpringBootApplication
-public class CoDriverApplication {
+public class CoDriverStatisticsApplication {
     public static void main(String[] args) {
-        SpringApplication.run(CoDriverApplication.class, args);
+        SpringApplication.run(CoDriverStatisticsApplication.class, args);
     }
 }

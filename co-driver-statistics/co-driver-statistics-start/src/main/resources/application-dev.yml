@@ -42,4 +42,15 @@ management:
   health:
     rabbit:
       enabled: ${co-driver.rabbitmq.enable}
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: ALWAYS
+      enabled: true
+    logfile:
+      enabled: true
+      external-file: logs/${spring.application.name}.log
 

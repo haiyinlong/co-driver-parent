@@ -5,7 +5,7 @@
 
     <groupId>com.leo.ad</groupId>
     <artifactId>co-driver-parent</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <packaging>pom</packaging>
     <modules>
         <module>mysql-spring-boot-starter</module>
@@ -14,6 +14,7 @@
         <module>rabbitmq-spring-boot-starter</module>
         <module>swagger-spring-boot-starter</module>
         <module>nacos-spring-boot-starter</module>
+        <module>web-spring-boot-starter</module>
     </modules>
     <properties>
         <java.version>17</java.version>
@@ -39,32 +40,37 @@
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>mysql-spring-boot-starter</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.3</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>swagger-spring-boot-starter</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.3</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>redis-spring-boot-starter</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.3</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>openfeign-spring-boot-starter</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.3</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>rabbitmq-spring-boot-starter</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.3</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>nacos-spring-boot-starter</artifactId>
-                <version>1.0.2</version>
+                <version>1.0.3</version>
+            </dependency>
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>web-spring-boot-starter</artifactId>
+                <version>1.0.3</version>
             </dependency>
             <!-- 兼容 nacos 1.x版本 -->
             <dependency>
