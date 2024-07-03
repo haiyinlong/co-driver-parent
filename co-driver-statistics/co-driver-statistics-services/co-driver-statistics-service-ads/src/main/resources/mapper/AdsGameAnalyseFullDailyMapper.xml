@@ -12,8 +12,8 @@
                dpgfd.user_type,
                dpufd.login_user_num                           active_user_num,
                dpufd.register_user_num                        new_user_num,
-               dprfd1.retention_user_num                      second_user_num,
-               dprfd2.retention_user_num                      tertiary_uer_num,
+               IFNULL(dprfd1.retention_user_num, 0)           second_user_num,
+               IFNULL(dprfd2.retention_user_num, 0)           tertiary_uer_num,
                dpgfd.total_user_num                           minor_game_user_num,
                IFNULL(ROUND(dpgfd.total_user_num /
                             IF(dpgfd.user_type = 0, dpufd.login_user_num, dpufd.register_user_num), 3),
@@ -27,8 +27,8 @@
                            ON (dprfd1.dates = dpufd.dates and dprfd1.pkg = dpufd.pkg and dprfd1.register_day = 1)
                  LEFT JOIN dws_pkg_retention_full_daily dprfd2
                            ON (dprfd2.dates = dpufd.dates and dprfd2.pkg = dpufd.pkg and dprfd2.register_day = 2)
-                 LEFT JOIN dws_pkg_game_full_daily dpgfd
-                           ON (dpgfd.dates = dpufd.dates and dpgfd.pkg = dpufd.pkg and dpgfd.user_type = 0)
+                 INNER JOIN dws_pkg_game_full_daily dpgfd
+                            ON (dpgfd.dates = dpufd.dates and dpgfd.pkg = dpufd.pkg and dpgfd.user_type = 0)
                  LEFT JOIN dim_channel dc ON (dc.pkg = dpufd.pkg)
                  LEFT JOIN ads_game_analyse_full_daily agafd ON (agafd.dates = dpufd.dates and agafd.pkg = dpufd.pkg and
                                                                  agafd.user_type = dpgfd.user_type)
@@ -43,8 +43,8 @@
                dpgfd.user_type,
                dpufd.login_user_num                           active_user_num,
                dpufd.register_user_num                        new_user_num,
-               dprfd1.retention_user_num                      second_user_num,
-               dprfd2.retention_user_num                      tertiary_uer_num,
+               IFNULL(dprfd1.retention_user_num, 0)           second_user_num,
+               IFNULL(dprfd2.retention_user_num, 0)           tertiary_uer_num,
                dpgfd.total_user_num                           minor_game_user_num,
                IFNULL(ROUND(dpgfd.total_user_num /
                             IF(dpgfd.user_type = 0, dpufd.login_user_num, dpufd.register_user_num), 3),
@@ -58,8 +58,8 @@
                            ON (dprfd1.dates = dpufd.dates and dprfd1.pkg = dpufd.pkg and dprfd1.register_day = 1)
                  LEFT JOIN dws_pkg_retention_full_daily dprfd2
                            ON (dprfd2.dates = dpufd.dates and dprfd2.pkg = dpufd.pkg and dprfd2.register_day = 2)
-                 LEFT JOIN dws_pkg_game_full_daily dpgfd
-                           ON (dpgfd.dates = dpufd.dates and dpgfd.pkg = dpufd.pkg and dpgfd.user_type = 1)
+                 INNER JOIN dws_pkg_game_full_daily dpgfd
+                            ON (dpgfd.dates = dpufd.dates and dpgfd.pkg = dpufd.pkg and dpgfd.user_type = 1)
                  LEFT JOIN dim_channel dc ON (dc.pkg = dpufd.pkg)
                  LEFT JOIN ads_game_analyse_full_daily agafd ON (agafd.dates = dpufd.dates and agafd.pkg = dpufd.pkg and
                                                                  agafd.user_type = dpgfd.user_type)
