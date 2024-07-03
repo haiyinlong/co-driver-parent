@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserGameRecordMapper">
+
+    <delete id="deleteByDates">
+        delete
+        from dwd_user_game_record
+        where dates = #{dates}
+    </delete>
+    <select id="getStatisticsCount" resultType="java.lang.Long">
+        select count(1)
+        from ods_ab_game_record uac
+        where uac.dates = #{dates}
+    </select>
+    <select id="queryStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameRecord">
+        SELECT dugr.id,
+               oagr.dates,
+               oagr.user_id,
+               dui.pkg,
+               oagr.num               game_level,
+               IFNULL(oagr.`time`, 0) game_time,
+               oagr.status            game_status,
+               oagrd.is_add           reward_consumption_type,
+               oagrd.amount           reward_consumption_amount,
+               oagrd.`type`           amount_type
+        FROM ods_ab_game_record oagr
+                 INNER JOIN dim_user_info dui ON (dui.user_id = oagr.user_id)
+                 INNER JOIN ods_ab_game_record_detail oagrd ON (oagr.id = oagrd.game_record_id)
+                 LEFT JOIN dwd_user_game_record dugr
+                           ON (dugr.dates = oagr.dates and dugr.user_id = oagr.user_id and dugr.game_level = oagr.num)
+        WHERE oagr.dates = #{dates}
+        limit #{rows} OFFSET #{startRows}
+    </select>
+</mapper>

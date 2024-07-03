@@ -35,6 +35,7 @@ public class TaskDwdController {
     private final DwdService dwdUserAccountRecordServiceImpl;
     private final DwdService dwdUserWithdrawRecordServiceImpl;
     private final DwdService dwdUserBalanceRecordServiceImpl;
+    private final DwdService dwdUserGameRecordServiceImpl;
 
     private final DwdEventService dwdUserEventDetailFormReportPointServiceImpl;
     private final DwdEventService dwdUserEventDetailFormAdsReportPointServiceImpl;
@@ -143,6 +144,17 @@ public class TaskDwdController {
         }
         // 同步数据到dwd
         dwdUserWithdrawRecordServiceImpl.syncData(dates);
+        return "执行完成dwd数据同步";
+    }
+
+    @GetMapping("/userGameRecord")
+    @Operation(summary = "触发用户游戏记录dwd", description = "触发dwd数据同步")
+    public String userGameRecordHandle(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        dwdUserGameRecordServiceImpl.syncData(dates);
         return "执行完成dwd数据同步";
     }
 }

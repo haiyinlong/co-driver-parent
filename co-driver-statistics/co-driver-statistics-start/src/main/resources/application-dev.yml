@@ -34,9 +34,9 @@ co-driver:
     virtualHost: /devhost
     listener:
       data_change_queue:
-        enable: false
+        enable: true
       ods_user_change_queue:
-        enable: false
+        enable: true
 
 management:
   health:

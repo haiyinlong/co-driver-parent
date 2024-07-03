@@ -31,6 +31,7 @@ public class TaskAdsController {
     private final AdsService adsFifteenDayCohortConversionServiceImpl;
     private final AdsService adsFifteenDayCohortMissionServiceImpl;
     private final AdsService adsHemaWithdrawFullDailyServiceImpl;
+    private final AdsService adsGameLevelFullDailyServiceImpl;
 
     private final List<AdsService> adsServices;
 
@@ -90,6 +91,17 @@ public class TaskAdsController {
             dates = DateUtils.getPreviousDate();
         }
         adsHemaWithdrawFullDailyServiceImpl.syncData(dates);
+        return "执行完成ads数据同步";
+    }
+
+    @GetMapping("/adsGameLevelFullDaily")
+    @Operation(summary = "触发ads游侠关卡数据同步", description = "触发ads数据同步")
+    public String adsGameLevelFullDailyHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        adsGameLevelFullDailyServiceImpl.syncData(dates);
         return "执行完成ads数据同步";
     }
 

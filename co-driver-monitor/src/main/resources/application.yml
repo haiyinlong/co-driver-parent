@@ -13,7 +13,7 @@ spring:
         brand: "<img src=\"assets/img/icon-spring-boot-admin.svg\"><span>Co-Driver Monitor</span>"
       notify:
         dingtalk:
-          enabled: true
+          enabled: false
           webhook-url: https://oapi.dingtalk.com/robot/send?access_token=72bd208edd3c1f9ad17a27ec660eb3e6a924a6a641df12e55bf51d312f0b1be6
           secret: SECe324d8b61d310b59fb8fe9294bb43a30faceac3b4c2ca23b6f2eb6813e8ce0b5
           ignore-changes:

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.ads.dao.AdsGameLevelFullDailyMapper">
+
+    <select id="queryStatistics" resultType="com.leo.ad.codriver.ads.entity.AdsGameLevelFullDaily">
+        SELECT aglfd.id,
+               dc.channel_id,
+               dc.channel_name,
+               ddpgl.user_type,
+               ddpgl.dates,
+               ddpgl.pkg,
+               ddpgl.game_level,
+               ddpgl.user_num,
+               ddpgl.record_count,
+               ddpgl.avg_record_count,
+               ddpgl.pass_user_num,
+               ddpgl.pass_rate,
+               ddpgl.fail_user_num,
+               ddpgl.fail_rate
+        FROM dws_daily_package_game_level ddpgl
+                 LEFT JOIN dim_channel dc ON (dc.pkg = ddpgl.pkg)
+                 LEFT JOIN ads_game_level_full_daily aglfd
+                           ON (aglfd.dates = ddpgl.dates and aglfd.channel_id = dc.channel_id and
+                               aglfd.user_type = ddpgl.user_type and aglfd.game_level = ddpgl.game_level)
+        WHERE ddpgl.dates = #{dates}
+    </select>
+
+</mapper>
