@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsPkgUserFullDailyMapper">
+
+    <select id="statistics" resultType="com.leo.ad.codriver.dws.entity.DwsPkgUserFullDaily">
+        select dplfd.id,
+               q.dates,
+               q.pkg,
+               q.login_user_num,
+               q.register_user_num
+        from (select dulr.dates,
+                     dulr.pkg,
+                     count(DISTINCT dulr.user_id)                                              login_user_num,
+                     count(DISTINCT
+                           (CASE WHEN dulr.register_dates = dulr.dates THEN dulr.user_id END)) register_user_num
+              from dwd_user_login_record dulr
+              where dulr.dates = #{dates}
+              group by dulr.dates, dulr.pkg) q
+                 LEFT JOIN dws_pkg_user_full_daily dplfd ON (dplfd.dates = q.dates and dplfd.pkg = q.pkg)
+    </select>
+</mapper>
