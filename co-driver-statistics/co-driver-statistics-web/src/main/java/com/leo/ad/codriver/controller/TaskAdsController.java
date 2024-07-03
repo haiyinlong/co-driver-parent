@@ -32,6 +32,7 @@ public class TaskAdsController {
     private final AdsService adsFifteenDayCohortMissionServiceImpl;
     private final AdsService adsHemaWithdrawFullDailyServiceImpl;
     private final AdsService adsGameLevelFullDailyServiceImpl;
+    private final AdsService adsGameAnalyseFullDailyServiceImpl;
 
     private final List<AdsService> adsServices;
 
@@ -103,6 +104,17 @@ public class TaskAdsController {
         }
         adsGameLevelFullDailyServiceImpl.syncData(dates);
         return "执行完成ads数据同步";
+    }
+
+    @GetMapping("/adsGameAnalyseFullDaily")
+    @Operation(summary = "触发ads游戏数据同步", description = "触发ads数据同步")
+    public String adsGameAnalyseFullDailyHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        adsGameAnalyseFullDailyServiceImpl.syncData(dates);
+        return "执行完成ads游戏数据同步";
     }
 
 }

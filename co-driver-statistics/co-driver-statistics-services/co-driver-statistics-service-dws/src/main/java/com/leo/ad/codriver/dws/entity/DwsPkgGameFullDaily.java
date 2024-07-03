@@ -24,10 +24,15 @@ public class DwsPkgGameFullDaily implements BaseEntity {
     private Integer passRecordCount;
     private Integer failRecordCount;
     private Integer gameTotalTime;
+    private BigDecimal gameTimePerCapita;
     /**
      * 游戏总发放金
      */
     private BigDecimal totalGrant;
+    /**
+     * 人均发放金
+     */
+    private BigDecimal grantPerCapita;
     /**
      * 总消耗金
      */
