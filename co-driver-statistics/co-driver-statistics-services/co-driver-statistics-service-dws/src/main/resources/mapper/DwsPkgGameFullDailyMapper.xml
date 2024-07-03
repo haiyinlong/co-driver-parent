@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsPkgGameFullDailyMapper">
+
+    <delete id="deleteByDates">
+        delete
+        from dws_pkg_game_full_daily
+        where dates = #{dates}
+    </delete>
+    <select id="statisticsActive" resultType="com.leo.ad.codriver.dws.entity.DwsPkgGameFullDaily">
+        select pgfd.id,
+               q.dates,
+               q.pkg,
+               q.user_type,
+               q.total_user_num,
+               q.total_record_count,
+               q.pass_record_count,
+               q.fail_record_count,
+               q.game_total_time,
+               q.total_grant,
+               q.total_consumption
+        FROM (select dugr.dates,
+                     dugr.pkg,
+                     0                                                                            user_type,
+                     COUNT(DISTINCT dugr.user_id)                                                 total_user_num,
+                     COUNT(1)                                                                     total_record_count,
+                     SUM(IF(dugr.game_status = 1, 1, 0))                                          pass_record_count,
+                     SUM(IF(dugr.game_status = 0, 1, 0))                                          fail_record_count,
+                     SUM(dugr.game_time)                                                          game_total_time,
+                     SUM(IF(dugr.reward_consumption_type = 1, dugr.reward_consumption_amount, 0)) total_grant,
+                     SUM(IF(dugr.reward_consumption_type = 0, dugr.reward_consumption_amount, 0)) total_consumption
+              from dwd_user_game_record dugr
+              WHERE dugr.dates = #{dates}
+              group by dugr.dates, dugr.pkg) q
+                 LEFT JOIN dws_pkg_game_full_daily pgfd
+                           ON (pgfd.dates = q.dates and pgfd.pkg = q.pkg and pgfd.user_type = q.user_type)
+
+    </select>
+    <select id="statisticsNew" resultType="com.leo.ad.codriver.dws.entity.DwsPkgGameFullDaily">
+        select pgfd.id,
+               q.dates,
+               q.pkg,
+               q.user_type,
+               q.total_user_num,
+               q.total_record_count,
+               q.pass_record_count,
+               q.fail_record_count,
+               q.game_total_time,
+               q.total_grant,
+               q.total_consumption
+        FROM (select dugr.dates,
+                     dugr.pkg,
+                     1                                                                            user_type,
+                     COUNT(DISTINCT dugr.user_id)                                                 total_user_num,
+                     COUNT(1)                                                                     total_record_count,
+                     SUM(IF(dugr.game_status = 1, 1, 0))                                          pass_record_count,
+                     SUM(IF(dugr.game_status = 0, 1, 0))                                          fail_record_count,
+                     SUM(dugr.game_time)                                                          game_total_time,
+                     SUM(IF(dugr.reward_consumption_type = 1, dugr.reward_consumption_amount, 0)) total_grant,
+                     SUM(IF(dugr.reward_consumption_type = 0, dugr.reward_consumption_amount, 0)) total_consumption
+              from dwd_user_game_record dugr
+                       INNER JOIN dim_user_info dui ON (dui.user_id = dugr.user_id AND dui.dates = dugr.dates)
+              WHERE dugr.dates = #{dates}
+              group by dugr.dates, dugr.pkg) q
+                 LEFT JOIN dws_pkg_game_full_daily pgfd
+                           ON (pgfd.dates = q.dates and pgfd.pkg = q.pkg and pgfd.user_type = q.user_type)
+
+    </select>
+</mapper>

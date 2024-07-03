@@ -43,6 +43,7 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageCohortMissionServiceImpl;
     private final DwsService dwsHemaBalanceFullDailyServiceImpl;
     private final DwsService dwsDailyPackageGameLevelServiceImpl;
+    private final DwsService dwsPkgGameFullDailyServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -225,6 +226,17 @@ public class TaskDwsController {
             dates = DateUtils.getPreviousDate();
         }
         dwsDailyPackageGameLevelServiceImpl.syncData(dates);
+        return "执行完成dws游戏关卡记录同步";
+    }
+
+    @GetMapping("/pkgGameInfo")
+    @Operation(summary = "触发dws游戏维度统计task", description = "触发dws数据同步")
+    public String dwsPkgGameFullDailyHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsPkgGameFullDailyServiceImpl.syncData(dates);
         return "执行完成dws游戏关卡记录同步";
     }
 
