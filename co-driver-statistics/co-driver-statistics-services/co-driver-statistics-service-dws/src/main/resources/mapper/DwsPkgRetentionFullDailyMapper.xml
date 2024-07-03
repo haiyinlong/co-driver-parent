@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsPkgRetentionFullDailyMapper">
+
+    <select id="statistics" resultType="com.leo.ad.codriver.dws.entity.DwsPkgRetentionFullDaily">
+        select dprfd.id,
+               q.dates,
+               q.pkg,
+               q.register_dates,
+               q.register_day,
+               q.retention_user_num
+        from (select lr.dates,
+                     lr.pkg,
+                     lr.register_dates,
+                     TIMESTAMPDIFF(DAY, lr.register_dates, lr.dates) register_day,
+                     count(DISTINCT lr.user_id)                      retention_user_num
+              from dwd_user_login_record lr
+              where dates = #{dates}
+              group by lr.dates, lr.pkg, lr.register_dates) q
+                 LEFT JOIN dws_pkg_retention_full_daily dprfd ON (dprfd.dates = q.dates and dprfd.pkg = q.pkg)
+
+    </select>
+</mapper>

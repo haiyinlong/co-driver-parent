@@ -45,6 +45,7 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageGameLevelServiceImpl;
     private final DwsService dwsPkgGameFullDailyServiceImpl;
     private final DwsService dwsPkgUserFullDailyServiceImpl;
+    private final DwsService dwsPkgRetentionFullDailyServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -252,4 +253,15 @@ public class TaskDwsController {
         return "执行完成dws包维度的用户数据统同步";
     }
 
+
+    @GetMapping("/pkgRetentionFullDaily")
+    @Operation(summary = "触发dws包维度的用户留存数据统计task", description = "触发dws数据同步")
+    public String dwsPkgRetentionFullDailyHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsPkgRetentionFullDailyServiceImpl.syncData(dates);
+        return "执行完成dws包维度的用户用户留存数据统同步";
+    }
 }
