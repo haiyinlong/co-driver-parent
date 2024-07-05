@@ -21,7 +21,7 @@
         FROM dws_daily_package_game_level ddpgl
                  LEFT JOIN dim_channel dc ON (dc.pkg = ddpgl.pkg)
                  LEFT JOIN ads_game_level_full_daily aglfd
-                           ON (aglfd.dates = ddpgl.dates and aglfd.channel_id = dc.channel_id and
+                           ON (aglfd.dates = ddpgl.dates and aglfd.pkg = ddpgl.pkg and
                                aglfd.user_type = ddpgl.user_type and aglfd.game_level = ddpgl.game_level)
         WHERE ddpgl.dates = #{dates}
     </select>
