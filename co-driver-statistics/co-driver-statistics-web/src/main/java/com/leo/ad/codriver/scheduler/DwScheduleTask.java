@@ -36,10 +36,10 @@ public class DwScheduleTask {
 
     @Scheduled(cron = "0 0 0 * * ?")
     @Async("asyncServiceExecutor")
-    public void syncDailyDim() {
+    public void syncAllTask() {
         // 更新汇率
         exchangeRate.updateFeeUSDToINR();
-        
+
         long startTime = System.currentTimeMillis();
         log.info("dim 开始同步所有数据");
         for (DimService service : dimServices) {

@@ -35,7 +35,7 @@
     </dependencies>
 
     <build>
-        <finalName>co-driver-statistics</finalName>
+        <finalName>${project.parent.artifactId}-${project.parent.version}</finalName>
         <plugins>
             <!-- Spring Boot Maven 插件 -->
             <plugin>

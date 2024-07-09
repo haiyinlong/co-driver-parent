@@ -71,3 +71,8 @@ management:
   health:
     rabbit:
       enabled: ${co-driver.rabbitmq.enable}
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    enabled-by-default: on
