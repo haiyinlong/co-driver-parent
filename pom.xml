@@ -11,6 +11,7 @@
     <modules>
         <module>co-driver-parent</module>
         <module>co-driver-statistics</module>
+        <module>seatunnel-monitor</module>
     </modules>
     <properties>
         <revision>1.0</revision>

@@ -1,0 +1,22 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.8.12:10000
+        namespace: public
+  datasource:
+    type: com.alibaba.druid.pool.DruidDataSource
+    dynamic:
+      primary: mysql
+      strict: false
+      datasource:
+        mysql:
+          username: leomaster
+          password: leomastermysql
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://192.168.8.12:3306/analysis_data?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+
+seatunnel:
+  monitor:
+    seatunnel-home: /home/ken/apache-seatunnel-2.3.5
+    seatunnel-base-url: http://localhost:5801
