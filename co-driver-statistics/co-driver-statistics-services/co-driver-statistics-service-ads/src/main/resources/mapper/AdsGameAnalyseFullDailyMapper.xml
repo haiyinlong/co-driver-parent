@@ -10,18 +10,16 @@
                dpufd.dates,
                dpufd.pkg,
                dpgfd.user_type,
-               dpufd.login_user_num                           active_user_num,
-               dpufd.register_user_num                        new_user_num,
-               IFNULL(dprfd1.retention_user_num, 0)           second_user_num,
-               IFNULL(dprfd2.retention_user_num, 0)           tertiary_uer_num,
-               dpgfd.total_user_num                           minor_game_user_num,
-               IFNULL(ROUND(dpgfd.total_user_num /
-                            IF(dpgfd.user_type = 0, dpufd.login_user_num, dpufd.register_user_num), 3),
-                      0)                                      minor_game_penetration_rate,
-               IFNULL(ROUND(15 / dpgfd.total_user_num, 3), 0) minor_game_level_per_capita,
-               dpgfd.total_grant                              minor_game_send_amount,
-               dpgfd.grant_per_capita                         minor_amount_per_capita,
-               dpgfd.game_time_per_capita                     minor_game_time_per_capita
+               dpufd.login_user_num                                             active_user_num,
+               dpufd.register_user_num                                          new_user_num,
+               IFNULL(dprfd1.retention_user_num, 0)                             second_user_num,
+               IFNULL(dprfd2.retention_user_num, 0)                             tertiary_uer_num,
+               dpgfd.total_user_num                                             minor_game_user_num,
+               IFNULL(ROUND(dpgfd.total_user_num / dpufd.login_user_num, 3), 0) minor_game_penetration_rate,
+               IFNULL(ROUND(15 / dpgfd.total_user_num, 3), 0)                   minor_game_level_per_capita,
+               dpgfd.total_grant                                                minor_game_send_amount,
+               dpgfd.grant_per_capita                                           minor_amount_per_capita,
+               dpgfd.game_time_per_capita                                       minor_game_time_per_capita
         from dws_pkg_user_full_daily dpufd
                  LEFT JOIN dws_pkg_retention_full_daily dprfd1
                            ON (dprfd1.dates = dpufd.dates and dprfd1.pkg = dpufd.pkg and dprfd1.register_day = 1)
@@ -41,18 +39,16 @@
                dpufd.dates,
                dpufd.pkg,
                dpgfd.user_type,
-               dpufd.login_user_num                           active_user_num,
-               dpufd.register_user_num                        new_user_num,
-               IFNULL(dprfd1.retention_user_num, 0)           second_user_num,
-               IFNULL(dprfd2.retention_user_num, 0)           tertiary_uer_num,
-               dpgfd.total_user_num                           minor_game_user_num,
-               IFNULL(ROUND(dpgfd.total_user_num /
-                            IF(dpgfd.user_type = 1, dpufd.login_user_num, dpufd.register_user_num), 3),
-                      0)                                      minor_game_penetration_rate,
-               IFNULL(ROUND(15 / dpgfd.total_user_num, 3), 0) minor_game_level_per_capita,
-               dpgfd.total_grant                              minor_game_send_amount,
-               dpgfd.grant_per_capita                         minor_amount_per_capita,
-               dpgfd.game_time_per_capita                     minor_game_time_per_capita
+               dpufd.login_user_num                                                active_user_num,
+               dpufd.register_user_num                                             new_user_num,
+               IFNULL(dprfd1.retention_user_num, 0)                                second_user_num,
+               IFNULL(dprfd2.retention_user_num, 0)                                tertiary_uer_num,
+               dpgfd.total_user_num                                                minor_game_user_num,
+               IFNULL(ROUND(dpgfd.total_user_num / dpufd.register_user_num, 3), 0) minor_game_penetration_rate,
+               IFNULL(ROUND(15 / dpgfd.total_user_num, 3), 0)                      minor_game_level_per_capita,
+               dpgfd.total_grant                                                   minor_game_send_amount,
+               dpgfd.grant_per_capita                                              minor_amount_per_capita,
+               dpgfd.game_time_per_capita                                          minor_game_time_per_capita
         from dws_pkg_user_full_daily dpufd
                  LEFT JOIN dws_pkg_retention_full_daily dprfd1
                            ON (dprfd1.dates = dpufd.dates and dprfd1.pkg = dpufd.pkg and dprfd1.register_day = 1)
