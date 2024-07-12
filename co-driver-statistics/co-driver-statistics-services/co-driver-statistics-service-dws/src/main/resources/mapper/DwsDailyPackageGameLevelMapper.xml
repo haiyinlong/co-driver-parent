@@ -20,7 +20,9 @@
                q.pass_user_num,
                q.pass_rate,
                q.fail_user_num,
-               q.fail_rate
+               q.fail_rate,
+               q.fail_record_count,
+               q.fail_record_rate
         FROM (SELECT dgrd.dates,
                      dgrd.pkg,
                      dgrd.game_level,
@@ -29,11 +31,13 @@
                      COUNT(dgrd.user_id) / COUNT(DISTINCT dgrd.user_id)                   avg_record_count,
                      COUNT(DISTINCT (CASE dgrd.game_status WHEN 1 THEN dgrd.user_id END)) pass_user_num,
                      ROUND(COUNT(DISTINCT (CASE dgrd.game_status WHEN 1 THEN dgrd.user_id END)) /
-                           COUNT(DISTINCT dgrd.user_id), 8)                               pass_rate,
-                     COUNT(DISTINCT dgrd.user_id) -
-                     COUNT(DISTINCT (CASE dgrd.game_status WHEN 1 THEN dgrd.user_id END)) fail_user_num,
-                     (1 - ROUND(COUNT(DISTINCT (CASE dgrd.game_status WHEN 1 THEN dgrd.user_id END)) /
-                                COUNT(DISTINCT dgrd.user_id), 8))                         fail_rate
+                           COUNT(DISTINCT dgrd.user_id), 2)                               pass_rate,
+                     COUNT(DISTINCT (CASE dgrd.game_status WHEN 0 THEN dgrd.user_id END)) fail_user_num,
+                     ROUND(COUNT(DISTINCT (CASE dgrd.game_status WHEN 0 THEN dgrd.user_id END)) /
+                           COUNT(DISTINCT dgrd.user_id), 2)                               fail_rate,
+                     COUNT(CASE dgrd.game_status WHEN 0 THEN dgrd.user_id END)            fail_record_count,
+                     ROUND(COUNT(CASE dgrd.game_status WHEN 0 THEN dgrd.user_id END) /
+                           COUNT(dgrd.user_id), 2)                                        fail_record_rate
               FROM dwd_user_game_record dgrd
               WHERE dgrd.dates = #{dates}
               GROUP BY dgrd.dates, dgrd.pkg, dgrd.game_level) q
@@ -53,7 +57,9 @@
                q.pass_user_num,
                q.pass_rate,
                q.fail_user_num,
-               q.fail_rate
+               q.fail_rate,
+               q.fail_record_count,
+               q.fail_record_rate
         FROM (SELECT dgrd.dates,
                      dgrd.pkg,
                      dgrd.game_level,
@@ -62,11 +68,13 @@
                      COUNT(dgrd.user_id) / COUNT(DISTINCT dgrd.user_id)                   avg_record_count,
                      COUNT(DISTINCT (CASE dgrd.game_status WHEN 1 THEN dgrd.user_id END)) pass_user_num,
                      ROUND(COUNT(DISTINCT (CASE dgrd.game_status WHEN 1 THEN dgrd.user_id END)) /
-                           COUNT(DISTINCT dgrd.user_id), 8)                               pass_rate,
-                     COUNT(DISTINCT dgrd.user_id) -
-                     COUNT(DISTINCT (CASE dgrd.game_status WHEN 1 THEN dgrd.user_id END)) fail_user_num,
-                     (1 - ROUND(COUNT(DISTINCT (CASE dgrd.game_status WHEN 1 THEN dgrd.user_id END)) /
-                                COUNT(DISTINCT dgrd.user_id), 8))                         fail_rate
+                           COUNT(DISTINCT dgrd.user_id), 2)                               pass_rate,
+                     COUNT(DISTINCT (CASE dgrd.game_status WHEN 0 THEN dgrd.user_id END)) fail_user_num,
+                     ROUND(COUNT(DISTINCT (CASE dgrd.game_status WHEN 0 THEN dgrd.user_id END)) /
+                           COUNT(DISTINCT dgrd.user_id), 2)                               fail_rate,
+                     COUNT(CASE dgrd.game_status WHEN 0 THEN dgrd.user_id END)            fail_record_count,
+                     ROUND(COUNT(CASE dgrd.game_status WHEN 0 THEN dgrd.user_id END) /
+                           COUNT(dgrd.user_id), 2)                                        fail_record_rate
               FROM dwd_user_game_record dgrd
                        INNER JOIN dim_user_info dui ON (dui.id = dgrd.user_id and dui.dates = dgrd.dates)
               WHERE dgrd.dates = #{dates}

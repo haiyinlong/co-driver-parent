@@ -17,7 +17,9 @@
                ddpgl.pass_user_num,
                ddpgl.pass_rate,
                ddpgl.fail_user_num,
-               ddpgl.fail_rate
+               ddpgl.fail_rate,
+               ddpgl.fail_record_count,
+               ddpgl.fail_record_rate
         FROM dws_daily_package_game_level ddpgl
                  LEFT JOIN dim_channel dc ON (dc.pkg = ddpgl.pkg)
                  LEFT JOIN ads_game_level_full_daily aglfd

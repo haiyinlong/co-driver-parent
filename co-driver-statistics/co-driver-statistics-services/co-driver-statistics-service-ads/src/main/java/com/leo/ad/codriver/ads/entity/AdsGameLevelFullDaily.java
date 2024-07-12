@@ -31,5 +31,7 @@ public class AdsGameLevelFullDaily implements BaseEntity {
     private BigDecimal passRate;
     private Integer failUserNum;
     private BigDecimal failRate;
+    private Integer failRecordCount;
+    private BigDecimal failRecordRate;
 
 }

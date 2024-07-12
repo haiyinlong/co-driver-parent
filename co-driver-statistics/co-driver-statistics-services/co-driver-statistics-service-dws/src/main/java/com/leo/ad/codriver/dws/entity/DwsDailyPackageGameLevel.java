@@ -27,6 +27,8 @@ public class DwsDailyPackageGameLevel implements BaseEntity {
     private BigDecimal passRate;
     private Integer failUserNum;
     private BigDecimal failRate;
+    private Integer failRecordCount;
+    private BigDecimal failRecordRate;
 
     public DwsDailyPackageGameLevel() {
         this.id = 0L;
@@ -40,5 +42,7 @@ public class DwsDailyPackageGameLevel implements BaseEntity {
         this.passRate = BigDecimal.ZERO;
         this.failUserNum = 0;
         this.failRate = BigDecimal.ZERO;
+        this.failRecordCount = 0;
+        this.failRecordRate = BigDecimal.ZERO;
     }
 }

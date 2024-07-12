@@ -47,7 +47,7 @@
                IFNULL(dprfd2.retention_user_num, 0)           tertiary_uer_num,
                dpgfd.total_user_num                           minor_game_user_num,
                IFNULL(ROUND(dpgfd.total_user_num /
-                            IF(dpgfd.user_type = 0, dpufd.login_user_num, dpufd.register_user_num), 3),
+                            IF(dpgfd.user_type = 1, dpufd.login_user_num, dpufd.register_user_num), 3),
                       0)                                      minor_game_penetration_rate,
                IFNULL(ROUND(15 / dpgfd.total_user_num, 3), 0) minor_game_level_per_capita,
                dpgfd.total_grant                              minor_game_send_amount,
