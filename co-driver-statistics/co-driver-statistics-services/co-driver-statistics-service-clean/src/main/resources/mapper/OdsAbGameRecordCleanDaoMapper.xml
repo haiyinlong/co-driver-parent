@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.clean.dao.OdsAbGameRecordCleanDao">
+
+    <delete id="deleteRecordDetailsByTwoMonthsAgo">
+        DELETE rd
+        FROM analysis_data.ods_ab_game_record_detail rd
+                 INNER JOIN analysis_data.ods_ab_game_record gr ON (rd.game_record_id = gr.id)
+        WHERE gr.dates <![CDATA[ <=  ]]>  DATE_FORMAT(NOW() - INTERVAL 2 MONTH, '%Y%m01')
+    </delete>
+    <delete id="deleteRecordByTwoMonthsAgo">
+        DELETE
+        FROM analysis_data.ods_ab_game_record
+        where dates <![CDATA[ <=  ]]>  DATE_FORMAT(NOW() - INTERVAL 2 MONTH, '%Y%m01');
+    </delete>
+</mapper>

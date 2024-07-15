@@ -64,6 +64,11 @@
                 <artifactId>co-driver-statistics-service-ads</artifactId>
                 <version>${revision}</version>
             </dependency>
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>co-driver-statistics-service-clean</artifactId>
+                <version>${revision}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 

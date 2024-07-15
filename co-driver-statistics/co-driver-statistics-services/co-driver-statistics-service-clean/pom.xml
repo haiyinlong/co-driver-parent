@@ -3,27 +3,22 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.leo.ad</groupId>
-        <artifactId>co-driver-statistics</artifactId>
+        <artifactId>co-driver-statistics-services</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>co-driver-statistics-services</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>co-driver-statistics-service-clean</artifactId>
+    <packaging>jar</packaging>
 
-    <name>co-driver-statistics-services</name>
-    <modules>
-        <module>co-driver-statistics-service-common</module>
-        <module>co-driver-statistics-service-dim</module>
-        <module>co-driver-statistics-service-dwd</module>
-        <module>co-driver-statistics-service-dws</module>
-        <module>co-driver-statistics-service-ads</module>
-        <module>co-driver-statistics-service-clean</module>
-    </modules>
+    <name>co-driver-statistics-service-clean</name>
 
     <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -36,10 +31,6 @@
         <dependency>
             <groupId>com.leo.ad</groupId>
             <artifactId>mysql-spring-boot-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.leo.ad</groupId>
-            <artifactId>redis-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 </project>
