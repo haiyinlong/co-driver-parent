@@ -1,1 +1,2 @@
 com.leo.ad.codriver.starter.redis.RedisConfiguration
+com.leo.ad.codriver.starter.redis.annotation.aspect.LockAspect
