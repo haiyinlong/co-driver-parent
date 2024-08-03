@@ -1,6 +1,7 @@
 package com.leo.ad.codriver.starter.redis.annotation.aspect;
 
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
+import com.leo.ad.codriver.starter.redis.util.ReflectionUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -11,12 +12,13 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
+import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author HaiYinLong
@@ -81,22 +83,66 @@ public class LockAspect {
                     .concat(method.getName());
         } else if (!lock.key().trim().isEmpty() && !lock.paramName().trim().isEmpty()) {
             // key:paramNameValue
-            return lock.key().trim().concat(":").concat(
-                    (String) methodParams.getOrDefault(lock.paramName().trim(), ""));
+            List<LockParam> linkedParams = parseLockParams(methodParams, joinPoint);
+            return lock.key().trim().concat(":").concat(convertToKeyParam(linkedParams));
         } else if (!lock.key().trim().isEmpty()) {
             // key
             return lock.key().trim();
         } else {
             // 类名:方法名:paramNameValue
+            List<LockParam> linkedParams = parseLockParams(methodParams, joinPoint);
             return
                     joinPoint.getTarget()
                             .getClass().getSimpleName()
                             .concat(":")
                             .concat(method.getName())
                             .concat(":")
-                            .concat(methodParams.getOrDefault(lock.paramName().trim(), "").toString());
+                            .concat(convertToKeyParam(linkedParams));
         }
 
+    }
+
+    private String convertToKeyParam(List<LockParam> linkedParams) {
+        return linkedParams.stream().map(LockParam::getValue).collect(Collectors.joining(":"));
+    }
+
+
+    private List<LockParam> parseLockParams(Map<String, Object> methodParams, ProceedingJoinPoint joinPoint) {
+        List<LockParam> lockParams = parseLockParamList(joinPoint);
+        setLockParamsValue(methodParams, lockParams);
+        return lockParams;
+    }
+
+    private void setLockParamsValue(Map<String, Object> methodParams, List<LockParam> lockParams) {
+        lockParams.forEach(item -> {
+            Object target = methodParams.get(item.getKeys().get(0));
+            for (int i = 1; i < item.getKeys().size(); i++) {
+                try {
+                    target = ReflectionUtils.getValue(target, item.getKeys().get(i));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            item.setValue(target.toString());
+        });
+    }
+
+    private List<LockParam> parseLockParamList(ProceedingJoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        Lock lock = method.getAnnotation(Lock.class);
+        if(ObjectUtils.isEmpty(lock.paramName())){
+            return new ArrayList<>();
+        }
+        String[] fieldArray = lock.paramName().split(":");
+        return Arrays.stream(fieldArray).filter(item -> item.startsWith("#"))
+                .map(item -> {
+                    String[] fieldLabelArray = item.substring(1).split("\\.");
+                    LockParam lockParam = new LockParam();
+                    lockParam.setParam(item);
+                    lockParam.setKeys(new LinkedList<String>(Arrays.asList(fieldLabelArray)));
+                    return lockParam;
+                }).toList();
     }
 
     private Map<String, Object> getMethodParams(ProceedingJoinPoint joinPoint) {

@@ -22,7 +22,11 @@ public @interface Lock {
      */
     String key() default "";
 
-    String paramName() default "";
+    /**
+     * 需要#号开头
+     * @return
+     */
+    String paramName() default "#";
 
 
 }
