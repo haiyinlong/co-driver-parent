@@ -26,10 +26,10 @@ import java.util.List;
  **/
 @Configuration
 public class SwaggerDefaultConfig {
-    @Value("${spring.application.name}")
+    @Value("${spring.application.name:appName}")
     private String appName;
 
-    @Value("${co-driver.swagger.authorized.field}")
+    @Value("${co-driver.swagger.authorized.field:token}")
     private String authorizedField;
     @Bean
     @ConditionalOnMissingBean(name = "swaggerOpenApi")
