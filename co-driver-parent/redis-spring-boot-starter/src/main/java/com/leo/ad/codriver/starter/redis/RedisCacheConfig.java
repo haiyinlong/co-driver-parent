@@ -1,5 +1,6 @@
 package com.leo.ad.codriver.starter.redis;
 
+import com.alibaba.fastjson2.support.spring6.data.redis.GenericFastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,22 +28,16 @@ import java.time.Duration;
 @EnableCaching
 public class RedisCacheConfig {
     @Bean
-    @ConditionalOnClass(RedisCacheManager.class)
     @ConditionalOnMissingBean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        mapper.activateDefaultTyping(mapper.getPolymorphicTypeValidator(), ObjectMapper.DefaultTyping.NON_FINAL);
-        Jackson2JsonRedisSerializer<Object> jackson2JsonRedisSerializer =
-            new Jackson2JsonRedisSerializer<>(mapper, Object.class);
+        GenericFastJsonRedisSerializer fastJsonRedisSerializer = new GenericFastJsonRedisSerializer();
 
         RedisCacheConfiguration cacheConfiguration =
             RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofDays(30))
                 .serializeKeysWith(
                     RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
                 .serializeValuesWith(
-                    RedisSerializationContext.SerializationPair.fromSerializer(jackson2JsonRedisSerializer));
-
+                    RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer));
         return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();
     }
 }
