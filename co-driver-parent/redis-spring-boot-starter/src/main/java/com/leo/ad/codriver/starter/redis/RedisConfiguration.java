@@ -1,18 +1,14 @@
 package com.leo.ad.codriver.starter.redis;
 
-import com.alibaba.fastjson2.support.spring6.data.redis.GenericFastJsonRedisSerializer;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.*;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+
+import com.alibaba.fastjson2.support.spring6.data.redis.GenericFastJsonRedisSerializer;
 
 /**
  * RedisConfiguration
@@ -22,7 +18,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  **/
 @Configuration
 public class RedisConfiguration {
-    @Bean(name = "redisTemplate")
+    @Bean
     @ConditionalOnMissingBean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
@@ -39,32 +35,37 @@ public class RedisConfiguration {
     }
 
     @Bean
+    @ConditionalOnClass(RedisTemplate.class)
     @ConditionalOnMissingBean
-    public HashOperations<String, String, Object> hashOperations(RedisTemplate<String, Object> redisTemplate) {
+    public HashOperations<String, String, Object> hashOperations(RedisTemplate redisTemplate) {
         return redisTemplate.opsForHash();
     }
 
     @Bean
+    @ConditionalOnClass(RedisTemplate.class)
     @ConditionalOnMissingBean
-    public ValueOperations<String, String> valueOperations(RedisTemplate<String, String> redisTemplate) {
+    public ValueOperations<String, String> valueOperations(RedisTemplate redisTemplate) {
         return redisTemplate.opsForValue();
     }
 
     @Bean
+    @ConditionalOnClass(RedisTemplate.class)
     @ConditionalOnMissingBean
-    public ListOperations<String, Object> listOperations(RedisTemplate<String, Object> redisTemplate) {
+    public ListOperations<String, Object> listOperations(RedisTemplate redisTemplate) {
         return redisTemplate.opsForList();
     }
 
     @Bean
+    @ConditionalOnClass(RedisTemplate.class)
     @ConditionalOnMissingBean
-    public SetOperations<String, Object> setOperations(RedisTemplate<String, Object> redisTemplate) {
+    public SetOperations<String, Object> setOperations(RedisTemplate redisTemplate) {
         return redisTemplate.opsForSet();
     }
 
     @Bean
+    @ConditionalOnClass(RedisTemplate.class)
     @ConditionalOnMissingBean
-    public ZSetOperations<String, Object> zSetOperations(RedisTemplate<String, Object> redisTemplate) {
+    public ZSetOperations<String, Object> zSetOperations(RedisTemplate redisTemplate) {
         return redisTemplate.opsForZSet();
     }
 }
