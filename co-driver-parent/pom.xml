@@ -5,7 +5,7 @@
 
     <groupId>com.leo.ad</groupId>
     <artifactId>co-driver-parent</artifactId>
-    <version>1.0.4</version>
+    <version>1.0.5</version>
     <packaging>pom</packaging>
     <modules>
         <module>mysql-spring-boot-starter</module>
@@ -40,37 +40,37 @@
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>mysql-spring-boot-starter</artifactId>
-                <version>1.0.4</version>
+                <version>1.0.5</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>swagger-spring-boot-starter</artifactId>
-                <version>1.0.4</version>
+                <version>1.0.5</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>redis-spring-boot-starter</artifactId>
-                <version>1.0.4</version>
+                <version>1.0.5</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>openfeign-spring-boot-starter</artifactId>
-                <version>1.0.4</version>
+                <version>1.0.5</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>rabbitmq-spring-boot-starter</artifactId>
-                <version>1.0.4</version>
+                <version>1.0.5</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>nacos-spring-boot-starter</artifactId>
-                <version>1.0.4</version>
+                <version>1.0.5</version>
             </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>web-spring-boot-starter</artifactId>
-                <version>1.0.4</version>
+                <version>1.0.5</version>
             </dependency>
             <!-- 兼容 nacos 1.x版本 -->
             <dependency>
