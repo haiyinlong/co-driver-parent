@@ -1,6 +1,9 @@
 package com.leo.ad.codriver.starter.redis.util;
 
+import jdk.jfr.StackTrace;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.*;
 import org.springframework.stereotype.Component;
 
@@ -13,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @author HaiYinLong
  * @version 2024/08/06 16:30
  **/
+@Getter
 @Component
 @RequiredArgsConstructor
 public class RedisUtils {
@@ -96,5 +100,8 @@ public class RedisUtils {
     }
     public void delete(Set<String> keys) {
         redisTemplate.delete(keys);
+    }
+    public boolean exists(String key) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(key));
     }
 }
