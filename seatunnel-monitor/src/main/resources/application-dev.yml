@@ -4,6 +4,8 @@ spring:
       discovery:
         server-addr: 192.168.8.12:10000
         namespace: public
+        username: nacos
+        password: nacos
   datasource:
     type: com.alibaba.druid.pool.DruidDataSource
     dynamic:
