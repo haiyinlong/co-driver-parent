@@ -1,12 +1,16 @@
 package com.leo.ad.codriver.starter.openfeign;
 
-import feign.RequestInterceptor;
-import feign.RequestTemplate;
-import jakarta.servlet.http.HttpServletRequest;
+import java.util.Arrays;
+import java.util.List;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import feign.RequestInterceptor;
+import feign.RequestTemplate;
+import jakarta.servlet.http.HttpServletRequest;
 
 /**
  * FeignConfiguration
@@ -16,20 +20,20 @@ import org.springframework.web.context.request.ServletRequestAttributes;
  **/
 @Configuration
 public class FeignConfiguration implements RequestInterceptor {
-    private static final String FEIGN_TOKEN = "token";
+    private static final List<String> FEIGN_HEADERS = Arrays.asList("token", "pkg", "pvc", "svc", "userId");
 
     @Override
     public void apply(RequestTemplate requestTemplate) {
-        ServletRequestAttributes attributes =
-                (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        ServletRequestAttributes attributes = (ServletRequestAttributes)RequestContextHolder.getRequestAttributes();
         if (ObjectUtils.isEmpty(attributes)) {
             return;
         }
         HttpServletRequest request = attributes.getRequest();
-        String headerTraceID = request.getHeader(FEIGN_TOKEN);
-        if (ObjectUtils.isEmpty(headerTraceID)) {
-            return;
-        }
-        requestTemplate.header(FEIGN_TOKEN, headerTraceID);
+        FEIGN_HEADERS.forEach(headerItem -> {
+            if (!ObjectUtils.isEmpty(request.getHeader(headerItem))) {
+                requestTemplate.header(headerItem, request.getHeader(headerItem));
+            }
+        });
     }
+
 }
