@@ -10,7 +10,7 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("dim_user_info")
+@TableName("dim_user_lab")
 public class DimUserLab {
 
     @TableId(type = IdType.AUTO)

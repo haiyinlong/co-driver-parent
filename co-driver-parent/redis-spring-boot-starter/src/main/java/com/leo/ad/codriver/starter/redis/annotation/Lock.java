@@ -24,9 +24,9 @@ public @interface Lock {
 
     /**
      * 需要#号开头
+     *
      * @return
      */
-    String paramName() default "#";
-
+    String paramName() default "";
 
 }
