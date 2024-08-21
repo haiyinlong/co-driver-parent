@@ -24,5 +24,14 @@ public class DimUserLab {
     private Long configGroupId;
     private String name;
     private Date createTime;
+    private Date updateTime;
 
+    public void initDate() {
+        this.createTime = new Date();
+        this.updateTime = new Date();
+    }
+
+    public void updateDate() {
+        this.updateTime = new Date();
+    }
 }

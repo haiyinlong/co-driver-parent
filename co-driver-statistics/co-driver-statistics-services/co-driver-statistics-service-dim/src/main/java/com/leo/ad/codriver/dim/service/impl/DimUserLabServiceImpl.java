@@ -32,9 +32,15 @@ public class DimUserLabServiceImpl implements DimUserLabService {
         long userLabId = Long.parseLong(odsUserLabId);
         // 汇总更新dim 数据
         DimUserLab userLab = dimUserLabMapper.getUserLab(userLabId);
+
         if (ObjectUtils.isEmpty(userLab)) {
+            return;
+        }
+        if (ObjectUtils.isEmpty(userLab.getId())) {
+            userLab.initDate();
             dimUserLabMapper.insert(userLab);
         } else {
+            userLab.updateDate();
             dimUserLabMapper.updateById(userLab);
         }
     }
