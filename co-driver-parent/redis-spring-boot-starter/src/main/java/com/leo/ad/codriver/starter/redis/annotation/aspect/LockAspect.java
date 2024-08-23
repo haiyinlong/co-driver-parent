@@ -1,9 +1,9 @@
 package com.leo.ad.codriver.starter.redis.annotation.aspect;
 
-import com.leo.ad.codriver.starter.redis.annotation.Lock;
-import com.leo.ad.codriver.starter.redis.util.ReflectionUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.lang.reflect.Method;
+import java.util.*;
+import java.util.stream.Collectors;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -12,13 +12,15 @@ import org.aspectj.lang.reflect.CodeSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.springframework.cglib.core.ReflectUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import java.lang.reflect.Method;
-import java.util.*;
-import java.util.stream.Collectors;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
+import com.leo.ad.codriver.starter.redis.exception.LockException;
+import com.leo.ad.codriver.starter.redis.util.ReflectionUtils;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author HaiYinLong
@@ -33,8 +35,7 @@ public class LockAspect {
     private final RedissonClient redissonClient;
 
     @Pointcut("@annotation(com.leo.ad.codriver.starter.redis.annotation.Lock)")
-    public void lockPointCut() {
-    }
+    public void lockPointCut() {}
 
     @Around("lockPointCut()")
     public Object lockAround(ProceedingJoinPoint joinPoint) throws Throwable {
@@ -46,41 +47,35 @@ public class LockAspect {
         }
 
         RLock lock = redissonClient.getLock(lockKey);
-        Object proceed = false;
         if (lock.tryLock()) {
             try {
-                proceed = joinPoint.proceed();
+                return joinPoint.proceed();
             } finally {
                 if (lock.isLocked()) {
                     lock.unlock();
                 }
             }
         } else {
-            log.warn("获取锁失败，key:{}", lockKey);
+            throw new LockException("获取加失败，key:" + lockKey);
         }
-        return proceed;
     }
 
     /**
      * 获取加锁key<br>
      * 1) 都没有配置为 类名+方法名<br>
-     * 2) key 有配置就使用key
-     * 3) paramName 有配置就使用 key + paramName;
+     * 2) key 有配置就使用key 3) paramName 有配置就使用 key + paramName;
      *
      * @param methodParams
      * @param joinPoint
      * @return
      */
     private String getLockKey(Map<String, Object> methodParams, ProceedingJoinPoint joinPoint) {
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
         Method method = methodSignature.getMethod();
         Lock lock = method.getAnnotation(Lock.class);
         if (lock.key().trim().isEmpty() && lock.paramName().trim().isEmpty()) {
             // 类名:方法名
-            return joinPoint.getTarget()
-                    .getClass().getSimpleName()
-                    .concat(":")
-                    .concat(method.getName());
+            return joinPoint.getTarget().getClass().getSimpleName().concat(":").concat(method.getName());
         } else if (!lock.key().trim().isEmpty() && !lock.paramName().trim().isEmpty()) {
             // key:paramNameValue
             List<LockParam> linkedParams = parseLockParams(methodParams, joinPoint);
@@ -91,13 +86,8 @@ public class LockAspect {
         } else {
             // 类名:方法名:paramNameValue
             List<LockParam> linkedParams = parseLockParams(methodParams, joinPoint);
-            return
-                    joinPoint.getTarget()
-                            .getClass().getSimpleName()
-                            .concat(":")
-                            .concat(method.getName())
-                            .concat(":")
-                            .concat(convertToKeyParam(linkedParams));
+            return joinPoint.getTarget().getClass().getSimpleName().concat(":").concat(method.getName()).concat(":")
+                .concat(convertToKeyParam(linkedParams));
         }
 
     }
@@ -105,7 +95,6 @@ public class LockAspect {
     private String convertToKeyParam(List<LockParam> linkedParams) {
         return linkedParams.stream().map(LockParam::getValue).collect(Collectors.joining(":"));
     }
-
 
     private List<LockParam> parseLockParams(Map<String, Object> methodParams, ProceedingJoinPoint joinPoint) {
         List<LockParam> lockParams = parseLockParamList(joinPoint);
@@ -128,26 +117,25 @@ public class LockAspect {
     }
 
     private List<LockParam> parseLockParamList(ProceedingJoinPoint joinPoint) {
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
         Method method = methodSignature.getMethod();
         Lock lock = method.getAnnotation(Lock.class);
-        if(ObjectUtils.isEmpty(lock.paramName())){
+        if (ObjectUtils.isEmpty(lock.paramName())) {
             return new ArrayList<>();
         }
         String[] fieldArray = lock.paramName().split(":");
-        return Arrays.stream(fieldArray).filter(item -> item.startsWith("#"))
-                .map(item -> {
-                    String[] fieldLabelArray = item.substring(1).split("\\.");
-                    LockParam lockParam = new LockParam();
-                    lockParam.setParam(item);
-                    lockParam.setKeys(new LinkedList<String>(Arrays.asList(fieldLabelArray)));
-                    return lockParam;
-                }).toList();
+        return Arrays.stream(fieldArray).filter(item -> item.startsWith("#")).map(item -> {
+            String[] fieldLabelArray = item.substring(1).split("\\.");
+            LockParam lockParam = new LockParam();
+            lockParam.setParam(item);
+            lockParam.setKeys(new LinkedList<String>(Arrays.asList(fieldLabelArray)));
+            return lockParam;
+        }).toList();
     }
 
     private Map<String, Object> getMethodParams(ProceedingJoinPoint joinPoint) {
         Object[] args = joinPoint.getArgs();
-        CodeSignature codeSignature = (CodeSignature) joinPoint.getSignature();
+        CodeSignature codeSignature = (CodeSignature)joinPoint.getSignature();
         String[] parameterNames = codeSignature.getParameterNames();
         Map<String, Object> paramMap = new HashMap<>();
         for (int i = 0; i < parameterNames.length; i++) {
