@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserOnlineMapper">
+
+    <select id="getCountByDate" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM ods_user_behavior_diversion oubd
+                 INNER JOIN dim_user_info dui on (oubd.user_id = dui.user_id)
+                 LEFT JOIN dwd_user_online duoq on (duoq.dates = oubd.dates and duoq.user_id = oubd.user_id
+            and duoq.pkg = dui.pkg and duoq.country = dui.country)
+        WHERE oubd.behavior = 2
+    </select>
+    <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserOnline">
+
+        SELECT duoq.id,
+               oubd.dates,
+               dui.user_id,
+               dui.last_version,
+               dui.pkg,
+               dui.country,
+               oubd.value,
+               now()
+        FROM ods_user_behavior_diversion oubd
+                 INNER JOIN dim_user_info dui on (oubd.user_id = dui.user_id)
+                 LEFT JOIN dwd_user_online duoq on (duoq.dates = oubd.dates and duoq.user_id = oubd.user_id
+            and duoq.pkg = dui.pkg and duoq.country = dui.country)
+        WHERE oubd.behavior = 2
+          and oubd.dates = #{dates}
+        limit #{startRows}, #{rows}
+    </select>
+</mapper>
