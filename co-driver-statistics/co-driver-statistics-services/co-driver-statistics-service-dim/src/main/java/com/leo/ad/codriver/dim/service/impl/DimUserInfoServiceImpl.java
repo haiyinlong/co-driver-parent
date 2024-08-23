@@ -1,14 +1,16 @@
 package com.leo.ad.codriver.dim.service.impl;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
+
 import com.leo.ad.codriver.dim.dao.DimUserInfoMapper;
 import com.leo.ad.codriver.dim.entity.DimUserInfo;
 import com.leo.ad.codriver.dim.entity.RealTimeUserInfoDTO;
 import com.leo.ad.codriver.dim.service.DimUserInfoService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 /**
  * DimUserInfoServiceImpl
@@ -35,21 +37,19 @@ public class DimUserInfoServiceImpl implements DimUserInfoService {
         }
         long userId = Long.parseLong(odsUserChangeId);
         // 根据id查询当前最新数据更新用户信息表
-        RealTimeUserInfoDTO realTimeUserInfo = dimUserInfoMapper.queryRealTimeUserInfo(userId);
+        RealTimeUserInfoDTO realTimeUserInfo = dimUserInfoMapper.queryOdsRealTimeUserInfo(userId);
         DimUserInfo userInfo = dimUserInfoMapper.getUserInfoByUserId(userId);
         if (ObjectUtils.isEmpty(realTimeUserInfo)) {
             return;
         }
         if (ObjectUtils.isEmpty(userInfo)) {
             userInfo = DimUserInfo.createUserInfo(realTimeUserInfo);
+            dimUserInfoMapper.insert(userInfo);
+            log.info("{}用户新增", userInfo);
         } else {
             userInfo.updateUserInfo(realTimeUserInfo);
-        }
-
-        if (ObjectUtils.isEmpty(userInfo.getId())) {
-            dimUserInfoMapper.insert(userInfo);
-        } else {
             dimUserInfoMapper.updateById(userInfo);
+            log.info("{}用户更新", userInfo);
         }
     }
 }

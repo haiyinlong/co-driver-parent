@@ -1,11 +1,12 @@
 package com.leo.ad.codriver.dim.dao;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leo.ad.codriver.dim.entity.DimUserInfo;
 import com.leo.ad.codriver.dim.entity.RealTimeUserInfoDTO;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * DimUserInfoMapper
@@ -17,7 +18,7 @@ import org.apache.ibatis.annotations.Param;
 @DS("mysql")
 public interface DimUserInfoMapper extends BaseMapper<DimUserInfo> {
 
-    RealTimeUserInfoDTO queryRealTimeUserInfo(@Param("userId") Long userId);
+    RealTimeUserInfoDTO queryOdsRealTimeUserInfo(@Param("userId") Long userId);
 
     DimUserInfo getUserInfoByUserId(@Param("userId") Long userId);
 }

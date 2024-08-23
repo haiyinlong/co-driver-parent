@@ -3,7 +3,7 @@
 
 <mapper namespace="com.leo.ad.codriver.dim.dao.DimUserInfoMapper">
 
-    <select id="queryRealTimeUserInfo" resultType="com.leo.ad.codriver.dim.entity.RealTimeUserInfoDTO">
+    <select id="queryOdsRealTimeUserInfo" resultType="com.leo.ad.codriver.dim.entity.RealTimeUserInfoDTO">
         SELECT user_v.user_id,
                ou.aid,
                ou.pkg,

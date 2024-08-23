@@ -1,11 +1,12 @@
 package com.leo.ad.codriver.dim.entity;
 
+import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
 
-import java.util.Date;
+import lombok.Data;
 
 @Data
 @TableName("dim_user_info")
@@ -47,6 +48,7 @@ public class DimUserInfo {
     public void updateUserInfo(RealTimeUserInfoDTO realTimeUserInfo) {
         this.setLastVersion(realTimeUserInfo.getVersion());
         this.setLastLoginDates(realTimeUserInfo.getLastLoginDates());
+        this.setLastLoginTime(realTimeUserInfo.getLastLoginTime());
         this.modifyUpdateTime();
     }
 
@@ -58,6 +60,5 @@ public class DimUserInfo {
     public void modifyUpdateTime() {
         this.updateTime = new Date();
     }
-
 
 }
