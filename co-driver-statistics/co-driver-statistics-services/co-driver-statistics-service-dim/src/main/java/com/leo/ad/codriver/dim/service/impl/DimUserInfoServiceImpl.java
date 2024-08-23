@@ -45,11 +45,9 @@ public class DimUserInfoServiceImpl implements DimUserInfoService {
         if (ObjectUtils.isEmpty(userInfo)) {
             userInfo = DimUserInfo.createUserInfo(realTimeUserInfo);
             dimUserInfoMapper.insert(userInfo);
-            log.info("{}用户新增", odsUserChangeId);
         } else {
             userInfo.updateUserInfo(realTimeUserInfo);
             dimUserInfoMapper.updateById(userInfo);
-            log.info("{}用户更新", odsUserChangeId);
         }
     }
 }
