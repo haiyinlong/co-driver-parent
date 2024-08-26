@@ -1,5 +1,9 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
@@ -9,11 +13,9 @@ import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author HaiYinLong
@@ -29,7 +31,7 @@ public class DwdUserWithdrawRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserWithdrawRecord syncData")
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 先删除数据
         dwdUserWithdrawRecordMapper.deleteByDates(dates);
@@ -42,7 +44,7 @@ public class DwdUserWithdrawRecordServiceImpl implements DwdService {
         List<DwdUserWithdrawRecord> userWithdrawRecords;
         for (int i = 1; i <= totalPage; i++) {
             userWithdrawRecords = dwdUserWithdrawRecordMapper.queryWithdrawList(dates, exchangeRate.getIndianToDollar(),
-                    BatchConst.BATCH_NUMBER, (int) ((i - 1) * BatchConst.BATCH_NUMBER));
+                BatchConst.BATCH_NUMBER, (int)((i - 1) * BatchConst.BATCH_NUMBER));
             batchMapper.batchInsert(userWithdrawRecords, DwdUserWithdrawRecordMapper.class);
         }
     }

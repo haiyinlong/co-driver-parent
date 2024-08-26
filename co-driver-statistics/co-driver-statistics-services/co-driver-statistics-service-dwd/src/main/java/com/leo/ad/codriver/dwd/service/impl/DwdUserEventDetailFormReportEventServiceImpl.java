@@ -1,5 +1,9 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserEventDetailMapper;
@@ -8,11 +12,9 @@ import com.leo.ad.codriver.dwd.service.DwdEventService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * DwdUserEventDetailFormReportEventServiceImpl
@@ -29,7 +31,7 @@ public class DwdUserEventDetailFormReportEventServiceImpl implements DwdEventSer
 
     @Override
     @ShowExecuteTime(name = "dwdUserEventDetail form reportEvent syncData")
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 先删除数据
         dwdUserEventDetailMapper.deleteByDates(dates, "ods_report_event");
@@ -42,7 +44,7 @@ public class DwdUserEventDetailFormReportEventServiceImpl implements DwdEventSer
         List<DwdUserEventDetail> reportEventList;
         for (int i = 1; i <= totalPage; i++) {
             reportEventList = dwdUserEventDetailMapper.queryReportEvent(dates, BatchConst.BATCH_NUMBER.intValue(),
-                    (int) ((i - 1) * BatchConst.BATCH_NUMBER));
+                (int)((i - 1) * BatchConst.BATCH_NUMBER));
             batchMapper.batchInsert(reportEventList, DwdUserEventDetailMapper.class);
         }
     }

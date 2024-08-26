@@ -3,7 +3,6 @@ package com.leo.ad.codriver.dwd.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
@@ -31,8 +30,7 @@ public class DwdUserOnlineServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserOnline  syncData")
-    @Lock(paramName = "dates")
-    @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         Long totalRecord = dwdUserOnlineMapper.getCountByDate(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());

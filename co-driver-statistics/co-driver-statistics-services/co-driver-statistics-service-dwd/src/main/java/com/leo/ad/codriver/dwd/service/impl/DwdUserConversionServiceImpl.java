@@ -1,5 +1,9 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserConversionMapper;
@@ -8,11 +12,9 @@ import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * @author HaiYinLong
@@ -27,7 +29,7 @@ public class DwdUserConversionServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserConversion syncData")
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwdUserConversionMapper.deleteByDates(dates);
         // 查询自己的转化记录
@@ -35,7 +37,7 @@ public class DwdUserConversionServiceImpl implements DwdService {
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         for (int i = 0; i < totalPageNum; i++) {
             List<DwdUserConversion> dwdUserConversionList = dwdUserConversionMapper.statisticsFromOfferRecord(dates,
-                    BatchConst.BATCH_NUMBER.intValue(), i * BatchConst.BATCH_NUMBER.intValue());
+                BatchConst.BATCH_NUMBER.intValue(), i * BatchConst.BATCH_NUMBER.intValue());
             dwBatchMapper.batchInsert(dwdUserConversionList, DwdUserConversionMapper.class);
 
         }
@@ -46,7 +48,7 @@ public class DwdUserConversionServiceImpl implements DwdService {
 
         for (int i = 0; i < hemaTotalPageNum; i++) {
             List<DwdUserConversion> dwdUserConversionList = dwdUserConversionMapper.statisticsFromHemaOfferRecord(dates,
-                    BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
+                BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             dwBatchMapper.batchInsert(dwdUserConversionList, DwdUserConversionMapper.class);
         }
     }
