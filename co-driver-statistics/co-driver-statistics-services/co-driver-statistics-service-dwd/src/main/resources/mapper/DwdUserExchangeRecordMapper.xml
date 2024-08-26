@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserExchangeRecordMapper">
+    <select id="getCountByDate" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM ods_user_asset_exchange_record_diversion ouaerd
+                 INNER JOIN dim_user_info dui on (ouaerd.user_id = dui.user_id)
+        WHERE ouaerd.dates = #{dates}
+    </select>
+    <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserExchangeRecord">
+        SELECT duer.id,
+               ouaerd.dates,
+               dui.user_id,
+               dui.last_version `version`,
+               dui.pkg,
+               dui.country,
+               ouaerd.from_type,
+               ouaerd.from_amount,
+               ouaerd.to_amount,
+               ouaerd.to_type,
+               ouaerd.create_time
+        FROM ods_user_asset_exchange_record_diversion ouaerd
+                 INNER JOIN dim_user_info dui on (ouaerd.user_id = dui.user_id)
+                 LEFT JOIN dwd_user_exchange_record duer on (duer.dates = ouaerd.dates and duer.user_id = dui.user_id
+            and duer.pkg = dui.pkg and duer.country = dui.country)
+        WHERE ouaerd.dates = #{dates}
+        limit #{startRows}, #{rows}
+    </select>
+</mapper>
