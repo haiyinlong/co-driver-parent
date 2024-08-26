@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserShareRecordMapper">
+
+    <select id="getCountByDate" resultType="java.lang.Long">
+        SELECT count(1)
+        FROM ods_user_prepare_parent_record_diversion oupprd
+                 INNER JOIN dim_user_info dui on (oupprd.user_id = dui.user_id)
+        WHERE oupprd.dates = #{dates}
+    </select>
+    <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserShareRecord">
+        SELECT duoq.id,
+               oupprd.dates,
+               dui.user_id,
+               dui.last_version,
+               dui.pkg,
+               dui.country,
+               oupprd.prepare_parent_user_id parent_user_id,
+               oupprd.create_time
+        FROM ods_user_prepare_parent_record_diversion oupprd
+                 INNER JOIN dim_user_info dui on (oupprd.user_id = dui.user_id)
+                 LEFT JOIN dwd_user_share_record duoq on (duoq.dates = dui.dates and duoq.user_id = dui.user_id
+            and duoq.pkg = dui.pkg and duoq.country = dui.country)
+        WHERE oupprd.dates = #{dates}
+        limit #{startRows}, #{rows}
+    </select>
+</mapper>
