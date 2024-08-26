@@ -7,40 +7,41 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
-import com.leo.ad.codriver.dwd.dao.DwdUserOnlineMapper;
-import com.leo.ad.codriver.dwd.entity.DwdUserOnline;
+import com.leo.ad.codriver.dwd.dao.DwdUserLtvRecordMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserLtvRecord;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * DwdUserOnlineServiceImpl
+ * DwdUserLtbRecordServiceImpl
  *
  * @author HaiYinLong
- * @version 2024/08/23 19:42
+ * @version 2024/08/26 10:41
  **/
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwdUserOnlineServiceImpl implements DwdService {
-
-    private final DwdUserOnlineMapper dwdUserOnlineMapper;
-    private final DwBatchMapper<DwdUserOnline, DwdUserOnlineMapper> dwBatchMapper;
+public class DwdUserLtvRecordServiceImpl implements DwdService {
+    private final DwdUserLtvRecordMapper dwdUserLtvRecordMapper;
+    private final DwBatchMapper<DwdUserLtvRecord, DwdUserLtvRecordMapper> dwBatchMapper;
 
     @Override
-    @ShowExecuteTime(name = "dwdUserOnline  syncData")
-    @Lock(paramName = "dates")
+    @ShowExecuteTime(name = "dwdUserLtvRecord  syncData")
+    @Lock(paramName = "#dates")
     @Transactional(rollbackFor = Exception.class)
     public void syncData(Integer dates) {
-        Long totalRecord = dwdUserOnlineMapper.getCountByDate(dates);
+        Long totalRecord = dwdUserLtvRecordMapper.getCountByDate(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
-        List<DwdUserOnline> userOnlineList;
+        List<DwdUserLtvRecord> userLtvRecordList;
         for (int i = 0; i < totalPageNum; i++) {
-            userOnlineList =
-                dwdUserOnlineMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
-            dwBatchMapper.batchInsert(userOnlineList, DwdUserOnlineMapper.class);
+            userLtvRecordList =
+                dwdUserLtvRecordMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
+            dwBatchMapper.batchInsert(userLtvRecordList, DwdUserLtvRecordMapper.class);
         }
     }
 }

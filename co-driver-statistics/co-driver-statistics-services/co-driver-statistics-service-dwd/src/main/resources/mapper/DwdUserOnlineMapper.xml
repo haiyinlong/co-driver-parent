@@ -20,7 +20,7 @@
                dui.pkg,
                dui.country,
                oubd.value,
-               now()
+               IFNULL(duoq.create_time, now())
         FROM ods_user_behavior_diversion oubd
                  INNER JOIN dim_user_info dui on (oubd.user_id = dui.user_id)
                  LEFT JOIN dwd_user_online duoq on (duoq.dates = oubd.dates and duoq.user_id = oubd.user_id
