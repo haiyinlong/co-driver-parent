@@ -13,7 +13,7 @@
         SELECT duoq.id,
                oupprd.dates,
                dui.user_id,
-               dui.last_version,
+               dui.last_version              `version`,
                dui.pkg,
                dui.country,
                oupprd.prepare_parent_user_id parent_user_id,

@@ -13,7 +13,7 @@
         SELECT dulr.id,
                oulrd.dates,
                dui.user_id,
-               dui.last_version,
+               dui.last_version `version`,
                dui.pkg,
                dui.country,
                oulrd.`type`,
