@@ -68,7 +68,8 @@ co-driver:
         enable: true
       ods_user_config_group_queue:
         enable: true
-
+      ods_game_user_queue:
+        enable: true
 management:
   health:
     rabbit:
