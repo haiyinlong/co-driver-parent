@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
 import lombok.Data;
 
 @Data
 @TableName("dwd_user_exchange_record")
-public class DwdUserExchangeRecord {
+public class DwdUserExchangeRecord implements BaseEntity {
 
     private Long id;
     private Long dates;

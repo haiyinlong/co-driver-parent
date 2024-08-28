@@ -17,6 +17,11 @@
                dui.pkg,
                dui.country,
                oupprd.prepare_parent_user_id parent_user_id,
+               oupprd.source,
+               CASE
+                   when oupprd.source is not null and oupprd.source = '1' then '归因'
+                   when oupprd.source is not null and oupprd.source = '2' then '主动绑定'
+                   end                       source_des,
                oupprd.create_time
         FROM ods_user_prepare_parent_record_diversion oupprd
                  INNER JOIN dim_user_info dui on (oupprd.user_id = dui.user_id)
