@@ -9,7 +9,8 @@ package com.leo.ad.codriver.dws.service;
  **/
 public interface DwsService {
     /**
-     * 根据日期同步处理数据
+     * 根据日期同步处理数据<br/>
+     * 删除历史数据进行重算，保证数据正确性
      *
      * @param dates 20241010 日期
      */
