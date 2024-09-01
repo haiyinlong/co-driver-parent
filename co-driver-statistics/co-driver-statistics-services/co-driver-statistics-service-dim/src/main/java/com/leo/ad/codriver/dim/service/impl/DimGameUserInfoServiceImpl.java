@@ -11,6 +11,7 @@ import com.leo.ad.codriver.dim.entity.DimGameUserInfo;
 import com.leo.ad.codriver.dim.service.DimGameUserInfoService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * DimGameUserInfoServiceImpl
@@ -18,6 +19,7 @@ import lombok.RequiredArgsConstructor;
  * @author HaiYinLong
  * @version 2024/08/27 14:48
  **/
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
@@ -29,14 +31,22 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
         if (ObjectUtils.isEmpty(odsGameUserId)) {
             return;
         }
-        long gameUserId = new BigDecimal(odsGameUserId).longValue();
-        DimGameUserInfo dimGameUserInfo = dimGameUserInfoMapper.getOdsGameUserInfo(gameUserId);
-        if (ObjectUtils.isEmpty(dimGameUserInfo.getId())) {
-            dimGameUserInfo.initTime();
-            dimGameUserInfoMapper.insert(dimGameUserInfo);
-            return;
+        try {
+            long gameUserId = new BigDecimal(odsGameUserId).longValue();
+            DimGameUserInfo dimGameUserInfo = dimGameUserInfoMapper.getOdsGameUserInfo(gameUserId);
+            if (ObjectUtils.isEmpty(dimGameUserInfo)) {
+                return;
+            }
+            if (ObjectUtils.isEmpty(dimGameUserInfo.getId())) {
+                dimGameUserInfo.initTime();
+                dimGameUserInfoMapper.insert(dimGameUserInfo);
+                return;
+            }
+            dimGameUserInfo.modifyUpdateTime();
+            dimGameUserInfoMapper.updateById(dimGameUserInfo);
+        } catch (Exception e) {
+            log.error("syncGameUser error", e);
+            throw new RuntimeException(e);
         }
-        dimGameUserInfo.modifyUpdateTime();
-        dimGameUserInfoMapper.updateById(dimGameUserInfo);
     }
 }
