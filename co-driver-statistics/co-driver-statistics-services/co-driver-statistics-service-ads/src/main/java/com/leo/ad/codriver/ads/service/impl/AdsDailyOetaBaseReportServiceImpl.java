@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.ads.dao.AdsDailyOetaBaseReportMapper;
 import com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport;
@@ -36,9 +37,13 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
         adsDailyOetaBaseReportMapper.deleteByDates(dates);
         // 活跃用户
         List<AdsDailyOetaBaseReport> activeUserList = adsDailyOetaBaseReportMapper.selectActiveUserList(dates);
+        if (CollectionUtils.isEmpty(activeUserList)) {
+            return;
+        }
         // 新用户
         List<AdsDailyOetaBaseReport> newUserList = adsDailyOetaBaseReportMapper.selectNewUserList(dates);
         activeUserList.addAll(newUserList);
+        activeUserList.forEach(AdsDailyOetaBaseReport::init);
         batchMapper.batchInsert(activeUserList, AdsDailyOetaBaseReportMapper.class);
     }
 }

@@ -29,6 +29,7 @@ public class AdsDailyOetaBaseReport {
     private Long offerUserNum;
     private BigDecimal offerRate;
     private Long paymentUserNum;
+    private BigDecimal paymentRate;
     private BigDecimal qpLtv;
     private BigDecimal adRewardIncome;
     private Long adRewardUserNum;
@@ -55,4 +56,7 @@ public class AdsDailyOetaBaseReport {
     private BigDecimal totalRoi;
     private Date createTime;
 
+    public void init() {
+        this.createTime = new Date();
+    }
 }
