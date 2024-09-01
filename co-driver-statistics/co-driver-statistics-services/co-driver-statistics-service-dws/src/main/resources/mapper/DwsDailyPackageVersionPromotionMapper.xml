@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageVersionPromotionMapper">
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_package_version_promotion
+        where dates = #{dates}
+    </delete>
+    <select id="selectByDate" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageVersionPromotion">
+        SELECT ddpr.dates,
+               ddpr.pkg,
+               ddpr.country,
+               ddpr.version,
+               ddpr.user_num,
+               durpfd.user_num                                                                       pkg_user_num,
+               IFNULL((ddpr.user_num / durpfd.user_num), 0)                                          user_rate,
+               IFNULL(dprg.total_cost, 0)                                                            pkg_cost,
+               IFNULL(dprg.total_change_cost, 0)                                                     pkg_change_cost,
+               IFNULL((ddpr.user_num / durpfd.user_num) * dprg.total_cost, 0)                        cost,
+               IFNULL((ddpr.user_num / durpfd.user_num) * dprg.total_change_cost, 0)                 change_cost,
+               IFNULL((ddpr.user_num / durpfd.user_num) * dprg.total_change_cost / ddpr.user_num, 0) cpi
+        FROM dws_daily_package_register ddpr
+                 LEFT JOIN dws_user_register_pkg_full_daily durpfd
+                           on (ddpr.dates = durpfd.dates and ddpr.pkg = durpfd.pkg)
+                 LEFT JOIN (SELECT dpr.dates,
+                                   dpr.pkg,
+                                   sum(dpr.cost)        total_cost,
+                                   sum(dpr.change_cost) total_change_cost
+                            FROM dwd_promotion_record dpr
+                            WHERE dpr.dates = #{dates}
+                            group by dpr.dates, dpr.pkg) dprg on (dprg.dates = ddpr.dates and dprg.pkg = ddpr.pkg)
+        WHERE ddpr.dates = #{dates}
+    </select>
+</mapper>

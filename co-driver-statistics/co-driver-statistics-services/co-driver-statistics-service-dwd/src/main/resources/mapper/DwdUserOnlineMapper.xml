@@ -12,15 +12,14 @@
         WHERE oubd.behavior = 2
     </select>
     <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserOnline">
-
         SELECT duoq.id,
                oubd.dates,
                dui.user_id,
-               dui.last_version `version`,
+               dui.last_version                `version`,
                dui.pkg,
                dui.country,
-               oubd.value,
-               IFNULL(duoq.create_time, now())
+               oubd.value                      online_time,
+               IFNULL(duoq.create_time, now()) create_time
         FROM ods_user_behavior_diversion oubd
                  INNER JOIN dim_user_info dui on (oubd.user_id = dui.user_id)
                  LEFT JOIN dwd_user_online duoq on (duoq.dates = oubd.dates and duoq.user_id = oubd.user_id

@@ -10,21 +10,22 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 @Data
-@TableName("dws_daily_package_online")
-public class DwsDailyPackageOnline {
+@TableName("dws_daily_package_version_promotion")
+public class DwsDailyPackageVersionPromotion {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long dates;
-    private String version;
     private String pkg;
     private String country;
-    private Long totalOnlineTime;
-    private BigDecimal avgUserOnlineTime;
-    private Long newUserOnlineTime;
-    private BigDecimal avgNewUserOnlineTime;
+    private String version;
+    private Long pkgUserNum;
+    private BigDecimal cost;
+    private BigDecimal changeCost;
+    private Long userNum;
+    private BigDecimal userRate;
+    private BigDecimal pkgCost;
+    private BigDecimal pkgChangeCost;
+    private BigDecimal cpi;
     private Date createTime;
 
-    public void init() {
-        this.createTime = new Date();
-    }
 }

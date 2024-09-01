@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdPromotionRecordMapper">
+    <delete id="deleteByDate">
+        delete
+        from dwd_promotion_record
+        where dates = #{dates}
+    </delete>
+    <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdPromotionRecord">
+        select dpr.id,
+               ac.dates,
+               ac.pkg,
+               ac.network,
+               ac.series,
+               ac.ad_group,
+               ac.material,
+               ac.cost,
+               ROUND(ac.cost / #{singleFee}, 8) change_cost,
+               dpr.create_time
+        from ods_adjust_cost ac
+                 left join dwd_promotion_record dpr
+                           on (dpr.dates = ac.dates and dpr.pkg = ac.pkg and dpr.network = ac.network and
+                               dpr.series = ac.series and dpr.ad_group = ac.ad_group and dpr.material = ac.material)
+        where ac.dates = #{dates}
+    </select>
+</mapper>

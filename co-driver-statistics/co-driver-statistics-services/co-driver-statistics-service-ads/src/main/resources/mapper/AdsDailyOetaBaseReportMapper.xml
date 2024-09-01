@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyOetaBaseReportMapper">
+    <delete id="deleteByDates">
+        DELETE
+        FROM ads_daily_oeta_base_report
+        WHERE dates = #{dates}
+    </delete>
+    <select id="selectActiveUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+        SELECT ddpl.dates,
+               ddpl.pkg,
+               ddpl.country,
+               ddpl.version,
+               0                                                             user_type,
+               IFNULL(ddpr.user_num, 0)                                      new_user_num,
+               IFNULL(ddpr2.retention_user_num, 0)                           second_user_num,
+               IFNULL(ddpr3.retention_user_num, 0)                           tertiary_user_num,
+               ddpl.user_num                                                 active_user_num,
+               IFNULL(ddpo.avg_user_online_time, 0)                          avg_game_onlie_time,
+               IFNULL(ddpa.all_user_reward_income, 0)                        ad_reward_income,
+               IFNULL(ddpa.all_user_reward_show_num, 0)                      ad_reward_show_num,
+               IFNULL(ddpa.all_user_reward_ecpm, 0)                          ad_reward_ecpm,
+               IFNULL(ddpa.all_user_reward_show_num / ddpl.user_num, 0)      avg_user_ad_reward_show_num,
+               IFNULL(ddpa.all_user_reward_user_num, 0)                      ad_reward_user_num,
+               IFNULL(ddpa.all_user_reward_user_num / ddpl.user_num, 0)      ad_reward_rate,
+               IFNULL(ddpa.all_user_sold_user_num, 0)                        ad_direct_sold_user_num,
+               IFNULL(ddpa.all_user_sold_show_num, 0)                        ad_direct_sold_show_num,
+               IFNULL(ddpa.all_user_sold_show_num / ddpl.user_num, 0)        avg_user_ad_direct_sold_show_num,
+               0                                                             ad_direct_sold_click_num,
+               0                                                             ad_direct_sold_show_rate,
+               IFNULL(ddpa.all_user_sold_user_num / ddpl.user_num, 0)        ad_direct_sold_rate,
+               IFNULL(ddpa.all_user_reward_show_num / ddpl.user_num, 0)      avg_user_ad_show_num,
+               IFNULL(ddpa.all_user_inter_show_num / ddpl.user_num, 0)       avg_user_ad_inter_show_num,
+               IFNULL(ddpa.all_user_mrec_show_num / ddpl.user_num, 0)        avg_user_ad_mrec_show_num,
+               IFNULL(ddps.invitation_num, 0)                                share_new_user_num,
+               IFNULL(ddps.invitation_num / ddpl.user_num, 0)                share_rate,
+               IFNULL(ddpuc.user_num, 0)                                     offer_user_num,
+               IFNULL(ddpuc.user_num / ddpl.user_num, 0)                     offer_rate,
+               IFNULL(ddpql.active_user_num, 0)                              payment_user_num,
+               IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)             payment_rate,
+               IFNULL(ddpql.active_event_ltv, 0)                             qp_ltv,
+               IFNULL(dwfd.success_change_amount, 0)                         withdraw_amount,
+               IFNULL(dwfd.success_change_fee, 0)                            withdraw_fee,
+               IFNULL(dwfd.success_change_amount_fee, 0)                     withdraw_cost,
+               IFNULL(ddpvp.change_cost, 0)                                  promotion_cost,
+               IFNULL(ddpvp.change_cost + dwfd.success_change_amount_fee, 0) total_expenditure,
+               IFNULL(ddpvp.cpi, 0)                                          cpi,
+               IFNULL(ddpa.all_user_reward_income / ddpvp.change_cost, 0)    ad_roi,
+               IFNULL((ddpa.all_user_reward_income + ddpql.active_event_ltv - dwfd.success_change_amount_fee) /
+                      ddpvp.change_cost, 0)                                  total_roi
+        FROM dws_daily_package_login ddpl
+                 LEFT JOIN dws_daily_package_register ddpr
+                           on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and ddpl.country = ddpr.country and
+                               ddpl.version = ddpr.version)
+                 LEFT JOIN dws_daily_package_retention ddpr2
+                           on (ddpl.dates = ddpr2.register_dates and ddpl.pkg = ddpr2.pkg and
+                               ddpl.country = ddpr2.country and ddpl.version = ddpr2.version and ddpr2.register_day = 1)
+                 LEFT JOIN dws_daily_package_retention ddpr3
+                           on (ddpl.dates = ddpr3.register_dates and ddpl.pkg = ddpr3.pkg and
+                               ddpl.country = ddpr3.country and ddpl.version = ddpr3.version and ddpr3.register_day = 2)
+                 LEFT JOIN dws_daily_package_online ddpo
+                           on (ddpl.dates = ddpo.dates and ddpl.pkg = ddpo.pkg and ddpl.country = ddpo.country and
+                               ddpl.version = ddpo.version)
+                 LEFT JOIN dws_daily_package_ad ddpa
+                           on (ddpl.dates = ddpa.dates and ddpl.pkg = ddpa.pkg and ddpl.country = ddpa.country and
+                               ddpl.version = ddpa.version)
+                 LEFT JOIN dws_daily_package_share ddps
+                           on (ddpl.dates = ddps.dates and ddpl.pkg = ddps.pkg and ddpl.country = ddps.country and
+                               ddpl.version = ddps.version)
+                 LEFT JOIN dws_daily_package_user_conversion ddpuc
+                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpl.country = ddpuc.country and
+                               ddpl.version = ddpuc.version and ddpuc.user_type = 0)
+                 LEFT JOIN dws_withdraw_full_daily dwfd
+                           on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and ddpl.country = dwfd.country and
+                               ddpl.version = dwfd.version and dwfd.user_type = 0)
+                 LEFT JOIN dws_daily_package_version_promotion ddpvp
+                           on (ddpl.dates = ddpvp.dates and ddpl.pkg = ddpvp.pkg and ddpl.country = ddpvp.country and
+                               ddpl.version = ddpvp.version)
+                 LEFT JOIN dws_daily_package_qp_ltv ddpql
+                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpl.country = ddpql.country and
+                               ddpl.version = ddpql.version)
+        WHERE ddpl.dates = #{dates}
+    </select>
+    <select id="selectNewUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+        SELECT ddpl.dates,
+               ddpl.pkg,
+               ddpl.country,
+               ddpl.version,
+               1                                                             user_type,
+               IFNULL(ddpr.user_num, 0)                                      new_user_num,
+               IFNULL(ddpr2.retention_user_num, 0)                           second_user_num,
+               IFNULL(ddpr3.retention_user_num, 0)                           tertiary_user_num,
+               ddpl.user_num                                                 active_user_num,
+               IFNULL(ddpo.avg_new_user_online_time, 0)                      avg_game_onlie_time,
+               IFNULL(ddpa.new_user_reward_income, 0)                        ad_reward_income,
+               IFNULL(ddpa.new_user_reward_show_num, 0)                      ad_reward_show_num,
+               IFNULL(ddpa.new_user_reward_ecpm, 0)                          ad_reward_ecpm,
+               IFNULL(ddpa.new_user_reward_show_num / ddpr.user_num, 0)      avg_user_ad_reward_show_num,
+               IFNULL(ddpa.new_user_reward_user_num, 0)                      ad_reward_user_num,
+               IFNULL(ddpa.new_user_reward_user_num / ddpr.user_num, 0)      ad_reward_rate,
+               IFNULL(ddpa.new_user_sold_user_num, 0)                        ad_direct_sold_user_num,
+               IFNULL(ddpa.new_user_sold_show_num, 0)                        ad_direct_sold_show_num,
+               IFNULL(ddpa.new_user_sold_show_num / ddpr.user_num, 0)        avg_user_ad_direct_sold_show_num,
+               0                                                             ad_direct_sold_click_num,
+               0                                                             ad_direct_sold_show_rate,
+               IFNULL(ddpa.new_user_sold_user_num / ddpr.user_num, 0)        ad_direct_sold_rate,
+               IFNULL(ddpa.new_user_reward_show_num / ddpr.user_num, 0)      avg_user_ad_show_num,
+               IFNULL(ddpa.new_user_inter_show_num / ddpr.user_num, 0)       avg_user_ad_inter_show_num,
+               IFNULL(ddpa.new_user_mrec_show_num / ddpr.user_num, 0)        avg_user_ad_mrec_show_num,
+               IFNULL(ddps.invitation_num, 0)                                share_new_user_num,
+               IFNULL(ddps.invitation_num / ddpr.user_num, 0)                share_rate,
+               IFNULL(ddpuc.user_num, 0)                                     offer_user_num,
+               IFNULL(ddpuc.user_num / ddpr.user_num, 0)                     offer_rate,
+               IFNULL(ddpql.new_user_num, 0)                                 payment_user_num,
+               IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                payment_rate,
+               IFNULL(ddpql.new_user_event_ltv, 0)                           qp_ltv,
+               IFNULL(dwfd.success_change_amount, 0)                         withdraw_amount,
+               IFNULL(dwfd.success_change_fee, 0)                            withdraw_fee,
+               IFNULL(dwfd.success_change_amount_fee, 0)                     withdraw_cost,
+               IFNULL(ddpvp.change_cost, 0)                                  promotion_cost,
+               IFNULL(ddpvp.change_cost + dwfd.success_change_amount_fee, 0) total_expenditure,
+               IFNULL(ddpvp.cpi, 0)                                          cpi,
+               IFNULL(ddpa.new_user_reward_income / ddpvp.change_cost, 0)    ad_roi,
+               IFNULL((ddpa.new_user_reward_income + ddpql.new_user_event_ltv - dwfd.success_change_amount_fee) /
+                      ddpvp.change_cost, 0)                                  total_roi
+        FROM dws_daily_package_login ddpl
+                 LEFT JOIN dws_daily_package_register ddpr
+                           on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and ddpl.country = ddpr.country and
+                               ddpl.version = ddpr.version)
+                 LEFT JOIN dws_daily_package_retention ddpr2
+                           on (ddpl.dates = ddpr2.register_dates and ddpl.pkg = ddpr2.pkg and
+                               ddpl.country = ddpr2.country and ddpl.version = ddpr2.version and ddpr2.register_day = 1)
+                 LEFT JOIN dws_daily_package_retention ddpr3
+                           on (ddpl.dates = ddpr3.register_dates and ddpl.pkg = ddpr3.pkg and
+                               ddpl.country = ddpr3.country and ddpl.version = ddpr3.version and ddpr3.register_day = 2)
+                 LEFT JOIN dws_daily_package_online ddpo
+                           on (ddpl.dates = ddpo.dates and ddpl.pkg = ddpo.pkg and ddpl.country = ddpo.country and
+                               ddpl.version = ddpo.version)
+                 LEFT JOIN dws_daily_package_ad ddpa
+                           on (ddpl.dates = ddpa.dates and ddpl.pkg = ddpa.pkg and ddpl.country = ddpa.country and
+                               ddpl.version = ddpa.version)
+                 LEFT JOIN dws_daily_package_share ddps
+                           on (ddpl.dates = ddps.dates and ddpl.pkg = ddps.pkg and ddpl.country = ddps.country and
+                               ddpl.version = ddps.version)
+                 LEFT JOIN dws_daily_package_user_conversion ddpuc
+                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpl.country = ddpuc.country and
+                               ddpl.version = ddpuc.version and ddpuc.user_type = 1)
+                 LEFT JOIN dws_withdraw_full_daily dwfd
+                           on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and ddpl.country = dwfd.country and
+                               ddpl.version = dwfd.version and dwfd.user_type = 1)
+                 LEFT JOIN dws_daily_package_version_promotion ddpvp
+                           on (ddpl.dates = ddpvp.dates and ddpl.pkg = ddpvp.pkg and ddpl.country = ddpvp.country and
+                               ddpl.version = ddpvp.version)
+                 LEFT JOIN dws_daily_package_qp_ltv ddpql
+                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpl.country = ddpql.country and
+                               ddpl.version = ddpql.version)
+        WHERE ddpl.dates = #{dates}
+    </select>
+</mapper>

@@ -1,10 +1,10 @@
 package com.leo.ad.codriver.common.util;
 
-import org.springframework.util.ObjectUtils;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Objects;
+
+import org.springframework.util.ObjectUtils;
 
 /**
  * BigDecimalUtils
@@ -30,7 +30,7 @@ public class BigDecimalUtils {
             return BigDecimal.ZERO;
         }
         return BigDecimal.valueOf(divisor).divide(BigDecimal.valueOf(divided), 2, RoundingMode.HALF_UP)
-                .multiply(BigDecimal.valueOf(100));
+            .multiply(BigDecimal.valueOf(100));
     }
 
     public static BigDecimal divide(Long divisor, Long divided) {
@@ -42,7 +42,7 @@ public class BigDecimalUtils {
 
     public static BigDecimal divide(BigDecimal divisor, BigDecimal divided) {
         if (ObjectUtils.isEmpty(divided) || ObjectUtils.isEmpty(divisor) || BigDecimal.ZERO.compareTo(divisor) == 0
-                || BigDecimal.ZERO.compareTo(divided) == 0) {
+            || BigDecimal.ZERO.compareTo(divided) == 0) {
             return BigDecimal.ZERO;
         }
         return divisor.divide(divided, 8, RoundingMode.HALF_UP);
@@ -50,7 +50,7 @@ public class BigDecimalUtils {
 
     public static BigDecimal divide(BigDecimal divisor, Long divided) {
         if (ObjectUtils.isEmpty(divided) || ObjectUtils.isEmpty(divisor) || BigDecimal.ZERO.compareTo(divisor) == 0
-                || divided == 0) {
+            || divided == 0) {
             return BigDecimal.ZERO;
         }
         return divisor.divide(BigDecimal.valueOf(divided), 8, RoundingMode.HALF_UP);
@@ -58,6 +58,14 @@ public class BigDecimalUtils {
 
     public static BigDecimal divideReserved2(Long divisor, Long divided) {
         return BigDecimal.valueOf(divisor).divide(BigDecimal.valueOf(divided), 2, RoundingMode.HALF_UP);
+    }
+
+    public static BigDecimal multiply(BigDecimal value, BigDecimal multiplyValue) {
+        if (ObjectUtils.isEmpty(value) || ObjectUtils.isEmpty(multiplyValue) || BigDecimal.ZERO.compareTo(value) == 0
+            || BigDecimal.ZERO.compareTo(multiplyValue) == 0) {
+            return BigDecimal.ZERO;
+        }
+        return value.multiply(multiplyValue).setScale(8, RoundingMode.HALF_UP);
     }
 
     public static BigDecimal add(BigDecimal... values) {

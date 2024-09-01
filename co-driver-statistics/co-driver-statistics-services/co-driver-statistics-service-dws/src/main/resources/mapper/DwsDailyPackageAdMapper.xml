@@ -12,29 +12,67 @@
                duar.pkg,
                duar.version,
                duar.country,
-               count(DISTINCT duar.user_id)                                                   all_user_total_user_num,
-               sum(duar.revenue)                                                              all_user_total_income,
-               sum(duar.ad_exhibit)                                                           all_user_total_show_num,
-               count(DISTINCT
-                     (CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.user_id END)) all_user_no_sold_user_num,
-               SUM(CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.revenue END)     all_user_no_sold_income,
-               SUM(CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.ad_exhibit END)  all_user_no_sold_show_num,
-               count(DISTINCT
-                     (CASE WHEN duar.ad_format != 'banner' THEN duar.user_id END))            all_user_no_banner_user_num,
-               SUM(CASE WHEN duar.ad_format != 'banner' THEN duar.revenue END)                all_user_no_banner_income,
-               SUM(CASE WHEN duar.ad_format != 'banner' THEN duar.ad_exhibit END)             all_user_no_banner_show_num,
-               count(DISTINCT (CASE WHEN duar.ad_format = 'reward' THEN duar.user_id END))    all_user_reward_user_num,
-               SUM(CASE WHEN duar.ad_format = 'reward' THEN duar.revenue END)                 all_user_reward_income,
-               SUM(CASE WHEN duar.ad_format = 'reward' THEN duar.ad_exhibit END)              all_user_reward_show_num,
-               count(DISTINCT (CASE WHEN duar.ad_format = 'inter' THEN duar.user_id END))     all_user_inter_user_num,
-               SUM(CASE WHEN duar.ad_format = 'inter' THEN duar.revenue END)                  all_user_inter_income,
-               SUM(CASE WHEN duar.ad_format = 'inter' THEN duar.ad_exhibit END)               all_user_inter_show_num,
-               count(DISTINCT (CASE WHEN duar.ad_format = 'mrec' THEN duar.user_id END))      all_user_mrec_user_num,
-               SUM(CASE WHEN duar.ad_format = 'mrec' THEN duar.revenue END)                   all_user_mrec_income,
-               SUM(CASE WHEN duar.ad_format = 'mrec' THEN duar.ad_exhibit END)                all_user_mrec_show_num
+               count(DISTINCT duar.user_id) all_user_total_user_num,
+               sum(duar.revenue)            all_user_total_income,
+               sum(duar.ad_exhibit)         all_user_total_show_num,
+               IFNULL(count(DISTINCT
+                            (CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.user_id END)),
+                      0)                    all_user_no_sold_user_num,
+               IFNULL(SUM(CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.revenue END),
+                      0)                    all_user_no_sold_income,
+               IFNULL(SUM(CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.ad_exhibit END), 0)
+                                            all_user_no_sold_show_num,
+               IFNULL(count(DISTINCT
+                            (CASE WHEN duar.network = 'APPLOVIN_DIRECTSOLD' THEN duar.user_id END)), 0)
+                                            all_user_sold_user_num,
+               IFNULL(SUM(CASE WHEN duar.network = 'APPLOVIN_DIRECTSOLD' THEN duar.revenue END), 0)
+                                            all_user_sold_income,
+               IFNULL(SUM(CASE WHEN duar.network = 'APPLOVIN_DIRECTSOLD' THEN duar.ad_exhibit END), 0)
+                                            all_user_sold_show_num,
+               IFNULL(count(DISTINCT
+                            (CASE WHEN duar.ad_format != 'banner' THEN duar.user_id END)), 0)
+                                            all_user_no_banner_user_num,
+               IFNULL(SUM(CASE WHEN duar.ad_format != 'banner' THEN duar.revenue END), 0)
+                                            all_user_no_banner_income,
+               IFNULL(
+                       SUM(CASE WHEN duar.ad_format != 'banner' THEN duar.ad_exhibit END), 0)
+                                            all_user_no_banner_show_num,
+               IFNULL(count(DISTINCT
+                            (CASE WHEN duar.ad_format = 'reward' THEN duar.user_id END)), 0)
+                                            all_user_reward_user_num,
+               IFNULL(
+                       SUM(CASE WHEN duar.ad_format = 'reward' THEN duar.revenue END), 0)
+                                            all_user_reward_income,
+               IFNULL(
+                       SUM(CASE WHEN duar.ad_format = 'reward' THEN duar.ad_exhibit END), 0)
+                                            all_user_reward_show_num,
+               IFNULL(count(DISTINCT
+                            (CASE WHEN duar.ad_format = 'inter' THEN duar.user_id END)), 0)
+                                            all_user_inter_user_num,
+               IFNULL(
+                       SUM(CASE WHEN duar.ad_format = 'inter' THEN duar.revenue END), 0)
+                                            all_user_inter_income,
+               IFNULL(
+                       SUM(CASE WHEN duar.ad_format = 'inter' THEN duar.ad_exhibit END), 0)
+                                            all_user_inter_show_num,
+               IFNULL(
+                       count(
+                               DISTINCT
+                               (CASE WHEN duar.ad_format = 'mrec' THEN duar.user_id END)), 0)
+                                            all_user_mrec_user_num,
+               IFNULL(
+                       SUM(CASE WHEN duar.ad_format = 'mrec' THEN duar.revenue END), 0)
+                                            all_user_mrec_income,
+               IFNULL(
+                       SUM(CASE WHEN duar.ad_format = 'mrec' THEN duar.ad_exhibit END), 0)
+                                            all_user_mrec_show_num
         from dwd_user_ad_record duar
-        WHERE duar.dates = #{dates}
-        GROUP BY duar.dates, duar.pkg, duar.version, duar.country
+        WHERE duar.dates =
+              #{dates}
+        GROUP BY duar.dates,
+                 duar.pkg,
+                 duar.version,
+                 duar.country
     </select>
     <select id="queryStatisticsNew" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAd">
 
@@ -42,28 +80,44 @@
                duar.pkg,
                duar.version,
                duar.country,
-               count(DISTINCT duar.user_id)                                                   new_user_total_user_num,
-               sum(duar.revenue)                                                              new_user_total_income,
-               sum(duar.ad_exhibit)                                                           new_user_total_show_num,
-               count(DISTINCT
-                     (CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.user_id END)) new_user_no_sold_user_num,
-               SUM(CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.revenue END)     new_user_no_sold_income,
-               SUM(CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.ad_exhibit END)  new_user_no_sold_show_num,
-               count(DISTINCT
-                     (CASE WHEN duar.ad_format != 'banner' THEN duar.user_id END))            new_user_no_banner_user_num,
-               SUM(CASE WHEN duar.ad_format != 'banner' THEN duar.revenue END)                new_user_no_banner_income,
-               SUM(CASE WHEN duar.ad_format != 'banner' THEN duar.ad_exhibit END)             new_user_no_banner_show_num,
-               count(DISTINCT (CASE WHEN duar.ad_format = 'reward' THEN duar.user_id END))    new_user_reward_user_num,
-               SUM(CASE WHEN duar.ad_format = 'reward' THEN duar.revenue END)                 new_user_reward_income,
-               SUM(CASE WHEN duar.ad_format = 'reward' THEN duar.ad_exhibit END)              new_user_reward_show_num,
-               count(DISTINCT (CASE WHEN duar.ad_format = 'inter' THEN duar.user_id END))     new_user_inter_user_num,
-               SUM(CASE WHEN duar.ad_format = 'inter' THEN duar.revenue END)                  new_user_inter_income,
-               SUM(CASE WHEN duar.ad_format = 'inter' THEN duar.ad_exhibit END)               new_user_inter_show_num,
-               count(DISTINCT (CASE WHEN duar.ad_format = 'mrec' THEN duar.user_id END))      new_user_mrec_user_num,
-               SUM(CASE WHEN duar.ad_format = 'mrec' THEN duar.revenue END)                   new_user_mrec_income,
-               SUM(CASE WHEN duar.ad_format = 'mrec' THEN duar.ad_exhibit END)                new_user_mrec_show_num
+               count(DISTINCT duar.user_id)                                                  new_user_total_user_num,
+               sum(duar.revenue)                                                             new_user_total_income,
+               sum(duar.ad_exhibit)                                                          new_user_total_show_num,
+               IFNULL(count(DISTINCT
+                            (CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.user_id END)),
+                      0)                                                                     new_user_no_sold_user_num,
+               IFNULL(SUM(CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.revenue END),
+                      0)                                                                     new_user_no_sold_income,
+               IFNULL(SUM(CASE WHEN duar.network != 'APPLOVIN_DIRECTSOLD' THEN duar.ad_exhibit END),
+                      0)                                                                     new_user_no_sold_show_num,
+               IFNULL(count(DISTINCT
+                            (CASE WHEN duar.network = 'APPLOVIN_DIRECTSOLD' THEN duar.user_id END)), 0)
+                                                                                             new_user_sold_user_num,
+               IFNULL(SUM(CASE WHEN duar.network = 'APPLOVIN_DIRECTSOLD' THEN duar.revenue END), 0)
+                                                                                             new_user_sold_income,
+               IFNULL(SUM(CASE WHEN duar.network = 'APPLOVIN_DIRECTSOLD' THEN duar.ad_exhibit END), 0)
+                                                                                             new_user_sold_show_num,
+               IFNULL(count(DISTINCT
+                            (CASE WHEN duar.ad_format != 'banner' THEN duar.user_id END)),
+                      0)                                                                     new_user_no_banner_user_num,
+               IFNULL(SUM(CASE WHEN duar.ad_format != 'banner' THEN duar.revenue END), 0)    new_user_no_banner_income,
+               IFNULL(SUM(CASE WHEN duar.ad_format != 'banner' THEN duar.ad_exhibit END),
+                      0)                                                                     new_user_no_banner_show_num,
+               IFNULL(count(DISTINCT (CASE WHEN duar.ad_format = 'reward' THEN duar.user_id END)),
+                      0)                                                                     new_user_reward_user_num,
+               IFNULL(SUM(CASE WHEN duar.ad_format = 'reward' THEN duar.revenue END), 0)     new_user_reward_income,
+               IFNULL(SUM(CASE WHEN duar.ad_format = 'reward' THEN duar.ad_exhibit END), 0)  new_user_reward_show_num,
+               IFNULL(count(DISTINCT (CASE WHEN duar.ad_format = 'inter' THEN duar.user_id END)),
+                      0)                                                                     new_user_inter_user_num,
+               IFNULL(SUM(CASE WHEN duar.ad_format = 'inter' THEN duar.revenue END), 0)      new_user_inter_income,
+               IFNULL(SUM(CASE WHEN duar.ad_format = 'inter' THEN duar.ad_exhibit END), 0)   new_user_inter_show_num,
+               IFNULL(count(DISTINCT (CASE WHEN duar.ad_format = 'mrec' THEN duar.user_id END)),
+                      0)                                                                     new_user_mrec_user_num,
+               IFNULL(SUM(CASE WHEN duar.ad_format = 'mrec' THEN duar.revenue END), 0)       new_user_mrec_income,
+               IFNULL(SUM(CASE WHEN duar.ad_format = 'mrec' THEN duar.ad_exhibit END), 0)    new_user_mrec_show_num
         from dwd_user_ad_record duar
-                 INNER JOIN dim_user_info dui on (duar.user_id = dui.user_id and duar.dates = dui.dates)
+                 INNER JOIN dim_user_info dui
+                            on (duar.user_id = dui.user_id and duar.dates = dui.dates)
         WHERE duar.dates = #{dates}
         GROUP BY duar.dates, duar.pkg, duar.version, duar.country
     </select>

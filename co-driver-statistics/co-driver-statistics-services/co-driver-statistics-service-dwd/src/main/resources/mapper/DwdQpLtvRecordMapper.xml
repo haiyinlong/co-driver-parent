@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdQpLtvRecordMapper">
+    <delete id="deleteByDate">
+        DELETE
+        FROM dwd_qp_ltv_record
+        WHERE dates = #{dates}
+    </delete>
+    <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdQpLtvRecord">
+        SELECT oelrd.dates,
+               dui.user_id,
+               dui.last_version `version`,
+               dui.pkg,
+               dui.country,
+               oelrd.event,
+               oelrd.event_ltv,
+               oelrd.user_ltv,
+               dui.create_time
+        FROM ods_extra_ltv_record_diversion oelrd
+                 INNER JOIN dim_user_info dui on (dui.user_id = oelrd.user_id)
+        WHERE oelrd.dates = #{dates}
+    </select>
+</mapper>

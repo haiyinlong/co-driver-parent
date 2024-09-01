@@ -44,7 +44,7 @@ public class DwsDailyPackageAdServiceImpl implements DwsService {
         }
         List<DwsDailyPackageAd> queryStatisticsNew = dwsDailyPackageAdMapper.queryStatisticsNew(dates);
         queryStatisticsAll = this.mergeAllAndNew(queryStatisticsAll, queryStatisticsNew);
-        queryStatisticsAll.forEach(DwsDailyPackageAd::init);
+        queryStatisticsAll.forEach(DwsDailyPackageAd::initAndCalculateEcpm);
 
         dwBatchMapper.batchInsert(queryStatisticsAll, DwsDailyPackageAdMapper.class);
     }
