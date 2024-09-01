@@ -2,6 +2,7 @@ package com.leo.ad.codriver.dws.service.impl;
 
 import java.util.List;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author HaiYinLong
  * @version 2024/09/01 16:36
  **/
+@Order(Integer.MAX_VALUE)
 @Slf4j
 @Service
 @RequiredArgsConstructor
