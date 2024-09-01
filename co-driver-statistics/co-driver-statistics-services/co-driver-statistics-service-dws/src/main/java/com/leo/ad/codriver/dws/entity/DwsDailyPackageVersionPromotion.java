@@ -28,4 +28,7 @@ public class DwsDailyPackageVersionPromotion {
     private BigDecimal cpi;
     private Date createTime;
 
+    public void initDate() {
+        this.createTime = new Date();
+    }
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageVersionPromotionMapper;
@@ -37,6 +38,10 @@ public class DwsDailyPackageVersionPromotionServiceImpl implements DwsService {
     public void syncData(Integer dates) {
         dwsDailyPackageVersionPromotionMapper.deleteByDates(dates);
         List<DwsDailyPackageVersionPromotion> list = dwsDailyPackageVersionPromotionMapper.selectByDate(dates);
+        if (CollectionUtils.isEmpty(list)) {
+            return;
+        }
+        list.forEach(DwsDailyPackageVersionPromotion::initDate);
         dwBatchMapper.batchInsert(list, DwsDailyPackageVersionPromotionMapper.class);
     }
 }
