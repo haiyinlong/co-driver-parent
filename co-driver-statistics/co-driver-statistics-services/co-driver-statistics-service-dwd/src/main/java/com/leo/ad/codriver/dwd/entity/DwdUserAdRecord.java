@@ -24,4 +24,7 @@ public class DwdUserAdRecord implements BaseEntity {
     private BigDecimal revenue;
     private Date createTime;
 
+    public void init() {
+        this.createTime = new Date();
+    }
 }

@@ -39,6 +39,7 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
         for (int i = 0; i < totalPageNum; i++) {
             userAdRecordList =
                 dwdUserAdRecordMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
+            userAdRecordList.forEach(DwdUserAdRecord::init);
             dwBatchMapper.batchInsert(userAdRecordList, DwdUserAdRecordMapper.class);
         }
     }
