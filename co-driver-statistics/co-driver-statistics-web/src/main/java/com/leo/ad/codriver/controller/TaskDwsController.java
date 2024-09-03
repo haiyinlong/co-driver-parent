@@ -49,6 +49,7 @@ public class TaskDwsController {
     private final DwsService dwsPkgUserFullDailyServiceImpl;
     private final DwsService dwsPkgRetentionFullDailyServiceImpl;
     private final DwsService dwsDailyPackageAdServiceImpl;
+    private final DwsService dwsDailyPackageOnlineServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -276,6 +277,17 @@ public class TaskDwsController {
         }
         dwsDailyPackageAdServiceImpl.syncData(dates);
         return "执行完成dws包维度的包广告数据统计同步";
+    }
+
+    @GetMapping("/packageOnline")
+    @Operation(summary = "触发dws包维度的在线时长数据统计task", description = "触发dws数据同步")
+    public String dwsDailyPackageOnlineHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsDailyPackageOnlineServiceImpl.syncData(dates);
+        return "执行完成dws包维度的在线时长数据统计同步";
     }
 
 }
