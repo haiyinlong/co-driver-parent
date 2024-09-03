@@ -1,18 +1,20 @@
 package com.leo.ad.codriver.controller;
 
-import com.leo.ad.codriver.ads.service.AdsService;
-import com.leo.ad.codriver.common.util.DateUtils;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.leo.ad.codriver.ads.service.AdsService;
+import com.leo.ad.codriver.common.util.DateUtils;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * DwController
@@ -33,6 +35,7 @@ public class TaskAdsController {
     private final AdsService adsHemaWithdrawFullDailyServiceImpl;
     private final AdsService adsGameLevelFullDailyServiceImpl;
     private final AdsService adsGameAnalyseFullDailyServiceImpl;
+    private final AdsService adsDailyOetaBaseReportServiceImpl;
 
     private final List<AdsService> adsServices;
 
@@ -114,6 +117,17 @@ public class TaskAdsController {
             dates = DateUtils.getPreviousDate();
         }
         adsGameAnalyseFullDailyServiceImpl.syncData(dates);
+        return "执行完成ads游戏数据同步";
+    }
+
+    @GetMapping("/oetaBaseReport")
+    @Operation(summary = "触发adsOeta基础报表数据同步", description = "触发ads数据同步")
+    public String adsOetaBaseReportHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        adsDailyOetaBaseReportServiceImpl.syncData(dates);
         return "执行完成ads游戏数据同步";
     }
 

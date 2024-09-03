@@ -1,19 +1,21 @@
 package com.leo.ad.codriver.controller;
 
-import com.leo.ad.codriver.common.util.DateUtils;
-import com.leo.ad.codriver.dwd.service.DwdEventService;
-import com.leo.ad.codriver.dwd.service.DwdService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.leo.ad.codriver.common.util.DateUtils;
+import com.leo.ad.codriver.dwd.service.DwdEventService;
+import com.leo.ad.codriver.dwd.service.DwdService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * DwController
@@ -36,6 +38,7 @@ public class TaskDwdController {
     private final DwdService dwdUserWithdrawRecordServiceImpl;
     private final DwdService dwdUserBalanceRecordServiceImpl;
     private final DwdService dwdUserGameRecordServiceImpl;
+    private final DwdService dwdUserAdRecordServiceImpl;
 
     private final DwdEventService dwdUserEventDetailFormReportPointServiceImpl;
     private final DwdEventService dwdUserEventDetailFormAdsReportPointServiceImpl;
@@ -157,4 +160,16 @@ public class TaskDwdController {
         dwdUserGameRecordServiceImpl.syncData(dates);
         return "执行完成dwd数据同步";
     }
+
+    @GetMapping("/userAdRecord")
+    @Operation(summary = "触发用户广告记录dwd", description = "触发dwd数据同步")
+    public String userAdRecordHandle(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        dwdUserAdRecordServiceImpl.syncData(dates);
+        return "执行完成dwd数据同步";
+    }
+
 }

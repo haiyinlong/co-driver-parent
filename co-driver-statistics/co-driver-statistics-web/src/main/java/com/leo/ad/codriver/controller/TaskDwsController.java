@@ -1,18 +1,20 @@
 package com.leo.ad.codriver.controller;
 
-import com.leo.ad.codriver.common.util.DateUtils;
-import com.leo.ad.codriver.dws.service.DwsService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import com.leo.ad.codriver.common.util.DateUtils;
+import com.leo.ad.codriver.dws.service.DwsService;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * DwController
@@ -46,6 +48,7 @@ public class TaskDwsController {
     private final DwsService dwsPkgGameFullDailyServiceImpl;
     private final DwsService dwsPkgUserFullDailyServiceImpl;
     private final DwsService dwsPkgRetentionFullDailyServiceImpl;
+    private final DwsService dwsDailyPackageAdServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -60,7 +63,7 @@ public class TaskDwsController {
             dwdStartTime = System.currentTimeMillis();
             service.syncData(dates);
             log.info("{} dws {} 同步结束, 耗时：{}", dates, service.getClass().getSimpleName(),
-                    (System.currentTimeMillis() - dwdStartTime) / 1000);
+                (System.currentTimeMillis() - dwdStartTime) / 1000);
         }
         log.info("{} dws数据同步结束", dates);
         return "执行完成dws数据同步";
@@ -253,7 +256,6 @@ public class TaskDwsController {
         return "执行完成dws包维度的用户数据统同步";
     }
 
-
     @GetMapping("/pkgRetentionFullDaily")
     @Operation(summary = "触发dws包维度的用户留存数据统计task", description = "触发dws数据同步")
     public String dwsPkgRetentionFullDailyHandle(@RequestParam("dates") Integer dates) {
@@ -264,4 +266,16 @@ public class TaskDwsController {
         dwsPkgRetentionFullDailyServiceImpl.syncData(dates);
         return "执行完成dws包维度的用户用户留存数据统同步";
     }
+
+    @GetMapping("/packageAd")
+    @Operation(summary = "触发dws包维度的包广告数据统计task", description = "触发dws数据同步")
+    public String dwsDailyPackageAdHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsDailyPackageAdServiceImpl.syncData(dates);
+        return "执行完成dws包维度的包广告数据统计同步";
+    }
+
 }
