@@ -17,7 +17,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * AdsDailyOetaBaseReportServiceImpl
+ * AdsDailyOetaBaseReportServiceImpl<br/>
+ * 有统计留存数据，定时服务每日重新统计数据
  *
  * @author HaiYinLong
  * @version 2024/09/01 11:07
@@ -40,10 +41,14 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
         if (CollectionUtils.isEmpty(activeUserList)) {
             return;
         }
-        // 新用户
-        List<AdsDailyOetaBaseReport> newUserList = adsDailyOetaBaseReportMapper.selectNewUserList(dates);
-        activeUserList.addAll(newUserList);
         activeUserList.forEach(AdsDailyOetaBaseReport::init);
         batchMapper.batchInsert(activeUserList, AdsDailyOetaBaseReportMapper.class);
+        // 新用户
+        List<AdsDailyOetaBaseReport> newUserList = adsDailyOetaBaseReportMapper.selectNewUserList(dates);
+        if (CollectionUtils.isEmpty(newUserList)) {
+            return;
+        }
+        newUserList.forEach(AdsDailyOetaBaseReport::init);
+        batchMapper.batchInsert(newUserList, AdsDailyOetaBaseReportMapper.class);
     }
 }

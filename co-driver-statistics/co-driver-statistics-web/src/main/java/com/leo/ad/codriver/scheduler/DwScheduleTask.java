@@ -1,18 +1,20 @@
 package com.leo.ad.codriver.scheduler;
 
+import java.util.List;
+
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
 import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dim.service.DimService;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.dws.service.DwsService;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 /**
  * 定义同步入口
@@ -25,6 +27,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DwScheduleTask {
     private final AdsService adsHemaDataAnalyseFullDailyServiceImpl;
+    private final AdsService adsDailyOetaBaseReportServiceImpl;
     private final ExchangeRate exchangeRate;
 
     private final List<DwsService> dwsServices;
@@ -98,6 +101,19 @@ public class DwScheduleTask {
             dates = DateUtils.getPreviousDate(day);
             adsHemaDataAnalyseFullDailyServiceImpl.syncData(dates);
             log.info("{} dws DailyHmGameAnalyse 更新 {}留数据 同步结束", dates, day - 1);
+        }
+    }
+
+    @Scheduled(cron = "0 0 * * * ?")
+    @Async("asyncServiceExecutor")
+    public void syncUpdateOetaBaseReportHistory() {
+        // 每小时更新下数据
+        Integer dates;
+        int[] days = {1, 2};
+        for (int day : days) {
+            dates = DateUtils.getPreviousDate(day);
+            adsDailyOetaBaseReportServiceImpl.syncData(dates);
+            log.info("{} dws DailyOetaBaseReportHistory 更新 {}留数据 同步结束", dates, day);
         }
     }
 

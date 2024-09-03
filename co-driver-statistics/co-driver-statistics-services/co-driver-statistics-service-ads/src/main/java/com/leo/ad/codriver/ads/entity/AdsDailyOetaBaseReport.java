@@ -21,7 +21,9 @@ public class AdsDailyOetaBaseReport {
     private Long userType;
     private Long newUserNum;
     private Long secondUserNum;
+    private BigDecimal secondUserRetentionRate;
     private Long tertiaryUserNum;
+    private BigDecimal tertiaryUserRetentionRate;
     private Long activeUserNum;
     private Long avgUserOnlineTime;
     private Long shareNewUserNum;
