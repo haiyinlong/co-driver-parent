@@ -25,7 +25,7 @@ public class AdsDailyOetaBaseReport {
     private Long tertiaryUserNum;
     private BigDecimal tertiaryUserRetentionRate;
     private Long activeUserNum;
-    private Long avgUserOnlineTime;
+    private BigDecimal avgUserOnlineTime;
     private Long shareNewUserNum;
     private BigDecimal shareRate;
     private Long offerUserNum;
@@ -36,7 +36,7 @@ public class AdsDailyOetaBaseReport {
     private BigDecimal adRewardIncome;
     private Long adRewardUserNum;
     private Long adRewardShowNum;
-    private Long adRewardEcpm;
+    private BigDecimal adRewardEcpm;
     private BigDecimal avgUserAdRewardShowNum;
     private BigDecimal adRewardRate;
     private Long adDirectSoldUserNum;
