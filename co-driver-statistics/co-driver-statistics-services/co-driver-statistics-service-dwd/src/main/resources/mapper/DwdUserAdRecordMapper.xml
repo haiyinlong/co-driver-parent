@@ -14,7 +14,8 @@
         WHERE omasda.dates = #{dates}
     </select>
     <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
-        SELECT omasda.dates,
+        SELECT omasda.id        source_id,
+               omasda.dates,
                dui.user_id,
                dui.last_version `version`,
                dui.pkg,
@@ -23,7 +24,7 @@
                omasda.network,
                omasda.ad_exhibit,
                omasda.revenue,
-               omasda.created   create_time
+               omasda.created   source_create_time
         FROM ods_max_ad_stat_detail_ads omasda
                  INNER JOIN dim_user_info dui on (omasda.gaid = dui.gaid and omasda.pkg = dui.pkg)
         WHERE omasda.dates = #{dates}

@@ -13,6 +13,7 @@ import lombok.Data;
 public class DwdUserAdRecord implements BaseEntity {
 
     private Long id;
+    private Long sourceId;
     private Long dates;
     private Long userId;
     private String version;
@@ -22,6 +23,7 @@ public class DwdUserAdRecord implements BaseEntity {
     private String network;
     private Long adExhibit;
     private BigDecimal revenue;
+    private Date sourceCreateTime;
     private Date createTime;
 
     public void init() {
