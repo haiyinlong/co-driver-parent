@@ -2,9 +2,11 @@ package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
+import com.leo.ad.codriver.common.event.dwd.DwdUserAdRecordUpdateEvent;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
@@ -28,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DwdUserAdRecordServiceImpl implements DwdService {
     private final DwdUserAdRecordMapper dwdUserAdRecordMapper;
     private final DwBatchMapper<DwdUserAdRecord, DwdUserAdRecordMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @ShowExecuteTime(name = "dwdUserAdRecord  syncData")
@@ -44,6 +47,7 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
                 userAdRecordList.forEach(DwdUserAdRecord::init);
                 dwBatchMapper.batchInsert(userAdRecordList, DwdUserAdRecordMapper.class);
             }
+            applicationEventPublisher.publishEvent(new DwdUserAdRecordUpdateEvent(this, dates));
         } catch (Exception e) {
             log.error("dwdUserAdRecord  syncData error", e);
             throw e;

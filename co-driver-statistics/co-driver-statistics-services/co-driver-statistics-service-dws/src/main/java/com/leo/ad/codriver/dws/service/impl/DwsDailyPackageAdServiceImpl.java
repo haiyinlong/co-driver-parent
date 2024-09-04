@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
+import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAdUpdateEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAdMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageAd;
 import com.leo.ad.codriver.dws.service.DwsService;
@@ -31,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DwsDailyPackageAdServiceImpl implements DwsService {
     private final DwsDailyPackageAdMapper dwsDailyPackageAdMapper;
     private final DwBatchMapper<DwsDailyPackageAd, DwsDailyPackageAdMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAd")
@@ -47,6 +50,8 @@ public class DwsDailyPackageAdServiceImpl implements DwsService {
         queryStatisticsAll.forEach(DwsDailyPackageAd::initAndCalculateEcpm);
 
         dwBatchMapper.batchInsert(queryStatisticsAll, DwsDailyPackageAdMapper.class);
+
+        applicationEventPublisher.publishEvent(new DwsDailyPackageAdUpdateEvent(this, dates));
     }
 
     private List<DwsDailyPackageAd> mergeAllAndNew(List<DwsDailyPackageAd> queryStatisticsAll,
