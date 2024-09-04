@@ -4,12 +4,13 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
 import lombok.Data;
 
 @Data
 @TableName("dws_daily_package_all_qp_ltv")
-public class DwsDailyPackageAllQpLtv {
+public class DwsDailyPackageAllQpLtv implements BaseEntity {
 
     private Long id;
     private Long dates;

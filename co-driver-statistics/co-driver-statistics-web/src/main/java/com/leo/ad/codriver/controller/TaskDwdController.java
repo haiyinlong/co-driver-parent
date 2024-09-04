@@ -40,6 +40,7 @@ public class TaskDwdController {
     private final DwdService dwdUserGameRecordServiceImpl;
     private final DwdService dwdUserAdRecordServiceImpl;
     private final DwdService dwdUserOnlineServiceImpl;
+    private final DwdService dwdPromotionRecordServiceImpl;
 
     private final DwdEventService dwdUserEventDetailFormReportPointServiceImpl;
     private final DwdEventService dwdUserEventDetailFormAdsReportPointServiceImpl;
@@ -181,6 +182,17 @@ public class TaskDwdController {
         }
         // 同步数据到dwd
         dwdUserOnlineServiceImpl.syncData(dates);
+        return "执行完成dwd数据同步";
+    }
+
+    @GetMapping("/promotionRecord")
+    @Operation(summary = "触发推广记录dwd", description = "触发dwd数据同步")
+    public String syncPromotionRecordHandle(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        dwdPromotionRecordServiceImpl.syncData(dates);
         return "执行完成dwd数据同步";
     }
 
