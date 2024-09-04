@@ -72,6 +72,9 @@ public class DwsDailyPackageAdServiceImpl implements DwsService {
             dwsDailyPackageAd.setNewUserNoSoldUserNum(newAd.getNewUserNoSoldUserNum());
             dwsDailyPackageAd.setNewUserNoSoldIncome(newAd.getNewUserNoSoldIncome());
             dwsDailyPackageAd.setNewUserNoSoldShowNum(newAd.getNewUserNoSoldShowNum());
+            dwsDailyPackageAd.setNewUserSoldUserNum(newAd.getNewUserSoldUserNum());
+            dwsDailyPackageAd.setNewUserSoldShowNum(newAd.getNewUserSoldShowNum());
+            dwsDailyPackageAd.setNewUserSoldIncome(newAd.getNewUserSoldIncome());
             dwsDailyPackageAd.setNewUserNoBannerUserNum(newAd.getNewUserNoBannerUserNum());
             dwsDailyPackageAd.setNewUserNoBannerIncome(newAd.getNewUserNoBannerIncome());
             dwsDailyPackageAd.setNewUserNoBannerShowNum(newAd.getNewUserNoBannerShowNum());
