@@ -45,9 +45,9 @@ public class AdsDailyOetaBaseReport {
     private Long adDirectSoldClickNum;
     private Long adDirectSoldClickShowRate;
     private BigDecimal adDirectSoldRate;
-    private Long avgUserAdShowNum;
-    private Long avgUserAdInterShowNum;
-    private Long avgUserAdMrecShowNum;
+    private BigDecimal avgUserAdShowNum;
+    private BigDecimal avgUserAdInterShowNum;
+    private BigDecimal avgUserAdMrecShowNum;
     private BigDecimal withdrawAmount;
     private BigDecimal withdrawFee;
     private BigDecimal withdrawCost;
