@@ -33,14 +33,20 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
     @ShowExecuteTime(name = "dwdUserAdRecord  syncData")
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
+        dwdUserAdRecordMapper.deleteByDates(dates);
         Long totalRecord = dwdUserAdRecordMapper.getCountByDate(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         List<DwdUserAdRecord> userAdRecordList;
-        for (int i = 0; i < totalPageNum; i++) {
-            userAdRecordList =
-                dwdUserAdRecordMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
-            userAdRecordList.forEach(DwdUserAdRecord::init);
-            dwBatchMapper.batchInsert(userAdRecordList, DwdUserAdRecordMapper.class);
+        try {
+            for (int i = 0; i < totalPageNum; i++) {
+                userAdRecordList =
+                    dwdUserAdRecordMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
+                userAdRecordList.forEach(DwdUserAdRecord::init);
+                dwBatchMapper.batchInsert(userAdRecordList, DwdUserAdRecordMapper.class);
+            }
+        } catch (Exception e) {
+            log.error("dwdUserAdRecord  syncData error", e);
+            throw e;
         }
     }
 }
