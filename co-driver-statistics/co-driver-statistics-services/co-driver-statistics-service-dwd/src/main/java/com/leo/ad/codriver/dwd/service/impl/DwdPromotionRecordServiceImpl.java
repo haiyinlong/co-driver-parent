@@ -2,12 +2,14 @@ package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
+import com.leo.ad.codriver.common.event.dwd.DwdPromotionRecordUpdateEvent;
 import com.leo.ad.codriver.dwd.dao.DwdPromotionRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdPromotionRecord;
 import com.leo.ad.codriver.dwd.service.DwdService;
@@ -30,6 +32,7 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
     private final DwdPromotionRecordMapper dwdPromotionRecordMapper;
     private final ExchangeRate exchangeRate;
     private final DwBatchMapper<DwdPromotionRecord, DwdPromotionRecordMapper> batchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @ShowExecuteTime(name = "dwdPromotionRecord syncData")
@@ -47,5 +50,7 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
             }
         });
         batchMapper.batchInsert(dwdPromotionRecordList, DwdPromotionRecordMapper.class);
+        // 发送事件
+        applicationEventPublisher.publishEvent(new DwdPromotionRecordUpdateEvent(this, dates));
     }
 }

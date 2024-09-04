@@ -17,7 +17,6 @@ public class AdsDailyOetaBaseReport {
     private Long dates;
     private String version;
     private String pkg;
-    private String country;
     private Long userType;
     private Long newUserNum;
     private Long secondUserNum;

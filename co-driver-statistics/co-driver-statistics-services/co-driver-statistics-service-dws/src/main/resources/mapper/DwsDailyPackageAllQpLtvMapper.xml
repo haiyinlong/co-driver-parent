@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllQpLtvMapper">
+    <delete id="deleteByDates">
+        DELETE
+        FROM dws_daily_package_all_qp_ltv
+        WHERE dates = #{dates}
+    </delete>
+    <select id="selectByDates" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllQpLtv">
+        SELECT dqlr.dates,
+               dqlr.pkg,
+               dqlr.version,
+               COUNT(distinct dqlr.user_id) active_user_num,
+               SUM(dqlr.event_ltv)          active_event_ltv,
+               SUM(dqlr.user_ltv)           active_user_ltv,
+               COUNT(distinct dui.user_id)  new_user_num,
+               SUM(dqlr.event_ltv)          new_user_event_ltv,
+               SUM(dqlr.user_ltv)           new_user_ltv
+        FROM dwd_qp_ltv_record dqlr
+                 LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
+        where dqlr.dates = #{dates}
+        GROUP BY dqlr.dates, dqlr.pkg, dqlr.version
+    </select>
+</mapper>

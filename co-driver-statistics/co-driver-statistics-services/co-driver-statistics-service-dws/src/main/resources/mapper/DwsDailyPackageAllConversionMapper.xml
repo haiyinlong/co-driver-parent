@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllConversionMapper">
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_package_all_conversion
+        where dates = #{dates}
+    </delete>
+    <insert id="syncActiveList">
+        insert into dws_daily_package_all_conversion(dates, pkg, `user_type`, `version`, user_num)
+        select dates, pkg, 0, version, count(user_id)
+        from dwd_user_conversion
+        where dates = #{dates}
+        group by dates, pkg, version
+    </insert>
+    <insert id="syncNewList">
+        insert into dws_daily_package_all_conversion(dates, pkg, `user_type`, `version`, user_num)
+        select dates, pkg, 1, version, count(user_id)
+        from dwd_user_conversion
+        where dates = #{dates}
+          and dates = register_dates
+        group by dates, pkg, version
+    </insert>
+
+
+</mapper>

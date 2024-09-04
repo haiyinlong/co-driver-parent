@@ -10,7 +10,6 @@
     <select id="selectActiveUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT ddpl.dates,
                ddpl.pkg,
-               ddpl.country,
                ddpl.version,
                0                                                             user_type,
                IFNULL(ddpr.user_num, 0)                                      new_user_num,
@@ -51,43 +50,42 @@
                IFNULL(ddpa.all_user_reward_income / ddpvp.change_cost, 0)    ad_roi,
                IFNULL((ddpa.all_user_reward_income + ddpql.active_event_ltv - dwfd.success_change_amount_fee) /
                       ddpvp.change_cost, 0)                                  total_roi
-        FROM dws_daily_package_login ddpl
-                 LEFT JOIN dws_daily_package_register ddpr
-                           on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and ddpl.country = ddpr.country and
+        FROM dws_daily_package_all_login ddpl
+                 LEFT JOIN dws_daily_package_all_register ddpr
+                           on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and
                                ddpl.version = ddpr.version)
-                 LEFT JOIN dws_daily_package_retention ddpr2
+                 LEFT JOIN dws_daily_package_all_retention ddpr2
                            on (ddpl.dates = ddpr2.register_dates and ddpl.pkg = ddpr2.pkg and
-                               ddpl.country = ddpr2.country and ddpl.version = ddpr2.version and ddpr2.register_day = 1)
-                 LEFT JOIN dws_daily_package_retention ddpr3
+                               ddpl.version = ddpr2.version and ddpr2.register_day = 1)
+                 LEFT JOIN dws_daily_package_all_retention ddpr3
                            on (ddpl.dates = ddpr3.register_dates and ddpl.pkg = ddpr3.pkg and
-                               ddpl.country = ddpr3.country and ddpl.version = ddpr3.version and ddpr3.register_day = 2)
-                 LEFT JOIN dws_daily_package_online ddpo
-                           on (ddpl.dates = ddpo.dates and ddpl.pkg = ddpo.pkg and ddpl.country = ddpo.country and
+                               ddpl.version = ddpr3.version and ddpr3.register_day = 2)
+                 LEFT JOIN dws_daily_package_all_online ddpo
+                           on (ddpl.dates = ddpo.dates and ddpl.pkg = ddpo.pkg and
                                ddpl.version = ddpo.version)
-                 LEFT JOIN dws_daily_package_ad ddpa
-                           on (ddpl.dates = ddpa.dates and ddpl.pkg = ddpa.pkg and ddpl.country = ddpa.country and
+                 LEFT JOIN dws_daily_package_all_ad ddpa
+                           on (ddpl.dates = ddpa.dates and ddpl.pkg = ddpa.pkg and
                                ddpl.version = ddpa.version)
-                 LEFT JOIN dws_daily_package_share ddps
-                           on (ddpl.dates = ddps.dates and ddpl.pkg = ddps.pkg and ddpl.country = ddps.country and
+                 LEFT JOIN dws_daily_package_all_share ddps
+                           on (ddpl.dates = ddps.dates and ddpl.pkg = ddps.pkg and
                                ddpl.version = ddps.version)
-                 LEFT JOIN dws_daily_package_user_conversion ddpuc
-                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpl.country = ddpuc.country and
+                 LEFT JOIN dws_daily_package_all_conversion ddpuc
+                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and
                                ddpl.version = ddpuc.version and ddpuc.user_type = 0)
-                 LEFT JOIN dws_withdraw_full_daily dwfd
-                           on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and ddpl.country = dwfd.country and
+                 LEFT JOIN dws_daily_package_all_withdraw dwfd
+                           on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                ddpl.version = dwfd.version and dwfd.user_type = 0)
-                 LEFT JOIN dws_daily_package_version_promotion ddpvp
-                           on (ddpl.dates = ddpvp.dates and ddpl.pkg = ddpvp.pkg and ddpl.country = ddpvp.country and
+                 LEFT JOIN dws_daily_package_all_version_promotion ddpvp
+                           on (ddpl.dates = ddpvp.dates and ddpl.pkg = ddpvp.pkg and
                                ddpl.version = ddpvp.version)
-                 LEFT JOIN dws_daily_package_qp_ltv ddpql
-                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpl.country = ddpql.country and
+                 LEFT JOIN dws_daily_package_all_qp_ltv ddpql
+                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpl.version = ddpql.version)
         WHERE ddpl.dates = #{dates}
     </select>
     <select id="selectNewUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT ddpl.dates,
                ddpl.pkg,
-               ddpl.country,
                ddpl.version,
                1                                                             user_type,
                IFNULL(ddpr.user_num, 0)                                      new_user_num,
@@ -128,36 +126,36 @@
                IFNULL(ddpa.new_user_reward_income / ddpvp.change_cost, 0)    ad_roi,
                IFNULL((ddpa.new_user_reward_income + ddpql.new_user_event_ltv - dwfd.success_change_amount_fee) /
                       ddpvp.change_cost, 0)                                  total_roi
-        FROM dws_daily_package_login ddpl
-                 LEFT JOIN dws_daily_package_register ddpr
-                           on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and ddpl.country = ddpr.country and
+        FROM dws_daily_package_all_login ddpl
+                 LEFT JOIN dws_daily_package_all_register ddpr
+                           on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and
                                ddpl.version = ddpr.version)
-                 LEFT JOIN dws_daily_package_retention ddpr2
+                 LEFT JOIN dws_daily_package_all_retention ddpr2
                            on (ddpl.dates = ddpr2.register_dates and ddpl.pkg = ddpr2.pkg and
-                               ddpl.country = ddpr2.country and ddpl.version = ddpr2.version and ddpr2.register_day = 1)
-                 LEFT JOIN dws_daily_package_retention ddpr3
+                               ddpl.version = ddpr2.version and ddpr2.register_day = 1)
+                 LEFT JOIN dws_daily_package_all_retention ddpr3
                            on (ddpl.dates = ddpr3.register_dates and ddpl.pkg = ddpr3.pkg and
-                               ddpl.country = ddpr3.country and ddpl.version = ddpr3.version and ddpr3.register_day = 2)
-                 LEFT JOIN dws_daily_package_online ddpo
-                           on (ddpl.dates = ddpo.dates and ddpl.pkg = ddpo.pkg and ddpl.country = ddpo.country and
+                               ddpl.version = ddpr3.version and ddpr3.register_day = 2)
+                 LEFT JOIN dws_daily_package_all_online ddpo
+                           on (ddpl.dates = ddpo.dates and ddpl.pkg = ddpo.pkg and
                                ddpl.version = ddpo.version)
-                 LEFT JOIN dws_daily_package_ad ddpa
-                           on (ddpl.dates = ddpa.dates and ddpl.pkg = ddpa.pkg and ddpl.country = ddpa.country and
+                 LEFT JOIN dws_daily_package_all_ad ddpa
+                           on (ddpl.dates = ddpa.dates and ddpl.pkg = ddpa.pkg and
                                ddpl.version = ddpa.version)
-                 LEFT JOIN dws_daily_package_share ddps
-                           on (ddpl.dates = ddps.dates and ddpl.pkg = ddps.pkg and ddpl.country = ddps.country and
+                 LEFT JOIN dws_daily_package_all_share ddps
+                           on (ddpl.dates = ddps.dates and ddpl.pkg = ddps.pkg and
                                ddpl.version = ddps.version)
-                 LEFT JOIN dws_daily_package_user_conversion ddpuc
-                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpl.country = ddpuc.country and
+                 LEFT JOIN dws_daily_package_all_conversion ddpuc
+                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and
                                ddpl.version = ddpuc.version and ddpuc.user_type = 1)
-                 LEFT JOIN dws_withdraw_full_daily dwfd
-                           on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and ddpl.country = dwfd.country and
+                 LEFT JOIN dws_daily_package_all_withdraw dwfd
+                           on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                ddpl.version = dwfd.version and dwfd.user_type = 1)
-                 LEFT JOIN dws_daily_package_version_promotion ddpvp
-                           on (ddpl.dates = ddpvp.dates and ddpl.pkg = ddpvp.pkg and ddpl.country = ddpvp.country and
+                 LEFT JOIN dws_daily_package_all_version_promotion ddpvp
+                           on (ddpl.dates = ddpvp.dates and ddpl.pkg = ddpvp.pkg and
                                ddpl.version = ddpvp.version)
-                 LEFT JOIN dws_daily_package_qp_ltv ddpql
-                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpl.country = ddpql.country and
+                 LEFT JOIN dws_daily_package_all_qp_ltv ddpql
+                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpl.version = ddpql.version)
         WHERE ddpl.dates = #{dates}
     </select>

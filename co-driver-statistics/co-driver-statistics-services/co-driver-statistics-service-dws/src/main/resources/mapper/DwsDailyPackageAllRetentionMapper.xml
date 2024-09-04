@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllRetentionMapper">
+
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_package_all_retention
+        where dates = #{dates}
+    </delete>
+    <insert id="syncData">
+        insert into dws_daily_package_all_retention(dates, pkg, `version`,
+                                                    register_dates, register_day, retention_user_num)
+        select lr.dates,
+               lr.pkg,
+               lr.register_version                             version,
+               lr.register_dates,
+               TIMESTAMPDIFF(DAY, lr.register_dates, lr.dates) register_day,
+               count(DISTINCT lr.user_id)                      retention_user_num
+        from dwd_user_login_record lr
+        where dates = #{dates}
+        group by lr.dates, lr.pkg, lr.register_version, lr.register_dates
+    </insert>
+</mapper>

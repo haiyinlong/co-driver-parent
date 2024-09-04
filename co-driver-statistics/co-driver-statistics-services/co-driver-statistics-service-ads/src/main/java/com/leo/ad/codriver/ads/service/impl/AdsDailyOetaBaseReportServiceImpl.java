@@ -18,7 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * AdsDailyOetaBaseReportServiceImpl<br/>
- * 有统计留存数据，定时服务每日重新统计数据
+ * 有统计留存数据，定时服务每日重新统计数据<br>
+ * 统计维度：日期，包，版本
  *
  * @author HaiYinLong
  * @version 2024/09/01 11:07

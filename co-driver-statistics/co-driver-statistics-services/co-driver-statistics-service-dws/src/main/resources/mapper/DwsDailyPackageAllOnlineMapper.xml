@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllOnlineMapper">
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_package_all_online
+        where dates = #{dates}
+    </delete>
+    <select id="queryStatistics" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllOnline">
+        SELECT duo.dates,
+               duo.pkg,
+               duo.version,
+               IFNULL(sum(duo.online_time), 0)                                            total_online_time,
+               IFNULL(sum(duo.online_time) / count(DISTINCT duo.user_id), 0)              avg_user_online_time,
+               IFNULL(sum(case when dui.user_id is not null then duo.online_time end), 0) new_user_online_time,
+               IFNULL(sum(duo.online_time) / count(DISTINCT dui.user_id), 0)              avg_new_user_online_time
+        FROM dwd_user_online duo
+                 LEFT JOIN dim_user_info dui on (duo.user_id = dui.user_id and dui.dates = duo.dates)
+        where duo.dates = #{dates}
+        GROUP BY duo.dates, duo.pkg, duo.version
+    </select>
+</mapper>

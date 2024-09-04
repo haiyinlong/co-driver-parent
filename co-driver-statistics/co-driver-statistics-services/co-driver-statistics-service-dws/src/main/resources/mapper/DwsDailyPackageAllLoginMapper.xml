@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllLoginMapper">
+
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_package_all_login
+        where dates = #{dates}
+    </delete>
+    <insert id="syncDailyPackageAllLogin">
+        insert into dws_daily_package_all_login (dates, pkg, version, user_num)
+        select dates, pkg, version, count(DISTINCT user_id) user_num
+        from dwd_user_login_record
+        where dates = #{dates}
+        group by dates, pkg, version
+    </insert>
+</mapper>
