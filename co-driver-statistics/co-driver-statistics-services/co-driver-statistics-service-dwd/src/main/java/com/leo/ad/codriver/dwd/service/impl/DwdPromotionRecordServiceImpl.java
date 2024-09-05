@@ -9,7 +9,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dwd.DwdPromotionRecordUpdateEvent;
+import com.leo.ad.codriver.common.event.dwd.DwdPromotionRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.dao.DwdPromotionRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdPromotionRecord;
 import com.leo.ad.codriver.dwd.service.DwdService;
@@ -51,6 +51,6 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
         });
         batchMapper.batchInsert(dwdPromotionRecordList, DwdPromotionRecordMapper.class);
         // 发送事件
-        applicationEventPublisher.publishEvent(new DwdPromotionRecordUpdateEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwdPromotionRecordUpdateDwEvent(this, dates));
     }
 }

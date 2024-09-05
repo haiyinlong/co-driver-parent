@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllVersionPromotionUpdateEvent;
+import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllVersionPromotionUpdateDwEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAllVersionPromotionMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllVersionPromotion;
 import com.leo.ad.codriver.dws.service.DwsService;
@@ -47,6 +47,6 @@ public class DwsDailyPackageAllVersionPromotionServiceImpl implements DwsService
         }
         list.forEach(DwsDailyPackageAllVersionPromotion::initDate);
         dwBatchMapper.batchInsert(list, DwsDailyPackageAllVersionPromotionMapper.class);
-        applicationEventPublisher.publishEvent(new DwsDailyPackageAllVersionPromotionUpdateEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwsDailyPackageAllVersionPromotionUpdateDwEvent(this, dates));
     }
 }

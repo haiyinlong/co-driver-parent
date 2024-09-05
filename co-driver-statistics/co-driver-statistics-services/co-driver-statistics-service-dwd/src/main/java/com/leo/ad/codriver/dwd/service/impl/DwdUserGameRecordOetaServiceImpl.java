@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dwd.DwdUserGameRecordOetaUpdateEvent;
+import com.leo.ad.codriver.common.event.dwd.DwdUserGameRecordOetaUpdateDwEvent;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserGameRecordOetaMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
@@ -48,7 +48,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService {
             }
             batchMapper.batchInsert(statistics, DwdUserGameRecordOetaMapper.class);
         }
-        applicationEventPublisher.publishEvent(new DwdUserGameRecordOetaUpdateEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwdUserGameRecordOetaUpdateDwEvent(this, dates));
     }
 
 }

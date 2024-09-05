@@ -4,7 +4,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import com.leo.ad.codriver.common.event.dwd.DwdUserAdRecordUpdateEvent;
+import com.leo.ad.codriver.common.event.dwd.DwdUserAdRecordUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class DwsDailyPackageAllAdEventHandler {
 
     @EventListener
     @Async
-    public void handleEvent(DwdUserAdRecordUpdateEvent dwdUserAdRecordUpdateEvent) {
+    public void handleEvent(DwdUserAdRecordUpdateDwEvent dwdUserAdRecordUpdateEvent) {
         log.info("{} 事件触发 dwsDailyPackageAllAd", dwdUserAdRecordUpdateEvent.getDates());
         dwsDailyPackageAllAdServiceImpl.syncData(dwdUserAdRecordUpdateEvent.getDates());
     }

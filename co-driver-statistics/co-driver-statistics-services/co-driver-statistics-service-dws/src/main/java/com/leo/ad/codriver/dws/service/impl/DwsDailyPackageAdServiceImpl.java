@@ -11,7 +11,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAdUpdateEvent;
+import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAdUpdateDwEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAdMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageAd;
 import com.leo.ad.codriver.dws.service.DwsService;
@@ -51,7 +51,7 @@ public class DwsDailyPackageAdServiceImpl implements DwsService {
 
         dwBatchMapper.batchInsert(queryStatisticsAll, DwsDailyPackageAdMapper.class);
 
-        applicationEventPublisher.publishEvent(new DwsDailyPackageAdUpdateEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwsDailyPackageAdUpdateDwEvent(this, dates));
     }
 
     private List<DwsDailyPackageAd> mergeAllAndNew(List<DwsDailyPackageAd> queryStatisticsAll,

@@ -2,7 +2,7 @@ package com.leo.ad.codriver.common.event.dwd;
 
 import java.io.Serial;
 
-import com.leo.ad.codriver.common.event.CoDriverEvent;
+import com.leo.ad.codriver.common.event.CoDriverDwEvent;
 
 import lombok.Getter;
 
@@ -13,12 +13,12 @@ import lombok.Getter;
  * @version 2024/09/04 15:43
  **/
 @Getter
-public class DwdUserAdRecordUpdateEvent extends CoDriverEvent {
+public class DwdUserAdRecordUpdateDwEvent extends CoDriverDwEvent {
 
     @Serial
     private static final long serialVersionUID = 5030057341471183695L;
 
-    public DwdUserAdRecordUpdateEvent(Object source, Integer dates) {
+    public DwdUserAdRecordUpdateDwEvent(Object source, Integer dates) {
         super(source, dates);
     }
 }

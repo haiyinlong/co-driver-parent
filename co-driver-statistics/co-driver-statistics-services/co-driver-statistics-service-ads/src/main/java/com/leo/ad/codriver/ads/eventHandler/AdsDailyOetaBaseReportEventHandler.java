@@ -5,8 +5,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.leo.ad.codriver.ads.service.AdsService;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllAdUpdateEvent;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllVersionPromotionUpdateEvent;
+import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllAdUpdateDwEvent;
+import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllVersionPromotionUpdateDwEvent;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ public class AdsDailyOetaBaseReportEventHandler {
 
     @EventListener
     @Async
-    public void handleEvent(DwsDailyPackageAllAdUpdateEvent dwsDailyPackageAdUpdateEvent) {
+    public void handleEvent(DwsDailyPackageAllAdUpdateDwEvent dwsDailyPackageAdUpdateEvent) {
         log.info("{} DwsDailyPackageAllAdUpdateEvent事件触发 adsDailyOetaBaseReport",
             dwsDailyPackageAdUpdateEvent.getDates());
         adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAdUpdateEvent.getDates());
@@ -34,7 +34,7 @@ public class AdsDailyOetaBaseReportEventHandler {
     @EventListener
     @Async
     public void
-        handleEvent(DwsDailyPackageAllVersionPromotionUpdateEvent dwsDailyPackageAllVersionPromotionUpdateEvent) {
+        handleEvent(DwsDailyPackageAllVersionPromotionUpdateDwEvent dwsDailyPackageAllVersionPromotionUpdateEvent) {
         log.info("{} DwsDailyPackageAllVersionPromotionUpdateEvent事件触发 adsDailyOetaBaseReport",
             dwsDailyPackageAllVersionPromotionUpdateEvent.getDates());
         adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAllVersionPromotionUpdateEvent.getDates());
