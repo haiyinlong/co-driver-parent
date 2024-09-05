@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllLabLoginMapper">
+
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_package_all_lab_login
+        where dates = #{dates}
+    </delete>
+    <insert id="syncDailyPackageAllLabLogin">
+        insert into dws_daily_package_all_lab_login (dates, pkg, version, config_group_type, config_group_id, user_num)
+        select dulr.dates,
+               dulr.pkg,
+               dulr.version,
+               dul.config_group_type,
+               dul.config_group_id,
+               count(DISTINCT dulr.user_id) user_num
+        from dwd_user_login_record dulr
+                 INNER JOIN dim_user_lab dul on (dul.user_id = dulr.user_id)
+        where dulr.dates = #{dates}
+        group by dulr.dates, dulr.pkg, dulr.version, dul.config_group_type,
+                 dul.config_group_id
+    </insert>
+</mapper>

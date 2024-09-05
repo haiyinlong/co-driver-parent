@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllLabWithdrawMapper">
+
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_package_all_lab_withdraw
+        where dates = #{dates}
+    </delete>
+    <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabWithdraw">
+        SELECT duwr.dates,
+               duwr.pkg,
+               duwr.version,
+               dul.config_group_type,
+               dul.config_group_id,
+               0                                                                                        user_type,
+               count(1)                                                                                 total_record_num,
+               count(DISTINCT duwr.user_id)                                                             total_user_num,
+               count(case when duwr.status = 0 then duwr.status end)                                    process_record_num,
+               count(DISTINCT (case when duwr.status = 0 then duwr.user_id end))                        process_user_num,
+               IFNULL(sum(case when duwr.status = 1 then duwr.amount ELSE 0 end), 0)                    success_amount,
+               IFNULL(sum(case when duwr.status = 1 then duwr.fee ELSE 0 end), 0)                       success_fee,
+               IFNULL(sum(case when duwr.status = 1 then duwr.amount + duwr.fee ELSE 0 end),
+                      0)                                                                                success_amount_fee,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                      0)                                                                                success_change_amount,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_total_amount ELSE 0 end),
+                      0)                                                                                success_change_amount_fee,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                      0)                                                                                success_change_fee,
+               count(case when duwr.status = 1 then duwr.status end)                                    success_record_num,
+               count(DISTINCT (case when duwr.status = 1 then duwr.user_id end))                        success_user_num,
+               count(case when duwr.status = 2 then duwr.status end)                                    failed_record_num,
+               count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))                        failed_user_num,
+               IFNULL(sum(case when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.amount ELSE 0 end),
+                      0)                                                                                aws_amount,
+               IFNULL(sum(case
+                              when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.amount + duwr.fee
+                              ELSE 0 end),
+                      0)                                                                                aws_amount_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.fee ELSE 0 end),
+                      0)                                                                                aws_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                      0)                                                                                aws_change_amount,
+               IFNULL(sum(case
+                              when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.change_total_amount
+                              ELSE 0 end),
+                      0)                                                                                aws_change_amount_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                      0)                                                                                aws_change_fee,
+               count(case
+                         when duwr.withdraw_type = 'AWS' and duwr.status = 1
+                             then duwr.withdraw_type end)                                               aws_record_num,
+               count(DISTINCT (case
+                                   when duwr.withdraw_type = 'AWS' and duwr.status = 1
+                                       then duwr.user_id end))                                          aws_user_num,
+               IFNULL(sum(case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.amount ELSE 0 end),
+                      0)                                                                                bank_amount,
+               IFNULL(sum(case
+                              when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.amount + duwr.fee
+                              ELSE 0 end),
+                      0)                                                                                bank_amount_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.fee ELSE 0 end),
+                      0)                                                                                bank_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                      0)                                                                                bank_change_amount,
+               IFNULL(sum(case
+                              when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.change_total_amount
+                              ELSE 0 end),
+                      0)                                                                                bank_change_amount_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                      0)                                                                                bank_change_fee,
+               count(case
+                         when duwr.withdraw_type = 'BANK' and duwr.status = 1
+                             then duwr.withdraw_type end)                                               bank_record_num,
+               count(DISTINCT
+                     (case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.user_id end)) bank_user_num
+        FROM dwd_user_withdraw_record duwr
+                 INNER JOIN dim_user_lab dul on (dul.user_id = duwr.user_id)
+        WHERE duwr.dates = #{dates}
+        group by duwr.dates, duwr.pkg, duwr.version, dul.config_group_type, dul.config_group_id
+    </select>
+    <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabWithdraw">
+        SELECT duwr.dates,
+               duwr.pkg,
+               duwr.version,
+               dul.config_group_type,
+               dul.config_group_id,
+               1                                                                                        user_type,
+               count(1)                                                                                 total_record_num,
+               count(DISTINCT duwr.user_id)                                                             total_user_num,
+               count(case when duwr.status = 0 then duwr.status end)                                    process_record_num,
+               count(DISTINCT (case when duwr.status = 0 then duwr.user_id end))                        process_user_num,
+               IFNULL(sum(case when duwr.status = 1 then duwr.amount ELSE 0 end), 0)                    success_amount,
+               IFNULL(sum(case when duwr.status = 1 then duwr.fee ELSE 0 end), 0)                       success_fee,
+               IFNULL(sum(case when duwr.status = 1 then duwr.amount + duwr.fee ELSE 0 end),
+                      0)                                                                                success_amount_fee,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                      0)                                                                                success_change_amount,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_total_amount ELSE 0 end),
+                      0)                                                                                success_change_amount_fee,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                      0)                                                                                success_change_fee,
+               count(case when duwr.status = 1 then duwr.status end)                                    success_record_num,
+               count(DISTINCT (case when duwr.status = 1 then duwr.user_id end))                        success_user_num,
+               count(case when duwr.status = 2 then duwr.status end)                                    failed_record_num,
+               count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))                        failed_user_num,
+               IFNULL(sum(case when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.amount ELSE 0 end),
+                      0)                                                                                aws_amount,
+               IFNULL(sum(case
+                              when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.amount + duwr.fee
+                              ELSE 0 end),
+                      0)                                                                                aws_amount_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.fee ELSE 0 end),
+                      0)                                                                                aws_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                      0)                                                                                aws_change_amount,
+               IFNULL(sum(case
+                              when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.change_total_amount
+                              ELSE 0 end),
+                      0)                                                                                aws_change_amount_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'AWS' and duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                      0)                                                                                aws_change_fee,
+               count(case
+                         when duwr.withdraw_type = 'AWS' and duwr.status = 1
+                             then duwr.withdraw_type end)                                               aws_record_num,
+               count(DISTINCT (case
+                                   when duwr.withdraw_type = 'AWS' and duwr.status = 1
+                                       then duwr.user_id end))                                          aws_user_num,
+               IFNULL(sum(case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.amount ELSE 0 end),
+                      0)                                                                                bank_amount,
+               IFNULL(sum(case
+                              when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.amount + duwr.fee
+                              ELSE 0 end),
+                      0)                                                                                bank_amount_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.fee ELSE 0 end),
+                      0)                                                                                bank_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                      0)                                                                                bank_change_amount,
+               IFNULL(sum(case
+                              when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.change_total_amount
+                              ELSE 0 end),
+                      0)                                                                                bank_change_amount_fee,
+               IFNULL(sum(case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                      0)                                                                                bank_change_fee,
+               count(case
+                         when duwr.withdraw_type = 'BANK' and duwr.status = 1
+                             then duwr.withdraw_type end)                                               bank_record_num,
+               count(DISTINCT
+                     (case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.user_id end)) bank_user_num
+        FROM dwd_user_withdraw_record duwr
+                 INNER JOIN dim_user_lab dul on (dul.user_id = duwr.user_id)
+        WHERE duwr.dates = #{dates}
+          and duwr.register_day = 0
+        group by duwr.dates, duwr.pkg, duwr.version, dul.config_group_type, dul.config_group_id
+    </select>
+</mapper>

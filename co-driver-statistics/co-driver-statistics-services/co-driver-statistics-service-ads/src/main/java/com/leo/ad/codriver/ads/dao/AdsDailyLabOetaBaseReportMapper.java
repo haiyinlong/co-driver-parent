@@ -1,0 +1,26 @@
+package com.leo.ad.codriver.ads.dao;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.ads.entity.AdsDailyLabOetaBaseReport;
+
+/**
+ * AdsDailyLabOetaBaseReportMapper
+ *
+ * @author HaiYinLong
+ * @version 2024/09/01 11:07
+ **/
+@Mapper
+@DS("mysql")
+public interface AdsDailyLabOetaBaseReportMapper extends BaseMapper<AdsDailyLabOetaBaseReport> {
+    void deleteByDates(@Param("dates") Integer dates);
+
+    List<AdsDailyLabOetaBaseReport> selectActiveUserList(@Param("dates") Integer dates);
+
+    List<AdsDailyLabOetaBaseReport> selectNewUserList(@Param("dates") Integer dates);
+}

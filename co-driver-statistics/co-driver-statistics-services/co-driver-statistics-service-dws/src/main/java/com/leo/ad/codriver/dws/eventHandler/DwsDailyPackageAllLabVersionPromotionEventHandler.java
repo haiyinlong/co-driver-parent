@@ -11,7 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * DwsDailyPackageAllVersionPromotionEventHandler
+ * DwsDailyPackageAllLabVersionPromotionEventHandler
  *
  * @author HaiYinLong
  * @version 2024/09/04 19:44
@@ -19,13 +19,13 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DwsDailyPackageAllVersionPromotionEventHandler {
-    private final DwsService dwsDailyPackageAllVersionPromotionServiceImpl;
+public class DwsDailyPackageAllLabVersionPromotionEventHandler {
+    private final DwsService dwsDailyPackageAllLabVersionPromotionServiceImpl;
 
     @EventListener
     @Async
     public void handleEvent(DwdPromotionRecordUpdateDwEvent dwdPromotionRecordUpdateEvent) {
-        log.info("{} 事件触发 dwsDailyPackageAllVersionPromotion", dwdPromotionRecordUpdateEvent.getDates());
-        dwsDailyPackageAllVersionPromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+        log.info("{} 事件触发 dwsDailyPackageAllLabVersionPromotion", dwdPromotionRecordUpdateEvent.getDates());
+        dwsDailyPackageAllLabVersionPromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
     }
 }

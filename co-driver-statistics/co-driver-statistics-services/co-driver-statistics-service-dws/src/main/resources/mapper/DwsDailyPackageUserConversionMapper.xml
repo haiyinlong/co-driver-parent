@@ -9,14 +9,14 @@
     </delete>
     <insert id="syncActiveList">
         insert into dws_daily_package_user_conversion(dates, pkg, country, `user_type`, `version`, user_num)
-        select dates, pkg, country, 0, version, count(user_id)
+        select dates, pkg, country, 0, version, count(DISTINCT user_id)
         from dwd_user_conversion
         where dates = #{dates}
         group by dates, pkg, country, version
     </insert>
     <insert id="syncNewList">
         insert into dws_daily_package_user_conversion(dates, pkg, country, `user_type`, `version`, user_num)
-        select dates, pkg, country, 1, version, count(user_id)
+        select dates, pkg, country, 1, version, count(DISTINCT user_id)
         from dwd_user_conversion
         where dates = #{dates}
           and dates = register_dates

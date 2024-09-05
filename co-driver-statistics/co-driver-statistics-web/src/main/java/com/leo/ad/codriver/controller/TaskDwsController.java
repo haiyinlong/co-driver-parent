@@ -51,6 +51,17 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageAdServiceImpl;
     private final DwsService dwsDailyPackageOnlineServiceImpl;
 
+    private final DwsService dwsDailyPackageAllLabAdServiceImpl;
+    private final DwsService dwsDailyPackageAllLabConversionServiceImpl;
+    private final DwsService dwsDailyPackageAllLabLoginServiceImpl;
+    private final DwsService dwsDailyPackageAllLabOnlineServiceImpl;
+    private final DwsService dwsDailyPackageAllLabQpLtvServiceImpl;
+    private final DwsService dwsDailyPackageAllLabRegisterServiceImpl;
+    private final DwsService dwsDailyPackageAllLabRetentionServiceImpl;
+    private final DwsService dwsDailyPackageAllLabShareServiceImpl;
+    private final DwsService dwsDailyPackageAllLabVersionPromotionServiceImpl;
+    private final DwsService dwsDailyPackageAllLabWithdrawServiceImpl;
+
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
     public String dwsHandle(@RequestParam("dates") Integer dates) {
@@ -290,4 +301,23 @@ public class TaskDwsController {
         return "执行完成dws包维度的在线时长数据统计同步";
     }
 
+    @GetMapping("/updateAllLab")
+    @Operation(summary = "触发dws包维度的在线时长数据统计task", description = "触发dws数据同步")
+    public String dwsupdateAllLabHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsDailyPackageAllLabRegisterServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabConversionServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabLoginServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabOnlineServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabQpLtvServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabRetentionServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabShareServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabWithdrawServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabAdServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabVersionPromotionServiceImpl.syncData(dates);
+        return "执行完成dws包维度的在线时长数据统计同步";
+    }
 }

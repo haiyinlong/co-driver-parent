@@ -1,0 +1,64 @@
+package com.leo.ad.codriver.ads.entity;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+
+import lombok.Data;
+
+@Data
+@TableName("ads_daily_lab_oeta_base_report")
+public class AdsDailyLabOetaBaseReport {
+
+    private Long id;
+    private Long dates;
+    private String version;
+    private String pkg;
+    private String country;
+    private Long userType;
+    private String configGroupType;
+    private Long configGroupId;
+    private Long newUserNum;
+    private Long secondUserNum;
+    private BigDecimal secondUserRetentionRate;
+    private Long tertiaryUserNum;
+    private BigDecimal tertiaryUserRetentionRate;
+    private Long activeUserNum;
+    private BigDecimal avgUserOnlineTime;
+    private Long shareNewUserNum;
+    private BigDecimal shareRate;
+    private Long offerUserNum;
+    private BigDecimal offerRate;
+    private Long paymentUserNum;
+    private BigDecimal paymentRate;
+    private BigDecimal qpLtv;
+    private BigDecimal adRewardIncome;
+    private Long adRewardUserNum;
+    private Long adRewardShowNum;
+    private BigDecimal adRewardEcpm;
+    private BigDecimal avgUserAdRewardShowNum;
+    private BigDecimal adRewardRate;
+    private Long adDirectSoldUserNum;
+    private Long adDirectSoldShowNum;
+    private BigDecimal avgUserAdDirectSoldShowNum;
+    private Long adDirectSoldClickNum;
+    private Long adDirectSoldClickShowRate;
+    private BigDecimal adDirectSoldRate;
+    private BigDecimal avgUserAdShowNum;
+    private BigDecimal avgUserAdInterShowNum;
+    private BigDecimal avgUserAdMrecShowNum;
+    private BigDecimal withdrawAmount;
+    private BigDecimal withdrawFee;
+    private BigDecimal withdrawCost;
+    private BigDecimal promotionCost;
+    private BigDecimal totalExpenditure;
+    private BigDecimal cpi;
+    private BigDecimal adRoi;
+    private BigDecimal totalRoi;
+    private Date createTime;
+
+    public void init() {
+        this.createTime = new Date();
+    }
+}
