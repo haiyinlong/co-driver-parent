@@ -41,6 +41,7 @@ public class TaskDwdController {
     private final DwdService dwdUserAdRecordServiceImpl;
     private final DwdService dwdUserOnlineServiceImpl;
     private final DwdService dwdPromotionRecordServiceImpl;
+    private final DwdService dwdUserGameRecordOetaServiceImpl;
 
     private final DwdEventService dwdUserEventDetailFormReportPointServiceImpl;
     private final DwdEventService dwdUserEventDetailFormAdsReportPointServiceImpl;
@@ -193,6 +194,17 @@ public class TaskDwdController {
         }
         // 同步数据到dwd
         dwdPromotionRecordServiceImpl.syncData(dates);
+        return "执行完成dwd数据同步";
+    }
+
+    @GetMapping("/oetaGameRecord")
+    @Operation(summary = "触发同步Oeta游戏记录dwd", description = "触发dwd数据同步")
+    public String syncGameRecordOetaHandle(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        dwdUserGameRecordOetaServiceImpl.syncData(dates);
         return "执行完成dwd数据同步";
     }
 

@@ -2,7 +2,7 @@ package com.leo.ad.codriver.common.event.dws;
 
 import java.io.Serial;
 
-import org.springframework.context.ApplicationEvent;
+import com.leo.ad.codriver.common.event.CoDriverEvent;
 
 import lombok.Getter;
 
@@ -13,13 +13,11 @@ import lombok.Getter;
  * @version 2024/09/04 19:46
  **/
 @Getter
-public class DwsDailyPackageAllVersionPromotionUpdateEvent extends ApplicationEvent {
+public class DwsDailyPackageAllVersionPromotionUpdateEvent extends CoDriverEvent {
     @Serial
-    private static final long serialVersionUID = -1025171762250620127L;
-    private final Integer dates;
+    private static final long serialVersionUID = 424915631296013502L;
 
     public DwsDailyPackageAllVersionPromotionUpdateEvent(Object source, Integer dates) {
-        super(source);
-        this.dates = dates;
+        super(source, dates);
     }
 }

@@ -15,26 +15,29 @@
         WHERE ogron.dates = #{dates}
     </select>
     <select id="queryStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta">
-        SELECT ogron.id,
-               ogron.dates,
+        SELECT ogron.dates,
+               ogron.pkg_game_id,
+               ogron.pkg_id,
+               ogron.game_id,
                dui.user_id,
                dui.last_version `version`,
                dui.pkg,
                dui.country,
-               ogron.game_id,
-               ogon.name,
-               ogon.`type`,
+               ogron.s_id,
                ogron.played_time,
+               ogron.start_time,
+               ogron.end_time,
                ogron.game_result,
                ogron.reward_source,
-               ogron.expend_account_type,
-               ogron.expend,
                ogron.reward_account_type,
-               ogron.reward
+               ogron.reward,
+               ogron.expend,
+               ogron.expend_account_type,
+               ogron.create_time,
+               ogron.end_time
         FROM ods_game_record_one_net ogron
-                 INNER JOIN dim_user_info dui on (ogron.user_id = dui.user_id)
-                 LEFT JOIN ods_game_one_net ogon on (ogon.id = ogron.game_id)
-        WHERE ogron.dates = #{dates}
+                 INNER JOIN dim_user_info dui on (dui.user_id = ogron.user_id)
+        where ogron.dates = #{dates}
         limit #{startRows}, #{rows}
     </select>
 </mapper>
