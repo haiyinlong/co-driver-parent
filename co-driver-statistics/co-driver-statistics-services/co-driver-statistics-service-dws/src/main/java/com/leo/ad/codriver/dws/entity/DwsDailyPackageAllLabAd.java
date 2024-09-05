@@ -136,7 +136,7 @@ public class DwsDailyPackageAllLabAd {
     }
 
     public String getUniqueId() {
-        return String.format("%s_%s", pkg, version);
+        return String.format("%s_%s_%s_%s", pkg, version, configGroupType, configGroupId);
     }
 
     public void initAndCalculateEcpm() {

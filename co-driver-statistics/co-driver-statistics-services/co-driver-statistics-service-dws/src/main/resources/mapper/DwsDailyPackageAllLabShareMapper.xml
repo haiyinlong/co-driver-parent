@@ -28,7 +28,8 @@
               WHERE dusr.dates = #{dates}
               GROUP BY dusr.dates, dusr.pkg, dusr.version, dul.config_group_type, dul.config_group_id) shares
                  LEFT JOIN dws_daily_package_all_lab_share ddps on
-            (ddps.dates = shares.dates and ddps.pkg = shares.pkg and ddps.version = shares.version)
+            (ddps.dates = shares.dates and ddps.pkg = shares.pkg and ddps.version = shares.version and
+             ddps.config_group_type = shares.config_group_type and ddps.config_group_id = shares.config_group_id)
 
     </select>
 </mapper>

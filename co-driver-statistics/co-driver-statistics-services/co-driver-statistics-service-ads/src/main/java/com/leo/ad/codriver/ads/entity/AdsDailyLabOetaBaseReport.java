@@ -15,7 +15,6 @@ public class AdsDailyLabOetaBaseReport {
     private Long dates;
     private String version;
     private String pkg;
-    private String country;
     private Long userType;
     private String configGroupType;
     private Long configGroupId;
