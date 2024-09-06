@@ -2,8 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.dim.dao.DimUserLabMapper">
+    <delete id="deleteBySourceId">
+        DELETE
+        FROM dim_user_lab
+        WHERE source_id = #{sourceId}
+    </delete>
     <select id="getUserLab" resultType="com.leo.ad.codriver.dim.entity.DimUserLab">
         SELECT dul.id,
+               ucg.id source_id,
                ucg.pkg_config_group_id,
                pcg.pkg,
                pcg.pvc,
@@ -14,14 +20,7 @@
                pcg.config_group_id
         from ods_user_config_group_diversion ucg
                  left join ods_pkg_config_group_diversion pcg on (ucg.pkg_config_group_id = pcg.id)
-                 LEFT JOIN dim_user_lab dul on (dul.pkg = pcg.pkg
-            and dul.pvc = pcg.pvc
-            and dul.svc = pcg.svc
-            and dul.user_id = ucg.user_id
-            and dul.pkg_config_group_id = ucg.pkg_config_group_id
-            and dul.config_group_type = pcg.config_group_type
-            and dul.config_group_id = pcg.config_group_id
-            )
+                 LEFT JOIN dim_user_lab dul on (dul.source_id = ucg.id)
         where ucg.id = #{userLabId}
     </select>
 </mapper>

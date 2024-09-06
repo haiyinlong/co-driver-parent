@@ -1,6 +1,7 @@
 package com.leo.ad.codriver.dim.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -16,4 +17,6 @@ import com.leo.ad.codriver.dim.entity.DimUserLab;
 @DS("mysql")
 public interface DimUserLabMapper extends BaseMapper<DimUserLab> {
     DimUserLab getUserLab(long userLabId);
+
+    void deleteBySourceId(@Param("sourceId") long sourceId);
 }

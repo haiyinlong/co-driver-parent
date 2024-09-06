@@ -15,6 +15,7 @@ public class DimUserLab {
 
     @TableId(type = IdType.AUTO)
     private Long id;
+    private Long sourceId;
     private String pkg;
     private String pvc;
     private String svc;
