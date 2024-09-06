@@ -20,7 +20,7 @@
                SUM(dqlr.event_ltv)          new_user_event_ltv,
                SUM(dqlr.user_ltv)           new_user_ltv
         FROM dwd_qp_ltv_record dqlr
-                 INNER JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
+                 LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
                  INNER JOIN dim_user_lab dul on (dul.user_id = dqlr.user_id)
         where dqlr.dates = #{dates}
         GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, dul.config_group_type, dul.name
