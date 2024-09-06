@@ -20,14 +20,14 @@
 
             -- 入门游戏相关数据
             d.intro_user_count,
-            d.intro_user_count/ddpr.user_num  intro_user_rate,
+            d.intro_user_count/ddpl.user_num  intro_user_rate,
             d.intro_game_reward intro_game_reward,
             d.intro_avg_reward  intro_avg_game_reward,
 
             -- 转盘游戏相关数据
             d.turn_user_count ,
             d.turn_game_count/d.turn_user_count turn_avg_game_count,
-            d.turn_user_count/ddpr.user_num turn_user_rate,
+            d.turn_user_count/ddpl.user_num turn_user_rate,
             d.turn_game_consume turn_game_consume,
             d.turn_game_reward turn_game_reward,
             d.turn_avg_consume turn_avg_game_consume,
@@ -40,9 +40,9 @@
             0 as mini_exchange_ch_amount,
             0 as mini_exchange_chip_amount,
             d.mini_user_count,
-            d.mini_game_count/ddpr.user_num mini_avg_game_count,
-            d.mini_game_time/ddpr.user_num mini_avg_game_time,
-            d.mini_user_count/ddpr.user_num mini_user_rate,
+            d.mini_game_count/ ddpl.user_num mini_avg_game_count,
+            d.mini_game_time/ ddpl.user_num mini_avg_game_time,
+            d.mini_user_count/ ddpl.user_num mini_user_rate,
             d.mini_game_consume mini_game_consume,
             d.mini_avg_consume mini_avg_game_consume,
             d.mini_game_reward mini_game_reward,
@@ -73,7 +73,6 @@
     </select>
     <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyGameOetaReport">
         SELECT
-
             d.dates,
             d.version,
             d.pkg,
