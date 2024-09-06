@@ -12,7 +12,7 @@
                duar.pkg,
                duar.version,
                dul.config_group_type,
-               dul.config_group_id,
+               dul.name                     config_group_name,
                count(DISTINCT duar.user_id) all_user_total_user_num,
                sum(duar.revenue)            all_user_total_income,
                sum(duar.ad_exhibit)         all_user_total_show_num,
@@ -75,14 +75,14 @@
                  duar.pkg,
                  duar.version,
                  dul.config_group_type,
-                 dul.config_group_id
+                 dul.name
     </select>
     <select id="queryStatisticsNew" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabAd">
         SELECT duar.dates,
                duar.pkg,
                duar.version,
                dul.config_group_type,
-               dul.config_group_id,
+               dul.name                                                                     config_group_name,
                count(DISTINCT duar.user_id)                                                 new_user_total_user_num,
                sum(duar.revenue)                                                            new_user_total_income,
                sum(duar.ad_exhibit)                                                         new_user_total_show_num,
@@ -125,6 +125,6 @@
         WHERE duar.dates = #{dates}
         GROUP BY duar.dates, duar.pkg, duar.version,
                  dul.config_group_type,
-                 dul.config_group_id
+                 dul.name
     </select>
 </mapper>

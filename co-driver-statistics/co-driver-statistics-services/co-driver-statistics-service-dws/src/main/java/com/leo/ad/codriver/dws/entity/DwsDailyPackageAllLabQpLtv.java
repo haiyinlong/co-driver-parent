@@ -15,7 +15,7 @@ public class DwsDailyPackageAllLabQpLtv {
     private Long dates;
     private String pkg;
     private String version;
-    private Long configGroupId;
+    private String configGroupName;
     private String configGroupType;
     private Long activeUserNum;
     private BigDecimal activeEventLtv;

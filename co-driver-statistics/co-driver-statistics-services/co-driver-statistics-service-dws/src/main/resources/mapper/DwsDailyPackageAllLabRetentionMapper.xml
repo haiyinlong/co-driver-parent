@@ -9,19 +9,19 @@
         where dates = #{dates}
     </delete>
     <insert id="syncData">
-        insert into dws_daily_package_all_lab_retention(dates, pkg, `version`, config_group_type, config_group_id,
+        insert into dws_daily_package_all_lab_retention(dates, pkg, `version`, config_group_type, config_group_name,
                                                         register_dates, register_day, retention_user_num)
         select lr.dates,
                lr.pkg,
                lr.register_version                             version,
                dul.config_group_type,
-               dul.config_group_id,
+               dul.name                                        config_group_name,
                lr.register_dates,
                TIMESTAMPDIFF(DAY, lr.register_dates, lr.dates) register_day,
                count(DISTINCT lr.user_id)                      retention_user_num
         from dwd_user_login_record lr
                  INNER JOIN dim_user_lab dul on (dul.user_id = lr.user_id)
         where dates = #{dates}
-        group by lr.dates, lr.pkg, lr.register_version, lr.register_dates, dul.config_group_type, dul.config_group_id
+        group by lr.dates, lr.pkg, lr.register_version, lr.register_dates, dul.config_group_type, dul.name
     </insert>
 </mapper>

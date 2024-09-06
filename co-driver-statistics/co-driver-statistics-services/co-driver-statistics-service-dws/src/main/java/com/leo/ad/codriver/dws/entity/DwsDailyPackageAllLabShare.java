@@ -15,7 +15,7 @@ public class DwsDailyPackageAllLabShare implements BaseEntity {
     private Long dates;
     private String version;
     private String pkg;
-    private Long configGroupId;
+    private String configGroupName;
     private String configGroupType;
     private Long invitationNum;
     private Long fillCodeNum;

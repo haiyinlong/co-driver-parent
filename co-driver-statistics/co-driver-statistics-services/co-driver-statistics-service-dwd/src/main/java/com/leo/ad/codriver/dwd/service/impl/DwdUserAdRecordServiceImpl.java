@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.event.dwd.DwdUserAdRecordUpdateDwEvent;
@@ -34,6 +35,7 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserAdRecord  syncData")
+    @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwdUserAdRecordMapper.deleteByDates(dates);
