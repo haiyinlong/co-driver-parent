@@ -9,7 +9,12 @@
         where dates = #{dates}
     </delete>
     <select id="statistics" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabRegister">
-        select dur.dates, dur.pkg, dur.version, dul.config_group_type, dul.name config_group_name, count(1) user_num
+        select dur.dates,
+               dur.pkg,
+               dur.version,
+               dul.config_group_type,
+               dul.name                    config_group_name,
+               count(DISTINCT dul.user_id) user_num
         from dwd_user_register dur
                  INNER JOIN dim_user_lab dul on (dul.user_id = dur.user_id)
         where dur.dates = #{dates}
