@@ -16,8 +16,8 @@
                pcg.svc,
                ucg.user_id,
                pcg.name,
-               pcg.config_group_type,
-               pcg.config_group_id
+               ucg.config_group_type,
+               ucg.config_group_id
         from ods_user_config_group_diversion ucg
                  left join ods_pkg_config_group_diversion pcg on (ucg.pkg_config_group_id = pcg.id)
                  LEFT JOIN dim_user_lab dul on (dul.source_id = ucg.id)
