@@ -1,8 +1,9 @@
 package com.leo.ad.codriver.dws.eventHandler;
 
-import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.event.TransactionPhase;
+import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.common.event.dwd.DwdPromotionRecordUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
@@ -22,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DwsDailyPackageAllLabVersionPromotionEventHandler {
     private final DwsService dwsDailyPackageAllLabVersionPromotionServiceImpl;
 
-    @EventListener
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
     public void handleEvent(DwdPromotionRecordUpdateDwEvent dwdPromotionRecordUpdateEvent) {
         log.info("{} 事件触发 dwsDailyPackageAllLabVersionPromotion", dwdPromotionRecordUpdateEvent.getDates());

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
@@ -36,6 +37,7 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdPromotionRecord syncData")
+    @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwdPromotionRecordMapper.deleteByDate(dates);
