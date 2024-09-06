@@ -73,7 +73,6 @@
     </select>
     <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyGameOetaReport">
         SELECT
-
             d.dates,
             d.version,
             d.pkg,
