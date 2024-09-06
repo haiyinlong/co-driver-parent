@@ -13,7 +13,7 @@
                duwr.pkg,
                duwr.version,
                dul.config_group_type,
-               dul.config_group_id,
+               dul.name                                                                                 config_group_name,
                0                                                                                        user_type,
                count(1)                                                                                 total_record_num,
                count(DISTINCT duwr.user_id)                                                             total_user_num,
@@ -79,14 +79,14 @@
         FROM dwd_user_withdraw_record duwr
                  INNER JOIN dim_user_lab dul on (dul.user_id = duwr.user_id)
         WHERE duwr.dates = #{dates}
-        group by duwr.dates, duwr.pkg, duwr.version, dul.config_group_type, dul.config_group_id
+        group by duwr.dates, duwr.pkg, duwr.version, dul.config_group_type, dul.name
     </select>
     <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabWithdraw">
         SELECT duwr.dates,
                duwr.pkg,
                duwr.version,
                dul.config_group_type,
-               dul.config_group_id,
+               dul.name                                                                                 config_group_name,
                1                                                                                        user_type,
                count(1)                                                                                 total_record_num,
                count(DISTINCT duwr.user_id)                                                             total_user_num,
@@ -153,6 +153,6 @@
                  INNER JOIN dim_user_lab dul on (dul.user_id = duwr.user_id)
         WHERE duwr.dates = #{dates}
           and duwr.register_day = 0
-        group by duwr.dates, duwr.pkg, duwr.version, dul.config_group_type, dul.config_group_id
+        group by duwr.dates, duwr.pkg, duwr.version, dul.config_group_type, dul.name
     </select>
 </mapper>

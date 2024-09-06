@@ -12,7 +12,7 @@
                ddpr.pkg,
                ddpr.version,
                ddpr.config_group_type,
-               ddpr.config_group_id,
+               ddpr.config_group_name,
                ddpr.user_num,
                durpfd.user_num                                                                       pkg_user_num,
                IFNULL((ddpr.user_num / durpfd.user_num), 0)                                          user_rate,

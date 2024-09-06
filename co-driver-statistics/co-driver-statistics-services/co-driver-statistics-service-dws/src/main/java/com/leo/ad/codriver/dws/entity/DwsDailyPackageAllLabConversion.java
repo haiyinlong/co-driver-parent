@@ -12,7 +12,7 @@ public class DwsDailyPackageAllLabConversion {
     private Long dates;
     private String pkg;
     private String version;
-    private Long configGroupId;
+    private String configGroupName;
     private String configGroupType;
     private Long userType;
     private Long userNum;

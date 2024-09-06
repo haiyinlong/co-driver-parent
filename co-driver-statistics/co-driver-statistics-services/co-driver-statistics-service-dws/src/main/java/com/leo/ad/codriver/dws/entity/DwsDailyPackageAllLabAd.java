@@ -16,7 +16,7 @@ public class DwsDailyPackageAllLabAd {
     private Long dates;
     private String version;
     private String pkg;
-    private Long configGroupId;
+    private String configGroupName;
     private String configGroupType;
     private Long allUserTotalUserNum;
     private BigDecimal allUserTotalIncome;
@@ -136,7 +136,7 @@ public class DwsDailyPackageAllLabAd {
     }
 
     public String getUniqueId() {
-        return String.format("%s_%s_%s_%s", pkg, version, configGroupType, configGroupId);
+        return String.format("%s_%s_%s_%s", pkg, version, configGroupType, configGroupName);
     }
 
     public void initAndCalculateEcpm() {

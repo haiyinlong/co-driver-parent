@@ -1,5 +1,7 @@
 package com.leo.ad.codriver.ads.eventHandler;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -26,7 +28,7 @@ public class AdsDailyOetaBaseReportEventHandler {
     @EventListener
     @Async
     public void handleEvent(DwsDailyPackageAllAdUpdateDwEvent dwsDailyPackageAdUpdateEvent) {
-        log.info("{} DwsDailyPackageAllAdUpdateEvent事件触发 adsDailyOetaBaseReport",
+        log.info("{} 事件触发 DwsDailyPackageAllAdUpdateEvent adsDailyOetaBaseReport",
             dwsDailyPackageAdUpdateEvent.getDates());
         adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAdUpdateEvent.getDates());
     }
@@ -35,8 +37,13 @@ public class AdsDailyOetaBaseReportEventHandler {
     @Async
     public void
         handleEvent(DwsDailyPackageAllVersionPromotionUpdateDwEvent dwsDailyPackageAllVersionPromotionUpdateEvent) {
-        log.info("{} DwsDailyPackageAllVersionPromotionUpdateEvent事件触发 adsDailyOetaBaseReport",
+        log.info("{} 事件触发 DwsDailyPackageAllVersionPromotionUpdateEvent adsDailyOetaBaseReport",
             dwsDailyPackageAllVersionPromotionUpdateEvent.getDates());
+        try {
+            TimeUnit.SECONDS.sleep(5);
+        } catch (Exception e) {
+            log.error("事件任务休息等待异常");
+        }
         adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAllVersionPromotionUpdateEvent.getDates());
     }
 }

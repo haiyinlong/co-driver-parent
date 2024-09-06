@@ -17,7 +17,7 @@ public class AdsDailyLabOetaBaseReport {
     private String pkg;
     private Long userType;
     private String configGroupType;
-    private Long configGroupId;
+    private String configGroupName;
     private Long newUserNum;
     private Long secondUserNum;
     private BigDecimal secondUserRetentionRate;

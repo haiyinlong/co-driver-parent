@@ -15,7 +15,7 @@ public class DwsDailyPackageAllLabOnline {
     private Long dates;
     private String version;
     private String pkg;
-    private Long configGroupId;
+    private String configGroupName;
     private String configGroupType;
     private Long totalOnlineTime;
     private BigDecimal avgUserOnlineTime;
