@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllGameMapper">
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_package_all_game
+        where dates = #{dates}
+    </delete>
+    <select id="queryStatisticsAll" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGame">
+        SELECT
+            0 as userType,
+            o.dates,
+            o.pkg,
+            o.version,
+            COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) AS introUserCount,
+            SUM(CASE WHEN o.game_id = 1 THEN 1 ELSE 0 END) AS introGameCount,
+            SUM(CASE WHEN o.game_id = 1 THEN o.played_time ELSE 0 END) AS introGameTime,
+            SUM(CASE WHEN o.game_id = 1 THEN o.reward ELSE 0 END) AS introGameReward,
+            SUM(CASE WHEN o.game_id = 1 THEN o.expend ELSE 0 END) AS introGameConsume,
+            AVG(CASE WHEN o.game_id = 1 THEN o.reward ELSE NULL END) AS introAvgReward,
+            AVG(CASE WHEN o.game_id = 1 THEN o.expend ELSE NULL END) AS introAvgConsume,
+            SUM(CASE WHEN o.game_id = 1 THEN 1 ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) AS introAvgGameCount,
+            CASE
+                WHEN SUM(CASE WHEN o.game_id = 1 THEN o.played_time ELSE 0 END) = 0 THEN 0
+                ELSE SUM(CASE WHEN o.game_id = 1 THEN o.reward ELSE 0 END) / SUM(CASE WHEN o.game_id = 1 THEN o.played_time ELSE 0 END)
+                END AS introRtp,
+            COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) AS turnUserCount,
+            SUM(CASE WHEN o.game_id = 2 THEN 1 ELSE 0 END) AS turnGameCount,
+            SUM(CASE WHEN o.game_id = 2 THEN o.played_time ELSE 0 END) AS turnGameTime,
+            SUM(CASE WHEN o.game_id = 2 THEN o.reward ELSE 0 END) AS turnGameReward,
+            SUM(CASE WHEN o.game_id = 2 THEN o.expend ELSE 0 END) AS turnGameConsume,
+            AVG(CASE WHEN o.game_id = 2 THEN o.reward ELSE NULL END) AS turnAvgReward,
+            AVG(CASE WHEN o.game_id = 2 THEN o.expend ELSE NULL END) AS turnAvgConsume,
+            SUM(CASE WHEN o.game_id = 2 THEN 1 ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) AS turnAvgGameCount,
+            CASE
+                WHEN SUM(CASE WHEN o.game_id = 2 THEN o.played_time ELSE 0 END) = 0 THEN 0
+                ELSE SUM(CASE WHEN o.game_id = 2 THEN o.reward ELSE 0 END) / SUM(CASE WHEN o.game_id = 2 THEN o.played_time ELSE 0 END)
+                END AS turnRtp,
+            COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) AS miniUserCount,
+            SUM(CASE WHEN o.game_id = 3 THEN 1 ELSE 0 END) AS miniGameCount,
+            SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END) AS miniGameTime,
+            SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END) AS miniGameReward,
+            SUM(CASE WHEN o.game_id = 3 THEN o.expend ELSE 0 END) AS miniGameConsume,
+            AVG(CASE WHEN o.game_id = 3 THEN o.reward ELSE NULL END) AS miniAvgReward,
+            AVG(CASE WHEN o.game_id = 3 THEN o.expend ELSE NULL END) AS miniAvgConsume,
+            SUM(CASE WHEN o.game_id = 3 THEN 1 ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) AS miniAvgGameCount,
+            CASE
+                WHEN SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END) = 0 THEN 0
+                ELSE SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END) / SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END)
+                END AS miniRtp,
+            CURRENT_TIMESTAMP AS createTime
+        FROM dwd_user_game_record_oeta o
+        WHERE o.dates = #{dates}
+        GROUP BY o.dates, o.pkg, o.version
+        ORDER BY o.dates, o.pkg, o.version;
+    </select>
+
+
+    <select id="queryStatisticsNew" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGame">
+        SELECT
+            1 as userType,
+            o.dates,
+            o.pkg,
+            o.version,
+            COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) AS introUserCount,
+            SUM(CASE WHEN o.game_id = 1 THEN 1 ELSE 0 END) AS introGameCount,
+            SUM(CASE WHEN o.game_id = 1 THEN o.played_time ELSE 0 END) AS introGameTime,
+            SUM(CASE WHEN o.game_id = 1 THEN o.reward ELSE 0 END) AS introGameReward,
+            SUM(CASE WHEN o.game_id = 1 THEN o.expend ELSE 0 END) AS introGameConsume,
+            AVG(CASE WHEN o.game_id = 1 THEN o.reward ELSE NULL END) AS introAvgReward,
+            AVG(CASE WHEN o.game_id = 1 THEN o.expend ELSE NULL END) AS introAvgConsume,
+            SUM(CASE WHEN o.game_id = 1 THEN 1 ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) AS introAvgGameCount,
+            CASE
+                WHEN SUM(CASE WHEN o.game_id = 1 THEN o.played_time ELSE 0 END) = 0 THEN 0
+                ELSE SUM(CASE WHEN o.game_id = 1 THEN o.reward ELSE 0 END) / SUM(CASE WHEN o.game_id = 1 THEN o.played_time ELSE 0 END)
+                END AS introRtp,
+            COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) AS turnUserCount,
+            SUM(CASE WHEN o.game_id = 2 THEN 1 ELSE 0 END) AS turnGameCount,
+            SUM(CASE WHEN o.game_id = 2 THEN o.played_time ELSE 0 END) AS turnGameTime,
+            SUM(CASE WHEN o.game_id = 2 THEN o.reward ELSE 0 END) AS turnGameReward,
+            SUM(CASE WHEN o.game_id = 2 THEN o.expend ELSE 0 END) AS turnGameConsume,
+            AVG(CASE WHEN o.game_id = 2 THEN o.reward ELSE NULL END) AS turnAvgReward,
+            AVG(CASE WHEN o.game_id = 2 THEN o.expend ELSE NULL END) AS turnAvgConsume,
+            SUM(CASE WHEN o.game_id = 2 THEN 1 ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) AS turnAvgGameCount,
+            CASE
+                WHEN SUM(CASE WHEN o.game_id = 2 THEN o.played_time ELSE 0 END) = 0 THEN 0
+                ELSE SUM(CASE WHEN o.game_id = 2 THEN o.reward ELSE 0 END) / SUM(CASE WHEN o.game_id = 2 THEN o.played_time ELSE 0 END)
+                END AS turnRtp,
+            COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) AS miniUserCount,
+            SUM(CASE WHEN o.game_id = 3 THEN 1 ELSE 0 END) AS miniGameCount,
+            SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END) AS miniGameTime,
+            SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END) AS miniGameReward,
+            SUM(CASE WHEN o.game_id = 3 THEN o.expend ELSE 0 END) AS miniGameConsume,
+            AVG(CASE WHEN o.game_id = 3 THEN o.reward ELSE NULL END) AS miniAvgReward,
+            AVG(CASE WHEN o.game_id = 3 THEN o.expend ELSE NULL END) AS miniAvgConsume,
+            SUM(CASE WHEN o.game_id = 3 THEN 1 ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) AS miniAvgGameCount,
+            CASE
+                WHEN SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END) = 0 THEN 0
+                ELSE SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END) / SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END)
+                END AS miniRtp,
+            CURRENT_TIMESTAMP AS createTime
+        FROM dwd_user_game_record_oeta o   INNER JOIN dim_user_info dui
+                                                      on (o.user_id = dui.user_id and o.dates = dui.dates)
+        WHERE o.dates = #{dates}
+        GROUP BY o.dates, o.pkg, o.version
+        ORDER BY o.dates, o.pkg, o.version;
+    </select>
+
+</mapper>
