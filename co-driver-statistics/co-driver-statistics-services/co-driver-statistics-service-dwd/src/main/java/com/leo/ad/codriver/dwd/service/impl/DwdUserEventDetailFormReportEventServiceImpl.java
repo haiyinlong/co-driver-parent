@@ -1,15 +1,11 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserEventDetailMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserEventDetail;
 import com.leo.ad.codriver.dwd.service.DwdEventService;
-import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -33,20 +29,21 @@ public class DwdUserEventDetailFormReportEventServiceImpl implements DwdEventSer
     @ShowExecuteTime(name = "dwdUserEventDetail form reportEvent syncData")
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
-        // 先删除数据
-        dwdUserEventDetailMapper.deleteByDates(dates, "ods_report_event");
-        // 查询统计总数据，然后分页进行获取
-        long diversionEventReportCount = dwdUserEventDetailMapper.getReportEventCount(dates);
-        long totalPage = LongUtils.divide(diversionEventReportCount, BatchConst.BATCH_NUMBER.longValue());
-        if (totalPage <= 0) {
-            return;
-        }
-        List<DwdUserEventDetail> reportEventList;
-        for (int i = 1; i <= totalPage; i++) {
-            reportEventList = dwdUserEventDetailMapper.queryReportEvent(dates, BatchConst.BATCH_NUMBER.intValue(),
-                (int)((i - 1) * BatchConst.BATCH_NUMBER));
-            batchMapper.batchInsert(reportEventList, DwdUserEventDetailMapper.class);
-        }
+        // TODO 暂时关闭，需要开启
+        // // 先删除数据
+        // dwdUserEventDetailMapper.deleteByDates(dates, "ods_report_event");
+        // // 查询统计总数据，然后分页进行获取
+        // long diversionEventReportCount = dwdUserEventDetailMapper.getReportEventCount(dates);
+        // long totalPage = LongUtils.divide(diversionEventReportCount, BatchConst.BATCH_NUMBER.longValue());
+        // if (totalPage <= 0) {
+        // return;
+        // }
+        // List<DwdUserEventDetail> reportEventList;
+        // for (int i = 1; i <= totalPage; i++) {
+        // reportEventList = dwdUserEventDetailMapper.queryReportEvent(dates, BatchConst.BATCH_NUMBER.intValue(),
+        // (int)((i - 1) * BatchConst.BATCH_NUMBER));
+        // batchMapper.batchInsert(reportEventList, DwdUserEventDetailMapper.class);
+        // }
     }
 
 }

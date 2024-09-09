@@ -2,6 +2,7 @@ package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Order(Integer.MIN_VALUE)
 public class DwdUserRegisterServiceImpl implements DwdService {
     private final DwdUserRegisterMapper dwdUserRegisterMapper;
     private final DwBatchMapper<DwdUserRegister, DwdUserRegisterMapper> batchMapper;

@@ -19,7 +19,7 @@ import com.leo.ad.codriver.dwd.entity.DwdPromotionRecord;
 @Mapper
 @DS("mysql")
 public interface DwdPromotionRecordMapper extends BaseMapper<DwdPromotionRecord> {
-    void deleteByDate(@Param("dates") Integer dates);
+    Integer deleteByDate(@Param("dates") Integer dates);
 
     List<DwdPromotionRecord> queryByDate(@Param("dates") Integer dates, @Param("singleFee") BigDecimal singleFee);
 }

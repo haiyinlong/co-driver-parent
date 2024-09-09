@@ -2,6 +2,7 @@ package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
@@ -18,8 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 每天凌晨更新的会有有一小部分数据丢失<br>
- * 用户在0点后更新最后登录事件，导致数据变成第二天的数据了。
+ * 每天凌晨根据登录日志进行统计<br>
  *
  * @author HaiYinLong
  * @version 2024/04/30 15:15
@@ -27,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Order(Integer.MIN_VALUE)
 public class DwdUserLoginRecordServiceImpl implements DwdService {
     private final DwdUserLoginRecordMapper dwdUserLoginRecordMapper;
     private final DwBatchMapper<DwdUserLoginRecord, DwdUserLoginRecordMapper> dwBatchMapper;

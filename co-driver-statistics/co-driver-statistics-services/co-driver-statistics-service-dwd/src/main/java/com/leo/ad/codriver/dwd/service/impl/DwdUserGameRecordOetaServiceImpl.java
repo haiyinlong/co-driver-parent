@@ -1,18 +1,12 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
-import java.util.List;
-
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dwd.DwdUserGameRecordOetaUpdateDwEvent;
-import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserGameRecordOetaMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
 import com.leo.ad.codriver.dwd.service.DwdService;
-import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -37,18 +31,19 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService {
     @ShowExecuteTime(name = "dwdUserGameRecordOeta syncData")
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
-        dwdUserGameRecordOetaMapper.deleteByDates(dates);
-        Long totalRecord = dwdUserGameRecordOetaMapper.getStatisticsCount(dates);
-        long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
-        for (int i = 0; i < totalPageNum; i++) {
-            List<DwdUserGameRecordOeta> statistics = dwdUserGameRecordOetaMapper.queryStatistics(dates,
-                BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
-            if (!CollectionUtils.isEmpty(statistics)) {
-                statistics.forEach(DwdUserGameRecordOeta::initDate);
-            }
-            batchMapper.batchInsert(statistics, DwdUserGameRecordOetaMapper.class);
-        }
-        applicationEventPublisher.publishEvent(new DwdUserGameRecordOetaUpdateDwEvent(this, dates));
+        // TODO 暂时关闭，需要开启 太慢了
+        // dwdUserGameRecordOetaMapper.deleteByDates(dates);
+        // Long totalRecord = dwdUserGameRecordOetaMapper.getStatisticsCount(dates);
+        // long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
+        // for (int i = 0; i < totalPageNum; i++) {
+        // List<DwdUserGameRecordOeta> statistics = dwdUserGameRecordOetaMapper.queryStatistics(dates,
+        // BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
+        // if (!CollectionUtils.isEmpty(statistics)) {
+        // statistics.forEach(DwdUserGameRecordOeta::initDate);
+        // }
+        // batchMapper.batchInsert(statistics, DwdUserGameRecordOetaMapper.class);
+        // }
+        // applicationEventPublisher.publishEvent(new DwdUserGameRecordOetaUpdateDwEvent(this, dates));
     }
 
 }

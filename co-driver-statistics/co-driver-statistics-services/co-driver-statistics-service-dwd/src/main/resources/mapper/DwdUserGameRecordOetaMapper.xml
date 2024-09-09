@@ -15,7 +15,8 @@
         WHERE ogron.dates = #{dates}
     </select>
     <select id="queryStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta">
-        SELECT ogron.dates,
+        SELECT ogron.id         source_id,
+               ogron.dates,
                ogron.pkg_game_id,
                ogron.pkg_id,
                ogron.game_id,
