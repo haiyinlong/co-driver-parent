@@ -31,16 +31,19 @@ public class DwdUserEventDetailFormAdsReportPointServiceImpl implements DwdEvent
     @Override
     @ShowExecuteTime(name = "dwdUserEventDetail form ads reportPoint syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         // TODO 太慢了
         int rowNumInterval = 2000;
         // 先删除数据
-        dwdUserEventDetailMapper.deleteByDates(dates, "ods_report_point_ads");
+        Integer delRowNum = dwdUserEventDetailMapper.deleteByDates(dates, "ods_report_point_ads");
         // 查询统计总数据，然后分页进行获取
         long diversionEventReportCount = dwdUserEventDetailMapper.getAdsReportPointCount(dates);
+        if (diversionEventReportCount <= 0) {
+            return delRowNum > 0;
+        }
         long totalPage = LongUtils.divide(diversionEventReportCount, (long)rowNumInterval);
         if (totalPage <= 0) {
-            return;
+            return delRowNum > 0;
         }
         List<DwdUserEventDetail> reportPointList;
         for (int i = 1; i <= totalPage; i++) {
@@ -48,6 +51,7 @@ public class DwdUserEventDetailFormAdsReportPointServiceImpl implements DwdEvent
                 dwdUserEventDetailMapper.queryAdsReportPoint(dates, rowNumInterval, ((i - 1) * rowNumInterval));
             batchMapper.batchInsert(reportPointList, DwdUserEventDetailMapper.class);
         }
+        return true;
     }
 
 }

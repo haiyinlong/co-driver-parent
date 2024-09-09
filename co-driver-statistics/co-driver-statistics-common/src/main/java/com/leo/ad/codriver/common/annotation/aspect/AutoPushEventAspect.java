@@ -9,7 +9,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import com.leo.ad.codriver.common.annotation.AutoPushEvent;
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.event.CoDriverDwEvent;
 
 import lombok.RequiredArgsConstructor;
@@ -28,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class AutoPushEventAspect {
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    @Around("@annotation(com.leo.ad.codriver.common.annotation.AutoPushEvent)")
+    @Around("@annotation(com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue)")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         Object proceed = joinPoint.proceed();
         if (!(proceed instanceof Boolean)) {
@@ -38,7 +38,7 @@ public class AutoPushEventAspect {
             return false;
         }
         Class<? extends CoDriverDwEvent>[] events =
-            joinPoint.getTarget().getClass().getAnnotation(AutoPushEvent.class).events();
+            joinPoint.getTarget().getClass().getAnnotation(AutoPushEventWithTrue.class).events();
         pushEvent(joinPoint, events, proceed);
         return proceed;
     }

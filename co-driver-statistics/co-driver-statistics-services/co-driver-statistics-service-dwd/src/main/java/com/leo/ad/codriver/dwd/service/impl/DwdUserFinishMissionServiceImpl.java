@@ -29,8 +29,8 @@ public class DwdUserFinishMissionServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserFinishMission syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        dwdUserFinishMissionMapper.deleteByDates(dates);
+    public boolean syncData(Integer dates) {
+        Integer delRowNum = dwdUserFinishMissionMapper.deleteByDates(dates);
         List<DwdUserFinishMission> dwdUserFinishMissions = dwdUserFinishMissionMapper.statisticsUserId(dates);
         if (!CollectionUtils.isEmpty(dwdUserFinishMissions)) {
             dwBatchMapper.batchInsert(dwdUserFinishMissions, DwdUserFinishMissionMapper.class);
@@ -39,5 +39,6 @@ public class DwdUserFinishMissionServiceImpl implements DwdService {
         if (!CollectionUtils.isEmpty(dwdUserFinishMissions)) {
             dwBatchMapper.batchInsert(dwdUserFinishMissions, DwdUserFinishMissionMapper.class);
         }
+        return true;
     }
 }

@@ -1,14 +1,11 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
-import java.util.List;
-
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.event.dwd.DwdUserGameRecordOetaUpdateDwEvent;
-import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserGameRecordOetaMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
 import com.leo.ad.codriver.dwd.service.DwdService;
@@ -30,26 +27,30 @@ import lombok.extern.slf4j.Slf4j;
 public class DwdUserGameRecordOetaServiceImpl implements DwdService {
     private final DwdUserGameRecordOetaMapper dwdUserGameRecordOetaMapper;
     private final DwBatchMapper<DwdUserGameRecordOeta, DwdUserGameRecordOetaMapper> batchMapper;
-    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @ShowExecuteTime(name = "dwdUserGameRecordOeta syncData")
+    @AutoPushEventWithTrue(events = {DwdUserGameRecordOetaUpdateDwEvent.class})
+    @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        // TODO 太慢了
-        int rowNumInterval = 2000;
-        dwdUserGameRecordOetaMapper.deleteByDates(dates);
-        Long totalRecord = dwdUserGameRecordOetaMapper.getStatisticsCount(dates);
-        long totalPageNum = LongUtils.divide(totalRecord, (long)rowNumInterval);
-        for (int i = 0; i < totalPageNum; i++) {
-            List<DwdUserGameRecordOeta> statistics =
-                dwdUserGameRecordOetaMapper.queryStatistics(dates, rowNumInterval, i * rowNumInterval);
-            if (!CollectionUtils.isEmpty(statistics)) {
-                statistics.forEach(DwdUserGameRecordOeta::initDate);
-            }
-            batchMapper.batchInsert(statistics, DwdUserGameRecordOetaMapper.class);
-        }
-        applicationEventPublisher.publishEvent(new DwdUserGameRecordOetaUpdateDwEvent(this, dates));
+    public boolean syncData(Integer dates) {
+        // // TODO 太慢了
+        // int rowNumInterval = 2000;
+        // Integer delRowNum = dwdUserGameRecordOetaMapper.deleteByDates(dates);
+        // Long totalRecord = dwdUserGameRecordOetaMapper.getStatisticsCount(dates);
+        // if (totalRecord <= 0) {
+        // return delRowNum > 0;
+        // }
+        // long totalPageNum = LongUtils.divide(totalRecord, (long)rowNumInterval);
+        // for (int i = 0; i < totalPageNum; i++) {
+        // List<DwdUserGameRecordOeta> statistics =
+        // dwdUserGameRecordOetaMapper.queryStatistics(dates, rowNumInterval, i * rowNumInterval);
+        // if (!CollectionUtils.isEmpty(statistics)) {
+        // statistics.forEach(DwdUserGameRecordOeta::initDate);
+        // }
+        // batchMapper.batchInsert(statistics, DwdUserGameRecordOetaMapper.class);
+        // }
+        return true;
     }
 
 }

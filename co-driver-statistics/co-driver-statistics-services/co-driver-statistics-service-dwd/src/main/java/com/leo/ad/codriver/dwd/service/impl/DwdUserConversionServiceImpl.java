@@ -3,6 +3,7 @@ package com.leo.ad.codriver.dwd.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
@@ -29,17 +30,20 @@ public class DwdUserConversionServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserConversion syncData")
+    @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        dwdUserConversionMapper.deleteByDates(dates);
+    public boolean syncData(Integer dates) {
+        Integer delRowNum = dwdUserConversionMapper.deleteByDates(dates);
         // 查询自己的转化记录
         Long totalRecord = dwdUserConversionMapper.countFromOfferRecord(dates);
+        if (totalRecord <= 0) {
+            return delRowNum > 0;
+        }
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         for (int i = 0; i < totalPageNum; i++) {
             List<DwdUserConversion> dwdUserConversionList = dwdUserConversionMapper.statisticsFromOfferRecord(dates,
-                BatchConst.BATCH_NUMBER.intValue(), i * BatchConst.BATCH_NUMBER.intValue());
+                BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             dwBatchMapper.batchInsert(dwdUserConversionList, DwdUserConversionMapper.class);
-
         }
 
         // 查询河马的转化记录
@@ -51,5 +55,6 @@ public class DwdUserConversionServiceImpl implements DwdService {
                 BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             dwBatchMapper.batchInsert(dwdUserConversionList, DwdUserConversionMapper.class);
         }
+        return true;
     }
 }

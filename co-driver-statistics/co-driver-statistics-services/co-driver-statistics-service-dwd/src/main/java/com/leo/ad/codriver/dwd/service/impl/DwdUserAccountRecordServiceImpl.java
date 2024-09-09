@@ -3,6 +3,7 @@ package com.leo.ad.codriver.dwd.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
@@ -29,22 +30,24 @@ public class DwdUserAccountRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserAccountRecord syncData")
+    @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         // 先删除数据
-        dwdUserAccountRecordMapper.deleteByDates(dates);
+        Integer delRowNum = dwdUserAccountRecordMapper.deleteByDates(dates);
         // 查询统计总数据，然后分页进行获取
         long recordCount = dwdUserAccountRecordMapper.getRecordCount(dates);
         long totalPage = LongUtils.divide(recordCount, BatchConst.BATCH_NUMBER.longValue());
         if (totalPage <= 0) {
-            return;
+            return delRowNum > 0;
         }
         List<DwdUserAccountRecord> userAccountRecords;
         for (int i = 1; i <= totalPage; i++) {
             userAccountRecords = dwdUserAccountRecordMapper.queryStatistics(dates, BatchConst.BATCH_NUMBER,
-                (int)((i - 1) * BatchConst.BATCH_NUMBER));
+                ((i - 1) * BatchConst.BATCH_NUMBER));
             batchMapper.batchInsert(userAccountRecords, DwdUserAccountRecordMapper.class);
         }
+        return true;
     }
 
 }

@@ -2,13 +2,13 @@ package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.ExchangeRate;
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.event.dwd.DwdPromotionRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.dao.DwdPromotionRecordMapper;
@@ -33,18 +33,18 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
     private final DwdPromotionRecordMapper dwdPromotionRecordMapper;
     private final ExchangeRate exchangeRate;
     private final DwBatchMapper<DwdPromotionRecord, DwdPromotionRecordMapper> batchMapper;
-    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @ShowExecuteTime(name = "dwdPromotionRecord syncData")
     @Transactional(rollbackFor = Exception.class)
+    @AutoPushEventWithTrue(events = {DwdPromotionRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        dwdPromotionRecordMapper.deleteByDate(dates);
+    public boolean syncData(Integer dates) {
+        Integer delRowNum = dwdPromotionRecordMapper.deleteByDate(dates);
         List<DwdPromotionRecord> dwdPromotionRecordList =
             dwdPromotionRecordMapper.queryByDate(dates, exchangeRate.getIndianToDollar());
         if (CollectionUtils.isEmpty(dwdPromotionRecordList)) {
-            return;
+            return delRowNum > 0;
         }
         dwdPromotionRecordList.forEach(dwdPromotionRecord -> {
             if (ObjectUtils.isEmpty(dwdPromotionRecord.getId())) {
@@ -52,7 +52,6 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
             }
         });
         batchMapper.batchInsert(dwdPromotionRecordList, DwdPromotionRecordMapper.class);
-        // 发送事件
-        applicationEventPublisher.publishEvent(new DwdPromotionRecordUpdateDwEvent(this, dates));
+        return true;
     }
 }

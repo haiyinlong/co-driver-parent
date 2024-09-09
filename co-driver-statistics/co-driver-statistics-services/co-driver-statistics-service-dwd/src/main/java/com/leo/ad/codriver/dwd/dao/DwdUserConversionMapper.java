@@ -1,12 +1,13 @@
 package com.leo.ad.codriver.dwd.dao;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dwd.entity.DwdUserConversion;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserConversion;
 
 /**
  * dwd每日同期群转化Mapper
@@ -25,7 +26,7 @@ public interface DwdUserConversionMapper extends BaseMapper<DwdUserConversion> {
      * @return
      */
     List<DwdUserConversion> statisticsFromOfferRecord(@Param("dates") Integer dates, @Param("rows") Integer rows,
-                                                      @Param("startRows") Integer startRows);
+        @Param("startRows") Integer startRows);
 
     Long countFromOfferRecord(@Param("dates") Integer dates);
 
@@ -36,9 +37,9 @@ public interface DwdUserConversionMapper extends BaseMapper<DwdUserConversion> {
      * @return
      */
     List<DwdUserConversion> statisticsFromHemaOfferRecord(@Param("dates") Integer dates, @Param("rows") Integer rows,
-                                                          @Param("startRows") Integer startRows);
+        @Param("startRows") Integer startRows);
 
     Long countFromHemaOfferRecord(@Param("dates") Integer dates);
 
-    void deleteByDates(@Param("dates") Integer dates);
+    Integer deleteByDates(@Param("dates") Integer dates);
 }

@@ -32,7 +32,7 @@ public class DwdUserLtvRecordServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserLtvRecord  syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         Long totalRecord = dwdUserLtvRecordMapper.getCountByDate(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         List<DwdUserLtvRecord> userLtvRecordList;
@@ -41,5 +41,6 @@ public class DwdUserLtvRecordServiceImpl implements DwdService {
                 dwdUserLtvRecordMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             dwBatchMapper.batchInsert(userLtvRecordList, DwdUserLtvRecordMapper.class);
         }
+        return true;
     }
 }

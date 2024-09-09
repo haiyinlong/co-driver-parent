@@ -1,12 +1,13 @@
 package com.leo.ad.codriver.dwd.dao;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dwd.entity.DwdUserAccountRecord;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserAccountRecord;
 
 /**
  * 用户账户流水表
@@ -17,11 +18,11 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DwdUserAccountRecordMapper extends BaseMapper<DwdUserAccountRecord> {
-    void deleteByDates(@Param("dates") Integer dates);
+    Integer deleteByDates(@Param("dates") Integer dates);
 
     long getRecordCount(@Param("dates") Integer dates);
 
     List<DwdUserAccountRecord> queryStatistics(@Param("dates") Integer dates, @Param("rows") Integer rows,
-                                               @Param("startRows") Integer pageSize);
+        @Param("startRows") Integer pageSize);
 
 }

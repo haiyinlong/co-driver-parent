@@ -31,16 +31,19 @@ public class DwdUserEventDetailFormReportEventServiceImpl implements DwdEventSer
     @Override
     @ShowExecuteTime(name = "dwdUserEventDetail form reportEvent syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         // TODO 太慢了
         int rowNumInterval = 2000;
         // 先删除数据
-        dwdUserEventDetailMapper.deleteByDates(dates, "ods_report_event");
+        Integer delRowNum = dwdUserEventDetailMapper.deleteByDates(dates, "ods_report_event");
         // 查询统计总数据，然后分页进行获取
         long diversionEventReportCount = dwdUserEventDetailMapper.getReportEventCount(dates);
+        if (diversionEventReportCount <= 0) {
+            return delRowNum > 0;
+        }
         long totalPage = LongUtils.divide(diversionEventReportCount, (long)rowNumInterval);
         if (totalPage <= 0) {
-            return;
+            return delRowNum > 0;
         }
         List<DwdUserEventDetail> reportEventList;
         for (int i = 1; i <= totalPage; i++) {
@@ -48,6 +51,7 @@ public class DwdUserEventDetailFormReportEventServiceImpl implements DwdEventSer
                 dwdUserEventDetailMapper.queryReportEvent(dates, rowNumInterval, (int)((i - 1) * rowNumInterval));
             batchMapper.batchInsert(reportEventList, DwdUserEventDetailMapper.class);
         }
+        return true;
     }
 
 }

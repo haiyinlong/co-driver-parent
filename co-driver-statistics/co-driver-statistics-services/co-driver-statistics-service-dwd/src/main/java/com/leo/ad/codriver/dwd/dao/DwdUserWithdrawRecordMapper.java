@@ -1,13 +1,14 @@
 package com.leo.ad.codriver.dwd.dao;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.math.BigDecimal;
-import java.util.List;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord;
 
 /**
  * 用户事提现记录表
@@ -18,11 +19,11 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DwdUserWithdrawRecordMapper extends BaseMapper<DwdUserWithdrawRecord> {
-    void deleteByDates(@Param("dates") Integer dates);
+    Integer deleteByDates(@Param("dates") Integer dates);
 
     long getWithdrawCount(@Param("dates") Integer dates);
 
     List<DwdUserWithdrawRecord> queryWithdrawList(@Param("dates") Integer dates,
-                                                  @Param("singleFee") BigDecimal singleFee, @Param("rows") Integer rows, @Param("startRows") Integer pageSize);
+        @Param("singleFee") BigDecimal singleFee, @Param("rows") Integer rows, @Param("startRows") Integer pageSize);
 
 }

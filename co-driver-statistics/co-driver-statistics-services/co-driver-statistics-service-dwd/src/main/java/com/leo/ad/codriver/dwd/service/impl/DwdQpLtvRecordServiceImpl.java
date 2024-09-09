@@ -3,6 +3,7 @@ package com.leo.ad.codriver.dwd.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
@@ -30,13 +31,15 @@ public class DwdQpLtvRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdQpLtvRecord syncData")
+    @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        dwdQpLtvRecordMapper.deleteByDate(dates);
+    public boolean syncData(Integer dates) {
+        Integer delRowNum = dwdQpLtvRecordMapper.deleteByDate(dates);
         List<DwdQpLtvRecord> dwdQpLtvRecordList = dwdQpLtvRecordMapper.queryByDate(dates);
         if (CollectionUtils.isEmpty(dwdQpLtvRecordList)) {
-            return;
+            return delRowNum > 0;
         }
         batchMapper.batchInsert(dwdQpLtvRecordList, DwdQpLtvRecordMapper.class);
+        return true;
     }
 }

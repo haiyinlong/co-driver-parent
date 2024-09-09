@@ -8,14 +8,14 @@ import java.lang.annotation.Target;
 import com.leo.ad.codriver.common.event.CoDriverDwEvent;
 
 /**
- * 根据拦截方法主动推送事件
+ * 根据拦截方法主动推送事件,方法返回true才发送
  *
  * @author HaiYinLong
  * @version 2024/09/09 09:18
  **/
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface AutoPushEvent {
+public @interface AutoPushEventWithTrue {
 
     /**
      * 事件类

@@ -31,7 +31,7 @@ public class DwdUserOnlineServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserOnline  syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         Long totalRecord = dwdUserOnlineMapper.getCountByDate(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         List<DwdUserOnline> userOnlineList;
@@ -40,5 +40,6 @@ public class DwdUserOnlineServiceImpl implements DwdService {
                 dwdUserOnlineMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             dwBatchMapper.batchInsert(userOnlineList, DwdUserOnlineMapper.class);
         }
+        return true;
     }
 }

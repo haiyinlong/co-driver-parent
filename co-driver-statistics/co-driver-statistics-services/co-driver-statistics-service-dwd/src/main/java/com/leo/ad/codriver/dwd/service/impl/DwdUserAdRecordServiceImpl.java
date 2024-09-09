@@ -2,10 +2,10 @@ package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
 
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.event.dwd.DwdUserAdRecordUpdateDwEvent;
 import com.leo.ad.codriver.common.util.LongUtils;
@@ -31,15 +31,18 @@ import lombok.extern.slf4j.Slf4j;
 public class DwdUserAdRecordServiceImpl implements DwdService {
     private final DwdUserAdRecordMapper dwdUserAdRecordMapper;
     private final DwBatchMapper<DwdUserAdRecord, DwdUserAdRecordMapper> dwBatchMapper;
-    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @ShowExecuteTime(name = "dwdUserAdRecord  syncData")
     @Transactional(rollbackFor = Exception.class)
+    @AutoPushEventWithTrue(events = {DwdUserAdRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        dwdUserAdRecordMapper.deleteByDates(dates);
+    public boolean syncData(Integer dates) {
+        Integer delRowNum = dwdUserAdRecordMapper.deleteByDates(dates);
         Long totalRecord = dwdUserAdRecordMapper.getCountByDate(dates);
+        if (totalRecord <= 0) {
+            return delRowNum > 0;
+        }
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         List<DwdUserAdRecord> userAdRecordList;
         try {
@@ -49,10 +52,10 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
                 userAdRecordList.forEach(DwdUserAdRecord::init);
                 dwBatchMapper.batchInsert(userAdRecordList, DwdUserAdRecordMapper.class);
             }
-            applicationEventPublisher.publishEvent(new DwdUserAdRecordUpdateDwEvent(this, dates));
         } catch (Exception e) {
             log.error("dwdUserAdRecord  syncData error", e);
             throw e;
         }
+        return true;
     }
 }

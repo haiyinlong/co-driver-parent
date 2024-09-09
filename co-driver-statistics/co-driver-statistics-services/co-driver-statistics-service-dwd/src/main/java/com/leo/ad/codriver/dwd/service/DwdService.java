@@ -13,6 +13,7 @@ public interface DwdService {
      * 根据日期同步处理数据
      *
      * @param dates 20241010 日期
+     * @return true 有修改数据，false 没有修改数据
      */
-    void syncData(Integer dates);
+    boolean syncData(Integer dates);
 }

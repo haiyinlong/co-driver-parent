@@ -32,7 +32,7 @@ public class DwdUserExchangeRecordServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserExchangeRecord  syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         Long totalRecord = dwdUserExchangeRecordMapper.getCountByDate(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         List<DwdUserExchangeRecord> userExchangeRecordList;
@@ -41,5 +41,6 @@ public class DwdUserExchangeRecordServiceImpl implements DwdService {
                 dwdUserExchangeRecordMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             dwBatchMapper.batchInsert(userExchangeRecordList, DwdUserExchangeRecordMapper.class);
         }
+        return true;
     }
 }

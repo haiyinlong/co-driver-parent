@@ -18,7 +18,7 @@ import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
 @DS("mysql")
 public interface DwdUserGameRecordOetaMapper extends BaseMapper<DwdUserGameRecordOeta> {
 
-    void deleteByDates(@Param("dates") Integer dates);
+    Integer deleteByDates(@Param("dates") Integer dates);
 
     List<DwdUserGameRecordOeta> queryStatistics(@Param("dates") Integer dates, @Param("rows") Integer rows,
         @Param("startRows") Integer startRows);

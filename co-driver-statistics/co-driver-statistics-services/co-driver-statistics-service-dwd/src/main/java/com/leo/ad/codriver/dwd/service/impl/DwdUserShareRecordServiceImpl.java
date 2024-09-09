@@ -32,7 +32,7 @@ public class DwdUserShareRecordServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserShareRecord  syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         Long totalRecord = dwdUserShareRecordMapper.getCountByDate(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         List<DwdUserShareRecord> userShareRecordList;
@@ -41,5 +41,6 @@ public class DwdUserShareRecordServiceImpl implements DwdService {
                 dwdUserShareRecordMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             batchMapper.batchInsert(userShareRecordList, DwdUserShareRecordMapper.class);
         }
+        return true;
     }
 }

@@ -23,5 +23,5 @@ public interface DwdUserAdRecordMapper extends BaseMapper<DwdUserAdRecord> {
     List<DwdUserAdRecord> queryByDate(@Param("dates") Integer dates, @Param("rows") Integer rows,
         @Param("startRows") Integer startRows);
 
-    void deleteByDates(@Param("dates") Integer dates);
+    Integer deleteByDates(@Param("dates") Integer dates);
 }

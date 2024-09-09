@@ -32,15 +32,19 @@ public class DwdUserGameRecordServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserGameRecord syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        dwdUserGameRecordMapper.deleteByDates(dates);
+    public boolean syncData(Integer dates) {
+        Integer delRowNum = dwdUserGameRecordMapper.deleteByDates(dates);
         Long totalRecord = dwdUserGameRecordMapper.getStatisticsCount(dates);
+        if (totalRecord <= 0) {
+            return delRowNum > 0;
+        }
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         for (int i = 0; i < totalPageNum; i++) {
             List<DwdUserGameRecord> statistics =
                 dwdUserGameRecordMapper.queryStatistics(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
             batchMapper.batchInsert(statistics, DwdUserGameRecordMapper.class);
         }
+        return true;
     }
 
 }

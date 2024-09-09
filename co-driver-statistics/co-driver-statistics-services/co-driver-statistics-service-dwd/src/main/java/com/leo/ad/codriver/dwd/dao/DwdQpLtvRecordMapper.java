@@ -18,7 +18,7 @@ import com.leo.ad.codriver.dwd.entity.DwdQpLtvRecord;
 @Mapper
 @DS("mysql")
 public interface DwdQpLtvRecordMapper extends BaseMapper<DwdQpLtvRecord> {
-    void deleteByDate(@Param("dates") Integer dates);
+    Integer deleteByDate(@Param("dates") Integer dates);
 
     List<DwdQpLtvRecord> queryByDate(@Param("dates") Integer dates);
 }

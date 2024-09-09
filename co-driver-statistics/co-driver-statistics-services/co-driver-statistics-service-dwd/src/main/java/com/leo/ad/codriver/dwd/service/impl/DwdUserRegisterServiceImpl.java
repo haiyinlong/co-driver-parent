@@ -32,14 +32,18 @@ public class DwdUserRegisterServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserRegister syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        dwdUserRegisterMapper.deleteByDates(dates);
+    public boolean syncData(Integer dates) {
+        Integer delRowNum = dwdUserRegisterMapper.deleteByDates(dates);
         Long totalRecord = dwdUserRegisterMapper.getStatisticsCount(dates);
+        if (totalRecord <= 0) {
+            return delRowNum > 0;
+        }
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         for (int i = 0; i < totalPageNum; i++) {
             List<DwdUserRegister> statistics = dwdUserRegisterMapper.statistics(dates,
                 BatchConst.BATCH_NUMBER.intValue(), i * BatchConst.BATCH_NUMBER.intValue());
             batchMapper.batchInsert(statistics, DwdUserRegisterMapper.class);
         }
+        return true;
     }
 }

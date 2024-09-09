@@ -3,6 +3,7 @@ package com.leo.ad.codriver.dwd.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
@@ -29,20 +30,22 @@ public class DwdUserBalanceRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserBalanceRecord syncData")
+    @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         // 查询统计总数据，然后分页进行获取
         long recordCount = dwdUserBalanceRecordMapper.getRecordCount();
         long totalPage = LongUtils.divide(recordCount, BatchConst.BATCH_NUMBER.longValue());
         if (totalPage <= 0) {
-            return;
+            return false;
         }
         List<DwdUserBalanceRecord> userAccountRecords;
         for (int i = 1; i <= totalPage; i++) {
             userAccountRecords = dwdUserBalanceRecordMapper.queryStatistics(BatchConst.BATCH_NUMBER.intValue(),
-                (int)((i - 1) * BatchConst.BATCH_NUMBER));
+                ((i - 1) * BatchConst.BATCH_NUMBER));
             batchMapper.batchInsert(userAccountRecords, DwdUserBalanceRecordMapper.class);
         }
+        return true;
     }
 
 }

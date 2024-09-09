@@ -35,9 +35,12 @@ public class DwdUserLoginRecordServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserLoginRecord  syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
-        dwdUserLoginRecordMapper.deleteByDates(dates);
+    public boolean syncData(Integer dates) {
+        Integer delRowNum = dwdUserLoginRecordMapper.deleteByDates(dates);
         Long totalRecord = dwdUserLoginRecordMapper.getStatisticsCount(dates);
+        if (totalRecord <= 0) {
+            return delRowNum > 0;
+        }
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         AsyncThreadExecutor asyncThreadExecutor = AsyncThreadExecutor.of((int)totalPageNum);
         for (int i = 0; i < totalPageNum; i++) {
@@ -54,5 +57,6 @@ public class DwdUserLoginRecordServiceImpl implements DwdService {
             log.error("dwdUserLoginRecord  syncData 执行异常", e);
             throw new RuntimeException(e);
         }
+        return true;
     }
 }

@@ -32,21 +32,25 @@ public class DwdUserWithdrawRecordServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserWithdrawRecord syncData")
     @Lock(paramName = "#dates")
-    public void syncData(Integer dates) {
+    public boolean syncData(Integer dates) {
         // 先删除数据
-        dwdUserWithdrawRecordMapper.deleteByDates(dates);
+        Integer delRowNum = dwdUserWithdrawRecordMapper.deleteByDates(dates);
         // 查询统计总数据，然后分页进行获取
         long recordCount = dwdUserWithdrawRecordMapper.getWithdrawCount(dates);
+        if (recordCount <= 0) {
+            return delRowNum > 0;
+        }
         long totalPage = LongUtils.divide(recordCount, BatchConst.BATCH_NUMBER.longValue());
         if (totalPage <= 0) {
-            return;
+            return delRowNum > 0;
         }
         List<DwdUserWithdrawRecord> userWithdrawRecords;
         for (int i = 1; i <= totalPage; i++) {
             userWithdrawRecords = dwdUserWithdrawRecordMapper.queryWithdrawList(dates, exchangeRate.getIndianToDollar(),
-                BatchConst.BATCH_NUMBER, (int)((i - 1) * BatchConst.BATCH_NUMBER));
+                BatchConst.BATCH_NUMBER, ((i - 1) * BatchConst.BATCH_NUMBER));
             batchMapper.batchInsert(userWithdrawRecords, DwdUserWithdrawRecordMapper.class);
         }
+        return true;
     }
 
 }
