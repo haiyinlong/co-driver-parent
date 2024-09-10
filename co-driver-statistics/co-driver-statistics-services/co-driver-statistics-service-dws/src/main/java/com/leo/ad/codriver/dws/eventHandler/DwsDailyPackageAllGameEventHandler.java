@@ -1,6 +1,7 @@
 package com.leo.ad.codriver.dws.eventHandler;
 
 import com.leo.ad.codriver.common.event.dwd.DwdUserAdRecordUpdateDwEvent;
+import com.leo.ad.codriver.common.event.dwd.DwdUserGameRecordOetaUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,8 +23,8 @@ public class DwsDailyPackageAllGameEventHandler {
 
     @EventListener
     @Async
-    public void handleEvent(DwdUserAdRecordUpdateDwEvent dwdUserAdRecordUpdateEvent) {
-        log.info("{} 事件触发 dwsDailyPackageAllAd", dwdUserAdRecordUpdateEvent.getDates());
-        dwsDailyPackageAllGameServiceImpl.syncData(dwdUserAdRecordUpdateEvent.getDates());
+    public void handleEvent(DwdUserGameRecordOetaUpdateDwEvent dwdUserGameRecordOetaUpdateDwEvent) {
+        log.info("{} 事件触发 dwsDailyPackageAllAd", dwdUserGameRecordOetaUpdateDwEvent.getDates());
+        dwsDailyPackageAllGameServiceImpl.syncData(dwdUserGameRecordOetaUpdateDwEvent.getDates());
     }
 }
