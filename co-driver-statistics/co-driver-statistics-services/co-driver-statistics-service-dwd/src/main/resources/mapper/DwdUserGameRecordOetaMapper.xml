@@ -8,6 +8,11 @@
         from dwd_user_game_record_oeta
         where dates = #{dates}
     </delete>
+    <delete id="deleteBySourceId">
+        delete
+        from dwd_user_game_record_oeta
+        where source_id = #{sourceId}
+    </delete>
     <select id="getStatisticsCount" resultType="java.lang.Long">
         SELECT COUNT(1)
         FROM ods_game_record_one_net ogron
@@ -40,5 +45,33 @@
                  INNER JOIN dim_user_info dui on (dui.user_id = ogron.user_id)
         where ogron.dates = #{dates}
         limit #{startRows}, #{rows}
+    </select>
+    <select id="getStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta">
+        SELECT dugro.id,
+               ogron.id         source_id,
+               ogron.dates,
+               ogron.pkg_game_id,
+               ogron.pkg_id,
+               ogron.game_id,
+               dui.user_id,
+               dui.last_version `version`,
+               dui.pkg,
+               dui.country,
+               ogron.s_id,
+               ogron.played_time,
+               ogron.start_time,
+               ogron.end_time,
+               ogron.game_result,
+               ogron.reward_source,
+               ogron.reward_account_type,
+               ogron.reward,
+               ogron.expend,
+               ogron.expend_account_type,
+               ogron.create_time,
+               ogron.end_time
+        FROM ods_game_record_one_net ogron
+                 INNER JOIN dim_user_info dui on (dui.user_id = ogron.user_id)
+                 LEFT JOIN dwd_user_game_record_oeta dugro on (dugro.source_id = ogron.id)
+        where ogron.id = #{sourceId}
     </select>
 </mapper>

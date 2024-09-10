@@ -1,14 +1,10 @@
 package com.leo.ad.codriver.dws.service.impl;
 
-import java.util.List;
-
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllGameUpdateDwEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAllGameMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGame;
 import com.leo.ad.codriver.dws.service.DwsService;
@@ -37,20 +33,21 @@ public class DwsDailyPackageAllGameServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        dwsDailyPackageAllGameMapper.deleteByDates(dates);
-        List<DwsDailyPackageAllGame> queryStatisticsAll = dwsDailyPackageAllGameMapper.queryStatisticsAll(dates);
-        if (CollectionUtils.isEmpty(queryStatisticsAll)) {
-            return;
-        }
-        dwBatchMapper.batchInsert(queryStatisticsAll, DwsDailyPackageAllGameMapper.class);
-
-        List<DwsDailyPackageAllGame> queryStatisticsNew = dwsDailyPackageAllGameMapper.queryStatisticsNew(dates);
-        if (CollectionUtils.isEmpty(queryStatisticsNew)) {
-            return;
-        }
-        dwBatchMapper.batchInsert(queryStatisticsNew, DwsDailyPackageAllGameMapper.class);
-
-        applicationEventPublisher.publishEvent(new DwsDailyPackageAllGameUpdateDwEvent(this, dates));
+        // TODO 执行有异常
+        // dwsDailyPackageAllGameMapper.deleteByDates(dates);
+        // List<DwsDailyPackageAllGame> queryStatisticsAll = dwsDailyPackageAllGameMapper.queryStatisticsAll(dates);
+        // if (CollectionUtils.isEmpty(queryStatisticsAll)) {
+        // return;
+        // }
+        // dwBatchMapper.batchInsert(queryStatisticsAll, DwsDailyPackageAllGameMapper.class);
+        //
+        // List<DwsDailyPackageAllGame> queryStatisticsNew = dwsDailyPackageAllGameMapper.queryStatisticsNew(dates);
+        // if (CollectionUtils.isEmpty(queryStatisticsNew)) {
+        // return;
+        // }
+        // dwBatchMapper.batchInsert(queryStatisticsNew, DwsDailyPackageAllGameMapper.class);
+        //
+        // applicationEventPublisher.publishEvent(new DwsDailyPackageAllGameUpdateDwEvent(this, dates));
     }
 
 }

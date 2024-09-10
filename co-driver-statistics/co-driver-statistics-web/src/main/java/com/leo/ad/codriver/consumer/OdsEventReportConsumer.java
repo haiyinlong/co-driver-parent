@@ -7,10 +7,9 @@
 // import lombok.RequiredArgsConstructor;
 // import lombok.extern.slf4j.Slf4j;
 //
-/// **
-// * 事件数据同步 OdsEventReportConsumer
-// *
-// * @author HaiYinLong
+/// ***事件数据同步 OdsEventReportConsumer**
+//
+// @author HaiYinLong
 // * @version 2024/06/24 15:27
 // **/
 // @Component

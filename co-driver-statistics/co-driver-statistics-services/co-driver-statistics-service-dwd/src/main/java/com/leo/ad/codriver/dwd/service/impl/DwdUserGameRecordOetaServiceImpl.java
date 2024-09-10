@@ -1,14 +1,19 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
+import java.util.Collections;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.event.dwd.DwdUserGameRecordOetaUpdateDwEvent;
 import com.leo.ad.codriver.dwd.dao.DwdUserGameRecordOetaMapper;
+import com.leo.ad.codriver.dwd.dto.DataChangeDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
 import com.leo.ad.codriver.dwd.service.DwdService;
+import com.leo.ad.codriver.dwd.service.DwdStreamService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -24,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class DwdUserGameRecordOetaServiceImpl implements DwdService {
+public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamService {
     private final DwdUserGameRecordOetaMapper dwdUserGameRecordOetaMapper;
     private final DwBatchMapper<DwdUserGameRecordOeta, DwdUserGameRecordOetaMapper> batchMapper;
 
@@ -53,4 +58,15 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService {
         return true;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean syncChangeData(DataChangeDTO dataChangeDTO) {
+        DwdUserGameRecordOeta userGameRecord = dwdUserGameRecordOetaMapper.getStatistics(dataChangeDTO.getSourceId());
+        if (ObjectUtils.isEmpty(userGameRecord)) {
+            dwdUserGameRecordOetaMapper.deleteBySourceId(dataChangeDTO.getSourceId());
+            return true;
+        }
+        batchMapper.batchInsert(Collections.singletonList(userGameRecord), DwdUserGameRecordOetaMapper.class);
+        return true;
+    }
 }

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
 import lombok.Data;
 
@@ -15,7 +16,7 @@ import lombok.Data;
  **/
 @Data
 @TableName("dwd_user_game_record_oeta")
-public class DwdUserGameRecordOeta {
+public class DwdUserGameRecordOeta implements BaseEntity {
 
     private Long id;
     private Long sourceId;

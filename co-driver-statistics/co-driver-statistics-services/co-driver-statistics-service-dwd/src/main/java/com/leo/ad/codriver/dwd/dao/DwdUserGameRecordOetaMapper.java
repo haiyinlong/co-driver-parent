@@ -25,4 +25,7 @@ public interface DwdUserGameRecordOetaMapper extends BaseMapper<DwdUserGameRecor
 
     Long getStatisticsCount(@Param("dates") Integer dates);
 
+    DwdUserGameRecordOeta getStatistics(@Param("sourceId") Long sourceId);
+
+    void deleteBySourceId(@Param("sourceId") Long sourceId);
 }
