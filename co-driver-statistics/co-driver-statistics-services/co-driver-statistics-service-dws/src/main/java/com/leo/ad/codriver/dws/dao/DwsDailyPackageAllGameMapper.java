@@ -17,7 +17,7 @@ import java.util.List;
  **/
 @Mapper
 @DS("mysql")
-public interface DwsDailyPackageAllGameMapper extends BaseMapper<DwsDailyPackageAllAd> {
+public interface DwsDailyPackageAllGameMapper extends BaseMapper<DwsDailyPackageAllGame> {
     List<DwsDailyPackageAllGame> queryStatisticsAll(@Param("dates") Integer dates);
     List<DwsDailyPackageAllGame> queryStatisticsNew(@Param("dates") Integer dates);
 
