@@ -6,8 +6,8 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.ads.service.AdsService;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllLabAdUpdateDwEvent;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllLabVersionPromotionUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAllLabAdUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAllLabVersionPromotionUpdateDwEvent;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

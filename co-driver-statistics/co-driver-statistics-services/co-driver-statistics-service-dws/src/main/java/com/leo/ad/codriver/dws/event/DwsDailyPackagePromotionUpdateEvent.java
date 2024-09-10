@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.common.event.dws;
+package com.leo.ad.codriver.dws.event;
 
 import java.io.Serial;
 

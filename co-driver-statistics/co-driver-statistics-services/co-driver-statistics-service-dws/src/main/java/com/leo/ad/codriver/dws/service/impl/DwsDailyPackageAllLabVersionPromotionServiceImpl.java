@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllLabVersionPromotionUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAllLabVersionPromotionUpdateDwEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAllLabVersionPromotionMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabVersionPromotion;
 import com.leo.ad.codriver.dws.service.DwsService;

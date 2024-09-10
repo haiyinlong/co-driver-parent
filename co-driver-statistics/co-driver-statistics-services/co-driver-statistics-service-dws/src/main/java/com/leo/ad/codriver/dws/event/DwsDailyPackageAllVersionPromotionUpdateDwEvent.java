@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.common.event.dws;
+package com.leo.ad.codriver.dws.event;
 
 import java.io.Serial;
 
@@ -13,11 +13,11 @@ import lombok.Getter;
  * @version 2024/09/04 19:46
  **/
 @Getter
-public class DwsDailyPackageAllLabVersionPromotionUpdateDwEvent extends CoDriverDwEvent {
+public class DwsDailyPackageAllVersionPromotionUpdateDwEvent extends CoDriverDwEvent {
     @Serial
     private static final long serialVersionUID = 424915631296013502L;
 
-    public DwsDailyPackageAllLabVersionPromotionUpdateDwEvent(Object source, Integer dates) {
+    public DwsDailyPackageAllVersionPromotionUpdateDwEvent(Object source, Integer dates) {
         super(source, dates);
     }
 }

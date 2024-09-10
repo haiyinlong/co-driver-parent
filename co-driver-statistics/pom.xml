@@ -17,7 +17,6 @@
         <module>co-driver-statistics-services</module>
         <module>co-driver-statistics-start</module>
         <module>co-driver-statistics-web</module>
-        <module>co-driver-statistics-common</module>
     </modules>
     <properties>
         <revision>1.0</revision>
@@ -34,11 +33,6 @@
                 <version>${revision}</version>
             </dependency>
             <!-- 自定义 service -->
-            <dependency>
-                <groupId>com.leo.ad</groupId>
-                <artifactId>co-driver-statistics-common</artifactId>
-                <version>${revision}</version>
-            </dependency>
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>co-driver-statistics-service-common</artifactId>

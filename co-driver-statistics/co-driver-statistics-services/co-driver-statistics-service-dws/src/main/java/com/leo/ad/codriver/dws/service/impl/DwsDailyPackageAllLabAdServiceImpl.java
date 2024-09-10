@@ -11,7 +11,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllLabAdUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAllLabAdUpdateDwEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAllLabAdMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabAd;
 import com.leo.ad.codriver.dws.service.DwsService;

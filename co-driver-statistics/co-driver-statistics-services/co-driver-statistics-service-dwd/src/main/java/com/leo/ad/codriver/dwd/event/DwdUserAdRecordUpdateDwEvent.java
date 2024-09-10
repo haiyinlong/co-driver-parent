@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.common.event.dwd;
+package com.leo.ad.codriver.dwd.event;
 
 import java.io.Serial;
 

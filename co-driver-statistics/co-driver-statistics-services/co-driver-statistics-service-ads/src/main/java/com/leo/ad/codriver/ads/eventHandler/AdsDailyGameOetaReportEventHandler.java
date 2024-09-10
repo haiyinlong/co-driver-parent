@@ -1,9 +1,7 @@
 package com.leo.ad.codriver.ads.eventHandler;
 
 import com.leo.ad.codriver.ads.service.AdsService;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllGameUpdateDwEvent;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllLabAdUpdateDwEvent;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllLabVersionPromotionUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAllGameUpdateDwEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;

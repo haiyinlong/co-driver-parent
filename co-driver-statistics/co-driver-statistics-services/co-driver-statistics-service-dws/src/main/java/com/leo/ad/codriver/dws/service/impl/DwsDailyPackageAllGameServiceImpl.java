@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackageAllGameUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAllGameUpdateDwEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAllGameMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGame;
 import com.leo.ad.codriver.dws.service.DwsService;

@@ -23,5 +23,9 @@
             <groupId>com.leo.ad</groupId>
             <artifactId>co-driver-statistics-service-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-dwd</artifactId>
+        </dependency>
     </dependencies>
 </project>

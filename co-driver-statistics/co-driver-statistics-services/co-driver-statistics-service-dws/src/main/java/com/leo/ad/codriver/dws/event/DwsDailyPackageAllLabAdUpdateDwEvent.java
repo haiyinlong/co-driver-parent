@@ -1,9 +1,10 @@
-package com.leo.ad.codriver.common.event.dws;
-
-import com.leo.ad.codriver.common.event.CoDriverDwEvent;
-import lombok.Getter;
+package com.leo.ad.codriver.dws.event;
 
 import java.io.Serial;
+
+import com.leo.ad.codriver.common.event.CoDriverDwEvent;
+
+import lombok.Getter;
 
 /**
  * 每日包广告数据汇总数据更新
@@ -12,11 +13,11 @@ import java.io.Serial;
  * @version 2024/09/04 15:54
  **/
 @Getter
-public class DwsDailyPackageAllGameUpdateDwEvent extends CoDriverDwEvent {
+public class DwsDailyPackageAllLabAdUpdateDwEvent extends CoDriverDwEvent {
     @Serial
     private static final long serialVersionUID = 3527409359219967945L;
 
-    public DwsDailyPackageAllGameUpdateDwEvent(Object source, Integer dates) {
+    public DwsDailyPackageAllLabAdUpdateDwEvent(Object source, Integer dates) {
         super(source, dates);
     }
 }

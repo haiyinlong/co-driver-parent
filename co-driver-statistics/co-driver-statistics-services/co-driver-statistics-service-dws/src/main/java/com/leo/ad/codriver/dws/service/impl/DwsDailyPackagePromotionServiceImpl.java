@@ -6,7 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dws.DwsDailyPackagePromotionUpdateEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPackagePromotionUpdateEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackagePromotionMapper;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;

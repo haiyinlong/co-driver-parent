@@ -10,7 +10,7 @@ import org.springframework.util.ObjectUtils;
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.event.dwd.DwdPromotionRecordUpdateDwEvent;
+import com.leo.ad.codriver.dwd.event.DwdPromotionRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.dao.DwdPromotionRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdPromotionRecord;
 import com.leo.ad.codriver.dwd.service.DwdService;

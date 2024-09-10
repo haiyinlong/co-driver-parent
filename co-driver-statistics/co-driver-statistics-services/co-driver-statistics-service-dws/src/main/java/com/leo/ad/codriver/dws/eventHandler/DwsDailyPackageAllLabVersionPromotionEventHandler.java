@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import com.leo.ad.codriver.common.event.dwd.DwdPromotionRecordUpdateDwEvent;
+import com.leo.ad.codriver.dwd.event.DwdPromotionRecordUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
 import lombok.RequiredArgsConstructor;
