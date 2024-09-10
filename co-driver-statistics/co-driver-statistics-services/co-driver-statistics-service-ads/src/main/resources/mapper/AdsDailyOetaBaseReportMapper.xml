@@ -160,4 +160,9 @@
             and adobr.version = ddpl.version and adobr.user_type = 1)
         WHERE ddpl.dates = #{dates}
     </select>
+    <select id="queryOetaBaseReportList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+        select *
+        from ads_daily_oeta_base_report
+        WHERE dates = #{dates};
+    </select>
 </mapper>

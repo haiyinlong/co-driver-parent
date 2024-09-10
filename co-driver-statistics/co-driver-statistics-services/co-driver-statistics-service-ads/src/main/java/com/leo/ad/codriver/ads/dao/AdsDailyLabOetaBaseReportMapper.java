@@ -18,9 +18,10 @@ import com.leo.ad.codriver.ads.entity.AdsDailyLabOetaBaseReport;
 @Mapper
 @DS("mysql")
 public interface AdsDailyLabOetaBaseReportMapper extends BaseMapper<AdsDailyLabOetaBaseReport> {
-    void deleteByDates(@Param("dates") Integer dates);
 
     List<AdsDailyLabOetaBaseReport> selectActiveUserList(@Param("dates") Integer dates);
 
     List<AdsDailyLabOetaBaseReport> selectNewUserList(@Param("dates") Integer dates);
+
+    List<AdsDailyLabOetaBaseReport> queryOetaBaseReportList(@Param("dates") Integer dates);
 }

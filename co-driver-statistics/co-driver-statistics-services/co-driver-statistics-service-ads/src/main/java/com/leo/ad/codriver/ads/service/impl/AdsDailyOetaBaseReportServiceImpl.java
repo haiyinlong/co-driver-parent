@@ -1,10 +1,15 @@
 package com.leo.ad.codriver.ads.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.ads.dao.AdsDailyOetaBaseReportMapper;
 import com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport;
@@ -43,6 +48,16 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
         }
         activeUserList.forEach(AdsDailyOetaBaseReport::init);
         batchMapper.batchInsert(activeUserList, AdsDailyOetaBaseReportMapper.class);
+        // 删除不存在的记录
+        List<AdsDailyOetaBaseReport> oetaBaseReportList = adsDailyOetaBaseReportMapper.queryOetaBaseReportList(dates);
+        Map<Long, List<AdsDailyOetaBaseReport>> oetaBaseUserTypeMap =
+            oetaBaseReportList.stream().collect(Collectors.groupingBy(AdsDailyOetaBaseReport::getUserType));
+
+        List<Long> notExistsIds = getNotExistsIds(oetaBaseUserTypeMap.get(0), activeUserList);
+        if (!CollectionUtils.isEmpty(notExistsIds)) {
+            adsDailyOetaBaseReportMapper.deleteBatchIds(notExistsIds);
+        }
+
         // 新用户
         List<AdsDailyOetaBaseReport> newUserList = adsDailyOetaBaseReportMapper.selectNewUserList(dates);
         if (CollectionUtils.isEmpty(newUserList)) {
@@ -50,5 +65,21 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
         }
         newUserList.forEach(AdsDailyOetaBaseReport::init);
         batchMapper.batchInsert(newUserList, AdsDailyOetaBaseReportMapper.class);
+        // 删除不存在的记录
+        notExistsIds = getNotExistsIds(oetaBaseUserTypeMap.get(1), newUserList);
+        if (!CollectionUtils.isEmpty(notExistsIds)) {
+            adsDailyOetaBaseReportMapper.deleteBatchIds(notExistsIds);
+        }
+    }
+
+    private List<Long> getNotExistsIds(List<AdsDailyOetaBaseReport> oetaBaseReports,
+        List<AdsDailyOetaBaseReport> oetaBaseReportList) {
+        if (CollectionUtils.isEmpty(oetaBaseReports)) {
+            return Collections.emptyList();
+        }
+        List<Long> dbIds = new ArrayList<>(oetaBaseReports.stream().map(AdsDailyOetaBaseReport::getId)
+            .filter(id -> !ObjectUtils.isEmpty(id)).toList());
+        oetaBaseReportList.forEach(item -> dbIds.remove(item.getId()));
+        return dbIds;
     }
 }

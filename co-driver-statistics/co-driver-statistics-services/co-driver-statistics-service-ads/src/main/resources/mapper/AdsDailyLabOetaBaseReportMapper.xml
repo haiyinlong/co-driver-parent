@@ -2,13 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyLabOetaBaseReportMapper">
-    <delete id="deleteByDates">
-        DELETE
-        FROM ads_daily_lab_oeta_base_report
-        WHERE dates = #{dates}
-    </delete>
     <select id="selectActiveUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabOetaBaseReport">
-        SELECT ddpl.dates,
+        SELECT adobr.id,
+               ddpl.dates,
                ddpl.pkg,
                ddpl.version,
                ddpl.config_group_name,
@@ -95,10 +91,16 @@
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpl.version = ddpql.version and ddpl.config_group_name = ddpql.config_group_name and
                                ddpl.config_group_type = ddpql.config_group_type)
+                 LEFT JOIN ads_daily_lab_oeta_base_report adobr on (
+            adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
+                and adobr.version = ddpl.version and adobr.user_type = 0
+                and adobr.config_group_type = ddpl.config_group_type
+                and adobr.config_group_name = ddpl.config_group_name)
         WHERE ddpl.dates = #{dates}
     </select>
     <select id="selectNewUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabOetaBaseReport">
-        SELECT ddpl.dates,
+        SELECT adobr.id,
+               ddpl.dates,
                ddpl.pkg,
                ddpl.version,
                ddpl.config_group_name,
@@ -183,6 +185,16 @@
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpl.version = ddpql.version and ddpl.config_group_name = ddpql.config_group_name and
                                ddpl.config_group_type = ddpql.config_group_type)
+                 LEFT JOIN ads_daily_lab_oeta_base_report adobr on (
+            adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
+                and adobr.version = ddpl.version and adobr.user_type = 1
+                and adobr.config_group_type = ddpl.config_group_type
+                and adobr.config_group_name = ddpl.config_group_name)
         WHERE ddpl.dates = #{dates}
+    </select>
+    <select id="queryOetaBaseReportList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabOetaBaseReport">
+        SELECT *
+        FROM ads_daily_lab_oeta_base_report
+        where dates = #{dates}
     </select>
 </mapper>

@@ -22,4 +22,6 @@ public interface AdsDailyOetaBaseReportMapper extends BaseMapper<AdsDailyOetaBas
     List<AdsDailyOetaBaseReport> selectActiveUserList(@Param("dates") Integer dates);
 
     List<AdsDailyOetaBaseReport> selectNewUserList(@Param("dates") Integer dates);
+
+    List<AdsDailyOetaBaseReport> queryOetaBaseReportList(@Param("dates") Integer dates);
 }
