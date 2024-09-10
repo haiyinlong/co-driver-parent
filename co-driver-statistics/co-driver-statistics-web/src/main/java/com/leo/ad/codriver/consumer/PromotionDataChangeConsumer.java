@@ -39,7 +39,6 @@ public class PromotionDataChangeConsumer {
             }
             try {
                 dwsDailyPackagePromotionServiceImpl.syncData(dataChangeDTO.getDates());
-                adsHemaDataAnalyseFullDailyServiceImpl.syncData(dataChangeDTO.getDates());
             } catch (Exception e) {
                 log.error("sync  dwsDailyPackagePromotionServiceImpl data error", e);
             }

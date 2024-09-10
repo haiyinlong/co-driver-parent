@@ -1,12 +1,17 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
+import com.leo.ad.codriver.common.async.AsyncThreadExecutor;
+import com.leo.ad.codriver.common.util.DateUtils;
+import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserEventDetailMapper;
 import com.leo.ad.codriver.dwd.dto.DataChangeDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserEventDetail;
@@ -36,39 +41,43 @@ public class DwdUserEventDetailFormEventReportServiceImpl implements DwdEventSer
     @ShowExecuteTime(name = "dwdUserEventDetail form eventReport syncData")
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        // TODO 太慢了
-        // int rowNumInterval = 2000;
-        // // 先删除数据
-        // long startTime = System.currentTimeMillis();
-        // Integer delRowNum = dwdUserEventDetailMapper.deleteByDates(dates, "ods_event_report");
-        // log.info(" {} 删除diversion.event_report 历史数据耗时: {}", dates, (System.currentTimeMillis() - startTime) / 1000);
-        // // 查询统计总数据，然后分页进行获取
-        // long diversionEventReportCount = dwdUserEventDetailMapper.getEventReportCount(dates);
-        // if (diversionEventReportCount <= 0) {
-        // return delRowNum > 0;
-        // }
-        // // TODO 数据量太大线程会导致数据库有压力
-        // long totalPage = LongUtils.divide(diversionEventReportCount, (long)rowNumInterval);
-        // log.info(" {} diversion.event_report 分页统计情况总条数:{} 查询页数:{}", dates, diversionEventReportCount, totalPage);
-        // if (totalPage <= 0) {
-        // return delRowNum > 0;
-        // }
-        // AsyncThreadExecutor asyncThreadExecutor = AsyncThreadExecutor.of((int)totalPage);
-        // for (int i = 1; i <= totalPage; i++) {
-        // int pageSize = i;
-        // asyncThreadExecutor.execute(() -> {
-        // List<DwdUserEventDetail> diversionEventList =
-        // dwdUserEventDetailMapper.queryEventReport(dates, rowNumInterval, ((pageSize - 1) * rowNumInterval));
-        // batchMapper.batchInsert(diversionEventList, DwdUserEventDetailMapper.class);
-        // log.info(" {} diversion.event_report 执行完第{}页数据", dates, pageSize);
-        // });
-        // }
-        // try {
-        // asyncThreadExecutor.await();
-        // } catch (InterruptedException e) {
-        // log.error("diversion.event_report 执行异常", e);
-        // throw new RuntimeException(e);
-        // }
+        Integer nowDates = DateUtils.getNowDates();
+        if (Objects.equals(dates, nowDates)) {
+            // 当天数据不进行统计，跳过
+            return false;
+        }
+        int rowNumInterval = 2000;
+        // 先删除数据
+        long startTime = System.currentTimeMillis();
+        Integer delRowNum = dwdUserEventDetailMapper.deleteByDates(dates, "ods_event_report");
+        log.info(" {} 删除diversion.event_report 历史数据耗时: {}", dates, (System.currentTimeMillis() - startTime) / 1000);
+        // 查询统计总数据，然后分页进行获取
+        long diversionEventReportCount = dwdUserEventDetailMapper.getEventReportCount(dates);
+        if (diversionEventReportCount <= 0) {
+            return delRowNum > 0;
+        }
+        // TODO 数据量太大线程会导致数据库有压力
+        long totalPage = LongUtils.divide(diversionEventReportCount, (long)rowNumInterval);
+        log.info(" {} diversion.event_report 分页统计情况总条数:{} 查询页数:{}", dates, diversionEventReportCount, totalPage);
+        if (totalPage <= 0) {
+            return delRowNum > 0;
+        }
+        AsyncThreadExecutor asyncThreadExecutor = AsyncThreadExecutor.of((int)totalPage);
+        for (int i = 1; i <= totalPage; i++) {
+            int pageSize = i;
+            asyncThreadExecutor.execute(() -> {
+                List<DwdUserEventDetail> diversionEventList =
+                    dwdUserEventDetailMapper.queryEventReport(dates, rowNumInterval, ((pageSize - 1) * rowNumInterval));
+                batchMapper.batchInsert(diversionEventList, DwdUserEventDetailMapper.class);
+                log.info(" {} diversion.event_report 执行完第{}页数据", dates, pageSize);
+            });
+        }
+        try {
+            asyncThreadExecutor.await();
+        } catch (InterruptedException e) {
+            log.error("diversion.event_report 执行异常", e);
+            throw new RuntimeException(e);
+        }
         return true;
     }
 

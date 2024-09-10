@@ -26,94 +26,60 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class DwScheduleTask {
-    private final AdsService adsHemaDataAnalyseFullDailyServiceImpl;
-    private final AdsService adsDailyOetaBaseReportServiceImpl;
     private final ExchangeRate exchangeRate;
 
     private final List<DwsService> dwsServices;
     private final List<DimService> dimServices;
     private final List<DwdService> dwdServices;
     private final List<AdsService> adsServices;
-    private final DwsService dwsDailyPackagePromotionServiceImpl;
 
+    /**
+     * 全量同步数据，每日凌晨全量同步前一天数据
+     */
     @Scheduled(cron = "0 0 0 * * ?")
     @Async("asyncServiceExecutor")
     public void syncAllTask() {
         // 更新汇率
         exchangeRate.updateFeeUSDToINR();
 
-        long startTime = System.currentTimeMillis();
-        log.info("dim 开始同步所有数据");
+        log.info("dim 开始全量同步所有数据");
         for (DimService service : dimServices) {
-            service.syncData();
+            try {
+                service.syncData();
+            } catch (Exception e) {
+                log.error(service.getClass().getSimpleName() + "全量数据同步异常", e);
+            }
         }
-        log.info("dim 所有数据同步结束, 耗时：{}", (System.currentTimeMillis() - startTime) / 1000);
+        log.info("dim 全量数据同步结束");
         // 获取统计日期
         Integer dates = DateUtils.getPreviousDate();
-        startTime = System.currentTimeMillis();
         log.info("{} dwd 开始同步所有数据", dates);
         for (DwdService service : dwdServices) {
-            service.syncData(dates);
+            try {
+                service.syncData(dates);
+            } catch (Exception e) {
+                log.error(dates + " " + service.getClass().getSimpleName() + "全量数据同步异常", e);
+            }
         }
-        log.info("{} dwd 所有数据同步结束, 耗时：{}", dates, (System.currentTimeMillis() - startTime) / 1000);
-        startTime = System.currentTimeMillis();
+        log.info("{} dwd 所有数据同步结束", dates);
         log.info("{} dws 开始同步所有数据", dates);
         for (DwsService service : dwsServices) {
-            service.syncData(dates);
+            try {
+                service.syncData(dates);
+            } catch (Exception e) {
+                log.error(dates + " " + service.getClass().getSimpleName() + "全量数据同步异常", e);
+            }
         }
-        log.info("{} dws 所有数据同步结束, 耗时：{}", dates, (System.currentTimeMillis() - startTime) / 1000);
-        startTime = System.currentTimeMillis();
+        log.info("{} dws 所有数据同步结束", dates);
         log.info("{} ads 开始同步所有数据", dates);
         for (AdsService service : adsServices) {
-            service.syncData(dates);
+            try {
+                service.syncData(dates);
+            } catch (Exception e) {
+                log.error(dates + " " + service.getClass().getSimpleName() + "全量数据同步异常", e);
+            }
         }
-        log.info("{} ads 所有数据同步结束, 耗时：{}", dates, (System.currentTimeMillis() - startTime) / 1000);
-    }
-
-    /**
-     * 跟新河马大盘数据推广花费数据
-     */
-    @Scheduled(cron = "0 30 0-10 * * ?")
-    @Async("asyncServiceExecutor")
-    public void syncUpdateHmGameAnalyse() {
-        // 获取统计日期
-        Integer dates;
-        int[] days = {1, 2, 3};
-        for (int day : days) {
-            dates = DateUtils.getPreviousDate(day);
-            dwsDailyPackagePromotionServiceImpl.syncData(dates);
-            adsHemaDataAnalyseFullDailyServiceImpl.syncData(dates);
-            log.info("{} dws DailyHmGameAnalyse 更新 {}留数据 同步结束", dates, day - 1);
-        }
-    }
-
-    /**
-     * 更新河马大盘d1和d7的留存数据，每日0点更新一次
-     */
-    @Scheduled(cron = "0 0 0 * * ?")
-    @Async("asyncServiceExecutor")
-    public void syncUpdateHmGameRetention() {
-        // 获取统计日期
-        Integer dates;
-        int[] days = {2, 8};
-        for (int day : days) {
-            dates = DateUtils.getPreviousDate(day);
-            adsHemaDataAnalyseFullDailyServiceImpl.syncData(dates);
-            log.info("{} dws DailyHmGameAnalyse 更新 {}留数据 同步结束", dates, day - 1);
-        }
-    }
-
-    @Scheduled(cron = "0 0 * * * ?")
-    @Async("asyncServiceExecutor")
-    public void syncUpdateOetaBaseReportHistory() {
-        // 每小时更新下数据
-        Integer dates;
-        int[] days = {1, 2};
-        for (int day : days) {
-            dates = DateUtils.getPreviousDate(day);
-            adsDailyOetaBaseReportServiceImpl.syncData(dates);
-            log.info("{} dws DailyOetaBaseReportHistory 更新 {}留数据 同步结束", dates, day);
-        }
+        log.info("{} ads 所有数据同步结束", dates);
     }
 
     /**
@@ -121,34 +87,46 @@ public class DwScheduleTask {
      */
     @Scheduled(cron = "0 0 1-22 * * ?")
     @Async("asyncServiceExecutor")
-    public void raleUpdateDate() {
+    public void updateCurrentDate() {
         // 获取统计日期
         Integer dates = DateUtils.getNowDates();
-        long startTime = System.currentTimeMillis();
         log.info("{} 实时同步当天数据", dates);
         log.info("dim 开始实时同步所有数据");
         for (DimService service : dimServices) {
-            service.syncData();
+            try {
+                service.syncData();
+            } catch (Exception e) {
+                log.error(dates + "当天" + service.getClass().getSimpleName() + " 数据同步异常", e);
+            }
         }
-        log.info("dim 实时同步所有数据同步结束, 耗时：{}", (System.currentTimeMillis() - startTime) / 1000);
-        startTime = System.currentTimeMillis();
+        log.info("dim 实时同步所有数据同步结束");
         log.info("{} dwd 开始实时同步所有数据", dates);
         for (DwdService service : dwdServices) {
-            service.syncData(dates);
+            try {
+                service.syncData(dates);
+            } catch (Exception e) {
+                log.error(dates + "当天" + service.getClass().getSimpleName() + " 数据同步异常", e);
+            }
         }
-        log.info("{} dwd 实时同步所有数据同步结束, 耗时：{}", dates, (System.currentTimeMillis() - startTime) / 1000);
-        startTime = System.currentTimeMillis();
+        log.info("{} dwd 实时同步所有数据同步结束", dates);
         log.info("{} dws 开始实时同步所有数据", dates);
         for (DwsService service : dwsServices) {
-            service.syncData(dates);
+            try {
+                service.syncData(dates);
+            } catch (Exception e) {
+                log.error(dates + "当天" + service.getClass().getSimpleName() + " 数据同步异常", e);
+            }
         }
-        log.info("{} dws 实时同步所有数据同步结束, 耗时：{}", dates, (System.currentTimeMillis() - startTime) / 1000);
-        startTime = System.currentTimeMillis();
+        log.info("{} dws 实时同步所有数据同步结束", dates);
         log.info("{} ads 开始实时同步所有数据", dates);
         for (AdsService service : adsServices) {
-            service.syncData(dates);
+            try {
+                service.syncData(dates);
+            } catch (Exception e) {
+                log.error(dates + "当天" + service.getClass().getSimpleName() + " 数据同步异常", e);
+            }
         }
-        log.info("{} ads 实时同步所有数据同步结束, 耗时：{}", dates, (System.currentTimeMillis() - startTime) / 1000);
+        log.info("{} ads 实时同步所有数据同步结束", dates);
     }
 
 }

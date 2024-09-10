@@ -43,7 +43,10 @@ co-driver:
         enable: false
       ods_game_user_queue:
         enable: false
-
+      ods_oeta_game_record_queue:
+        enable: false
+      ods_event_report_queue:
+        enable: false
 management:
   health:
     rabbit:
