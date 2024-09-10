@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class DataChangeConsumer {
+public class PromotionDataChangeConsumer {
     private final DwsService dwsDailyPackagePromotionServiceImpl;
     private final AdsService adsHemaDataAnalyseFullDailyServiceImpl;
     private final DwdService dwdPromotionRecordServiceImpl;
