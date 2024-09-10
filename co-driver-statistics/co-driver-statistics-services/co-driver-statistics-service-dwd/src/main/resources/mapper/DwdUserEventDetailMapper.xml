@@ -11,6 +11,12 @@
             and source = #{source}
         </if>
     </delete>
+    <delete id="deleteEventReportBySourceId">
+        delete
+        from dwd_user_event_detail
+        where source = #{source}
+          and source_id = #{sourceId}
+    </delete>
 
     <select id="getEventReportCount" resultType="java.lang.Long">
         select count(1)
@@ -49,8 +55,35 @@
           and JSON_VALID(er.event_msg)
           and JSON_LENGTH(er.event_msg) > 0
         limit #{rows} OFFSET #{startRows}
-
     </select>
+    <select id="getStatisticsEventReport" resultType="com.leo.ad.codriver.dwd.entity.DwdUserEventDetail">
+        select dued.id,
+               #{source}                                         source,
+               er.id                                             source_id,
+               er.dates,
+               IFNULL(u.id, er.user_id)                          user_id,
+               er.event_id,
+               er.event_msg,
+               IFNULL(er.event_msg ->> '$.pvn', 'unknown')       version,
+               u.dates                                           register_dates,
+               u.create_time                                     register_date,
+               u.pkg,
+               dui.version                                       register_version,
+               IFNULL(uh.address, 'IN')                          country,
+               TIMESTAMPDIFF(DAY, u.create_time, er.create_time) register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, er.dates)             register_day,
+               er.create_time
+        from ods_event_report er
+                 INNER JOIN ods_user u on (er.user_id = u.aid and u.pkg = er.pkg)
+                 LEFT JOIN dim_user_info dui on (dui.user_id = u.id)
+                 LEFT JOIN ods_user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
+                 LEFT JOIN dwd_user_event_detail dued on (dued.source_id = er.id and dued.source = #{source})
+        where er.id = #{sourceId}
+          and er.event_msg is not null
+          and JSON_VALID(er.event_msg)
+          and JSON_LENGTH(er.event_msg) > 0
+    </select>
+
     <select id="getReportEventCount" resultType="java.lang.Long">
         select count(1)
         from ods_report_event re
@@ -177,4 +210,5 @@
           and JSON_LENGTH(rp.event_msg) > 0
         limit #{rows} OFFSET #{startRows}
     </select>
+
 </mapper>

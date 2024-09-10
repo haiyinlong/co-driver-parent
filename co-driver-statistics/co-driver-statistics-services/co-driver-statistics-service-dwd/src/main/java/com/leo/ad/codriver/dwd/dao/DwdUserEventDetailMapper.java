@@ -40,4 +40,7 @@ public interface DwdUserEventDetailMapper extends BaseMapper<DwdUserEventDetail>
     List<DwdUserEventDetail> queryAdsReportPoint(@Param("dates") Integer dates, @Param("rows") Integer rows,
         @Param("startRows") Integer pageSize);
 
+    DwdUserEventDetail getStatisticsEventReport(@Param("source") String source, @Param("sourceId") Long sourceId);
+
+    void deleteEventReportBySourceId(@Param("source") String source, @Param("sourceId") Long sourceId);
 }

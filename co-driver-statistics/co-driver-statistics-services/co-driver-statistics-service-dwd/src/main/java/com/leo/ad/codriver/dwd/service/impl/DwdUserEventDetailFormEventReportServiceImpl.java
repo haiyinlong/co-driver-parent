@@ -1,11 +1,17 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
+import java.util.Collections;
+
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dwd.dao.DwdUserEventDetailMapper;
+import com.leo.ad.codriver.dwd.dto.DataChangeDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserEventDetail;
 import com.leo.ad.codriver.dwd.service.DwdEventService;
+import com.leo.ad.codriver.dwd.service.DwdStreamService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -21,7 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @AllArgsConstructor
 @Slf4j
-public class DwdUserEventDetailFormEventReportServiceImpl implements DwdEventService {
+public class DwdUserEventDetailFormEventReportServiceImpl implements DwdEventService, DwdStreamService {
+    public static final String ODS_EVENT_REPORT = "ods_event_report";
     private final DwdUserEventDetailMapper dwdUserEventDetailMapper;
     private final DwBatchMapper<DwdUserEventDetail, DwdUserEventDetailMapper> batchMapper;
 
@@ -65,4 +72,16 @@ public class DwdUserEventDetailFormEventReportServiceImpl implements DwdEventSer
         return true;
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public boolean syncChangeData(DataChangeDTO dataChangeDTO) {
+        DwdUserEventDetail dwdUserEventDetail =
+            dwdUserEventDetailMapper.getStatisticsEventReport(ODS_EVENT_REPORT, dataChangeDTO.getSourceId());
+        if (ObjectUtils.isEmpty(dwdUserEventDetail)) {
+            dwdUserEventDetailMapper.deleteEventReportBySourceId(ODS_EVENT_REPORT, dataChangeDTO.getSourceId());
+            return true;
+        }
+        batchMapper.batchInsert(Collections.singletonList(dwdUserEventDetail), DwdUserEventDetailMapper.class);
+        return true;
+    }
 }

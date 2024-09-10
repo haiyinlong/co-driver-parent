@@ -1,15 +1,17 @@
 package com.leo.ad.codriver.dwd.entity;
 
+import java.util.Date;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
-import java.util.Date;
+import lombok.Data;
 
 @Data
 @TableName("dwd_user_event_detail")
-public class DwdUserEventDetail {
+public class DwdUserEventDetail implements BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;

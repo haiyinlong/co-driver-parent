@@ -32,7 +32,6 @@ public class DwdUserEventDetailFormReportPointServiceImpl implements DwdEventSer
     @ShowExecuteTime(name = "dwdUserEventDetail form reportPoint syncData")
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        // TODO 太慢了
         int rowNumInterval = 2000;
         // 先删除数据
         Integer delRowNum = dwdUserEventDetailMapper.deleteByDates(dates, "ods_report_point_diversion");
