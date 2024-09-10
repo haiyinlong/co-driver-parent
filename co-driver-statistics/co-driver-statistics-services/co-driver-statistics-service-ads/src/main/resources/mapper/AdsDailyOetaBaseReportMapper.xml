@@ -2,13 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyOetaBaseReportMapper">
-    <delete id="deleteByDates">
-        DELETE
-        FROM ads_daily_oeta_base_report
-        WHERE dates = #{dates}
-    </delete>
     <select id="selectActiveUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
-        SELECT ddpl.dates,
+        SELECT adobr.id,
+               ddpl.dates,
                ddpl.pkg,
                ddpl.version,
                0                                                             user_type,
@@ -81,10 +77,13 @@
                  LEFT JOIN dws_daily_package_all_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpl.version = ddpql.version)
+                 LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
+            and adobr.version = ddpl.version and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
     </select>
     <select id="selectNewUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
-        SELECT ddpl.dates,
+        SELECT adobr.id,
+               ddpl.dates,
                ddpl.pkg,
                ddpl.version,
                1                                                             user_type,
@@ -157,6 +156,8 @@
                  LEFT JOIN dws_daily_package_all_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpl.version = ddpql.version)
+                 LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
+            and adobr.version = ddpl.version and adobr.user_type = 1)
         WHERE ddpl.dates = #{dates}
     </select>
 </mapper>

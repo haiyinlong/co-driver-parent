@@ -36,7 +36,6 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        adsDailyOetaBaseReportMapper.deleteByDates(dates);
         // 活跃用户
         List<AdsDailyOetaBaseReport> activeUserList = adsDailyOetaBaseReportMapper.selectActiveUserList(dates);
         if (CollectionUtils.isEmpty(activeUserList)) {

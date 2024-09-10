@@ -6,12 +6,13 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
 import lombok.Data;
 
 @Data
 @TableName("ads_daily_oeta_base_report")
-public class AdsDailyOetaBaseReport {
+public class AdsDailyOetaBaseReport implements BaseEntity {
     @TableId(type = IdType.AUTO)
     private Long id;
     private Long dates;
