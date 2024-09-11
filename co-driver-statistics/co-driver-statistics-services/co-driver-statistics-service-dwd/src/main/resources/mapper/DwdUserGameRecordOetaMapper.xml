@@ -23,6 +23,7 @@
         SELECT ogron.id         source_id,
                ogron.dates,
                ogron.pkg_game_id,
+               opgon.game_code,
                ogron.pkg_id,
                ogron.game_id,
                dui.user_id,
@@ -43,6 +44,7 @@
                ogron.end_time
         FROM ods_game_record_one_net ogron
                  INNER JOIN dim_user_info dui on (dui.user_id = ogron.user_id)
+                 LEFT JOIN ods_pkg_game_one_net opgon on (opgon.id = ogron.pkg_game_id)
         where ogron.dates = #{dates}
         limit #{startRows}, #{rows}
     </select>
@@ -51,6 +53,7 @@
                ogron.id         source_id,
                ogron.dates,
                ogron.pkg_game_id,
+               opgon.game_code,
                ogron.pkg_id,
                ogron.game_id,
                dui.user_id,
@@ -71,6 +74,7 @@
                ogron.end_time
         FROM ods_game_record_one_net ogron
                  INNER JOIN dim_user_info dui on (dui.user_id = ogron.user_id)
+                 LEFT JOIN ods_pkg_game_one_net opgon on (opgon.id = ogron.pkg_game_id)
                  LEFT JOIN dwd_user_game_record_oeta dugro on (dugro.source_id = ogron.id)
         where ogron.id = #{sourceId}
     </select>
