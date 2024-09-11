@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllAssetExchangeMapper">
+
+    <select id="queryList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllAssetExchange">
+        select id,
+               dates,
+               pkg,
+               version,
+               user_type,
+               total_user_num,
+               total_exchange_count,
+               exchange_cash_user_num,
+               exchange_cash_count,
+               exchange_cash_total_amount,
+               exchange_cash_to_total_chip,
+               exchange_cash_rate,
+               exchange_chip_user_num,
+               exchange_chip_count,
+               exchange_chip_total_amount,
+               exchange_chip_to_total_cash,
+               exchange_chip_rate,
+               exchange_protect_chip_user_num,
+               exchange_protect_chip_count,
+               exchange_protect_chip_total_amount,
+               exchange_protect_chip_to_total_chip,
+               exchange_protect_chip_rate,
+               create_time
+        from dws_daily_package_all_asset_exchange
+        where dates = #{dates}
+        order by id desc
+    </select>
+    <select id="selectActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllAssetExchange">
+        SELECT ddpaae.id,
+               duerq.dates,
+               duerq.pkg,
+               duerq.version,
+               0 user_type,
+               duerq.total_user_num,
+               duerq.total_exchange_count,
+               duerq.exchange_cash_user_num,
+               duerq.exchange_cash_count,
+               duerq.exchange_cash_total_amount,
+               duerq.exchange_cash_to_total_chip,
+               duerq.exchange_chip_user_num,
+               duerq.exchange_chip_count,
+               duerq.exchange_chip_total_amount,
+               duerq.exchange_chip_to_total_cash,
+               duerq.exchange_protect_chip_user_num,
+               duerq.exchange_protect_chip_count,
+               duerq.exchange_protect_chip_total_amount,
+               duerq.exchange_protect_chip_to_total_chip
+        FROM (SELECT duer.dates,
+                     duer.pkg,
+                     duer.version,
+                     COUNT(DISTINCT duer.user_id)                                                     total_user_num,
+                     COUNT(1)                                                                         total_exchange_count,
+                     COUNT(DISTINCT
+                           (CASE WHEN duer.from_type = 1 and duer.to_type = 3 THEN duer.user_id END)) exchange_cash_user_num,
+                     COUNT(CASE WHEN duer.from_type = 1 and duer.to_type = 3 THEN 1 END)              exchange_cash_count,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 1 and duer.to_type = 3 THEN duer.from_amount END),
+                            0)                                                                        exchange_cash_total_amount,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 1 and duer.to_type = 3 THEN duer.to_amount END),
+                            0)                                                                        exchange_cash_to_total_chip,
+                     COUNT(DISTINCT
+                           (CASE WHEN duer.from_type = 3 and duer.to_type = 1 THEN duer.user_id END)) exchange_chip_user_num,
+                     COUNT(CASE WHEN duer.from_type = 3 and duer.to_type = 1 THEN 1 END)              exchange_chip_count,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 3 and duer.to_type = 1 THEN duer.from_amount END),
+                            0)                                                                        exchange_chip_total_amount,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 3 and duer.to_type = 1 THEN duer.to_amount END),
+                            0)                                                                        exchange_chip_to_total_cash,
+                     COUNT(DISTINCT
+                           (CASE WHEN duer.from_type = 4 and duer.to_type = 3 THEN duer.user_id END)) exchange_protect_chip_user_num,
+                     COUNT(CASE WHEN duer.from_type = 4 and duer.to_type = 3 THEN 1 END)              exchange_protect_chip_count,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 4 and duer.to_type = 3 THEN duer.from_amount END),
+                            0)                                                                        exchange_protect_chip_total_amount,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 4 and duer.to_type = 3 THEN duer.to_amount END),
+                            0)                                                                        exchange_protect_chip_to_total_chip
+              FROM dwd_user_exchange_record duer
+              where duer.dates = #{dates}
+              GROUP BY duer.dates, duer.pkg, duer.version) duerq
+                 LEFT JOIN dws_daily_package_all_asset_exchange ddpaae on (ddpaae.dates = duerq.dates
+            and ddpaae.pkg = duerq.pkg and ddpaae.version = duerq.version and ddpaae.user_type = 0)
+    </select>
+    <select id="selectNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllAssetExchange">
+        SELECT ddpaae.id,
+               duerq.dates,
+               duerq.pkg,
+               duerq.version,
+               1 user_type,
+               duerq.total_user_num,
+               duerq.total_exchange_count,
+               duerq.exchange_cash_user_num,
+               duerq.exchange_cash_count,
+               duerq.exchange_cash_total_amount,
+               duerq.exchange_cash_to_total_chip,
+               duerq.exchange_chip_user_num,
+               duerq.exchange_chip_count,
+               duerq.exchange_chip_total_amount,
+               duerq.exchange_chip_to_total_cash,
+               duerq.exchange_protect_chip_user_num,
+               duerq.exchange_protect_chip_count,
+               duerq.exchange_protect_chip_total_amount,
+               duerq.exchange_protect_chip_to_total_chip
+        FROM (SELECT duer.dates,
+                     duer.pkg,
+                     duer.version,
+                     COUNT(DISTINCT duer.user_id)                                                     total_user_num,
+                     COUNT(1)                                                                         total_exchange_count,
+                     COUNT(DISTINCT
+                           (CASE WHEN duer.from_type = 1 and duer.to_type = 3 THEN duer.user_id END)) exchange_cash_user_num,
+                     COUNT(CASE WHEN duer.from_type = 1 and duer.to_type = 3 THEN 1 END)              exchange_cash_count,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 1 and duer.to_type = 3 THEN duer.from_amount END),
+                            0)                                                                        exchange_cash_total_amount,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 1 and duer.to_type = 3 THEN duer.to_amount END),
+                            0)                                                                        exchange_cash_to_total_chip,
+                     COUNT(DISTINCT
+                           (CASE WHEN duer.from_type = 3 and duer.to_type = 1 THEN duer.user_id END)) exchange_chip_user_num,
+                     COUNT(CASE WHEN duer.from_type = 3 and duer.to_type = 1 THEN 1 END)              exchange_chip_count,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 3 and duer.to_type = 1 THEN duer.from_amount END),
+                            0)                                                                        exchange_chip_total_amount,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 3 and duer.to_type = 1 THEN duer.to_amount END),
+                            0)                                                                        exchange_chip_to_total_cash,
+                     COUNT(DISTINCT
+                           (CASE WHEN duer.from_type = 4 and duer.to_type = 3 THEN duer.user_id END)) exchange_protect_chip_user_num,
+                     COUNT(CASE WHEN duer.from_type = 4 and duer.to_type = 3 THEN 1 END)              exchange_protect_chip_count,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 4 and duer.to_type = 3 THEN duer.from_amount END),
+                            0)                                                                        exchange_protect_chip_total_amount,
+                     IFNULL(SUM(CASE WHEN duer.from_type = 4 and duer.to_type = 3 THEN duer.to_amount END),
+                            0)                                                                        exchange_protect_chip_to_total_chip
+              FROM dwd_user_exchange_record duer
+                       INNER JOIN dim_user_info dui on (dui.user_id = duer.user_id and dui.dates = duer.dates)
+              where duer.dates = #{dates}
+              GROUP BY duer.dates, duer.pkg, duer.version) duerq
+                 LEFT JOIN dws_daily_package_all_asset_exchange ddpaae on (ddpaae.dates = duerq.dates
+            and ddpaae.pkg = duerq.pkg and ddpaae.version = duerq.version and ddpaae.user_type = 1)
+
+    </select>
+</mapper>
