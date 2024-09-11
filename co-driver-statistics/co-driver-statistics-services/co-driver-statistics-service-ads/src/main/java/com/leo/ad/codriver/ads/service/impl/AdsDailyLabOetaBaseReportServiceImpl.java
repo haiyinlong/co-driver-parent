@@ -1,6 +1,7 @@
 package com.leo.ad.codriver.ads.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -74,6 +75,9 @@ public class AdsDailyLabOetaBaseReportServiceImpl implements AdsService {
 
     private List<Long> getNotExistsIds(List<AdsDailyLabOetaBaseReport> labOetaBaseReports,
         List<AdsDailyLabOetaBaseReport> oetaBaseReportList) {
+        if (CollectionUtils.isEmpty(labOetaBaseReports)) {
+            return Collections.emptyList();
+        }
         List<Long> dbIds = new ArrayList<>(labOetaBaseReports.stream().map(AdsDailyLabOetaBaseReport::getId)
             .filter(id -> !ObjectUtils.isEmpty(id)).toList());
         oetaBaseReportList.forEach(item -> dbIds.remove(item.getId()));

@@ -1,6 +1,5 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -75,7 +74,11 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
             dwdUserGameRecordOetaMapper.deleteBySourceId(dataChangeDTO.getSourceId());
             return true;
         }
-        batchMapper.batchInsert(Collections.singletonList(userGameRecord), DwdUserGameRecordOetaMapper.class);
+        if (ObjectUtils.isEmpty(userGameRecord.getId())) {
+            dwdUserGameRecordOetaMapper.insert(userGameRecord);
+        } else {
+            dwdUserGameRecordOetaMapper.updateById(userGameRecord);
+        }
         return true;
     }
 }

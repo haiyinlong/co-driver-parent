@@ -18,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author HaiYinLong
  * @version 2024/06/24 15:27
+ * @Deprecated 实时数据量太大，采用每天同步一次处理
  **/
+@Deprecated
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -26,7 +28,7 @@ public class OdsGameRecordConsumer {
     private final DwdStreamService dwdUserGameRecordOetaServiceImpl;
 
     @RabbitListener(queues = {"ods_oeta_game_record_queue"},
-        autoStartup = "${co-driver.rabbitmq.listener.ods_oeta_game_record_queue.enable:true}")
+        autoStartup = "${co-driver.rabbitmq.listener.ods_oeta_game_record_queue.enable:false}")
     public void notifyDataChange(String msg) {
         if (ObjectUtils.isEmpty(msg)) {
             return;
