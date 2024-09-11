@@ -3,7 +3,6 @@ package com.leo.ad.codriver.dws.entity;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Date;
-import java.util.Objects;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.common.util.BigDecimalUtils;
@@ -41,18 +40,12 @@ public class DwsDailyPackageAllAssetExchange implements BaseEntity {
 
     public void calculateRateAndInit() {
         this.createTime = new Date();
-        this.exchangeCashRate = calculateRateAndInit(exchangeCashCount, totalExchangeCount);
-        this.exchangeChipRate = calculateRateAndInit(exchangeChipCount, totalExchangeCount);
-        this.exchangeProtectChipRate = calculateRateAndInit(exchangeProtectChipCount, totalExchangeCount);
+        this.exchangeCashRate =
+            BigDecimalUtils.divide(exchangeCashCount, totalExchangeCount).setScale(4, RoundingMode.HALF_UP);
+        this.exchangeChipRate =
+            BigDecimalUtils.divide(exchangeChipCount, totalExchangeCount).setScale(4, RoundingMode.HALF_UP);
+        this.exchangeProtectChipRate =
+            BigDecimalUtils.divide(exchangeProtectChipCount, totalExchangeCount).setScale(4, RoundingMode.HALF_UP);
     }
 
-    private BigDecimal calculateRateAndInit(Long count, Long totalCount) {
-        if (Objects.equals(totalCount, 0L)) {
-            return BigDecimal.ZERO;
-        }
-        if (Objects.equals(count, 0L)) {
-            return BigDecimal.ZERO;
-        }
-        return BigDecimalUtils.divide(count, totalCount).setScale(4, RoundingMode.HALF_UP);
-    }
 }

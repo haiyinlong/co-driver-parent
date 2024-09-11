@@ -1,6 +1,5 @@
 package com.leo.ad.codriver.dws.service.impl;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -37,7 +36,6 @@ public class DwsDailyPackageAllLabAssetExchangeServiceImpl implements DwsService
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
         // 获取库中已经存在的数据
-        List<DwsDailyPackageAllLabAssetExchange> dbList = dwsDailyPackageAllAssetExchangeMapper.queryList(dates);
         List<DwsDailyPackageAllLabAssetExchange> activeList =
             dwsDailyPackageAllAssetExchangeMapper.selectActiveList(dates);
         activeList.forEach(DwsDailyPackageAllLabAssetExchange::calculateRateAndInit);
@@ -46,26 +44,12 @@ public class DwsDailyPackageAllLabAssetExchangeServiceImpl implements DwsService
         List<DwsDailyPackageAllLabAssetExchange> newList = dwsDailyPackageAllAssetExchangeMapper.selectNewList(dates);
         newList.forEach(DwsDailyPackageAllLabAssetExchange::calculateRateAndInit);
         dwBatchMapper.batchInsert(newList, DwsDailyPackageAllLabAssetExchangeMapper.class);
+
+        List<DwsDailyPackageAllLabAssetExchange> dbList = dwsDailyPackageAllAssetExchangeMapper.queryList(dates);
         List<Long> delIds = getDelIds(dbList, activeList, newList);
         if (!CollectionUtils.isEmpty(delIds)) {
             dwsDailyPackageAllAssetExchangeMapper.deleteBatchIds(delIds);
         }
     }
 
-    private List<Long> getDelIds(List<DwsDailyPackageAllLabAssetExchange> dbList,
-        List<DwsDailyPackageAllLabAssetExchange> activeList, List<DwsDailyPackageAllLabAssetExchange> newList) {
-        if (CollectionUtils.isEmpty(dbList)) {
-            return Collections.emptyList();
-        }
-        List<Long> dbIds =
-            new java.util.ArrayList<>(dbList.stream().map(DwsDailyPackageAllLabAssetExchange::getId).toList());
-        if (!CollectionUtils.isEmpty(activeList)) {
-            activeList
-                .forEach(dwsDailyPackageAllAssetExchange -> dbIds.remove(dwsDailyPackageAllAssetExchange.getId()));
-        }
-        if (!CollectionUtils.isEmpty(newList)) {
-            newList.forEach(dwsDailyPackageAllAssetExchange -> dbIds.remove(dwsDailyPackageAllAssetExchange.getId()));
-        }
-        return dbIds;
-    }
 }

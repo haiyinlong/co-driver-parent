@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllGameSingleMapper">
+
+    <select id="queryActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGameSingle">
+        SELECT ddpags.id,
+               0 user_type,
+               dugroq.dates,
+               dugroq.pkg,
+               dugroq.version,
+               dugroq.game_code,
+               dugroq.user_num,
+               dugroq.play_game_num,
+               dugroq.play_game_total_time,
+               dugroq.total_expend,
+               dugroq.total_reward
+        FROM (SELECT dugro.dates,
+                     dugro.pkg,
+                     dugro.version,
+                     dugro.game_code,
+                     COUNT(DISTINCT dugro.user_id)     user_num,
+                     COUNT(1)                          play_game_num,
+                     IFNULL(SUM(dugro.played_time), 0) play_game_total_time,
+                     IFNULL(SUM(dugro.expend), 0)      total_expend,
+                     IFNULL(SUM(dugro.reward), 0)      total_reward
+              from dwd_user_game_record_oeta dugro
+              WHERE dugro.dates = #{dates}
+              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code) dugroq
+                 LEFT JOIN dws_daily_package_all_game_single ddpags
+                           on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
+                               and ddpags.version = dugroq.version and ddpags.game_code = dugroq.game_code and
+                               ddpags.user_type = 0)
+
+    </select>
+    <select id="queryNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGameSingle">
+        SELECT ddpags.id,
+               1 user_type,
+               dugroq.dates,
+               dugroq.pkg,
+               dugroq.version,
+               dugroq.game_code,
+               dugroq.user_num,
+               dugroq.play_game_num,
+               dugroq.play_game_total_time,
+               dugroq.total_expend,
+               dugroq.total_reward
+        FROM (SELECT dugro.dates,
+                     dugro.pkg,
+                     dugro.version,
+                     dugro.game_code,
+                     COUNT(DISTINCT dugro.user_id)     user_num,
+                     COUNT(1)                          play_game_num,
+                     IFNULL(SUM(dugro.played_time), 0) play_game_total_time,
+                     IFNULL(SUM(dugro.expend), 0)      total_expend,
+                     IFNULL(SUM(dugro.reward), 0)      total_reward
+              from dwd_user_game_record_oeta dugro
+                       INNER JOIN dim_user_info dui on (dui.user_id = dugro.user_id and dui.dates = dugro.dates)
+              WHERE dugro.dates = #{dates}
+              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code) dugroq
+                 LEFT JOIN dws_daily_package_all_game_single ddpags
+                           on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
+                               and ddpags.version = dugroq.version and ddpags.game_code = dugroq.game_code and
+                               ddpags.user_type = 1)
+    </select>
+    <select id="queryList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGameSingle">
+        SELECT id,
+               dates,
+               pkg,
+               version,
+               user_type,
+               game_code,
+               user_num,
+               play_game_num,
+               play_game_total_time,
+               avg_user_play_game_num,
+               avg_user_play_time,
+               total_expend,
+               avg_user_expend,
+               total_reward,
+               avg_user_reward,
+               rtp,
+               create_time
+        FROM dws_daily_package_all_game_single
+        WHERE dates = #{dates}
+    </select>
+</mapper>
