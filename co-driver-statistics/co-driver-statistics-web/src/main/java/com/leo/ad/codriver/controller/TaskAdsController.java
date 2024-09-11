@@ -37,6 +37,7 @@ public class TaskAdsController {
     private final AdsService adsGameAnalyseFullDailyServiceImpl;
     private final AdsService adsDailyOetaBaseReportServiceImpl;
     private final AdsService adsDailyLabOetaBaseReportServiceImpl;
+    private final AdsService adsDailyGameOetaReportServiceImpl;
 
     private final List<AdsService> adsServices;
 
@@ -140,6 +141,17 @@ public class TaskAdsController {
             dates = DateUtils.getPreviousDate();
         }
         adsDailyLabOetaBaseReportServiceImpl.syncData(dates);
+        return "执行完成ads游戏数据同步";
+    }
+
+    @GetMapping("/gaemOetaReport")
+    @Operation(summary = "触发adsGaemOetaReport基础报表数据同步", description = "触发ads数据同步")
+    public String adsDailyGameOetaReportHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        adsDailyGameOetaReportServiceImpl.syncData(dates);
         return "执行完成ads游戏数据同步";
     }
 
