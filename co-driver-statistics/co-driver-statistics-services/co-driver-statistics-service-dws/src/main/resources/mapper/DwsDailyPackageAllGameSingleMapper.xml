@@ -9,6 +9,7 @@
                dugroq.dates,
                dugroq.pkg,
                dugroq.version,
+               dugroq.game_id,
                dugroq.game_code,
                dugroq.user_num,
                dugroq.play_game_num,
@@ -18,6 +19,7 @@
         FROM (SELECT dugro.dates,
                      dugro.pkg,
                      dugro.version,
+                     dugro.game_id,
                      dugro.game_code,
                      COUNT(DISTINCT dugro.user_id)     user_num,
                      COUNT(1)                          play_game_num,
@@ -26,7 +28,7 @@
                      IFNULL(SUM(dugro.reward), 0)      total_reward
               from dwd_user_game_record_oeta dugro
               WHERE dugro.dates = #{dates}
-              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code) dugroq
+              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_id, dugro.game_code) dugroq
                  LEFT JOIN dws_daily_package_all_game_single ddpags
                            on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
                                and ddpags.version = dugroq.version and ddpags.game_code = dugroq.game_code and
@@ -39,6 +41,7 @@
                dugroq.dates,
                dugroq.pkg,
                dugroq.version,
+               dugroq.game_id,
                dugroq.game_code,
                dugroq.user_num,
                dugroq.play_game_num,
@@ -48,6 +51,7 @@
         FROM (SELECT dugro.dates,
                      dugro.pkg,
                      dugro.version,
+                     dugro.game_id,
                      dugro.game_code,
                      COUNT(DISTINCT dugro.user_id)     user_num,
                      COUNT(1)                          play_game_num,
@@ -57,7 +61,7 @@
               from dwd_user_game_record_oeta dugro
                        INNER JOIN dim_user_info dui on (dui.user_id = dugro.user_id and dui.dates = dugro.dates)
               WHERE dugro.dates = #{dates}
-              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code) dugroq
+              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_id, dugro.game_code) dugroq
                  LEFT JOIN dws_daily_package_all_game_single ddpags
                            on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
                                and ddpags.version = dugroq.version and ddpags.game_code = dugroq.game_code and
@@ -69,6 +73,7 @@
                pkg,
                version,
                user_type,
+               game_id,
                game_code,
                user_num,
                play_game_num,

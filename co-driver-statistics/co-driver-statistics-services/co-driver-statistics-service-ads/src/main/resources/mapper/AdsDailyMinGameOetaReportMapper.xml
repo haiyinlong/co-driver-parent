@@ -30,6 +30,7 @@
                                admgor.version = ddpags.version
                                and admgor.user_type = ddpags.user_type and admgor.game_code = ddpags.game_code)
         WHERE ddpags.dates = #{dates}
+          and ddpags.game_id = 3
           and ddpags.user_type = 0
     </select>
     <select id="queryNewUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyMinGameOetaReport">
@@ -60,6 +61,7 @@
                                admgor.version = ddpags.version
                                and admgor.user_type = ddpags.user_type and admgor.game_code = ddpags.game_code)
         WHERE ddpags.dates = #{dates}
+          and ddpags.game_id = 3
           and ddpags.user_type = 1
     </select>
     <select id="queryList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyMinGameOetaReport">
