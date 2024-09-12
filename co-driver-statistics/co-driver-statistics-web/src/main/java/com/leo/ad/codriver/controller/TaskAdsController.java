@@ -38,6 +38,7 @@ public class TaskAdsController {
     private final AdsService adsDailyOetaBaseReportServiceImpl;
     private final AdsService adsDailyLabOetaBaseReportServiceImpl;
     private final AdsService adsDailyGameOetaReportServiceImpl;
+    private final AdsService adsDailyMinGameOetaReportServiceImpl;
 
     private final List<AdsService> adsServices;
 
@@ -144,8 +145,8 @@ public class TaskAdsController {
         return "执行完成ads游戏数据同步";
     }
 
-    @GetMapping("/gaemOetaReport")
-    @Operation(summary = "触发adsGaemOetaReport基础报表数据同步", description = "触发ads数据同步")
+    @GetMapping("/gameOetaReport")
+    @Operation(summary = "触发adsGameOetaReport基础报表数据同步", description = "触发ads数据同步")
     public String adsDailyGameOetaReportHandle(@RequestParam("dates") Integer dates) {
         // 获取统计日期
         if (ObjectUtils.isEmpty(dates)) {
@@ -155,4 +156,14 @@ public class TaskAdsController {
         return "执行完成ads游戏数据同步";
     }
 
+    @GetMapping("/minGameOetaReport")
+    @Operation(summary = "触发adsGaemOetaReport基础报表数据同步", description = "触发ads数据同步")
+    public String adsDailyMinGameOetaReportHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        adsDailyMinGameOetaReportServiceImpl.syncData(dates);
+        return "执行完成ads游戏数据同步";
+    }
 }
