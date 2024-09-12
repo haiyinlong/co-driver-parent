@@ -82,7 +82,7 @@
             IFNULL( ddpr2.retention_user_num, 0 ) second_user_num,
             IFNULL( ddpr3.retention_user_num, 0 ) tertiary_user_num,
             ddpl.user_num active_user_num,
-            IFNULL( ddpo.avg_user_online_time, 0 ) avg_user_online_time,
+            IFNULL( ddpo.avg_new_user_online_time, 0 ) avg_user_online_time,
 
 
             -- 入门游戏相关数据
