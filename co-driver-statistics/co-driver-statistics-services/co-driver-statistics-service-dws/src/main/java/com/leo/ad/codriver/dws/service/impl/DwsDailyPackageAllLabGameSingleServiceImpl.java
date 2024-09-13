@@ -1,7 +1,12 @@
 package com.leo.ad.codriver.dws.service.impl;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAllLabGameSingleMapper;
@@ -31,22 +36,27 @@ public class DwsDailyPackageAllLabGameSingleServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "dates")
     public void syncData(Integer dates) {
-        // TODO 根据游戏逐个获取数据
-        // List<DwsDailyPackageAllLabGameSingle> activeList =
-        // dwsDailyPackageAllLabGameSingleMapper.queryActiveList(dates);
-        // activeList.forEach(DwsDailyPackageAllLabGameSingle::calculate);
-        // dwBatchMapper.batchInsert(activeList, DwsDailyPackageAllLabGameSingleMapper.class);
-        //
-        // List<DwsDailyPackageAllLabGameSingle> newList = dwsDailyPackageAllLabGameSingleMapper.queryNewList(dates);
-        // newList.forEach(DwsDailyPackageAllLabGameSingle::calculate);
-        // dwBatchMapper.batchInsert(newList, DwsDailyPackageAllLabGameSingleMapper.class);
-        //
-        // List<DwsDailyPackageAllLabGameSingle> dwsDailyPackageAllGameSingleList =
-        // dwsDailyPackageAllLabGameSingleMapper.queryList(dates);
-        // List<Long> delIds = getDelIds(dwsDailyPackageAllGameSingleList, activeList, newList);
-        // if (!CollectionUtils.isEmpty(delIds)) {
-        // dwsDailyPackageAllLabGameSingleMapper.deleteBatchIds(delIds);
-        // }
+        // 根据游戏逐个获取数据
+        List<String> gameCodeList = dwsDailyPackageAllLabGameSingleMapper.getGameCodeList();
+        List<DwsDailyPackageAllLabGameSingle> activeList = null;
+        List<DwsDailyPackageAllLabGameSingle> newList = null;
+        List<DwsDailyPackageAllLabGameSingle> allList = new ArrayList<>();
+        for (String gameCode : gameCodeList) {
+            activeList = dwsDailyPackageAllLabGameSingleMapper.queryActiveList(dates, gameCode);
+            activeList.forEach(DwsDailyPackageAllLabGameSingle::calculate);
+            dwBatchMapper.batchInsert(activeList, DwsDailyPackageAllLabGameSingleMapper.class);
+            allList.addAll(activeList);
+            newList = dwsDailyPackageAllLabGameSingleMapper.queryNewList(dates, gameCode);
+            newList.forEach(DwsDailyPackageAllLabGameSingle::calculate);
+            dwBatchMapper.batchInsert(newList, DwsDailyPackageAllLabGameSingleMapper.class);
+            allList.addAll(newList);
+        }
+        List<DwsDailyPackageAllLabGameSingle> dwsDailyPackageAllGameSingleList =
+            dwsDailyPackageAllLabGameSingleMapper.queryList(dates);
+        List<Long> delIds = getDelIds(dwsDailyPackageAllGameSingleList, allList, Collections.emptyList());
+        if (!CollectionUtils.isEmpty(delIds)) {
+            dwsDailyPackageAllLabGameSingleMapper.deleteBatchIds(delIds);
+        }
     }
 
 }

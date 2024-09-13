@@ -18,9 +18,14 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabGameSingle;
 @Mapper
 @DS("mysql")
 public interface DwsDailyPackageAllLabGameSingleMapper extends BaseMapper<DwsDailyPackageAllLabGameSingle> {
-    List<DwsDailyPackageAllLabGameSingle> queryActiveList(@Param("dates") Integer dates);
+    List<DwsDailyPackageAllLabGameSingle> queryActiveList(@Param("dates") Integer dates,
+        @Param("gameCode") String gameCode);
 
-    List<DwsDailyPackageAllLabGameSingle> queryNewList(@Param("dates") Integer dates);
+    List<DwsDailyPackageAllLabGameSingle> queryNewList(@Param("dates") Integer dates,
+        @Param("gameCode") String gameCode);
 
     List<DwsDailyPackageAllLabGameSingle> queryList(@Param("dates") Integer dates);
+
+    List<String> getGameCodeList();
+
 }

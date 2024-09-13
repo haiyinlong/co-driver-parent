@@ -26,6 +26,7 @@
                      IFNULL(SUM(dugro.reward), 0)      total_reward
               from dwd_user_game_record_oeta dugro
               WHERE dugro.dates = #{dates}
+                and dugro.game_code = #{gameCode}
               GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code) dugroq
                  LEFT JOIN dws_daily_package_all_lab_game_single ddpags
                            on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
@@ -57,6 +58,7 @@
               from dwd_user_game_record_oeta dugro
                        INNER JOIN dim_user_info dui on (dui.user_id = dugro.user_id and dui.dates = dugro.dates)
               WHERE dugro.dates = #{dates}
+                and dugro.game_code = #{gameCode}
               GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code) dugroq
                  LEFT JOIN dws_daily_package_all_lab_game_single ddpags
                            on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
@@ -85,5 +87,9 @@
                create_time
         FROM dws_daily_package_all_lab_game_single
         WHERE dates = #{dates}
+    </select>
+    <select id="getGameCodeList" resultType="java.lang.String">
+        select DISTINCT (opgon.game_code) game_code
+        from ods_pkg_game_one_net opgon
     </select>
 </mapper>
