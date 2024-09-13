@@ -51,8 +51,8 @@
         FROM dws_daily_package_all_lab_login ddpl
                  LEFT JOIN dws_daily_package_all_lab_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and
-                               ddpl.version = ddpr.version) and ddpl.config_group_name = ddpr.config_group_name and
-                              ddpl.config_group_type = ddpr.config_group_type
+                               ddpl.version = ddpr.version and ddpl.config_group_name = ddpr.config_group_name and
+                               ddpl.config_group_type = ddpr.config_group_type)
                  LEFT JOIN dws_daily_package_all_lab_retention ddpr2
                            on (ddpl.dates = ddpr2.register_dates and ddpl.pkg = ddpr2.pkg and
                                ddpl.version = ddpr2.version and ddpr2.register_day = 1 and

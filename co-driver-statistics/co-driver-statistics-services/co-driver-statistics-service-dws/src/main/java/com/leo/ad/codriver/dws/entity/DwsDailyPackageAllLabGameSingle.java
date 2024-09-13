@@ -19,6 +19,7 @@ public class DwsDailyPackageAllLabGameSingle implements BaseEntity {
     private String pkg;
     private String version;
     private Long userType;
+    private Long gameId;
     private String gameCode;
     private String configGroupType;
     private String configGroupName;

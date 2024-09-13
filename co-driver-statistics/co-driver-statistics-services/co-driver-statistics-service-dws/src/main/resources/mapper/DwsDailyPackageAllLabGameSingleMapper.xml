@@ -9,6 +9,7 @@
                dugroq.dates,
                dugroq.pkg,
                dugroq.version,
+               dugroq.game_id,
                dugroq.config_group_type,
                dugroq.config_group_name,
                dugroq.game_code,
@@ -20,6 +21,7 @@
         FROM (SELECT dugro.dates,
                      dugro.pkg,
                      dugro.version,
+                     dugro.game_id,
                      dul.config_group_type,
                      dul.name                          config_group_name,
                      dugro.game_code,
@@ -32,7 +34,7 @@
                        INNER JOIN dim_user_lab dul on (dul.user_id = dugro.user_id)
               WHERE dugro.dates = #{dates}
                 and dugro.game_code = #{gameCode}
-              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code,
+              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_id, dugro.game_code,
                        dul.config_group_type, dul.name) dugroq
                  LEFT JOIN dws_daily_package_all_lab_game_single ddpags
                            on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
@@ -49,6 +51,7 @@
                dugroq.version,
                dugroq.config_group_type,
                dugroq.config_group_name,
+               dugroq.game_id,
                dugroq.game_code,
                dugroq.user_num,
                dugroq.play_game_num,
@@ -60,6 +63,7 @@
                      dugro.version,
                      dul.config_group_type,
                      dul.name                          config_group_name,
+                     dugro.game_id,
                      dugro.game_code,
                      COUNT(DISTINCT dugro.user_id)     user_num,
                      COUNT(1)                          play_game_num,
@@ -71,7 +75,8 @@
                        INNER JOIN dim_user_lab dul on (dul.user_id = dugro.user_id)
               WHERE dugro.dates = #{dates}
                 and dugro.game_code = #{gameCode}
-              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code, dul.config_group_type, dul.name) dugroq
+              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_id, dugro.game_code, dul.config_group_type,
+                       dul.name) dugroq
                  LEFT JOIN dws_daily_package_all_lab_game_single ddpags
                            on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
                                and ddpags.version = dugroq.version and ddpags.game_code = dugroq.game_code and
@@ -84,6 +89,7 @@
                pkg,
                version,
                user_type,
+               game_id,
                game_code,
                config_group_type,
                config_group_name,

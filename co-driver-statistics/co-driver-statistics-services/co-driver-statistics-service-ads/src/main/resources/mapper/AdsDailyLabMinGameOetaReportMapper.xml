@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyLabMinGameOetaReportMapper">
+    <select id="queryActiveUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMinGameOetaReport">
+        SELECT admgor.id,
+               ddpags.dates,
+               ddpags.pkg,
+               ddpags.version,
+               ddpags.user_type,
+               ddpags.config_group_name,
+               ddpags.config_group_type,
+               IFNULL(ddpr.user_num, 0)                    new_user_num,
+               ddpl.user_num                               active_user_num,
+               ddpags.game_code,
+               ddpags.user_num                             game_user_num,
+               ddpags.avg_user_play_game_num,
+               ddpags.play_game_total_time / ddpl.user_num avg_user_play_time,
+               ddpags.user_num / ddpl.user_num             game_permeate_rate,
+               ddpags.total_expend,
+               ddpags.total_expend / ddpl.user_num         avg_user_expend,
+               ddpags.total_reward,
+               ddpags.total_reward / ddpl.user_num         avg_user_reward,
+               ddpags.rtp
+        FROM dws_daily_package_all_lab_login ddpl
+                 LEFT JOIN dws_daily_package_all_lab_register ddpr
+                           on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and ddpl.version = ddpr.version and
+                               ddpl.config_group_name = ddpr.config_group_name and
+                               ddpl.config_group_type = ddpr.config_group_type)
+                 LEFT JOIN dws_daily_package_all_lab_game_single ddpags
+                           on (ddpl.dates = ddpags.dates and ddpl.pkg = ddpags.pkg and ddpl.version = ddpags.version and
+                               ddpl.config_group_name = ddpags.config_group_name and
+                               ddpl.config_group_type = ddpags.config_group_type)
+                 LEFT JOIN ads_daily_lab_min_game_oeta_report admgor
+                           on (admgor.dates = ddpags.dates and admgor.pkg = ddpags.pkg and
+                               admgor.version = ddpags.version
+                               and admgor.user_type = ddpags.user_type and admgor.game_code = ddpags.game_code and
+                               ddpl.config_group_name = admgor.config_group_name and
+                               ddpl.config_group_type = admgor.config_group_type)
+        WHERE ddpags.dates = #{dates}
+          and ddpags.game_id = 3
+          and ddpags.user_type = 0
+    </select>
+    <select id="queryNewUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMinGameOetaReport">
+        SELECT admgor.id,
+               ddpags.dates,
+               ddpags.pkg,
+               ddpags.version,
+               ddpags.config_group_name,
+               ddpags.config_group_type,
+               ddpags.user_type,
+               IFNULL(ddpr.user_num, 0)                    new_user_num,
+               ddpl.user_num                               active_user_num,
+               ddpags.game_code,
+               ddpags.user_num                             game_user_num,
+               ddpags.avg_user_play_game_num,
+               ddpags.play_game_total_time / ddpl.user_num avg_user_play_time,
+               ddpags.user_num / ddpl.user_num             game_permeate_rate,
+               ddpags.total_expend,
+               ddpags.total_expend / ddpl.user_num         avg_user_expend,
+               ddpags.total_reward,
+               ddpags.total_reward / ddpl.user_num         avg_user_reward,
+               ddpags.rtp
+        FROM dws_daily_package_all_lab_login ddpl
+                 LEFT JOIN dws_daily_package_all_lab_register ddpr
+                           on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and ddpl.version = ddpr.version and
+                               ddpl.config_group_name = ddpr.config_group_name and
+                               ddpl.config_group_type = ddpr.config_group_type)
+                 LEFT JOIN dws_daily_package_all_lab_game_single ddpags
+                           on (ddpl.dates = ddpags.dates
+                               and ddpl.pkg = ddpags.pkg
+                               and ddpl.version = ddpags.version
+                               and ddpl.config_group_name = ddpags.config_group_name
+                               and ddpl.config_group_type = ddpags.config_group_type)
+                 LEFT JOIN ads_daily_lab_min_game_oeta_report admgor
+                           on (admgor.dates = ddpags.dates and admgor.pkg = ddpags.pkg and
+                               admgor.version = ddpags.version
+                               and admgor.user_type = ddpags.user_type and admgor.game_code = ddpags.game_code and
+                               ddpl.config_group_name = admgor.config_group_name and
+                               ddpl.config_group_type = admgor.config_group_type)
+        WHERE ddpags.dates = #{dates}
+          and ddpags.game_id = 3
+          and ddpags.user_type = 1
+    </select>
+    <select id="queryList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMinGameOetaReport">
+        SELECT id,
+               dates,
+               version,
+               pkg,
+               user_type,
+               config_group_name,
+               config_group_type,
+               new_user_num,
+               active_user_num,
+               game_code,
+               game_user_num,
+               game_permeate_rate,
+               avg_user_play_game_num,
+               avg_user_play_time,
+               total_expend,
+               avg_user_expend,
+               total_reward,
+               avg_user_reward,
+               rtp,
+               create_time
+        FROM ads_daily_lab_min_game_oeta_report
+        where dates = #{dates}
+    </select>
+</mapper>

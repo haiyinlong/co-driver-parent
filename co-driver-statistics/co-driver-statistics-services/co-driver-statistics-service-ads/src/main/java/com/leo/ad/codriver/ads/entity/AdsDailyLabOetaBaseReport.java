@@ -13,7 +13,7 @@ import lombok.Data;
 public class AdsDailyLabOetaBaseReport implements BaseEntity {
 
     private Long id;
-    private Long dates;
+    private Integer dates;
     private String version;
     private String pkg;
     private Long userType;
