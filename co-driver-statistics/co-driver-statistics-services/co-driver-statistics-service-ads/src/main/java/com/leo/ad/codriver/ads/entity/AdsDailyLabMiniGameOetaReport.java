@@ -1,3 +1,4 @@
+
 package com.leo.ad.codriver.ads.entity;
 
 import java.math.BigDecimal;
@@ -9,14 +10,16 @@ import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 import lombok.Data;
 
 @Data
-@TableName("ads_daily_min_game_oeta_report")
-public class AdsDailyMinGameOetaReport implements BaseEntity {
+@TableName("ads_daily_lab_mini_game_oeta_report")
+public class AdsDailyLabMiniGameOetaReport implements BaseEntity {
 
     private Long id;
     private Integer dates;
-    private String version;
     private String pkg;
+    private String version;
     private Long userType;
+    private String configGroupType;
+    private String configGroupName;
     private Long newUserNum;
     private Long activeUserNum;
     private String gameCode;

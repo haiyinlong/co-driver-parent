@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyLabMinGameOetaReportMapper">
-    <select id="queryActiveUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMinGameOetaReport">
+<mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyLabMiniGameOetaReportMapper">
+    <select id="queryActiveUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMiniGameOetaReport">
         SELECT admgor.id,
                ddpags.dates,
                ddpags.pkg,
@@ -31,7 +31,7 @@
                            on (ddpl.dates = ddpags.dates and ddpl.pkg = ddpags.pkg and ddpl.version = ddpags.version and
                                ddpl.config_group_name = ddpags.config_group_name and
                                ddpl.config_group_type = ddpags.config_group_type)
-                 LEFT JOIN ads_daily_lab_min_game_oeta_report admgor
+                 LEFT JOIN ads_daily_lab_mini_game_oeta_report admgor
                            on (admgor.dates = ddpags.dates and admgor.pkg = ddpags.pkg and
                                admgor.version = ddpags.version
                                and admgor.user_type = ddpags.user_type and admgor.game_code = ddpags.game_code and
@@ -41,7 +41,7 @@
           and ddpags.game_id = 3
           and ddpags.user_type = 0
     </select>
-    <select id="queryNewUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMinGameOetaReport">
+    <select id="queryNewUserList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMiniGameOetaReport">
         SELECT admgor.id,
                ddpags.dates,
                ddpags.pkg,
@@ -72,7 +72,7 @@
                                and ddpl.version = ddpags.version
                                and ddpl.config_group_name = ddpags.config_group_name
                                and ddpl.config_group_type = ddpags.config_group_type)
-                 LEFT JOIN ads_daily_lab_min_game_oeta_report admgor
+                 LEFT JOIN ads_daily_lab_mini_game_oeta_report admgor
                            on (admgor.dates = ddpags.dates and admgor.pkg = ddpags.pkg and
                                admgor.version = ddpags.version
                                and admgor.user_type = ddpags.user_type and admgor.game_code = ddpags.game_code and
@@ -82,7 +82,7 @@
           and ddpags.game_id = 3
           and ddpags.user_type = 1
     </select>
-    <select id="queryList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMinGameOetaReport">
+    <select id="queryList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyLabMiniGameOetaReport">
         SELECT id,
                dates,
                version,
@@ -103,7 +103,7 @@
                avg_user_reward,
                rtp,
                create_time
-        FROM ads_daily_lab_min_game_oeta_report
+        FROM ads_daily_lab_mini_game_oeta_report
         where dates = #{dates}
     </select>
 </mapper>
