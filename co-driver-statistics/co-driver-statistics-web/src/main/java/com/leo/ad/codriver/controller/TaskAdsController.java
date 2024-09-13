@@ -38,8 +38,8 @@ public class TaskAdsController {
     private final AdsService adsDailyOetaBaseReportServiceImpl;
     private final AdsService adsDailyLabOetaBaseReportServiceImpl;
     private final AdsService adsDailyGameOetaReportServiceImpl;
-    private final AdsService adsDailyMinGameOetaReportServiceImpl;
-    private final AdsService adsDailyLabMinGameOetaReportServiceImpl;
+    private final AdsService adsDailyMiniGameOetaReportServiceImpl;
+    private final AdsService adsDailyLabMiniGameOetaReportServiceImpl;
 
     private final List<AdsService> adsServices;
 
@@ -164,7 +164,7 @@ public class TaskAdsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        adsDailyMinGameOetaReportServiceImpl.syncData(dates);
+        adsDailyMiniGameOetaReportServiceImpl.syncData(dates);
         return "执行完成ads游戏数据同步";
     }
 
@@ -175,7 +175,7 @@ public class TaskAdsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        adsDailyLabMinGameOetaReportServiceImpl.syncData(dates);
+        adsDailyLabMiniGameOetaReportServiceImpl.syncData(dates);
         return "执行完成ads游戏数据同步";
     }
 
