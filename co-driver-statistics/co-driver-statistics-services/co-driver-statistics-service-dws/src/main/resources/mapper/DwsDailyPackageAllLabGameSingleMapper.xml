@@ -9,6 +9,8 @@
                dugroq.dates,
                dugroq.pkg,
                dugroq.version,
+               dugroq.config_group_type,
+               dugroq.config_group_name,
                dugroq.game_code,
                dugroq.user_num,
                dugroq.play_game_num,
@@ -18,6 +20,8 @@
         FROM (SELECT dugro.dates,
                      dugro.pkg,
                      dugro.version,
+                     dul.config_group_type,
+                     dul.name                          config_group_name,
                      dugro.game_code,
                      COUNT(DISTINCT dugro.user_id)     user_num,
                      COUNT(1)                          play_game_num,
@@ -25,13 +29,16 @@
                      IFNULL(SUM(dugro.expend), 0)      total_expend,
                      IFNULL(SUM(dugro.reward), 0)      total_reward
               from dwd_user_game_record_oeta dugro
+                       INNER JOIN dim_user_lab dul on (dul.user_id = dugro.user_id)
               WHERE dugro.dates = #{dates}
                 and dugro.game_code = #{gameCode}
-              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code) dugroq
+              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code,
+                       dul.config_group_type, dul.name) dugroq
                  LEFT JOIN dws_daily_package_all_lab_game_single ddpags
                            on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
                                and ddpags.version = dugroq.version and ddpags.game_code = dugroq.game_code and
-                               ddpags.user_type = 0)
+                               ddpags.user_type = 0 and ddpags.config_group_type = dugroq.config_group_type
+                               and ddpags.config_group_name = dugroq.config_group_name)
 
     </select>
     <select id="queryNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabGameSingle">
@@ -40,6 +47,8 @@
                dugroq.dates,
                dugroq.pkg,
                dugroq.version,
+               dugroq.config_group_type,
+               dugroq.config_group_name,
                dugroq.game_code,
                dugroq.user_num,
                dugroq.play_game_num,
@@ -49,6 +58,8 @@
         FROM (SELECT dugro.dates,
                      dugro.pkg,
                      dugro.version,
+                     dul.config_group_type,
+                     dul.name                          config_group_name,
                      dugro.game_code,
                      COUNT(DISTINCT dugro.user_id)     user_num,
                      COUNT(1)                          play_game_num,
@@ -57,13 +68,15 @@
                      IFNULL(SUM(dugro.reward), 0)      total_reward
               from dwd_user_game_record_oeta dugro
                        INNER JOIN dim_user_info dui on (dui.user_id = dugro.user_id and dui.dates = dugro.dates)
+                       INNER JOIN dim_user_lab dul on (dul.user_id = dugro.user_id)
               WHERE dugro.dates = #{dates}
                 and dugro.game_code = #{gameCode}
-              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code) dugroq
+              GROUP BY dugro.dates, dugro.pkg, dugro.version, dugro.game_code, dul.config_group_type, dul.name) dugroq
                  LEFT JOIN dws_daily_package_all_lab_game_single ddpags
                            on (ddpags.dates = dugroq.dates and ddpags.pkg = dugroq.pkg
                                and ddpags.version = dugroq.version and ddpags.game_code = dugroq.game_code and
-                               ddpags.user_type = 1)
+                               ddpags.user_type = 1 and ddpags.config_group_type = dugroq.config_group_type
+                               and ddpags.config_group_name = dugroq.config_group_name)
     </select>
     <select id="queryList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabGameSingle">
         SELECT id,
