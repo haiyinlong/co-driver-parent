@@ -157,7 +157,7 @@ public class TaskAdsController {
         return "执行完成ads游戏数据同步";
     }
 
-    @GetMapping("/minGameOetaReport")
+    @GetMapping("/miniGameOetaReport")
     @Operation(summary = "触发adsGaemOetaReport基础报表数据同步", description = "触发ads数据同步")
     public String adsDailyMinGameOetaReportHandle(@RequestParam("dates") Integer dates) {
         // 获取统计日期
@@ -168,7 +168,7 @@ public class TaskAdsController {
         return "执行完成ads游戏数据同步";
     }
 
-    @GetMapping("/minLabGameOetaReport")
+    @GetMapping("/miniLabGameOetaReport")
     @Operation(summary = "触发adsGaemOetaReport基础报表数据同步", description = "触发ads数据同步")
     public String adsDailyLabMinGameOetaReportHandle(@RequestParam("dates") Integer dates) {
         // 获取统计日期
