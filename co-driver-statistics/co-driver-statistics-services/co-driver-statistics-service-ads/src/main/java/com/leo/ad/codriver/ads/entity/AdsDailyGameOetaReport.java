@@ -4,6 +4,7 @@ package com.leo.ad.codriver.ads.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -11,7 +12,7 @@ import java.util.Date;
 
 @Data
 @TableName("ads_daily_game_oeta_report")
-public class AdsDailyGameOetaReport {
+public class AdsDailyGameOetaReport implements BaseEntity {
 
     @TableId(type = IdType.AUTO)
     private Long id;
@@ -83,4 +84,9 @@ public class AdsDailyGameOetaReport {
     private BigDecimal miniRtp; // 小游戏rtp
 
     private Date createTime; // 创建时间
+
+    public void init() {
+        this.createTime = new Date();
+    }
+
 }
