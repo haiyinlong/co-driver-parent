@@ -1,18 +1,22 @@
 package com.leo.ad.codriver.dws.service.impl;
 
-import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.dws.dao.DwsHemaEventFullDailyMapper;
-import com.leo.ad.codriver.dws.entity.DwsHemaEventFullDaily;
-import com.leo.ad.codriver.dws.service.DwsService;
-import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
-import com.leo.ad.codriver.starter.redis.annotation.Lock;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.List;
+import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
+import com.leo.ad.codriver.dws.dao.DwsHemaEventFullDailyMapper;
+import com.leo.ad.codriver.dws.entity.DwsHemaEventFullDaily;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageHemaUpdateDwEvent;
+import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
+
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * DwsServiceImpl
@@ -27,6 +31,7 @@ public class DwsHemaEventFullDailyServiceImpl implements DwsService {
 
     private final DwsHemaEventFullDailyMapper dwsHemaEventFullDailyMapper;
     private final DwBatchMapper<DwsHemaEventFullDaily, DwsHemaEventFullDailyMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @ShowExecuteTime(name = "DwsHemaEventFullDaily syncData")
@@ -35,7 +40,7 @@ public class DwsHemaEventFullDailyServiceImpl implements DwsService {
     public void syncData(Integer dates) {
         dwsHemaEventFullDailyMapper.deleteByDates(dates);
         List<DwsHemaEventFullDaily> dwsHemaEventFullDailies =
-                dwsHemaEventFullDailyMapper.queryStatisticsActiveList(dates);
+            dwsHemaEventFullDailyMapper.queryStatisticsActiveList(dates);
         if (!CollectionUtils.isEmpty(dwsHemaEventFullDailies)) {
             log.info("{} DwsHemaEventFullDaily syncActiveData 更新插入数据{}条", dates, dwsHemaEventFullDailies.size());
             dwBatchMapper.batchInsert(dwsHemaEventFullDailies, DwsHemaEventFullDailyMapper.class);
@@ -46,5 +51,6 @@ public class DwsHemaEventFullDailyServiceImpl implements DwsService {
             log.info("{} DwsHemaEventFullDaily syncNewData 更新插入数据{}条", dates, dwsHemaEventFullDailies.size());
             dwBatchMapper.batchInsert(dwsHemaEventFullDailies, DwsHemaEventFullDailyMapper.class);
         }
+        applicationEventPublisher.publishEvent(new DwsDailyPackageHemaUpdateDwEvent(this, dates));
     }
 }
