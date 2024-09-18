@@ -39,7 +39,7 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
     @Override
     @ShowExecuteTime(name = "AdsDailyOetaBaseReportService syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 活跃用户
         List<AdsDailyOetaBaseReport> activeUserList = adsDailyOetaBaseReportMapper.selectActiveUserList(dates);

@@ -38,7 +38,7 @@ public class DwsDailyPackageAllLabVersionPromotionServiceImpl implements DwsServ
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabVersionPromotion")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllLabVersionPromotionMapper.deleteByDates(dates);
         List<DwsDailyPackageAllLabVersionPromotion> list =

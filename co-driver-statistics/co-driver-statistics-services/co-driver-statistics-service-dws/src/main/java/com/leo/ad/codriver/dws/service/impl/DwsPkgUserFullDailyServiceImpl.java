@@ -27,7 +27,7 @@ public class DwsPkgUserFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsPkgGameFullDaily")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         List<DwsPkgUserFullDaily> pkgUserList = dwsPkgUserFullDailyMapper.statistics(dates);
         batchMapper.batchInsert(pkgUserList, DwsPkgUserFullDailyMapper.class);

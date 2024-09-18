@@ -25,7 +25,7 @@ public class DwsDailyPackageAllLabLoginServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabLogin")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllLabLoginMapper.deleteByDates(dates);
         dwsDailyPackageAllLabLoginMapper.syncDailyPackageAllLabLogin(dates);

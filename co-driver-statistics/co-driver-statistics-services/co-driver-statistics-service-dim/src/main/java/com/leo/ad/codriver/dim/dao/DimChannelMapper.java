@@ -1,11 +1,12 @@
 package com.leo.ad.codriver.dim.dao;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
+
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leo.ad.codriver.dim.entity.DimChannel;
-import org.apache.ibatis.annotations.Mapper;
-
-import java.util.List;
 
 /**
  * DWDDao
@@ -16,9 +17,8 @@ import java.util.List;
 @Mapper
 @DS("mysql")
 public interface DimChannelMapper extends BaseMapper<DimChannel> {
-    void truncate();
-
-    void syncData();
 
     List<DimChannel> list();
+
+    List<DimChannel> queryStatistics();
 }

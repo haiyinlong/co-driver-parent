@@ -29,7 +29,7 @@ public class AdsDailyGameOetaReportServiceImpl implements AdsService {
     @Override
     @ShowExecuteTime(name = "AdsDailyGameOetaReport syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
 
 

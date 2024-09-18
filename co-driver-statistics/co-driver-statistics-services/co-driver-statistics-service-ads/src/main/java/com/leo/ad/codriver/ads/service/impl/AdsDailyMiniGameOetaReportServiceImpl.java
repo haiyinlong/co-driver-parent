@@ -32,7 +32,7 @@ public class AdsDailyMiniGameOetaReportServiceImpl implements AdsService {
     @Override
     @ShowExecuteTime(name = "AdsDailyMiniGameOetaReportService syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 获取活跃用户
         List<AdsDailyMiniGameOetaReport> activeUserList = adsDailyMiniGameOetaReportMapper.queryActiveUserList(dates);

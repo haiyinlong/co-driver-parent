@@ -33,7 +33,7 @@ public class DwsDailyPackageAllLabAssetExchangeServiceImpl implements DwsService
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabAssetExchange")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 获取库中已经存在的数据
         List<DwsDailyPackageAllLabAssetExchange> activeList =

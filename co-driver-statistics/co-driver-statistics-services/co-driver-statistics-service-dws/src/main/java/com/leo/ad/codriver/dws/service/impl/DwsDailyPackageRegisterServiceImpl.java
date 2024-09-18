@@ -31,7 +31,7 @@ public class DwsDailyPackageRegisterServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "dwsDailyPackageRegister syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageRegisterMapper.deleteByDates(dates);
         List<DwsDailyPackageRegister> statistics = dwsDailyPackageRegisterMapper.statistics(dates);

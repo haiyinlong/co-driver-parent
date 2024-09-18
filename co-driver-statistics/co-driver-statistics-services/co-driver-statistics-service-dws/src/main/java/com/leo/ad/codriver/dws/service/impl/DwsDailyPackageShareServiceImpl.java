@@ -33,7 +33,7 @@ public class DwsDailyPackageShareServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageShare")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 获取数据
         List<DwsDailyPackageShare> packageShareList = dwsDailyPackageShareMapper.queryStatistics(dates);

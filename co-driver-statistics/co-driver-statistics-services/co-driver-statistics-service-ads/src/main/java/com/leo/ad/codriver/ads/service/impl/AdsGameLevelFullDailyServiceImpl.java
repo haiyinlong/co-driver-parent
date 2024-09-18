@@ -1,16 +1,18 @@
 package com.leo.ad.codriver.ads.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.leo.ad.codriver.ads.dao.AdsGameLevelFullDailyMapper;
 import com.leo.ad.codriver.ads.entity.AdsGameLevelFullDaily;
 import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
 
 /**
  * 游戏关卡统计
@@ -28,7 +30,7 @@ public class AdsGameLevelFullDailyServiceImpl implements AdsService {
     @Override
     @ShowExecuteTime(name = "AdsGameLevelFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         List<AdsGameLevelFullDaily> adsGameLevelFullDailies = adsGameLevelFullDailyMapper.queryStatistics(dates);
         batchMapper.batchInsert(adsGameLevelFullDailies, AdsGameLevelFullDailyMapper.class);

@@ -1,16 +1,18 @@
 package com.leo.ad.codriver.dws.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageGameLevelMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageGameLevel;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
 
 /**
  * 每日活跃用户游戏关卡数据统计
@@ -27,7 +29,7 @@ public class DwsDailyPackageGameLevelServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageGameLevel")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageGameLevelMapper.deleteByDates(dates);
         // 统计活跃用户

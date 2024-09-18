@@ -32,7 +32,7 @@ public class DwsDailyPackageAllGameSingleServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllGameSingle")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         List<DwsDailyPackageAllGameSingle> activeList = dwsDailyPackageAllGameSingleMapper.queryActiveList(dates);
         activeList.forEach(DwsDailyPackageAllGameSingle::calculate);

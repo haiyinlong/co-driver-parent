@@ -27,7 +27,7 @@ public class DwsPkgGameFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsPkgGameFullDaily")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsPkgGameFullDailyMapper.deleteByDates(dates);
         // 统计活跃用户

@@ -34,7 +34,7 @@ public class DwsDailyPackageCohortMissionServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "dwsDailyPackageCohortMission")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyCohortMissionMapper.deleteByDates(dates);
         List<DwsDailyPackageCohortMission> dwsDailyCohortConversions = dwsDailyCohortMissionMapper.statistics(dates);
