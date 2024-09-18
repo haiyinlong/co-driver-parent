@@ -23,7 +23,7 @@ public class DwsDailyPackageAllConversionServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllConversion")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllConversionMapper.deleteByDates(dates);
         dwsDailyPackageAllConversionMapper.syncActiveList(dates);

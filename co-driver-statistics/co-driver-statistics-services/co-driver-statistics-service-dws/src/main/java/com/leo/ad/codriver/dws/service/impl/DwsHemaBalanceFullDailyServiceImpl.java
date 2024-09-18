@@ -1,18 +1,20 @@
 package com.leo.ad.codriver.dws.service.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsHemaBalanceFullDailyMapper;
 import com.leo.ad.codriver.dws.entity.DwsHemaBalanceFullDaily;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
+
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-
-import java.util.List;
 
 /**
  * DwsServiceImpl
@@ -31,11 +33,11 @@ public class DwsHemaBalanceFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsHemaBalanceFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsHemaBalanceFullDailyMapper.deleteByDates(dates);
         List<DwsHemaBalanceFullDaily> hemaBalanceFullDailies =
-                dwsHemaBalanceFullDailyMapper.queryStatisticsActiveList(dates);
+            dwsHemaBalanceFullDailyMapper.queryStatisticsActiveList(dates);
         if (!CollectionUtils.isEmpty(hemaBalanceFullDailies)) {
             log.info("{} DwsHemaBalanceFullDaily syncActiveData 更新插入数据{}条", dates, hemaBalanceFullDailies.size());
             dwBatchMapper.batchInsert(hemaBalanceFullDailies, DwsHemaBalanceFullDailyMapper.class);

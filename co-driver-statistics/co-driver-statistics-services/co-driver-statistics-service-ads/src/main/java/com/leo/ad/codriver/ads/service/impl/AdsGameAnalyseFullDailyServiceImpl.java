@@ -28,7 +28,7 @@ public class AdsGameAnalyseFullDailyServiceImpl implements AdsService {
     @Override
     @ShowExecuteTime(name = "AdsGameAnalyseFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         List<AdsGameAnalyseFullDaily> adsGameAnalyseActiveFullDailies = adsGameAnalyseFullDailyMapper.queryStatisticsActiveList(dates);
         batchMapper.batchInsert(adsGameAnalyseActiveFullDailies, AdsGameAnalyseFullDailyMapper.class);

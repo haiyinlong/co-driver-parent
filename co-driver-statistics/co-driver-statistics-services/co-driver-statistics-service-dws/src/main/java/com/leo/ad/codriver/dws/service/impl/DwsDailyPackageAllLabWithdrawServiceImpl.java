@@ -33,7 +33,7 @@ public class DwsDailyPackageAllLabWithdrawServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabWithdraw syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllLabWithdrawMapper.deleteByDates(dates);
         List<DwsDailyPackageAllLabWithdraw> withdrawFullDailies =

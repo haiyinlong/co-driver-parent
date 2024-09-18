@@ -33,7 +33,7 @@ public class DwsDailyPackageAllLabShareServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabShare")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 获取数据
         List<DwsDailyPackageAllLabShare> packageShareList = dwsDailyPackageAllLabShareMapper.queryStatistics(dates);

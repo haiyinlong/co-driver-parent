@@ -28,7 +28,7 @@ public class DwsPkgRetentionFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "dwsPkgRetentionFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         List<DwsPkgRetentionFullDaily> statistics = dwsPkgRetentionFullDailyMapper.statistics(dates);
         batchMapper.batchInsert(statistics, DwsPkgRetentionFullDailyMapper.class);

@@ -32,7 +32,7 @@ public class DwsDailyPackageAllLabQpLtvServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabQpLtv")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllLabQpLtvMapper.deleteByDates(dates);
         List<DwsDailyPackageAllLabQpLtv> dwsDailyPackageAllLabQpLtvList =

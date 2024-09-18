@@ -31,7 +31,7 @@ public class DwsHemaEventFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsHemaEventFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsHemaEventFullDailyMapper.deleteByDates(dates);
         List<DwsHemaEventFullDaily> dwsHemaEventFullDailies =

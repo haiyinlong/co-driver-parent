@@ -38,7 +38,7 @@ public class DwsDailyPackageAdServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAd")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAdMapper.deleteByDates(dates);
         List<DwsDailyPackageAd> queryStatisticsAll = dwsDailyPackageAdMapper.queryStatisticsAll(dates);

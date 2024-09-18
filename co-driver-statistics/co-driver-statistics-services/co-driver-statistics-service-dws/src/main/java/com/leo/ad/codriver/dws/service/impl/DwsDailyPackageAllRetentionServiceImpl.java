@@ -25,7 +25,7 @@ public class DwsDailyPackageAllRetentionServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "dwsDailyPackageAllRetention syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllRetentionMapper.deleteByDates(dates);
         dwsDailyPackageAllRetentionMapper.syncData(dates);

@@ -34,7 +34,7 @@ public class DwsDailyPackageAllLabGameSingleServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabGameSingle")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 根据游戏逐个获取数据
         List<String> gameCodeList = dwsDailyPackageAllLabGameSingleMapper.getGameCodeList();

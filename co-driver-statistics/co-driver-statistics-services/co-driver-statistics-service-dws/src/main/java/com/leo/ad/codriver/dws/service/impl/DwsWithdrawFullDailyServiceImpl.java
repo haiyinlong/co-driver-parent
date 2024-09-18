@@ -31,7 +31,7 @@ public class DwsWithdrawFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsWithdrawFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsWithdrawFullDailyMapper.deleteByDates(dates);
         List<DwsWithdrawFullDaily> withdrawFullDailies = dwsWithdrawFullDailyMapper.queryStatisticsActiveList(dates);

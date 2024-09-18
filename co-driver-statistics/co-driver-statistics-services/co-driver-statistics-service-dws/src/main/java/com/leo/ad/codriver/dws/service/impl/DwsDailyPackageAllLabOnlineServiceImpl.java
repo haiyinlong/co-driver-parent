@@ -31,7 +31,7 @@ public class DwsDailyPackageAllLabOnlineServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabOnline")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllLabOnlineMapper.deleteByDates(dates);
         List<DwsDailyPackageAllLabOnline> dwsDailyPackageOnlineList =

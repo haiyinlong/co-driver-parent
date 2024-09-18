@@ -35,7 +35,7 @@ public class DwsDailyPackageAllGameServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllGame")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllGameMapper.deleteByDates(dates);
         List<DwsDailyPackageAllGame> queryStatisticsAll = dwsDailyPackageAllGameMapper.queryStatisticsAll(dates);

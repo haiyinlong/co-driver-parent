@@ -30,7 +30,7 @@ public class DwsDailyPackagePromotionServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackagePromotion")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackagePromotionMapper.deleteDailyPackagePromotion(dates);
         dwsDailyPackagePromotionMapper.syncDailyPackagePromotion(dates, exchangeRate.getIndianToDollar());

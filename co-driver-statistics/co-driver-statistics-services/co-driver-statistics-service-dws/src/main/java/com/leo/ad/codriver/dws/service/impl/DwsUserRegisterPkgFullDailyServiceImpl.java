@@ -31,7 +31,7 @@ public class DwsUserRegisterPkgFullDailyServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "dwsUserRegisterPkgFullDaily syncData")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsUserRegisterPkgFullDailyMapper.deleteByDates(dates);
         List<DwsUserRegisterPkgFullDaily> statistics = dwsUserRegisterPkgFullDailyMapper.statistics(dates);

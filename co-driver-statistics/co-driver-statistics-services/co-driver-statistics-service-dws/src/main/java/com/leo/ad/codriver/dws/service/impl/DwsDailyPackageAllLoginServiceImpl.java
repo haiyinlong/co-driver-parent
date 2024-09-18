@@ -25,7 +25,7 @@ public class DwsDailyPackageAllLoginServiceImpl implements DwsService {
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLogin")
     @Transactional(rollbackFor = Exception.class)
-    @Lock(paramName = "dates")
+    @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllLoginMapper.deleteByDates(dates);
         dwsDailyPackageAllLoginMapper.syncDailyPackageAllLogin(dates);
