@@ -41,6 +41,7 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
+        // TODO 修改转化广告用户
         // 活跃用户
         List<AdsDailyOetaBaseReport> activeUserList = adsDailyOetaBaseReportMapper.selectActiveUserList(dates);
         if (CollectionUtils.isEmpty(activeUserList)) {

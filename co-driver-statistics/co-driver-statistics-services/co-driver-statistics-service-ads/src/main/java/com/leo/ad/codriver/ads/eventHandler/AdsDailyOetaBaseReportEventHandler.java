@@ -6,6 +6,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.ads.service.AdsService;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAllAdEventUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyPackageAllAdUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyPackageAllVersionPromotionUpdateDwEvent;
 
@@ -39,5 +40,13 @@ public class AdsDailyOetaBaseReportEventHandler {
         log.info("{} 事件触发 DwsDailyPackageAllVersionPromotionUpdateEvent adsDailyOetaBaseReport",
             dwsDailyPackageAllVersionPromotionUpdateEvent.getDates());
         adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAllVersionPromotionUpdateEvent.getDates());
+    }
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Async
+    public void handleEvent(DwsDailyPackageAllAdEventUpdateDwEvent dwsDailyPackageAllAdEventUpdateDwEvent) {
+        log.info("{} 事件触发 DwsDailyPackageAllAdEventUpdateDwEvent adsDailyOetaBaseReport",
+            dwsDailyPackageAllAdEventUpdateDwEvent.getDates());
+        adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAllAdEventUpdateDwEvent.getDates());
     }
 }

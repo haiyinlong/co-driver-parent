@@ -4,7 +4,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
@@ -45,7 +44,6 @@ public class DwdUserEventDetailFormEventReportServiceImpl implements DwdEventSer
     @ShowExecuteTime(name = "dwdUserEventDetail form eventReport syncData")
     @AutoPushEventWithTrue(events = {DwdUserEventDetailUpdateDwEvent.class})
     @Lock(paramName = "#dates")
-    @Async
     public boolean syncData(Integer dates) {
         Integer nowDates = DateUtils.getNowDates();
         if (Objects.equals(dates, nowDates)) {
