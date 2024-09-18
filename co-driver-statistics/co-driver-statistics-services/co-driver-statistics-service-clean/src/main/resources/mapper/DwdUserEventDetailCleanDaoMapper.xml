@@ -4,10 +4,11 @@
 <mapper namespace="com.leo.ad.codriver.clean.dao.DwdUserEventDetailCleanDao">
 
 
-    <delete id="deleteByTwoMonthsAgo">
+    <delete id="deleteByLastMonthsAgo">
         DELETE
         FROM analysis_data.dwd_user_event_detail
-        where dates <![CDATA[ <=  ]]> DATE_FORMAT(NOW() - INTERVAL 2 MONTH, '%Y%m01')
+        where dates <![CDATA[ <  ]]> DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y%m01')
+        limit 20000
 
     </delete>
 </mapper>

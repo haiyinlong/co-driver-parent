@@ -1,10 +1,12 @@
 package com.leo.ad.codriver.clean.handler;
 
-import com.leo.ad.codriver.clean.dao.OdsEventReportCleanDao;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
+
+import com.leo.ad.codriver.clean.dao.OdsEventReportCleanDao;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * OdsAbGameRecordClean
@@ -21,6 +23,9 @@ public class OdsEventReportCleanHandler extends AbstractCleanHandler {
 
     @Override
     public void cleanHandler() {
-        odsEventReportCleanDao.deleteByTwoMonthsAgo();
+        Integer delRowNum = odsEventReportCleanDao.deleteByLastMonthsAgo();
+        while (delRowNum > 0) {
+            delRowNum = odsEventReportCleanDao.deleteByLastMonthsAgo();
+        }
     }
 }

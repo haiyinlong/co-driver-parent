@@ -2,11 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.clean.dao.OdsEventReportCleanDao">
-
-
-    <delete id="deleteByTwoMonthsAgo">
+    <delete id="deleteByLastMonthsAgo">
         DELETE
         FROM analysis_data.ods_event_report
-        where dates <![CDATA[ <=  ]]> DATE_FORMAT(NOW() - INTERVAL 2 MONTH, '%Y%m01')
+        where dates <![CDATA[ <  ]]> DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y%m01')
+        limit 10000
     </delete>
 </mapper>

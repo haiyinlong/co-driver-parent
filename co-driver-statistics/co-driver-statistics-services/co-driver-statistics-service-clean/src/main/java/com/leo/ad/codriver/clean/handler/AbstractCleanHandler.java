@@ -1,6 +1,7 @@
 package com.leo.ad.codriver.clean.handler;
 
 import com.leo.ad.codriver.clean.exception.CleanException;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -26,8 +27,10 @@ public abstract class AbstractCleanHandler implements CleanHandler {
 
     protected abstract void cleanHandler() throws CleanException;
 
+    @Override
     public void executeClean() {
         try {
+            log.info("{} 开始执行", this.getClass().getSimpleName());
             cleanHandler();
             log.info("{} 执行完成", this.getClass().getSimpleName());
         } catch (Exception e) {

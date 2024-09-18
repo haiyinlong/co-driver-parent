@@ -15,15 +15,15 @@ import lombok.extern.slf4j.Slf4j;
  * @author HaiYinLong
  * @version 2024/04/09 11:48
  **/
-@Component
 @Slf4j
+@Component
 @RequiredArgsConstructor
 public class DataCleanScheduleTask {
     private final CleanHandler cleanHandlerChain;
 
     @Scheduled(cron = "0 1 1 * * ?")
     @Async("asyncServiceExecutor")
-    public void syncAllTask() {
+    public void syncCleanAllTask() {
         cleanHandlerChain.executeClean();
     }
 }
