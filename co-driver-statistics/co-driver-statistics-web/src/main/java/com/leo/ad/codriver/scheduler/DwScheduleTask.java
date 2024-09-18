@@ -92,6 +92,7 @@ public class DwScheduleTask {
         Integer dates = DateUtils.getNowDates();
         log.info("{} 实时同步当天数据", dates);
         log.info("dim 开始实时同步所有数据");
+        // DIM
         for (DimService service : dimServices) {
             try {
                 service.syncData();
