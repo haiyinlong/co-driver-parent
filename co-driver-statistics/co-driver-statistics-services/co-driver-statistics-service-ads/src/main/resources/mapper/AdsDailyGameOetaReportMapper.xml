@@ -49,7 +49,7 @@
                CURRENT_TIMESTAMP AS                             create_time
 
         FROM dws_daily_package_all_game d
-                 left  join dws_daily_package_all_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg and d.version =ddpe.version)
+                 left  join dws_daily_package_all_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg and d.version =ddpe.version and d.user_type = ddpe.user_type)
 
                  LEFT JOIN dws_daily_package_all_login ddpl
                             on (d.dates = ddpl.dates and d.pkg = ddpl.pkg and d.version = ddpl.version)
@@ -119,7 +119,7 @@
                CURRENT_TIMESTAMP AS                             create_time
 
         FROM dws_daily_package_all_game d
-                 left  join dws_daily_package_all_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg and d.version =ddpe.version)
+                 left  join dws_daily_package_all_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg and d.version =ddpe.version and d.user_type = ddpe.user_type)
                  LEFT JOIN dws_daily_package_all_login ddpl
                            on (d.dates = ddpl.dates and d.pkg = ddpl.pkg and d.version = ddpl.version)
                  LEFT JOIN dws_daily_package_all_register ddpr
