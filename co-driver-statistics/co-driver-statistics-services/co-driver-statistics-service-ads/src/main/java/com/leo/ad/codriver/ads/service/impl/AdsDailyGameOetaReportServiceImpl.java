@@ -1,11 +1,7 @@
 package com.leo.ad.codriver.ads.service.impl;
 
 import com.leo.ad.codriver.ads.dao.AdsDailyGameOetaReportMapper;
-import com.leo.ad.codriver.ads.dao.AdsDailyMiniGameOetaReportMapper;
-import com.leo.ad.codriver.ads.dao.AdsGameAnalyseFullDailyMapper;
 import com.leo.ad.codriver.ads.entity.AdsDailyGameOetaReport;
-import com.leo.ad.codriver.ads.entity.AdsDailyMiniGameOetaReport;
-import com.leo.ad.codriver.ads.entity.AdsGameAnalyseFullDaily;
 import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;

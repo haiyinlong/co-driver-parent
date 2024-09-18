@@ -33,10 +33,10 @@
 
                -- 小游戏相关数据
 
-               0                 as                             mini_exchange_chip_count,
-               0                 as                             mini_exchange_ch_count,
-               0                 as                             mini_exchange_ch_amount,
-               0                 as                             mini_exchange_chip_amount,
+               ifnull(ddpe.exchange_chip_count,0)                as                             mini_exchange_chip_count,
+               ifnull(ddpe.exchange_cash_count,0)                 as                             mini_exchange_ch_count,
+               ifnull(ddpe.exchange_cash_total_amount,0)                 as                             mini_exchange_ch_amount,
+               ifnull(ddpe.exchange_chip_total_amount,0)                 as                             mini_exchange_chip_amount,
                d.mini_user_count,
                IFNULL(d.mini_game_count / ddpl.user_num, 0)     mini_avg_game_count,
                IFNULL(d.mini_game_time / ddpl.user_num, 0)      mini_avg_game_time,
@@ -49,8 +49,10 @@
                CURRENT_TIMESTAMP AS                             create_time
 
         FROM dws_daily_package_all_game d
+                 left  join dws_daily_package_all_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg and d.version =ddpe.version)
+
                  LEFT JOIN dws_daily_package_all_login ddpl
-                           on (d.dates = ddpl.dates and d.pkg = ddpl.pkg and d.version = ddpl.version)
+                            on (d.dates = ddpl.dates and d.pkg = ddpl.pkg and d.version = ddpl.version)
                  LEFT JOIN dws_daily_package_all_register ddpr
                            ON (ddpl.dates = ddpr.dates AND ddpl.pkg = ddpr.pkg AND ddpl.version = ddpr.version)
                  LEFT JOIN dws_daily_package_all_retention ddpr2 ON (
@@ -101,10 +103,10 @@
 
                -- 小游戏相关数据
 
-               0                 as                             mini_exchange_chip_count,
-               0                 as                             mini_exchange_ch_count,
-               0                 as                             mini_exchange_ch_amount,
-               0                 as                             mini_exchange_chip_amount,
+               ifnull(ddpe.exchange_chip_count,0)                as                             mini_exchange_chip_count,
+               ifnull(ddpe.exchange_cash_count,0)                 as                             mini_exchange_ch_count,
+               ifnull(ddpe.exchange_cash_total_amount,0)                 as                             mini_exchange_ch_amount,
+               ifnull(ddpe.exchange_chip_total_amount,0)                 as                             mini_exchange_chip_amount,
                d.mini_user_count,
                IFNULL(d.mini_game_count / ddpl.user_num, 0)     mini_avg_game_count,
                IFNULL(d.mini_game_time / ddpl.user_num, 0)      mini_avg_game_time,
@@ -117,6 +119,7 @@
                CURRENT_TIMESTAMP AS                             create_time
 
         FROM dws_daily_package_all_game d
+                 left  join dws_daily_package_all_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg and d.version =ddpe.version)
                  LEFT JOIN dws_daily_package_all_login ddpl
                            on (d.dates = ddpl.dates and d.pkg = ddpl.pkg and d.version = ddpl.version)
                  LEFT JOIN dws_daily_package_all_register ddpr
