@@ -21,7 +21,7 @@
     <select id="getEventReportCount" resultType="java.lang.Long">
         select count(1)
         from ods_event_report er
-                 INNER JOIN ods_user u on (er.user_id = u.aid and u.pkg = er.pkg)
+                 INNER JOIN ods_user u on (er.user_id = u.id and u.pkg = er.pkg)
         where er.dates = #{dates}
           and er.event_msg is not null
           and JSON_VALID(er.event_msg)
@@ -44,7 +44,7 @@
                TIMESTAMPDIFF(DAY, u.dates, er.dates)             register_day,
                er.create_time
         from ods_event_report er
-                 INNER JOIN ods_user u on (er.user_id = u.aid and u.pkg = er.pkg)
+                 INNER JOIN ods_user u on (er.user_id = u.id and u.pkg = er.pkg)
                  LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn
                             FROM ods_user_version uv
                             where uv.dates <![CDATA[ <=  ]]>  #{dates}
@@ -74,7 +74,7 @@
                TIMESTAMPDIFF(DAY, u.dates, er.dates)             register_day,
                er.create_time
         from ods_event_report er
-                 INNER JOIN ods_user u on (er.user_id = u.aid and u.pkg = er.pkg)
+                 INNER JOIN ods_user u on (er.user_id = u.id and u.pkg = er.pkg)
                  LEFT JOIN dim_user_info dui on (dui.user_id = u.id)
                  LEFT JOIN ods_user_hema uh on (u.aid = uh.aid and uh.pkg = u.pkg)
                  LEFT JOIN dwd_user_event_detail dued on (dued.source_id = er.id and dued.source = #{source})
