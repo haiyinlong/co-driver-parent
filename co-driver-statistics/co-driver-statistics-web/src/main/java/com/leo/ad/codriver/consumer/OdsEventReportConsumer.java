@@ -18,9 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  *
  * @author HaiYinLong
  * @version 2024/06/24 15:27
- * @Deprecated 实时数据量太大，采用每天同步一次处理
  **/
-@Deprecated
 @Component
 @Slf4j
 @RequiredArgsConstructor
@@ -28,13 +26,19 @@ public class OdsEventReportConsumer {
     private final DwdStreamService dwdUserEventDetailFormEventReportServiceImpl;
 
     @RabbitListener(queues = {"ods_event_report_queue"},
-        autoStartup = "${co-driver.rabbitmq.listener.ods_event_report_queue.enable:false}")
+        autoStartup = "${co-driver.rabbitmq.listener.ods_event_report_queue.enable:false}", concurrency = "2")
     public void notifyDataChange(String msg) {
         if (ObjectUtils.isEmpty(msg)) {
             return;
         }
-        JSONObject odsUserChangeJson = JSONObject.parseObject(msg);
-        long sourceId = new BigDecimal(odsUserChangeJson.getString("id")).longValue();
-        dwdUserEventDetailFormEventReportServiceImpl.syncChangeData(DataChangeDTO.of(sourceId));
+        Long sourceId = null;
+        try {
+            JSONObject odsUserChangeJson = JSONObject.parseObject(msg);
+            sourceId = new BigDecimal(odsUserChangeJson.getString("id")).longValue();
+            dwdUserEventDetailFormEventReportServiceImpl.syncChangeData(DataChangeDTO.of(sourceId));
+        } catch (Exception e) {
+            log.info("同步event report 数据异常, 数据id:" + sourceId, e);
+            throw new RuntimeException(e);
+        }
     }
 }

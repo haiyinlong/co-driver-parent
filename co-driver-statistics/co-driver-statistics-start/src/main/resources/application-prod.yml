@@ -70,6 +70,8 @@ co-driver:
         enable: true
       ods_game_user_queue:
         enable: true
+      ods_event_report_queue:
+        enable: true
 management:
   health:
     rabbit:

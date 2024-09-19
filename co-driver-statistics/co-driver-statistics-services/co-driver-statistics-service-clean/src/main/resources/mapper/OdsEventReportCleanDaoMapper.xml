@@ -5,7 +5,7 @@
     <delete id="deleteByLastMonthsAgo">
         DELETE
         FROM analysis_data.ods_event_report
-        where dates <![CDATA[ <  ]]> DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y%m01')
+        where dates <![CDATA[ <  ]]> DATE_FORMAT(NOW() - INTERVAL 20 DAY, '%Y%m%d')
         limit 10000
     </delete>
 </mapper>

@@ -45,7 +45,6 @@ public class TaskDwdController {
 
     private final DwdEventService dwdUserEventDetailFormReportPointServiceImpl;
     private final DwdEventService dwdUserEventDetailFormAdsReportPointServiceImpl;
-    private final DwdEventService dwdUserEventDetailFormEventReportServiceImpl;
     private final DwdEventService dwdUserEventDetailFormReportEventServiceImpl;
 
     @GetMapping("/")
@@ -125,7 +124,6 @@ public class TaskDwdController {
         log.info("{} DwdUserEventDetail dwd数据开始同步", dates);
         dwdUserEventDetailFormReportPointServiceImpl.syncData(dates);
         dwdUserEventDetailFormAdsReportPointServiceImpl.syncData(dates);
-        dwdUserEventDetailFormEventReportServiceImpl.syncData(dates);
         dwdUserEventDetailFormReportEventServiceImpl.syncData(dates);
         log.info("{} DwdUserEventDetail dwd数据同步完成", dates);
         return "执行完成dwd数据同步";
