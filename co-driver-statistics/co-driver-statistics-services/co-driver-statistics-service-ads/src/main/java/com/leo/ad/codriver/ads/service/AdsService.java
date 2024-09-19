@@ -44,4 +44,26 @@ public interface AdsService {
         }
         return dbIds;
     }
+
+    default List<Long> getNotExistsIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity> activeList,
+        List<? extends BaseEntity> newList, List<? extends BaseEntity> activeListAll,
+        List<? extends BaseEntity> newListAll) {
+        if (CollectionUtils.isEmpty(dbList)) {
+            return Collections.emptyList();
+        }
+        List<Long> dbIds = new java.util.ArrayList<>(dbList.stream().map(BaseEntity::getId).toList());
+        if (!CollectionUtils.isEmpty(activeList)) {
+            activeList.forEach(item -> dbIds.remove(item.getId()));
+        }
+        if (!CollectionUtils.isEmpty(newList)) {
+            newList.forEach(item -> dbIds.remove(item.getId()));
+        }
+        if (!CollectionUtils.isEmpty(activeListAll)) {
+            activeListAll.forEach(item -> dbIds.remove(item.getId()));
+        }
+        if (!CollectionUtils.isEmpty(newListAll)) {
+            newListAll.forEach(item -> dbIds.remove(item.getId()));
+        }
+        return dbIds;
+    }
 }

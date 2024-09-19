@@ -9,6 +9,7 @@ import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.dws.event.DwsDailyPackageAllAdEventUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyPackageAllAdUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyPackageAllVersionPromotionUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPkgAdEventUpdateDwEvent;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,4 +50,13 @@ public class AdsDailyOetaBaseReportEventHandler {
             dwsDailyPackageAllAdEventUpdateDwEvent.getDates());
         adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAllAdEventUpdateDwEvent.getDates());
     }
+
+    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @Async
+    public void handleEvent(DwsDailyPkgAdEventUpdateDwEvent dwsDailyPkgAdEventUpdateDwEvent) {
+        log.info("{} 事件触发 DwsDailyPkgAdEventUpdateDwEvent adsDailyOetaBaseReport",
+            dwsDailyPkgAdEventUpdateDwEvent.getDates());
+        adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPkgAdEventUpdateDwEvent.getDates());
+    }
+
 }

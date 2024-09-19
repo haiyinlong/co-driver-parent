@@ -1,15 +1,10 @@
 package com.leo.ad.codriver.ads.service.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.ads.dao.AdsDailyOetaBaseReportMapper;
 import com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport;
@@ -42,45 +37,39 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // TODO 修改转化广告用户
+        List<AdsDailyOetaBaseReport> oetaDbList = adsDailyOetaBaseReportMapper.queryOetaBaseReportList(dates);
         // 活跃用户
-        List<AdsDailyOetaBaseReport> activeUserList = adsDailyOetaBaseReportMapper.selectActiveUserList(dates);
-        if (CollectionUtils.isEmpty(activeUserList)) {
-            return;
+        List<AdsDailyOetaBaseReport> activeUserList = adsDailyOetaBaseReportMapper.selectActiveUserVersionList(dates);
+        if (!CollectionUtils.isEmpty(activeUserList)) {
+            activeUserList.forEach(AdsDailyOetaBaseReport::init);
+            batchMapper.batchInsert(activeUserList, AdsDailyOetaBaseReportMapper.class);
         }
-        activeUserList.forEach(AdsDailyOetaBaseReport::init);
-        batchMapper.batchInsert(activeUserList, AdsDailyOetaBaseReportMapper.class);
-        // 删除不存在的记录
-        List<AdsDailyOetaBaseReport> oetaBaseReportList = adsDailyOetaBaseReportMapper.queryOetaBaseReportList(dates);
-        Map<Long, List<AdsDailyOetaBaseReport>> oetaBaseUserTypeMap =
-            oetaBaseReportList.stream().collect(Collectors.groupingBy(AdsDailyOetaBaseReport::getUserType));
-
-        List<Long> notExistsIds = getNotExistsIds(oetaBaseUserTypeMap.get(0), activeUserList);
-        if (!CollectionUtils.isEmpty(notExistsIds)) {
-            adsDailyOetaBaseReportMapper.deleteBatchIds(notExistsIds);
-        }
-
         // 新用户
-        List<AdsDailyOetaBaseReport> newUserList = adsDailyOetaBaseReportMapper.selectNewUserList(dates);
-        if (CollectionUtils.isEmpty(newUserList)) {
-            return;
+        List<AdsDailyOetaBaseReport> newUserList = adsDailyOetaBaseReportMapper.selectNewUserVersionList(dates);
+        if (!CollectionUtils.isEmpty(newUserList)) {
+            newUserList.forEach(AdsDailyOetaBaseReport::init);
+            batchMapper.batchInsert(newUserList, AdsDailyOetaBaseReportMapper.class);
         }
-        newUserList.forEach(AdsDailyOetaBaseReport::init);
-        batchMapper.batchInsert(newUserList, AdsDailyOetaBaseReportMapper.class);
+        // 所有版本
+        // 活跃用户
+        List<AdsDailyOetaBaseReport> activeUserAllList = adsDailyOetaBaseReportMapper.selectActiveUserPkgList(dates);
+        if (!CollectionUtils.isEmpty(activeUserAllList)) {
+            activeUserAllList.forEach(AdsDailyOetaBaseReport::init);
+            batchMapper.batchInsert(activeUserAllList, AdsDailyOetaBaseReportMapper.class);
+        }
+        // 新用户
+        List<AdsDailyOetaBaseReport> newUserAllList = adsDailyOetaBaseReportMapper.selectNewUserAllPkgList(dates);
+        if (!CollectionUtils.isEmpty(newUserAllList)) {
+            newUserAllList.forEach(AdsDailyOetaBaseReport::init);
+            batchMapper.batchInsert(newUserAllList, AdsDailyOetaBaseReportMapper.class);
+        }
         // 删除不存在的记录
-        notExistsIds = getNotExistsIds(oetaBaseUserTypeMap.get(1), newUserList);
+        List<Long> notExistsIds =
+            getNotExistsIds(oetaDbList, activeUserList, newUserList, activeUserAllList, newUserAllList);
         if (!CollectionUtils.isEmpty(notExistsIds)) {
             adsDailyOetaBaseReportMapper.deleteBatchIds(notExistsIds);
         }
+
     }
 
-    private List<Long> getNotExistsIds(List<AdsDailyOetaBaseReport> oetaBaseReports,
-        List<AdsDailyOetaBaseReport> oetaBaseReportList) {
-        if (CollectionUtils.isEmpty(oetaBaseReports)) {
-            return Collections.emptyList();
-        }
-        List<Long> dbIds = new ArrayList<>(oetaBaseReports.stream().map(AdsDailyOetaBaseReport::getId)
-            .filter(id -> !ObjectUtils.isEmpty(id)).toList());
-        oetaBaseReportList.forEach(item -> dbIds.remove(item.getId()));
-        return dbIds;
-    }
 }

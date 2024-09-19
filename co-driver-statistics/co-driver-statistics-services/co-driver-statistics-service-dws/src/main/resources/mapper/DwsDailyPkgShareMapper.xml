@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgShareMapper">
+
+    <select id="queryStatistics" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgShare">
+        SELECT ddps.id,
+               shares.dates,
+               shares.pkg,
+               shares.invitation_num,
+               shares.fill_code_num,
+               shares.total_user_num,
+               ddps.create_time,
+               ddps.update_time
+        from (SELECT dusr.dates,
+                     dusr.pkg,
+                     count(CASE dusr.source WHEN 1 THEN dusr.source END) invitation_num,
+                     count(CASE dusr.source WHEN 0 THEN dusr.source END) fill_code_num,
+                     COUNT(1)                                            total_user_num
+              FROM dwd_user_share_record dusr
+              WHERE dusr.dates = #{dates}
+              GROUP BY dusr.dates, dusr.pkg) shares
+                 LEFT JOIN dws_daily_pkg_share ddps on
+            (ddps.dates = shares.dates and ddps.pkg = shares.pkg)
+
+    </select>
+</mapper>

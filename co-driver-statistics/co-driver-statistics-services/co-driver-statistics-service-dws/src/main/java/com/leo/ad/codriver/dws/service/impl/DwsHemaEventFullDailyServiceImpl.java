@@ -38,6 +38,7 @@ public class DwsHemaEventFullDailyServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
+        // TODO 改为数据库获取明细，代码中进行汇总，控制新增，修改和删除；
         dwsHemaEventFullDailyMapper.deleteByDates(dates);
         List<DwsHemaEventFullDaily> dwsHemaEventFullDailies =
             dwsHemaEventFullDailyMapper.queryStatisticsActiveList(dates);

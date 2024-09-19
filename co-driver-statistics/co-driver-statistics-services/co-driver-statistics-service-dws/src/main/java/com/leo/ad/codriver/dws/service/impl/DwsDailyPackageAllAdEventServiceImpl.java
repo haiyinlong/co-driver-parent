@@ -37,6 +37,7 @@ public class DwsDailyPackageAllAdEventServiceImpl implements DwsService {
     @Lock(paramName = "#dates")
     @Override
     public void syncData(Integer dates) {
+        // TODO 改为数据库获取明细，代码中进行汇总，控制新增，修改和删除；
         List<DwsDailyPackageAllAdEvent> dbList = dwsDailyPackageAllAdEventMapper.queryList(dates);
 
         List<DwsDailyPackageAllAdEvent> activeList = dwsDailyPackageAllAdEventMapper.queryStatisticsActive(dates);

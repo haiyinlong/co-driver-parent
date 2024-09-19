@@ -8,7 +8,8 @@ import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
 /**
  * DwsService, 读取dwd层数据进行汇总写入到dws层<br>
- * 可以直接通过sql进行汇总处理，需要维表时可以join维表进行处理
+ * <b>改为</b>： 循环获取数据明细；进行汇总处理；对比已有数据进行新增、修改、删除操作<br>
+ * 减少数据库压力
  *
  * @author HaiYinLong
  * @version 2024/04/15 18:34

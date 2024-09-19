@@ -36,6 +36,7 @@ public class DwsDailyPackageAllLabGameSingleServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
+        // TODO 改为数据库获取明细，代码中进行汇总，控制新增，修改和删除；
         // 根据游戏逐个获取数据
         List<String> gameCodeList = dwsDailyPackageAllLabGameSingleMapper.getGameCodeList();
         List<DwsDailyPackageAllLabGameSingle> activeList = null;

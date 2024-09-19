@@ -19,9 +19,13 @@ import com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport;
 @DS("mysql")
 public interface AdsDailyOetaBaseReportMapper extends BaseMapper<AdsDailyOetaBaseReport> {
 
-    List<AdsDailyOetaBaseReport> selectActiveUserList(@Param("dates") Integer dates);
+    List<AdsDailyOetaBaseReport> selectActiveUserVersionList(@Param("dates") Integer dates);
 
-    List<AdsDailyOetaBaseReport> selectNewUserList(@Param("dates") Integer dates);
+    List<AdsDailyOetaBaseReport> selectNewUserVersionList(@Param("dates") Integer dates);
 
     List<AdsDailyOetaBaseReport> queryOetaBaseReportList(@Param("dates") Integer dates);
+
+    List<AdsDailyOetaBaseReport> selectActiveUserPkgList(@Param("dates") Integer dates);
+
+    List<AdsDailyOetaBaseReport> selectNewUserAllPkgList(@Param("dates") Integer dates);
 }
