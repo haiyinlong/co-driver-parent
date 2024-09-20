@@ -44,7 +44,10 @@ public class DwsDailyPackageAllLabGameServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
-        // TODO 改为数据库获取明细，代码中进行汇总，控制新增，修改和删除；
+
+        return;
+
+       /* // TODO 改为数据库获取明细，代码中进行汇总，控制新增，修改和删除；
         dwsDailyPackageAllLabGameMapper.deleteByDates(dates);
         List<DwsDailyPackageAllLabGame> queryStatisticsAll = dwsDailyPackageAllLabGameMapper.queryStatisticsAll(dates);
         if (CollectionUtils.isEmpty(queryStatisticsAll)) {
@@ -58,6 +61,6 @@ public class DwsDailyPackageAllLabGameServiceImpl implements DwsService {
         }
         dwBatchMapper.batchInsert(queryStatisticsNew, DwsDailyPackageAllLabGameMapper.class);
 
-        applicationEventPublisher.publishEvent(new DwsDailyPackageAllLabGameUpdateDwEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwsDailyPackageAllLabGameUpdateDwEvent(this, dates));*/
     }
 }

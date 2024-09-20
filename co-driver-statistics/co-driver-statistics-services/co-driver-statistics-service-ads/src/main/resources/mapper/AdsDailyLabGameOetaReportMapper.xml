@@ -15,7 +15,8 @@
                ddpl.user_num                                    active_user_num,
                IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
 
-
+               d.config_group_name,
+               d.config_group_type,
                -- 入门游戏相关数据
                d.intro_user_count,
                d.intro_user_count / ddpl.user_num               intro_user_rate,
@@ -85,6 +86,8 @@
                ddpl.user_num                                    active_user_num,
                IFNULL(ddpo.avg_new_user_online_time, 0)             avg_user_online_time,
 
+               d.config_group_name,
+               d.config_group_type,
 
                -- 入门游戏相关数据
                d.intro_user_count,

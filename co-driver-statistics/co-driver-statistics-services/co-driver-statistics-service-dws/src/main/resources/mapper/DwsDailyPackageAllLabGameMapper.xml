@@ -9,6 +9,8 @@
     </delete>
     <select id="queryStatisticsAll" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabGame">
         SELECT
+            dul.config_group_type,
+            dul.name                     config_group_name,
             0 as userType,
             o.dates,
             o.pkg,
@@ -60,6 +62,8 @@
 
     <select id="queryStatisticsNew" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabGame">
         SELECT
+            dul.config_group_type,
+            dul.name                     config_group_name,
             1 as userType,
             o.dates,
             o.pkg,
