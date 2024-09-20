@@ -40,7 +40,7 @@ public class DwdUserGameRecordOeta implements BaseEntity {
     private Date sourceUpdateTime;
     private Date createTime;
 
-    public void initDate() {
+    public void init() {
         this.createTime = new Date();
     }
 }

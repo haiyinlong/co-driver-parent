@@ -1,5 +1,6 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -11,13 +12,14 @@ import org.springframework.util.ObjectUtils;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.DateUtils;
-import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserGameRecordOetaMapper;
 import com.leo.ad.codriver.dwd.dto.DataChangeDTO;
+import com.leo.ad.codriver.dwd.entity.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
 import com.leo.ad.codriver.dwd.event.DwdUserGameRecordOetaUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.dwd.service.DwdStreamService;
+import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -48,20 +50,31 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
             // 当天数据不进行统计，跳过
             return false;
         }
-        int rowNumInterval = 2000;
-        Integer delRowNum = dwdUserGameRecordOetaMapper.deleteByDates(dates);
-        Long totalRecord = dwdUserGameRecordOetaMapper.getStatisticsCount(dates);
-        if (totalRecord <= 0) {
-            return delRowNum > 0;
+        DwCountDTO dbCount = dwdUserGameRecordOetaMapper.getDbCount(dates);
+        DwCountDTO statisticsCount = dwdUserGameRecordOetaMapper.getStatisticsCount(dates);
+        if (!isExistsDiff(dbCount, statisticsCount)) {
+            return false;
         }
-        long totalPageNum = LongUtils.divide(totalRecord, (long)rowNumInterval);
-        for (int i = 0; i < totalPageNum; i++) {
-            List<DwdUserGameRecordOeta> statistics =
-                dwdUserGameRecordOetaMapper.queryStatistics(dates, rowNumInterval, i * rowNumInterval);
-            if (!CollectionUtils.isEmpty(statistics)) {
-                statistics.forEach(DwdUserGameRecordOeta::initDate);
-            }
-            batchMapper.batchInsert(statistics, DwdUserGameRecordOetaMapper.class);
+        try {
+            long startSourceId = getStartSourceId(dbCount);
+            List<DwdUserGameRecordOeta> userAdRecordList;
+            List<DwdUserGameRecordOeta> newList;
+            do {
+                userAdRecordList =
+                        dwdUserGameRecordOetaMapper.queryStatisticsByDate(dates, BatchConst.BATCH_NUMBER, startSourceId);
+                // 过滤掉已经有id的数据
+                newList =
+                        userAdRecordList.stream().filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
+                                .peek(DwdUserGameRecordOeta::init).toList();
+                if(!CollectionUtils.isEmpty(newList)){
+                    batchMapper.batchInsert(newList, DwdUserGameRecordOetaMapper.class);
+                    newList.sort(Comparator.comparingLong(DwdUserGameRecordOeta::getSourceId));
+                    startSourceId = newList.get(newList.size() - 1).getSourceId();
+                }
+            } while (BatchConst.BATCH_NUMBER == userAdRecordList.size());
+        } catch (Exception e) {
+            log.error("dwdUserAdRecord  syncData error", e);
+            throw e;
         }
         return true;
     }
@@ -78,6 +91,21 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
             dwdUserGameRecordOetaMapper.insert(userGameRecord);
         } else {
             dwdUserGameRecordOetaMapper.updateById(userGameRecord);
+        }
+        return true;
+    }
+    private long getStartSourceId(DwCountDTO dbCount) {
+        if (!ObjectUtils.isEmpty(dbCount.getMaxId())) {
+            return dbCount.getMaxId();
+        }
+        return 0L;
+    }
+    private boolean isExistsDiff(DwCountDTO dbCount, DwCountDTO statisticsCount) {
+        if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
+            return false;
+        }
+        if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId()) && Objects.equals(dbCount.getMaxId(), statisticsCount.getMaxId())) {
+            return false;
         }
         return true;
     }

@@ -1,10 +1,12 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
@@ -56,7 +58,11 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
                 newList =
                     userAdRecordList.stream().filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
                         .peek(DwdUserAdRecord::init).toList();
-                dwBatchMapper.batchInsert(newList, DwdUserAdRecordMapper.class);
+                if(!CollectionUtils.isEmpty(newList)){
+                    dwBatchMapper.batchInsert(newList, DwdUserAdRecordMapper.class);
+                    newList.sort(Comparator.comparingLong(DwdUserAdRecord::getSourceId));
+                    startSourceId = newList.get(newList.size() - 1).getSourceId();
+                }
             } while (BatchConst.BATCH_NUMBER == userAdRecordList.size());
         } catch (Exception e) {
             log.error("dwdUserAdRecord  syncData error", e);
@@ -66,17 +72,17 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
     }
 
     private long getStartSourceId(DwCountDTO dbCount) {
-        if (!ObjectUtils.isEmpty(dbCount)) {
+        if (!ObjectUtils.isEmpty(dbCount.getMaxId())) {
             return dbCount.getMaxId();
         }
         return 0L;
     }
 
     private boolean isExistsDiff(DwCountDTO dbCount, DwCountDTO statisticsCount) {
-        if (ObjectUtils.isEmpty(statisticsCount)) {
+        if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;
         }
-        if (!ObjectUtils.isEmpty(dbCount) && Objects.equals(dbCount.getMaxId(), statisticsCount.getMaxId())) {
+        if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId()) && Objects.equals(dbCount.getMaxId(), statisticsCount.getMaxId())) {
             return false;
         }
         return true;

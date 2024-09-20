@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dwd.entity.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
 
 /**
@@ -17,15 +18,14 @@ import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
 @Mapper
 @DS("mysql")
 public interface DwdUserGameRecordOetaMapper extends BaseMapper<DwdUserGameRecordOeta> {
-
-    Integer deleteByDates(@Param("dates") Integer dates);
-
-    List<DwdUserGameRecordOeta> queryStatistics(@Param("dates") Integer dates, @Param("rows") Integer rows,
-        @Param("startRows") Integer startRows);
-
-    Long getStatisticsCount(@Param("dates") Integer dates);
-
+    void deleteBySourceId(@Param("sourceId") Long sourceId);
     DwdUserGameRecordOeta getStatistics(@Param("sourceId") Long sourceId);
 
-    void deleteBySourceId(@Param("sourceId") Long sourceId);
+    DwCountDTO getDbCount(@Param("dates") Integer dates);
+
+    DwCountDTO getStatisticsCount(@Param("dates") Integer dates);
+
+    List<DwdUserGameRecordOeta> queryStatisticsByDate(@Param("dates") Integer dates, @Param("rowNum") Integer rowNum,
+                                                @Param("startSourceId") long startSourceId);
+
 }
