@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllGameMapper">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllLabGameMapper">
     <delete id="deleteByDates">
         delete
         from dws_daily_package_all_game
         where dates = #{dates}
     </delete>
-    <select id="queryStatisticsAll" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGame">
+    <select id="queryStatisticsAll" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabGame">
         SELECT
             0 as userType,
             o.dates,
@@ -50,14 +50,15 @@
                 ELSE SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END) / SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END)
                 END AS mini_rtp,
             CURRENT_TIMESTAMP AS createTime
-        FROM dwd_user_game_record_oeta o
+        FROM dwd_user_game_record_oeta o INNER JOIN dim_user_lab dul on (dul.user_id = o.user_id)
         WHERE o.dates = #{dates}
-        GROUP BY o.dates, o.pkg, o.version
+        GROUP BY o.dates, o.pkg, o.version, dul.config_group_type,
+                 dul.name
         ORDER BY o.dates, o.pkg, o.version;
     </select>
 
 
-    <select id="queryStatisticsNew" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGame">
+    <select id="queryStatisticsNew" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabGame">
         SELECT
             1 as userType,
             o.dates,
@@ -100,9 +101,11 @@
                 ELSE SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END) / SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END)
                 END AS mini_rtp,
             CURRENT_TIMESTAMP AS createTime
-        FROM dwd_user_game_record_oeta o inner join dim_user_info dui on (o.user_id = dui.user_id and o.dates = dui.dates)
+        FROM dwd_user_game_record_oeta o INNER JOIN dim_user_lab dul on (dul.user_id = o.user_id)
+           inner join dim_user_info dui on (o.user_id = dui.user_id and o.dates = dui.dates)
         WHERE o.dates = #{dates}
-        GROUP BY o.dates, o.pkg, o.version
+        GROUP BY o.dates, o.pkg, o.version, dul.config_group_type,
+                 dul.name
         ORDER BY o.dates, o.pkg, o.version;
     </select>
 
