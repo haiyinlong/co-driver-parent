@@ -40,7 +40,7 @@ public class DwsDailyPackageAllLabGameServiceImpl implements DwsService {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
-    @ShowExecuteTime(name = "DwsDailyPackageAllLabAd")
+    @ShowExecuteTime(name = "DwsDailyPackageAllLabGame")
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
