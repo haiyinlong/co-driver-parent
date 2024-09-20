@@ -62,6 +62,7 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageAllLabVersionPromotionServiceImpl;
     private final DwsService dwsDailyPackageAllLabWithdrawServiceImpl;
     private final DwsService dwsDailyPackageAllGameServiceImpl;
+    private final DwsService dwsDailyPackageAllLabGameServiceImpl;
     private final DwsService dwsDailyPackageAllAssetExchangeServiceImpl;
     private final DwsService dwsDailyPackageAllLabAssetExchangeServiceImpl;
     private final DwsService dwsDailyPackageAllGameSingleServiceImpl;
@@ -94,6 +95,17 @@ public class TaskDwsController {
             dates = DateUtils.getPreviousDate();
         }
         dwsDailyPackageAllGameServiceImpl.syncData(dates);
+        return "执行完成dws数据同步";
+    }
+
+    @GetMapping("/packageLabGameOetaHandle")
+    @Operation(summary = "触发dwsLab游戏oeta数据", description = "触发dws数据同步")
+    public String dwsPackageLabGameOetaHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsDailyPackageAllLabGameServiceImpl.syncData(dates);
         return "执行完成dws数据同步";
     }
 
