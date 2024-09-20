@@ -2,52 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserGameRecordOetaMapper">
-
-    <delete id="deleteByDates">
-        delete
-        from dwd_user_game_record_oeta
-        where dates = #{dates}
-    </delete>
     <delete id="deleteBySourceId">
         delete
         from dwd_user_game_record_oeta
         where source_id = #{sourceId}
     </delete>
-    <select id="getStatisticsCount" resultType="java.lang.Long">
-        SELECT COUNT(1)
-        FROM ods_game_record_one_net ogron
-                 INNER JOIN dim_user_info dui on (ogron.user_id = dui.user_id)
-        WHERE ogron.dates = #{dates}
-    </select>
-    <select id="queryStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta">
-        SELECT ogron.id         source_id,
-               ogron.dates,
-               ogron.pkg_game_id,
-               opgon.game_code,
-               ogron.pkg_id,
-               ogron.game_id,
-               dui.user_id,
-               dui.last_version `version`,
-               dui.pkg,
-               dui.country,
-               ogron.s_id,
-               ogron.played_time,
-               ogron.start_time,
-               ogron.end_time,
-               ogron.game_result,
-               ogron.reward_source,
-               ogron.reward_account_type,
-               ogron.reward,
-               ogron.expend,
-               ogron.expend_account_type,
-               ogron.create_time,
-               ogron.end_time
-        FROM ods_game_record_one_net ogron
-                 INNER JOIN dim_user_info dui on (dui.user_id = ogron.user_id)
-                 LEFT JOIN ods_pkg_game_one_net opgon on (opgon.id = ogron.pkg_game_id)
-        where ogron.dates = #{dates}
-        limit #{startRows}, #{rows}
-    </select>
     <select id="getStatistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta">
         SELECT dugro.id,
                ogron.id         source_id,
@@ -77,5 +36,50 @@
                  LEFT JOIN ods_pkg_game_one_net opgon on (opgon.id = ogron.pkg_game_id)
                  LEFT JOIN dwd_user_game_record_oeta dugro on (dugro.source_id = ogron.id)
         where ogron.id = #{sourceId}
+    </select>
+    <select id="getDbCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+        SELECT count(1), min(duar.source_id) min_id, max(duar.source_id) max_id
+        FROM dwd_user_game_record_oeta duar
+        WHERE duar.dates = #{dates}
+    </select>
+
+    <select id="getStatisticsCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+        SELECT count(1), min(ogron.id) min_id, max(ogron.id) max_id
+        FROM ods_game_record_one_net ogron
+        WHERE ogron.dates = #{dates}
+    </select>
+    <select id="queryStatisticsByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta">
+        SELECT dugro.id,
+               ogron.id         source_id,
+               ogron.dates,
+               ogron.pkg_game_id,
+               opgon.game_code,
+               ogron.pkg_id,
+               ogron.game_id,
+               dui.user_id,
+               dui.last_version `version`,
+               dui.pkg,
+               dui.country,
+               ogron.s_id,
+               ogron.played_time,
+               ogron.start_time,
+               ogron.end_time,
+               ogron.game_result,
+               ogron.reward_source,
+               ogron.reward_account_type,
+               ogron.reward,
+               ogron.expend,
+               ogron.expend_account_type,
+               ogron.create_time,
+               ogron.end_time
+        FROM ods_game_record_one_net ogron
+                 INNER JOIN dim_user_info dui on (dui.user_id = ogron.user_id)
+                 LEFT JOIN ods_pkg_game_one_net opgon on (opgon.id = ogron.pkg_game_id)
+                 LEFT JOIN dwd_user_game_record_oeta dugro on (dugro.source_id = ogron.id)
+        where ogron.dates = #{dates}
+        <if test="startSourceId != null and startSourceId > 0">
+            and omasda.id > #{startSourceId}
+        </if>
+        LIMIT #{rowNum}
     </select>
 </mapper>
