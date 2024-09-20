@@ -2,32 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper">
-    <delete id="deleteByDates">
-        delete
-        from dwd_user_ad_record
-        where dates = #{dates}
-    </delete>
-    <select id="getCountByDate" resultType="java.lang.Long">
-        SELECT count(1)
+    <select id="getDbCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+        SELECT count(1), min(duar.source_id) min_id, max(duar.source_id) max_id
+        FROM dwd_user_ad_record duar
+        WHERE duar.dates = #{dates}
+    </select>
+    <select id="getStatisticsCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+        SELECT count(1), min(omasda.id) min_id, max(omasda.id) max_id
         FROM ods_max_ad_stat_detail_ads omasda
-                 INNER JOIN dim_user_info dui on (omasda.gaid = dui.gaid and omasda.pkg = dui.pkg)
         WHERE omasda.dates = #{dates}
     </select>
-    <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
-        SELECT omasda.id        source_id,
-               omasda.dates,
-               dui.user_id,
-               dui.last_version `version`,
-               dui.pkg,
-               dui.country,
-               omasda.ad_format,
-               omasda.network,
-               omasda.ad_exhibit,
-               omasda.revenue,
-               omasda.created   source_create_time
+    <select id="queryStatisticsByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
+        SELECT duar.id,
+        omasda.id source_id,
+        omasda.dates,
+        dui.user_id,
+        dui.last_version `version`,
+        dui.pkg,
+        dui.country,
+        omasda.ad_format,
+        omasda.network,
+        omasda.ad_exhibit,
+        omasda.revenue,
+        omasda.created source_create_time
         FROM ods_max_ad_stat_detail_ads omasda
-                 INNER JOIN dim_user_info dui on (omasda.gaid = dui.gaid and omasda.pkg = dui.pkg)
+        LEFT JOIN dwd_user_ad_record duar on (duar.source_id = omasda.id and duar.dates = omasda.dates)
+        INNER JOIN dim_user_info dui on (omasda.gaid = dui.gaid and omasda.pkg = dui.pkg)
         WHERE omasda.dates = #{dates}
-        limit #{startRows}, #{rows}
+        <if test="startSourceId != null and startSourceId > 0">
+            and omasda.id > #{startSourceId}
+        </if>
+        LIMIT #{rowNum}
     </select>
 </mapper>

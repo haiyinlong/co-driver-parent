@@ -1,16 +1,18 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.dwd.event.DwdUserAdRecordUpdateDwEvent;
-import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper;
+import com.leo.ad.codriver.dwd.entity.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
+import com.leo.ad.codriver.dwd.event.DwdUserAdRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -38,24 +40,46 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdUserAdRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        Integer delRowNum = dwdUserAdRecordMapper.deleteByDates(dates);
-        Long totalRecord = dwdUserAdRecordMapper.getCountByDate(dates);
-        if (totalRecord <= 0) {
-            return delRowNum > 0;
+        DwCountDTO dbCount = dwdUserAdRecordMapper.getDbCount(dates);
+        DwCountDTO statisticsCount = dwdUserAdRecordMapper.getStatisticsCount(dates);
+        if (!isExistsDiff(dbCount, statisticsCount)) {
+            return false;
         }
-        long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
-        List<DwdUserAdRecord> userAdRecordList;
         try {
-            for (int i = 0; i < totalPageNum; i++) {
+            long startSourceId = getStartSourceId(dbCount);
+            List<DwdUserAdRecord> userAdRecordList;
+            List<DwdUserAdRecord> newList;
+            do {
                 userAdRecordList =
-                    dwdUserAdRecordMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
-                userAdRecordList.forEach(DwdUserAdRecord::init);
-                dwBatchMapper.batchInsert(userAdRecordList, DwdUserAdRecordMapper.class);
-            }
+                    dwdUserAdRecordMapper.queryStatisticsByDate(dates, BatchConst.BATCH_NUMBER, startSourceId);
+                // 过滤掉已经有id的数据
+                newList =
+                    userAdRecordList.stream().filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
+                        .peek(DwdUserAdRecord::init).toList();
+                dwBatchMapper.batchInsert(newList, DwdUserAdRecordMapper.class);
+            } while (BatchConst.BATCH_NUMBER == userAdRecordList.size());
         } catch (Exception e) {
             log.error("dwdUserAdRecord  syncData error", e);
             throw e;
         }
         return true;
     }
+
+    private long getStartSourceId(DwCountDTO dbCount) {
+        if (!ObjectUtils.isEmpty(dbCount)) {
+            return dbCount.getMaxId();
+        }
+        return 0L;
+    }
+
+    private boolean isExistsDiff(DwCountDTO dbCount, DwCountDTO statisticsCount) {
+        if (ObjectUtils.isEmpty(statisticsCount)) {
+            return false;
+        }
+        if (!ObjectUtils.isEmpty(dbCount) && Objects.equals(dbCount.getMaxId(), statisticsCount.getMaxId())) {
+            return false;
+        }
+        return true;
+    }
+
 }
