@@ -1,6 +1,5 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -57,21 +56,20 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
         }
         try {
             long startSourceId = getStartSourceId(dbCount);
-            List<DwdUserGameRecordOeta> userAdRecordList;
+            List<DwdUserGameRecordOeta> dwdUserGameRecordOetas;
             List<DwdUserGameRecordOeta> newList;
             do {
-                userAdRecordList =
+                dwdUserGameRecordOetas =
                         dwdUserGameRecordOetaMapper.queryStatisticsByDate(dates, BatchConst.BATCH_NUMBER, startSourceId);
                 // 过滤掉已经有id的数据
                 newList =
-                        userAdRecordList.stream().filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
+                        dwdUserGameRecordOetas.stream().filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
                                 .peek(DwdUserGameRecordOeta::init).toList();
                 if(!CollectionUtils.isEmpty(newList)){
                     batchMapper.batchInsert(newList, DwdUserGameRecordOetaMapper.class);
-                    newList.sort(Comparator.comparingLong(DwdUserGameRecordOeta::getSourceId));
-                    startSourceId = newList.get(newList.size() - 1).getSourceId();
+                    startSourceId = newList.stream().map(DwdUserGameRecordOeta::getSourceId).sorted().toList().get(newList.size() - 1);
                 }
-            } while (BatchConst.BATCH_NUMBER == userAdRecordList.size());
+            } while (!CollectionUtils.isEmpty(dwdUserGameRecordOetas));
         } catch (Exception e) {
             log.error("dwdUserAdRecord  syncData error", e);
             throw e;
@@ -95,7 +93,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
         return true;
     }
     private long getStartSourceId(DwCountDTO dbCount) {
-        if (!ObjectUtils.isEmpty(dbCount.getMaxId())) {
+        if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId())) {
             return dbCount.getMaxId();
         }
         return 0L;

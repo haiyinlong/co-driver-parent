@@ -1,6 +1,5 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
@@ -60,10 +59,9 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
                         .peek(DwdUserAdRecord::init).toList();
                 if(!CollectionUtils.isEmpty(newList)){
                     dwBatchMapper.batchInsert(newList, DwdUserAdRecordMapper.class);
-                    newList.sort(Comparator.comparingLong(DwdUserAdRecord::getSourceId));
-                    startSourceId = newList.get(newList.size() - 1).getSourceId();
+                    startSourceId = newList.stream().map(DwdUserAdRecord::getSourceId).sorted().toList().get(newList.size() - 1);
                 }
-            } while (BatchConst.BATCH_NUMBER == userAdRecordList.size());
+            } while (!CollectionUtils.isEmpty(userAdRecordList));
         } catch (Exception e) {
             log.error("dwdUserAdRecord  syncData error", e);
             throw e;
@@ -72,7 +70,7 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
     }
 
     private long getStartSourceId(DwCountDTO dbCount) {
-        if (!ObjectUtils.isEmpty(dbCount.getMaxId())) {
+        if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId())) {
             return dbCount.getMaxId();
         }
         return 0L;
