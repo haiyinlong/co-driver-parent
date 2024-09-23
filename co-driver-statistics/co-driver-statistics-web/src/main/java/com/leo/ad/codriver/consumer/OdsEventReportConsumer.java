@@ -32,10 +32,12 @@ public class OdsEventReportConsumer {
             return;
         }
         Long sourceId = null;
+        Integer dates = null;
         try {
             JSONObject odsUserChangeJson = JSONObject.parseObject(msg);
             sourceId = new BigDecimal(odsUserChangeJson.getString("id")).longValue();
-            dwdUserEventDetailFormEventReportServiceImpl.syncChangeData(DataChangeDTO.of(sourceId));
+            dates = new BigDecimal(odsUserChangeJson.getString("dates")).intValue();
+            dwdUserEventDetailFormEventReportServiceImpl.syncChangeData(DataChangeDTO.of(sourceId,dates));
         } catch (Exception e) {
             log.info("同步event report 数据异常, 数据id:" + sourceId, e);
             throw new RuntimeException(e);
