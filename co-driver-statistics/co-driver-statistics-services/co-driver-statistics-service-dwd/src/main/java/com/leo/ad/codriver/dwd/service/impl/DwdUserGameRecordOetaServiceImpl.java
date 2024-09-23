@@ -71,7 +71,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
                 }
             } while (!CollectionUtils.isEmpty(dwdUserGameRecordOetas));
         } catch (Exception e) {
-            log.error("dwdUserAdRecord  syncData error", e);
+            log.error("dwdUserGameRecordOeta  syncData error", e);
             throw e;
         }
         return true;

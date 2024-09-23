@@ -78,9 +78,11 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
 
     private boolean isExistsDiff(DwCountDTO dbCount, DwCountDTO statisticsCount) {
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
+            log.info("dwdUserAdRecord 统计对象为空,不执行同步");
             return false;
         }
         if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId()) && Objects.equals(dbCount.getMaxId(), statisticsCount.getMaxId())) {
+            log.info("dwdUserAdRecord 数据对象和统计对象的最大记录Id相同，不执行同步");
             return false;
         }
         return true;
