@@ -47,7 +47,7 @@ public class AdsDailyGameOetaReport implements BaseEntity {
 
     private Long turnAvgGameCount; // 转盘人均次数
 
-    private Long turnUserRate; // 转盘渗透率
+    private BigDecimal turnUserRate; // 转盘渗透率
 
     private BigDecimal turnGameConsume; // 转盘消耗
 
