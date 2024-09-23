@@ -11,7 +11,9 @@
 -- 这里需要根据实际情况调整或使用默认值
                IFNULL(ddpr.user_num, 0)                         new_user_num,
                IFNULL(ddpr2.retention_user_num, 0)              second_user_num,
+               IFNULL(ddpr2.retention_user_num / ddpr.user_num, 0)                 second_user_retention_rate,
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
+               IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
                IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
 
@@ -80,8 +82,9 @@
                d.user_type,-- 假设新用户数、次日留存数、三日留存数、活跃用户数、人均在线时长等信息不在 DWS 表中直接提供，
 -- 这里需要根据实际情况调整或使用默认值
                IFNULL(ddpr.user_num, 0)                         new_user_num,
-               IFNULL(ddpr2.retention_user_num, 0)              second_user_num,
+               IFNULL(ddpr2.retention_user_num / ddpr.user_num, 0)                 second_user_retention_rate,
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
+               IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
                IFNULL(ddpo.avg_new_user_online_time, 0)             avg_user_online_time,
 

@@ -26,7 +26,8 @@ public class AdsDailyGameOetaReport implements BaseEntity {
     private Long userType; // 用户类型
 
     private Long newUserNum; // 新增
-
+    private BigDecimal secondUserRetentionRate;
+    private BigDecimal tertiaryUserRetentionRate;
     private Long secondUserNum; // 次留
 
     private Long tertiaryUserNum; // 三日留
