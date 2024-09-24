@@ -26,7 +26,8 @@ public class AdsDailyGameOetaReport implements BaseEntity {
     private Long userType; // 用户类型
 
     private Long newUserNum; // 新增
-
+    private BigDecimal secondUserRetentionRate;
+    private BigDecimal tertiaryUserRetentionRate;
     private Long secondUserNum; // 次留
 
     private Long tertiaryUserNum; // 三日留
@@ -47,7 +48,7 @@ public class AdsDailyGameOetaReport implements BaseEntity {
 
     private Long turnAvgGameCount; // 转盘人均次数
 
-    private Long turnUserRate; // 转盘渗透率
+    private BigDecimal turnUserRate; // 转盘渗透率
 
     private BigDecimal turnGameConsume; // 转盘消耗
 
