@@ -149,5 +149,151 @@
         select  * from ads_daily_game_oeta_report where dates =#{dates}
 
     </select>
+    <select id="selectActiveUserAllPkgList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyGameOetaReport">
+        SELECT d.dates,
+               'ALL'                                                               version,
+               d.pkg,
+               d.user_type,-- 假设新用户数、次日留存数、三日留存数、活跃用户数、人均在线时长等信息不在 DWS 表中直接提供，
+-- 这里需要根据实际情况调整或使用默认值
+               IFNULL(ddpr.user_num, 0)                         new_user_num,
+               IFNULL(ddpr2.retention_user_num, 0)              second_user_num,
+               IFNULL(ddpr2.retention_user_num / ddpr.user_num, 0)                 second_user_retention_rate,
+               IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
+               IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
+               ddpl.user_num                                    active_user_num,
+               IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
+
+
+               -- 入门游戏相关数据
+               d.intro_user_count,
+               d.intro_user_count / ddpl.user_num               intro_user_rate,
+               d.intro_game_reward                              intro_game_reward,
+               IFNULL(d.intro_avg_reward, 0)                    intro_avg_game_reward,
+
+               -- 转盘游戏相关数据
+               d.turn_user_count,
+               IFNULL(d.turn_game_count / d.turn_user_count, 0) turn_avg_game_count,
+               d.turn_user_count / ddpl.user_num                turn_user_rate,
+               d.turn_game_consume                              turn_game_consume,
+               d.turn_game_reward                               turn_game_reward,
+               IFNULL(d.turn_avg_consume, 0)                    turn_avg_game_consume,
+               IFNULL(d.turn_avg_reward, 0)                     turn_avg_game_reward,
+
+               -- 小游戏相关数据
+
+               ifnull(ddpe.exchange_chip_count,0)                as                             mini_exchange_chip_count,
+               ifnull(ddpe.exchange_cash_count,0)                 as                             mini_exchange_ch_count,
+               ifnull(ddpe.exchange_cash_total_amount,0)                 as                             mini_exchange_ch_amount,
+               ifnull(ddpe.exchange_chip_total_amount,0)                 as                             mini_exchange_chip_amount,
+               d.mini_user_count,
+               IFNULL(d.mini_game_count / ddpl.user_num, 0)     mini_avg_game_count,
+               IFNULL(d.mini_game_time / ddpl.user_num, 0)      mini_avg_game_time,
+               d.mini_user_count / ddpl.user_num                mini_user_rate,
+               d.mini_game_consume                              mini_game_consume,
+               IFNULL(d.mini_avg_consume, 0)                    mini_avg_game_consume,
+               d.mini_game_reward                               mini_game_reward,
+               IFNULL(d.mini_avg_reward, 0)                     mini_avg_game_reward,
+               d.mini_rtp,
+               CURRENT_TIMESTAMP AS                             create_time
+
+        FROM dws_daily_package_all_game d
+                 left  join dws_daily_pkg_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg  and d.user_type = ddpe.user_type)
+
+                 LEFT JOIN dws_daily_pkg_login ddpl
+                           on (d.dates = ddpl.dates and d.pkg = ddpl.pkg)
+                 LEFT JOIN dws_daily_pkg_register ddpr
+                           ON (ddpl.dates = ddpr.dates AND ddpl.pkg = ddpr.pkg )
+                 LEFT JOIN dws_daily_pkg_retention ddpr2 ON (
+                    ddpl.dates = ddpr2.register_dates
+                AND ddpl.pkg = ddpr2.pkg
+                AND ddpr2.register_day = 1
+            )
+                 LEFT JOIN dws_daily_pkg_retention ddpr3 ON (
+                    ddpl.dates = ddpr3.register_dates
+                AND ddpl.pkg = ddpr3.pkg
+                AND ddpr3.register_day = 2
+            )
+                 LEFT JOIN dws_daily_pkg_online ddpo
+                           ON (ddpl.dates = ddpo.dates AND ddpl.pkg = ddpo.pkg)
+                 LEFT JOIN ads_daily_game_oeta_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
+            and adobr.version = 'ALL' and adobr.user_type = 0)
+
+        WHERE d.dates = #{dates}
+          and d.user_type = 0;-- 假定日期为2024年8月1日，可
+
+    </select>
+    <select id="selectNewUserAllPkgList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyGameOetaReport">
+
+        SELECT d.dates,
+               'ALL'                                                               version,
+               d.pkg,
+               d.user_type,-- 假设新用户数、次日留存数、三日留存数、活跃用户数、人均在线时长等信息不在 DWS 表中直接提供，
+-- 这里需要根据实际情况调整或使用默认值
+               IFNULL(ddpr.user_num, 0)                         new_user_num,
+               IFNULL(ddpr2.retention_user_num, 0)              second_user_num,
+               IFNULL(ddpr2.retention_user_num / ddpr.user_num, 0)                 second_user_retention_rate,
+               IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
+               IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
+               ddpl.user_num                                    active_user_num,
+               IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
+
+
+               -- 入门游戏相关数据
+               d.intro_user_count,
+               d.intro_user_count / ddpl.user_num               intro_user_rate,
+               d.intro_game_reward                              intro_game_reward,
+               IFNULL(d.intro_avg_reward, 0)                    intro_avg_game_reward,
+
+               -- 转盘游戏相关数据
+               d.turn_user_count,
+               IFNULL(d.turn_game_count / d.turn_user_count, 0) turn_avg_game_count,
+               d.turn_user_count / ddpl.user_num                turn_user_rate,
+               d.turn_game_consume                              turn_game_consume,
+               d.turn_game_reward                               turn_game_reward,
+               IFNULL(d.turn_avg_consume, 0)                    turn_avg_game_consume,
+               IFNULL(d.turn_avg_reward, 0)                     turn_avg_game_reward,
+
+               -- 小游戏相关数据
+
+               ifnull(ddpe.exchange_chip_count,0)                as                             mini_exchange_chip_count,
+               ifnull(ddpe.exchange_cash_count,0)                 as                             mini_exchange_ch_count,
+               ifnull(ddpe.exchange_cash_total_amount,0)                 as                             mini_exchange_ch_amount,
+               ifnull(ddpe.exchange_chip_total_amount,0)                 as                             mini_exchange_chip_amount,
+               d.mini_user_count,
+               IFNULL(d.mini_game_count / ddpl.user_num, 0)     mini_avg_game_count,
+               IFNULL(d.mini_game_time / ddpl.user_num, 0)      mini_avg_game_time,
+               d.mini_user_count / ddpl.user_num                mini_user_rate,
+               d.mini_game_consume                              mini_game_consume,
+               IFNULL(d.mini_avg_consume, 0)                    mini_avg_game_consume,
+               d.mini_game_reward                               mini_game_reward,
+               IFNULL(d.mini_avg_reward, 0)                     mini_avg_game_reward,
+               d.mini_rtp,
+               CURRENT_TIMESTAMP AS                             create_time
+
+        FROM dws_daily_package_all_game d
+                 left  join dws_daily_pkg_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg  and d.user_type = ddpe.user_type)
+
+                 LEFT JOIN dws_daily_pkg_login ddpl
+                           on (d.dates = ddpl.dates and d.pkg = ddpl.pkg)
+                 LEFT JOIN dws_daily_pkg_register ddpr
+                           ON (ddpl.dates = ddpr.dates AND ddpl.pkg = ddpr.pkg )
+                 LEFT JOIN dws_daily_pkg_retention ddpr2 ON (
+                    ddpl.dates = ddpr2.register_dates
+                AND ddpl.pkg = ddpr2.pkg
+                AND ddpr2.register_day = 1
+            )
+                 LEFT JOIN dws_daily_pkg_retention ddpr3 ON (
+                    ddpl.dates = ddpr3.register_dates
+                AND ddpl.pkg = ddpr3.pkg
+                AND ddpr3.register_day = 2
+            )
+                 LEFT JOIN dws_daily_pkg_online ddpo
+                           ON (ddpl.dates = ddpo.dates AND ddpl.pkg = ddpo.pkg)
+                 LEFT JOIN ads_daily_game_oeta_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
+            and adobr.version = 'ALL' and adobr.user_type = 0)
+
+        WHERE d.dates = #{dates}
+          and d.user_type = 1;-- 假定日期为2024年8月1日，可
+    </select>
 
 </mapper>

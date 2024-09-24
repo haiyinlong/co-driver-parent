@@ -24,4 +24,8 @@ public interface AdsDailyGameOetaReportMapper extends BaseMapper<AdsDailyGameOet
 
 
     List<AdsDailyGameOetaReport> queryList(@Param("dates")Integer dates);
+
+    List<AdsDailyGameOetaReport> selectActiveUserAllPkgList(@Param("dates")Integer dates);
+
+    List<AdsDailyGameOetaReport> selectNewUserAllPkgList(@Param("dates")Integer dates);
 }

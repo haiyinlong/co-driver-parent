@@ -1,7 +1,9 @@
 package com.leo.ad.codriver.ads.service.impl;
 
 import com.leo.ad.codriver.ads.dao.AdsDailyGameOetaReportMapper;
+import com.leo.ad.codriver.ads.dao.AdsDailyOetaBaseReportMapper;
 import com.leo.ad.codriver.ads.entity.AdsDailyGameOetaReport;
+import com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport;
 import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -41,9 +43,23 @@ public class AdsDailyGameOetaReportServiceImpl implements AdsService {
         List<AdsDailyGameOetaReport> adsGameAnalyseNewFullDailies = adsDailyGameOetaReportMapper.queryStatisticsNewList(dates);
         adsGameAnalyseNewFullDailies.forEach(AdsDailyGameOetaReport::init);
         batchMapper.batchInsert(adsGameAnalyseNewFullDailies, AdsDailyGameOetaReportMapper.class);
+        // 获取所有版本
+
+        List<AdsDailyGameOetaReport> adsGameAnalyseActiveFullAllDailies = adsDailyGameOetaReportMapper.selectActiveUserAllPkgList(dates);
+        if (!CollectionUtils.isEmpty(adsGameAnalyseActiveFullAllDailies)) {
+            adsGameAnalyseActiveFullAllDailies.forEach(AdsDailyGameOetaReport::init);
+            batchMapper.batchInsert(adsGameAnalyseActiveFullAllDailies, AdsDailyGameOetaReportMapper.class);
+        }
+        // 新用户
+        List<AdsDailyGameOetaReport> adsGameAnalyseNewFullAllDailies = adsDailyGameOetaReportMapper.selectNewUserAllPkgList(dates);
+        if (!CollectionUtils.isEmpty(adsGameAnalyseNewFullAllDailies)) {
+            adsGameAnalyseNewFullAllDailies.forEach(AdsDailyGameOetaReport::init);
+            batchMapper.batchInsert(adsGameAnalyseNewFullAllDailies, AdsDailyGameOetaReportMapper.class);
+        }
+
         // 删除不存在的记录
         List<AdsDailyGameOetaReport> dbList = adsDailyGameOetaReportMapper.queryList(dates);
-        List<Long> delIds = getNotExistsIds(dbList, adsGameAnalyseActiveFullDailies, adsGameAnalyseNewFullDailies);
+        List<Long> delIds = getNotExistsIds(dbList, adsGameAnalyseActiveFullDailies, adsGameAnalyseNewFullDailies,adsGameAnalyseActiveFullAllDailies,adsGameAnalyseNewFullAllDailies);
         if (!CollectionUtils.isEmpty(delIds)) {
             adsDailyGameOetaReportMapper.deleteBatchIds(delIds);
         }
