@@ -196,7 +196,7 @@
                d.mini_rtp,
                CURRENT_TIMESTAMP AS                             create_time
 
-        FROM dws_daily_package_all_game d
+        FROM dws_daily_pkg_game d
                  left  join dws_daily_pkg_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg  and d.user_type = ddpe.user_type)
 
                  LEFT JOIN dws_daily_pkg_login ddpl
@@ -270,7 +270,7 @@
                d.mini_rtp,
                CURRENT_TIMESTAMP AS                             create_time
 
-        FROM dws_daily_package_all_game d
+        FROM dws_daily_pkg_game d
                  left  join dws_daily_pkg_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg  and d.user_type = ddpe.user_type)
 
                  LEFT JOIN dws_daily_pkg_login ddpl
