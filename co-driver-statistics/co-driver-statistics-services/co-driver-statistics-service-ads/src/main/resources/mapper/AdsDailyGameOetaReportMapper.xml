@@ -290,7 +290,7 @@
                  LEFT JOIN dws_daily_pkg_online ddpo
                            ON (ddpl.dates = ddpo.dates AND ddpl.pkg = ddpo.pkg)
                  LEFT JOIN ads_daily_game_oeta_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
-            and adobr.version = 'ALL' and adobr.user_type = 0)
+            and adobr.version = 'ALL' and adobr.user_type = 1)
 
         WHERE d.dates = #{dates}
           and d.user_type = 1;-- 假定日期为2024年8月1日，可
