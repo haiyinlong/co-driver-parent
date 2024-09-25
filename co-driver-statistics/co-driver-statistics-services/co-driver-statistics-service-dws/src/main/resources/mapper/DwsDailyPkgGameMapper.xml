@@ -108,7 +108,7 @@
                         SUM(CASE WHEN o.game_id = 3 THEN o.expend ELSE 0 END)
                    END                                                    AS mini_rtp,
                CURRENT_TIMESTAMP                                          AS createTime
-        FROM dwd_user_game_record_oeta o
+        FROM dwd_user_game_record_oeta o inner join dim_user_info dui on (o.user_id = dui.user_id and o.dates = dui.dates)
         WHERE o.dates = #{dates}
         GROUP BY o.dates, o.pkg
         ORDER BY o.dates, o.pkg
