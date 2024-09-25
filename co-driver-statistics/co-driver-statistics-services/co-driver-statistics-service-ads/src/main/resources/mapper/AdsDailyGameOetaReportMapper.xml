@@ -91,14 +91,14 @@
 
                -- 入门游戏相关数据
                d.intro_user_count,
-               d.intro_user_count / ddpl.user_num               intro_user_rate,
+               d.intro_user_count / ddpr.user_num               intro_user_rate,
                d.intro_game_reward                              intro_game_reward,
                IFNULL(d.intro_avg_reward, 0)                    intro_avg_game_reward,
 
                -- 转盘游戏相关数据
                d.turn_user_count,
                IFNULL(d.turn_game_count / d.turn_user_count, 0) turn_avg_game_count,
-               d.turn_user_count / ddpl.user_num                turn_user_rate,
+               d.turn_user_count / ddpr.user_num               turn_user_rate,
                d.turn_game_consume                              turn_game_consume,
                d.turn_game_reward                               turn_game_reward,
                IFNULL(d.turn_avg_consume, 0)                    turn_avg_game_consume,
@@ -111,9 +111,9 @@
                ifnull(ddpe.exchange_cash_total_amount,0)                 as                             mini_exchange_ch_amount,
                ifnull(ddpe.exchange_chip_total_amount,0)                 as                             mini_exchange_chip_amount,
                d.mini_user_count,
-               IFNULL(d.mini_game_count / ddpl.user_num, 0)     mini_avg_game_count,
-               IFNULL(d.mini_game_time / ddpl.user_num, 0)      mini_avg_game_time,
-               d.mini_user_count / ddpl.user_num                mini_user_rate,
+               IFNULL(d.mini_game_count / ddpr.user_num, 0)     mini_avg_game_count,
+               IFNULL(d.mini_game_time / ddpr.user_num, 0)      mini_avg_game_time,
+               d.mini_user_count / ddpr.user_num                mini_user_rate,
                d.mini_game_consume                              mini_game_consume,
                IFNULL(d.mini_avg_consume, 0)                    mini_avg_game_consume,
                d.mini_game_reward                               mini_game_reward,
@@ -240,14 +240,14 @@
 
                -- 入门游戏相关数据
                d.intro_user_count,
-               d.intro_user_count / ddpl.user_num               intro_user_rate,
+               d.intro_user_count / ddpr.user_num              intro_user_rate,
                d.intro_game_reward                              intro_game_reward,
                IFNULL(d.intro_avg_reward, 0)                    intro_avg_game_reward,
 
                -- 转盘游戏相关数据
                d.turn_user_count,
                IFNULL(d.turn_game_count / d.turn_user_count, 0) turn_avg_game_count,
-               d.turn_user_count / ddpl.user_num                turn_user_rate,
+               d.turn_user_count / ddpr.user_num                turn_user_rate,
                d.turn_game_consume                              turn_game_consume,
                d.turn_game_reward                               turn_game_reward,
                IFNULL(d.turn_avg_consume, 0)                    turn_avg_game_consume,
@@ -260,9 +260,9 @@
                ifnull(ddpe.exchange_cash_total_amount,0)                 as                             mini_exchange_ch_amount,
                ifnull(ddpe.exchange_chip_total_amount,0)                 as                             mini_exchange_chip_amount,
                d.mini_user_count,
-               IFNULL(d.mini_game_count / ddpl.user_num, 0)     mini_avg_game_count,
-               IFNULL(d.mini_game_time / ddpl.user_num, 0)      mini_avg_game_time,
-               d.mini_user_count / ddpl.user_num                mini_user_rate,
+               IFNULL(d.mini_game_count / ddpr.user_num, 0)     mini_avg_game_count,
+               IFNULL(d.mini_game_time / ddpr.user_num, 0)      mini_avg_game_time,
+               d.mini_user_count / ddpr.user_num                mini_user_rate,
                d.mini_game_consume                              mini_game_consume,
                IFNULL(d.mini_avg_consume, 0)                    mini_avg_game_consume,
                d.mini_game_reward                               mini_game_reward,
