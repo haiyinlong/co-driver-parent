@@ -22,8 +22,8 @@ public class DwsDailyPkgGame implements BaseEntity {
     private BigDecimal introGameConsume;
     private BigDecimal introAvgReward;
     private BigDecimal introAvgConsume;
-    private Long introAvgLevel;
-    private Long introAvgGameCount;
+    private BigDecimal introAvgLevel;
+    private BigDecimal introAvgGameCount;
     private BigDecimal introRtp;
     private Long turnUserCount;
     private Long turnGameCount;
@@ -32,8 +32,8 @@ public class DwsDailyPkgGame implements BaseEntity {
     private BigDecimal turnGameConsume;
     private BigDecimal turnAvgReward;
     private BigDecimal turnAvgConsume;
-    private Long turnAvgLevel;
-    private Long turnAvgGameCount;
+    private BigDecimal turnAvgLevel;
+    private BigDecimal turnAvgGameCount;
     private BigDecimal turnRtp;
     private Long miniUserCount;
     private Long miniGameCount;
@@ -42,8 +42,8 @@ public class DwsDailyPkgGame implements BaseEntity {
     private BigDecimal miniGameConsume;
     private BigDecimal miniAvgReward;
     private BigDecimal miniAvgConsume;
-    private Long miniAvgLevel;
-    private Long miniAvgGameCount;
+    private BigDecimal miniAvgLevel;
+    private BigDecimal miniAvgGameCount;
     private BigDecimal miniRtp;
     private Date createTime;
     private int userType;
@@ -56,8 +56,8 @@ public class DwsDailyPkgGame implements BaseEntity {
         this.introGameConsume = BigDecimal.ZERO;
         this.introAvgReward = BigDecimal.ZERO;
         this.introAvgConsume = BigDecimal.ZERO;
-        this.introAvgLevel = 0L;
-        this.introAvgGameCount = 0L;
+        this.introAvgLevel = BigDecimal.ZERO;
+        this.introAvgGameCount = BigDecimal.ZERO;
         this.introRtp = BigDecimal.ZERO;
         this.turnUserCount = 0L;
         this.turnGameCount = 0L;
@@ -66,8 +66,8 @@ public class DwsDailyPkgGame implements BaseEntity {
         this.turnGameConsume = BigDecimal.ZERO;
         this.turnAvgReward = BigDecimal.ZERO;
         this.turnAvgConsume = BigDecimal.ZERO;
-        this.turnAvgLevel = 0L;
-        this.turnAvgGameCount = 0L;
+        this.turnAvgLevel = BigDecimal.ZERO;
+        this.turnAvgGameCount = BigDecimal.ZERO;
         this.turnRtp = BigDecimal.ZERO;
         this.miniUserCount = 0L;
         this.miniGameCount = 0L;
@@ -76,8 +76,8 @@ public class DwsDailyPkgGame implements BaseEntity {
         this.miniGameConsume = BigDecimal.ZERO;
         this.miniAvgReward = BigDecimal.ZERO;
         this.miniAvgConsume = BigDecimal.ZERO;
-        this.miniAvgLevel = 0L;
-        this.miniAvgGameCount = 0L;
+        this.miniAvgLevel = BigDecimal.ZERO;
+        this.miniAvgGameCount = BigDecimal.ZERO;
         this.miniRtp = BigDecimal.ZERO;
     }
 

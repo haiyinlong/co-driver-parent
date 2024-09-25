@@ -34,7 +34,7 @@ public class AdsDailyGameOetaReport implements BaseEntity {
 
     private Long activeUserNum; // 活跃
 
-    private Long avgUserOnlineTime; // 人均时长
+    private BigDecimal avgUserOnlineTime; // 人均时长
 
     private Long introUserCount; // 入门游戏用户
 
@@ -46,7 +46,7 @@ public class AdsDailyGameOetaReport implements BaseEntity {
 
     private Long turnUserCount; // 转盘用户
 
-    private Long turnAvgGameCount; // 转盘人均次数
+    private BigDecimal turnAvgGameCount; // 转盘人均次数
 
     private BigDecimal turnUserRate; // 转盘渗透率
 
@@ -68,9 +68,9 @@ public class AdsDailyGameOetaReport implements BaseEntity {
 
     private Long miniUserCount; // 小游戏用户
 
-    private Long miniAvgGameCount; // 小游戏平均局数
+    private BigDecimal miniAvgGameCount; // 小游戏平均局数
 
-    private Long miniAvgGameTime; // 小游戏人均时长
+    private BigDecimal miniAvgGameTime; // 小游戏人均时长
 
     private BigDecimal miniUserRate; // 小游戏渗透率
 
