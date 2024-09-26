@@ -15,7 +15,7 @@
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
-               IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
+               IFNULL(ddpo.total_online_time/ddpl.user_num, 0)             avg_user_online_time,
 
 
                -- 入门游戏相关数据
@@ -86,7 +86,7 @@
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
-               IFNULL(ddpo.avg_new_user_online_time, 0)             avg_user_online_time,
+               IFNULL(ddpo.new_user_online_time/ddpl.user_num, 0)             avg_user_online_time,
 
 
                -- 入门游戏相关数据
@@ -161,7 +161,7 @@
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
-               IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
+               IFNULL(ddpo.total_online_time / ddpl.user_num, 0)             avg_user_online_time,
 
 
                -- 入门游戏相关数据
@@ -235,7 +235,7 @@
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
-               IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
+               IFNULL(ddpo.new_user_online_time / ddpr.user_num, 0)              avg_user_online_time,
 
 
                -- 入门游戏相关数据
