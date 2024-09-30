@@ -16,8 +16,14 @@
                SUM(CASE WHEN o.game_id = 1 THEN o.played_time ELSE 0 END) AS intro_game_time,
                SUM(CASE WHEN o.game_id = 1 THEN o.reward ELSE 0 END)      AS intro_game_reward,
                SUM(CASE WHEN o.game_id = 1 THEN o.expend ELSE 0 END)      AS intro_game_consume,
-               AVG(CASE WHEN o.game_id = 1 THEN o.reward ELSE NULL END)   AS intro_avg_reward,
-               AVG(CASE WHEN o.game_id = 1 THEN o.expend ELSE NULL END)   AS intro_avg_consume,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 1 THEN o.reward ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END)
+                   END AS intro_avg_reward,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 1 THEN o.expend ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END)
+                   END AS intro_avg_consume,
                SUM(CASE WHEN o.game_id = 1 THEN 1 ELSE 0 END) /
                COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) AS intro_avg_game_count,
                CASE
@@ -30,8 +36,15 @@
                SUM(CASE WHEN o.game_id = 2 THEN o.played_time ELSE 0 END) AS turn_game_time,
                SUM(CASE WHEN o.game_id = 2 THEN o.reward ELSE 0 END)      AS turn_game_reward,
                SUM(CASE WHEN o.game_id = 2 THEN o.expend ELSE 0 END)      AS turn_game_consume,
-               AVG(CASE WHEN o.game_id = 2 THEN o.reward ELSE NULL END)   AS turn_avg_reward,
-               AVG(CASE WHEN o.game_id = 2 THEN o.expend ELSE NULL END)   AS turn_avg_consume,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 2 THEN o.reward ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END)
+                   END AS turn_avg_reward,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 2 THEN o.expend ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END)
+                   END AS turn_avg_consume,
+
                SUM(CASE WHEN o.game_id = 2 THEN 1 ELSE 0 END) /
                COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) AS turn_avg_game_count,
                CASE
@@ -44,8 +57,14 @@
                SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END) AS mini_game_time,
                SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END)      AS mini_game_reward,
                SUM(CASE WHEN o.game_id = 3 THEN o.expend ELSE 0 END)      AS mini_game_consume,
-               AVG(CASE WHEN o.game_id = 3 THEN o.reward ELSE NULL END)   AS mini_avg_reward,
-               AVG(CASE WHEN o.game_id = 3 THEN o.expend ELSE NULL END)   AS mini_avg_consume,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END)
+                   END AS mini_avg_reward,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 3 THEN o.expend ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END)
+                   END AS mini_avg_consume,
                SUM(CASE WHEN o.game_id = 3 THEN 1 ELSE 0 END) /
                COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) AS mini_avg_game_count,
                CASE
@@ -70,8 +89,15 @@
                SUM(CASE WHEN o.game_id = 1 THEN o.played_time ELSE 0 END) AS intro_game_time,
                SUM(CASE WHEN o.game_id = 1 THEN o.reward ELSE 0 END)      AS intro_game_reward,
                SUM(CASE WHEN o.game_id = 1 THEN o.expend ELSE 0 END)      AS intro_game_consume,
-               AVG(CASE WHEN o.game_id = 1 THEN o.reward ELSE NULL END)   AS intro_avg_reward,
-               AVG(CASE WHEN o.game_id = 1 THEN o.expend ELSE NULL END)   AS intro_avg_consume,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 1 THEN o.reward ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END)
+                   END AS intro_avg_reward,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 1 THEN o.expend ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END)
+                   END AS intro_avg_consume,
+
                SUM(CASE WHEN o.game_id = 1 THEN 1 ELSE 0 END) /
                COUNT(DISTINCT CASE WHEN o.game_id = 1 THEN o.user_id END) AS intro_avg_game_count,
                CASE
@@ -84,8 +110,14 @@
                SUM(CASE WHEN o.game_id = 2 THEN o.played_time ELSE 0 END) AS turn_game_time,
                SUM(CASE WHEN o.game_id = 2 THEN o.reward ELSE 0 END)      AS turn_game_reward,
                SUM(CASE WHEN o.game_id = 2 THEN o.expend ELSE 0 END)      AS turn_game_consume,
-               AVG(CASE WHEN o.game_id = 2 THEN o.reward ELSE NULL END)   AS turn_avg_reward,
-               AVG(CASE WHEN o.game_id = 2 THEN o.expend ELSE NULL END)   AS turn_avg_consume,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 2 THEN o.reward ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END)
+                   END AS turn_avg_reward,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 2 THEN o.expend ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END)
+                   END AS turn_avg_consume,
                SUM(CASE WHEN o.game_id = 2 THEN 1 ELSE 0 END) /
                COUNT(DISTINCT CASE WHEN o.game_id = 2 THEN o.user_id END) AS turn_avg_game_count,
                CASE
@@ -98,8 +130,14 @@
                SUM(CASE WHEN o.game_id = 3 THEN o.played_time ELSE 0 END) AS mini_game_time,
                SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END)      AS mini_game_reward,
                SUM(CASE WHEN o.game_id = 3 THEN o.expend ELSE 0 END)      AS mini_game_consume,
-               AVG(CASE WHEN o.game_id = 3 THEN o.reward ELSE NULL END)   AS mini_avg_reward,
-               AVG(CASE WHEN o.game_id = 3 THEN o.expend ELSE NULL END)   AS mini_avg_consume,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 3 THEN o.reward ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END)
+                   END AS mini_avg_reward,
+               CASE
+                   WHEN COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) = 0 THEN 0
+                   ELSE SUM(CASE WHEN o.game_id = 3 THEN o.expend ELSE 0 END) / COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END)
+                   END AS mini_avg_consume,
                SUM(CASE WHEN o.game_id = 3 THEN 1 ELSE 0 END) /
                COUNT(DISTINCT CASE WHEN o.game_id = 3 THEN o.user_id END) AS mini_avg_game_count,
                CASE
@@ -108,7 +146,7 @@
                         SUM(CASE WHEN o.game_id = 3 THEN o.expend ELSE 0 END)
                    END                                                    AS mini_rtp,
                CURRENT_TIMESTAMP                                          AS createTime
-        FROM dwd_user_game_record_oeta o
+        FROM dwd_user_game_record_oeta o inner join dim_user_info dui on (o.user_id = dui.user_id and o.dates = dui.dates)
         WHERE o.dates = #{dates}
         GROUP BY o.dates, o.pkg
         ORDER BY o.dates, o.pkg

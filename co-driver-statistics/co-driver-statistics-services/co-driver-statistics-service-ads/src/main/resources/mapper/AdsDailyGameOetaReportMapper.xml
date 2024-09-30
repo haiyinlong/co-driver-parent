@@ -15,7 +15,7 @@
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
-               IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
+               IFNULL(ddpo.total_online_time/ddpl.user_num, 0)             avg_user_online_time,
 
 
                -- 入门游戏相关数据
@@ -86,19 +86,19 @@
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
-               IFNULL(ddpo.avg_new_user_online_time, 0)             avg_user_online_time,
+               IFNULL(ddpo.new_user_online_time/ddpr.user_num, 0)             avg_user_online_time,
 
 
                -- 入门游戏相关数据
                d.intro_user_count,
-               d.intro_user_count / ddpl.user_num               intro_user_rate,
+               d.intro_user_count / ddpr.user_num               intro_user_rate,
                d.intro_game_reward                              intro_game_reward,
                IFNULL(d.intro_avg_reward, 0)                    intro_avg_game_reward,
 
                -- 转盘游戏相关数据
                d.turn_user_count,
                IFNULL(d.turn_game_count / d.turn_user_count, 0) turn_avg_game_count,
-               d.turn_user_count / ddpl.user_num                turn_user_rate,
+               d.turn_user_count / ddpr.user_num               turn_user_rate,
                d.turn_game_consume                              turn_game_consume,
                d.turn_game_reward                               turn_game_reward,
                IFNULL(d.turn_avg_consume, 0)                    turn_avg_game_consume,
@@ -111,9 +111,9 @@
                ifnull(ddpe.exchange_cash_total_amount,0)                 as                             mini_exchange_ch_amount,
                ifnull(ddpe.exchange_chip_total_amount,0)                 as                             mini_exchange_chip_amount,
                d.mini_user_count,
-               IFNULL(d.mini_game_count / ddpl.user_num, 0)     mini_avg_game_count,
-               IFNULL(d.mini_game_time / ddpl.user_num, 0)      mini_avg_game_time,
-               d.mini_user_count / ddpl.user_num                mini_user_rate,
+               IFNULL(d.mini_game_count / ddpr.user_num, 0)     mini_avg_game_count,
+               IFNULL(d.mini_game_time / ddpr.user_num, 0)      mini_avg_game_time,
+               d.mini_user_count / ddpr.user_num                mini_user_rate,
                d.mini_game_consume                              mini_game_consume,
                IFNULL(d.mini_avg_consume, 0)                    mini_avg_game_consume,
                d.mini_game_reward                               mini_game_reward,
@@ -161,7 +161,7 @@
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
-               IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
+               IFNULL(ddpo.total_online_time / ddpl.user_num, 0)             avg_user_online_time,
 
 
                -- 入门游戏相关数据
@@ -196,7 +196,7 @@
                d.mini_rtp,
                CURRENT_TIMESTAMP AS                             create_time
 
-        FROM dws_daily_package_all_game d
+        FROM dws_daily_pkg_game d
                  left  join dws_daily_pkg_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg  and d.user_type = ddpe.user_type)
 
                  LEFT JOIN dws_daily_pkg_login ddpl
@@ -235,19 +235,19 @@
                IFNULL(ddpr3.retention_user_num, 0)              tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num, 0)                 tertiary_user_retention_rate,
                ddpl.user_num                                    active_user_num,
-               IFNULL(ddpo.avg_user_online_time, 0)             avg_user_online_time,
+               IFNULL(ddpo.new_user_online_time / ddpr.user_num, 0)              avg_user_online_time,
 
 
                -- 入门游戏相关数据
                d.intro_user_count,
-               d.intro_user_count / ddpl.user_num               intro_user_rate,
+               d.intro_user_count / ddpr.user_num              intro_user_rate,
                d.intro_game_reward                              intro_game_reward,
                IFNULL(d.intro_avg_reward, 0)                    intro_avg_game_reward,
 
                -- 转盘游戏相关数据
                d.turn_user_count,
                IFNULL(d.turn_game_count / d.turn_user_count, 0) turn_avg_game_count,
-               d.turn_user_count / ddpl.user_num                turn_user_rate,
+               d.turn_user_count / ddpr.user_num                turn_user_rate,
                d.turn_game_consume                              turn_game_consume,
                d.turn_game_reward                               turn_game_reward,
                IFNULL(d.turn_avg_consume, 0)                    turn_avg_game_consume,
@@ -260,9 +260,9 @@
                ifnull(ddpe.exchange_cash_total_amount,0)                 as                             mini_exchange_ch_amount,
                ifnull(ddpe.exchange_chip_total_amount,0)                 as                             mini_exchange_chip_amount,
                d.mini_user_count,
-               IFNULL(d.mini_game_count / ddpl.user_num, 0)     mini_avg_game_count,
-               IFNULL(d.mini_game_time / ddpl.user_num, 0)      mini_avg_game_time,
-               d.mini_user_count / ddpl.user_num                mini_user_rate,
+               IFNULL(d.mini_game_count / ddpr.user_num, 0)     mini_avg_game_count,
+               IFNULL(d.mini_game_time / ddpr.user_num, 0)      mini_avg_game_time,
+               d.mini_user_count / ddpr.user_num                mini_user_rate,
                d.mini_game_consume                              mini_game_consume,
                IFNULL(d.mini_avg_consume, 0)                    mini_avg_game_consume,
                d.mini_game_reward                               mini_game_reward,
@@ -270,7 +270,7 @@
                d.mini_rtp,
                CURRENT_TIMESTAMP AS                             create_time
 
-        FROM dws_daily_package_all_game d
+        FROM dws_daily_pkg_game d
                  left  join dws_daily_pkg_asset_exchange ddpe on (d.dates = ddpe.dates and d.pkg = ddpe.pkg  and d.user_type = ddpe.user_type)
 
                  LEFT JOIN dws_daily_pkg_login ddpl
@@ -290,7 +290,7 @@
                  LEFT JOIN dws_daily_pkg_online ddpo
                            ON (ddpl.dates = ddpo.dates AND ddpl.pkg = ddpo.pkg)
                  LEFT JOIN ads_daily_game_oeta_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
-            and adobr.version = 'ALL' and adobr.user_type = 0)
+            and adobr.version = 'ALL' and adobr.user_type = 1)
 
         WHERE d.dates = #{dates}
           and d.user_type = 1;-- 假定日期为2024年8月1日，可
