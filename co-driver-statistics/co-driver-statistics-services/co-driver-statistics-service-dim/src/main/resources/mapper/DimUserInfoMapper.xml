@@ -4,6 +4,7 @@
 <mapper namespace="com.leo.ad.codriver.dim.dao.DimUserInfoMapper">
 
     <select id="queryOdsRealTimeUserInfo" resultType="com.leo.ad.codriver.dim.entity.RealTimeUserInfoDTO">
+
         SELECT user_v.user_id,
                ou.aid,
                ou.pkg,
@@ -15,12 +16,13 @@
                user_v.version,
                user_v.min_version,
                IFNULL(ouh.address, 'IN') country
-        FROM (SELECT user_id, max(pvn) `version`, min(pvn) min_version
-              FROM ods_user_version ouv
-              WHERE ouv.user_id = #{userId}
-              GROUP BY user_id) user_v
-                 INNER JOIN ods_user ou ON (ou.id = user_v.user_id)
+        FROM ods_user ou
+                 left join (SELECT user_id, max(pvn) `version`, min(pvn) min_version
+                            FROM ods_user_version ouv
+                            WHERE ouv.user_id = #{userId}
+                            GROUP BY user_id) user_v ON (ou.id = user_v.user_id)
                  LEFT JOIN ods_user_hema ouh ON (ou.aid = ouh.aid and ouh.pkg = ou.pkg)
+        where ou.id = #{userId}
     </select>
     <select id="getUserInfoByUserId" resultType="com.leo.ad.codriver.dim.entity.DimUserInfo">
         SELECT id,
