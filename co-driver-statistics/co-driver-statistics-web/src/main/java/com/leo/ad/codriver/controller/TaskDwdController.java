@@ -47,6 +47,11 @@ public class TaskDwdController {
     private final DwdEventService dwdUserEventDetailFormAdsReportPointServiceImpl;
     private final DwdEventService dwdUserEventDetailFormReportEventServiceImpl;
 
+    private final DwdService dwdQpLtvRecordServiceImpl;
+    private final DwdService dwdUserExchangeRecordServiceImpl;
+    private final DwdService dwdUserLtvRecordServiceImpl;
+    private final DwdService dwdUserShareRecordServiceImpl;
+
     @GetMapping("/")
     @Operation(summary = "触发所有dwd", description = "触发dwd数据同步")
     public String dwdHandle(@RequestParam("dates") Integer dates) {

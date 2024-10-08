@@ -49,25 +49,28 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
             // 当天数据不进行统计，跳过
             return false;
         }
-        DwCountDTO dbCount = dwdUserGameRecordOetaMapper.getDbCount(dates);
         DwCountDTO statisticsCount = dwdUserGameRecordOetaMapper.getStatisticsCount(dates);
-        if (!isExistsDiff(dbCount, statisticsCount)) {
+        if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;
         }
         try {
-            long startSourceId = getStartSourceId(dbCount);
+            long startSourceId = statisticsCount.getMinId();
             List<DwdUserGameRecordOeta> dwdUserGameRecordOetas;
             List<DwdUserGameRecordOeta> newList;
             do {
                 dwdUserGameRecordOetas =
-                        dwdUserGameRecordOetaMapper.queryStatisticsByDate(dates, BatchConst.BATCH_NUMBER, startSourceId);
+                    dwdUserGameRecordOetaMapper.queryStatisticsByDate(dates, BatchConst.BATCH_NUMBER, startSourceId);
+                if (CollectionUtils.isEmpty(dwdUserGameRecordOetas)) {
+                    break;
+                }
+                startSourceId = dwdUserGameRecordOetas.stream().map(DwdUserGameRecordOeta::getSourceId).sorted()
+                    .toList().get(dwdUserGameRecordOetas.size() - 1);
                 // 过滤掉已经有id的数据
-                newList =
-                        dwdUserGameRecordOetas.stream().filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
-                                .peek(DwdUserGameRecordOeta::init).toList();
-                if(!CollectionUtils.isEmpty(newList)){
+                newList = dwdUserGameRecordOetas.stream()
+                    .filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
+                    .peek(DwdUserGameRecordOeta::init).toList();
+                if (!CollectionUtils.isEmpty(newList)) {
                     batchMapper.batchInsert(newList, DwdUserGameRecordOetaMapper.class);
-                    startSourceId = newList.stream().map(DwdUserGameRecordOeta::getSourceId).sorted().toList().get(newList.size() - 1);
                 }
             } while (!CollectionUtils.isEmpty(dwdUserGameRecordOetas));
         } catch (Exception e) {
@@ -92,17 +95,20 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
         }
         return true;
     }
+
     private long getStartSourceId(DwCountDTO dbCount) {
         if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId())) {
             return dbCount.getMaxId();
         }
         return 0L;
     }
+
     private boolean isExistsDiff(DwCountDTO dbCount, DwCountDTO statisticsCount) {
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;
         }
-        if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId()) && Objects.equals(dbCount.getMaxId(), statisticsCount.getMaxId())) {
+        if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId())
+            && Objects.equals(dbCount.getMaxId(), statisticsCount.getMaxId())) {
             return false;
         }
         return true;
