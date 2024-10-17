@@ -4,7 +4,8 @@
     <parent>
         <groupId>com.leo.ad</groupId>
         <artifactId>co-driver-parent</artifactId>
-        <version>1.0.7</version>
+        <version>1.0.8</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>nacos-spring-boot-starter</artifactId>
