@@ -16,7 +16,6 @@
     <modules>
         <module>co-driver-statistics-services</module>
         <module>co-driver-statistics-start</module>
-        <module>co-driver-statistics-web</module>
     </modules>
     <properties>
         <revision>1.0</revision>
@@ -26,12 +25,6 @@
     </properties>
     <dependencyManagement>
         <dependencies>
-            <!-- 自定义 web -->
-            <dependency>
-                <groupId>com.leo.ad</groupId>
-                <artifactId>co-driver-statistics-web</artifactId>
-                <version>${revision}</version>
-            </dependency>
             <!-- 自定义 service -->
             <dependency>
                 <groupId>com.leo.ad</groupId>

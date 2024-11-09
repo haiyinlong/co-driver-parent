@@ -21,16 +21,36 @@
     </properties>
     <dependencies>
         <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-dim</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-dwd</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-dws</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-ads</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-clean</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
             <groupId>com.leo.ad</groupId>
-            <artifactId>co-driver-statistics-web</artifactId>
+            <artifactId>nacos-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.leo.ad</groupId>
-            <artifactId>nacos-spring-boot-starter</artifactId>
+            <artifactId>rabbitmq-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 
