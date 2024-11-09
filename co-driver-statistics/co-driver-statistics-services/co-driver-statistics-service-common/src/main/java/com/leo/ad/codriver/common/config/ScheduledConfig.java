@@ -19,7 +19,7 @@ public class ScheduledConfig {
     public ThreadPoolTaskScheduler poolScheduler() {
         log.info("start config ScheduledConfig");
         ThreadPoolTaskScheduler scheduler = new ThreadPoolTaskScheduler();
-        scheduler.setThreadNamePrefix("poolScheduler");
+        scheduler.setThreadNamePrefix("coDriverScheduler");
         scheduler.setPoolSize(10);
         return scheduler;
     }

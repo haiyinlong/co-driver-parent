@@ -36,7 +36,7 @@ async:
       queue_capacity: 99999
       # 配置线程池中的线程的名称前缀
       name:
-        prefix: async-service-
+        prefix: co-driver-async-
 
 
 

@@ -4,7 +4,7 @@
 <mapper namespace="com.leo.ad.codriver.dim.dao.DimGameUserInfoMapper">
     <select id="getOdsGameUserInfo" resultType="com.leo.ad.codriver.dim.entity.DimGameUserInfo">
         SELECT dgui.id,
-               dui.user_id,
+               oguon.user_id,
                dui.last_version `version`,
                dui.pkg,
                dui.country,
@@ -16,9 +16,9 @@
                dgui.create_time,
                dgui.update_time
         FROM ods_game_user_one_net oguon
-                 INNER JOIN dim_user_info dui on (oguon.user_id = dui.user_id)
+                 LEFT JOIN dim_user_info dui on (oguon.user_id = dui.user_id)
                  LEFT JOIN ods_game_one_net ogon on (ogon.id = oguon.game_id)
-                 LEFT JOIN dim_game_user_info dgui on (dgui.user_id = dui.user_id and dgui.game_id = oguon.game_id)
+                 LEFT JOIN dim_game_user_info dgui on (dgui.user_id = oguon.user_id and dgui.game_id = oguon.game_id)
         WHERE oguon.id = #{gameUserId}
     </select>
 </mapper>
