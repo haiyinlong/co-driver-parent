@@ -3,6 +3,8 @@ package com.leo.ad.codriver.dwd.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.util.ObjectUtils;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
@@ -40,6 +42,8 @@ public class DwdUserGameRecordOeta implements BaseEntity {
     private Date createTime;
 
     public void init() {
-        this.createTime = new Date();
+        if (ObjectUtils.isEmpty(this.createTime)) {
+            this.createTime = new Date();
+        }
     }
 }

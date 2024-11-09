@@ -41,7 +41,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
     @Override
     @ShowExecuteTime(name = "dwdUserGameRecordOeta syncData")
     @AutoPushEventWithTrue(events = {DwdUserGameRecordOetaUpdateDwEvent.class})
-    @Transactional(rollbackFor = Exception.class)
+    // @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         Integer nowDates = DateUtils.getNowDates();
@@ -49,6 +49,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
             // 当天数据不进行统计，跳过
             return false;
         }
+        // 数据库中如果不存在就不处理
         DwCountDTO statisticsCount = dwdUserGameRecordOetaMapper.getStatisticsCount(dates);
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;

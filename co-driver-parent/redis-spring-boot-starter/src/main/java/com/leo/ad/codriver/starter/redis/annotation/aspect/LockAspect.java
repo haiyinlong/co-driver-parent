@@ -120,7 +120,7 @@ public class LockAspect {
         MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
         Method method = methodSignature.getMethod();
         Lock lock = method.getAnnotation(Lock.class);
-        if (ObjectUtils.isEmpty(lock.paramName())) {
+        if (lock.paramName().isEmpty()) {
             return new ArrayList<>();
         }
         String[] fieldArray = lock.paramName().split(":");

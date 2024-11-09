@@ -31,7 +31,7 @@ public class DimChannelServiceImpl implements DimService {
     @Override
     @ShowExecuteTime(name = "DimChannel")
     @Transactional(rollbackFor = Exception.class)
-    @Lock
+    @Lock(key = "dimChannel")
     public void syncData() {
         List<DimChannel> list = dimChannelMapper.list();
 
