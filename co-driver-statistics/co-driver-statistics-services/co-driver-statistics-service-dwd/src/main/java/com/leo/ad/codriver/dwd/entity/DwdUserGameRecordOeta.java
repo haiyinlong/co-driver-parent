@@ -25,7 +25,6 @@ public class DwdUserGameRecordOeta implements BaseEntity {
     private String version;
     private String pkg;
     private String country;
-    private Long pkgGameId;
     private Long pkgId;
     private Long gameId;
     private String gameCode;
