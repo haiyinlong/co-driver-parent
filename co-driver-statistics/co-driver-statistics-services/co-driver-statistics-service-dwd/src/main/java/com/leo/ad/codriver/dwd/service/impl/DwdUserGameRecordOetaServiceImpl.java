@@ -41,7 +41,6 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
     @Override
     @ShowExecuteTime(name = "dwdUserGameRecordOeta syncData")
     @AutoPushEventWithTrue(events = {DwdUserGameRecordOetaUpdateDwEvent.class})
-    // @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         Integer nowDates = DateUtils.getNowDates();
@@ -59,21 +58,22 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, DwdStreamSe
             List<DwdUserGameRecordOeta> dwdUserGameRecordOetas;
             List<DwdUserGameRecordOeta> newList;
             do {
-                dwdUserGameRecordOetas =
-                    dwdUserGameRecordOetaMapper.queryStatisticsByDate(dates, BatchConst.BATCH_NUMBER, startSourceId);
+                dwdUserGameRecordOetas = dwdUserGameRecordOetaMapper.queryStatisticsByDate(dates,
+                    BatchConst.BATCH_MAX_NUMBER, startSourceId);
                 if (CollectionUtils.isEmpty(dwdUserGameRecordOetas)) {
-                    break;
+                    startSourceId = startSourceId + BatchConst.BATCH_MAX_NUMBER;
+                } else {
+                    startSourceId = dwdUserGameRecordOetas.stream().map(DwdUserGameRecordOeta::getSourceId).sorted()
+                        .toList().get(dwdUserGameRecordOetas.size() - 1);
+                    // 过滤掉已经有id的数据
+                    newList = dwdUserGameRecordOetas.stream()
+                        .filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
+                        .peek(DwdUserGameRecordOeta::init).toList();
+                    if (!CollectionUtils.isEmpty(newList)) {
+                        batchMapper.batchInsert(newList, DwdUserGameRecordOetaMapper.class);
+                    }
                 }
-                startSourceId = dwdUserGameRecordOetas.stream().map(DwdUserGameRecordOeta::getSourceId).sorted()
-                    .toList().get(dwdUserGameRecordOetas.size() - 1);
-                // 过滤掉已经有id的数据
-                newList = dwdUserGameRecordOetas.stream()
-                    .filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
-                    .peek(DwdUserGameRecordOeta::init).toList();
-                if (!CollectionUtils.isEmpty(newList)) {
-                    batchMapper.batchInsert(newList, DwdUserGameRecordOetaMapper.class);
-                }
-            } while (!CollectionUtils.isEmpty(dwdUserGameRecordOetas));
+            } while (startSourceId < statisticsCount.getMaxId());
         } catch (Exception e) {
             log.error("dwdUserGameRecordOeta  syncData error", e);
             throw e;
