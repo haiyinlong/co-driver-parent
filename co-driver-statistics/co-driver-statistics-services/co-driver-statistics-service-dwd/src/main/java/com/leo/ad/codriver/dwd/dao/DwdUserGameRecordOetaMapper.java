@@ -19,13 +19,13 @@ import com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta;
 @DS("mysql")
 public interface DwdUserGameRecordOetaMapper extends BaseMapper<DwdUserGameRecordOeta> {
     void deleteBySourceId(@Param("sourceId") Long sourceId);
+
     DwdUserGameRecordOeta getStatistics(@Param("sourceId") Long sourceId);
 
     DwCountDTO getDbCount(@Param("dates") Integer dates);
 
-    DwCountDTO getStatisticsCount(@Param("dates") Integer dates);
+    DwCountDTO getStatisticsCount(@Param("dates") Integer dates, @Param("startId") Long startId);
 
-    List<DwdUserGameRecordOeta> queryStatisticsByDate(@Param("dates") Integer dates, @Param("rowNum") Integer rowNum,
-                                                @Param("startSourceId") long startSourceId);
-
+    List<DwdUserGameRecordOeta> queryStatisticsByDate(@Param("dates") Integer dates,
+        @Param("startSourceId") long startSourceId, @Param("endSourceId") long endSourceId);
 }

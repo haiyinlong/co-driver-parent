@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.common.dao.DwTaskRecordMapper">
+
+    <select id="getLastTaskRecord" resultType="com.leo.ad.codriver.common.dao.enetity.DwTaskRecord">
+        select id,
+               dates,
+               type,
+               status,
+               start_id,
+               end_id,
+               process_id,
+               create_time,
+               update_time
+        from dw_task_record
+        where dates = #{dates}
+          and type = #{type}
+        order by id desc
+        limit 1
+    </select>
+    <select id="queryTaskRecord" resultType="com.leo.ad.codriver.common.dao.enetity.DwTaskRecord">
+        select id,
+               dates,
+               type,
+               status,
+               start_id,
+               end_id,
+               process_id,
+               create_time,
+               update_time
+        from dw_task_record
+        where dates = #{dates}
+          and type = #{type}
+          and status = #{status}
+    </select>
+</mapper>

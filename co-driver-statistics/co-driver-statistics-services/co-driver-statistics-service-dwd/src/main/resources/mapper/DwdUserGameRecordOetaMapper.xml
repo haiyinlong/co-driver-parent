@@ -45,59 +45,55 @@
         SELECT count(1), min(ogron.id) min_id, max(ogron.id) max_id
         FROM ods_game_record_one_net ogron
         WHERE ogron.dates = #{dates}
+        <if test="startId != null and startId > 0">
+            and ogron.id > #{startId}
+        </if>
     </select>
     <select id="queryStatisticsByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameRecordOeta">
-        SELECT
-        dugro.id,
-        t.source_id,
-        t.dates,
-        t.pkg_id,
-        t.game_id,
-        t.user_id,
-        t.s_id,
-        t.played_time,
-        t.game_result,
-        t.reward_source,
-        t.reward_account_type,
-        t.reward,
-        t.expend,
-        t.expend_account_type,
-        t.create_time source_create_time,
-        t.update_time source_update_time,
-        t.game_code,
-        dui.user_id,
-        dui.last_version `version`,
-        dui.pkg,
-        dui.country
-        FROM (
-        SELECT
-        ogron.id source_id,
-        ogron.dates,
-        ogron.pkg_id,
-        ogron.game_id,
-        ogron.game_code,
-        ogron.user_id,
-        ogron.s_id,
-        ogron.played_time,
-        ogron.start_time,
-        ogron.end_time,
-        ogron.game_result,
-        ogron.reward_source,
-        ogron.reward_account_type,
-        ogron.reward,
-        ogron.expend,
-        ogron.expend_account_type,
-        ogron.create_time,
-        ogron.update_time
-        FROM ods_game_record_one_net ogron
-        where ogron.dates = #{dates}
-        <if test="startSourceId != null and startSourceId > 0">
-            and ogron.id > #{startSourceId}
-        </if>
-        order by ogron.id
-        LIMIT #{rowNum}
-        )t
-        INNER JOIN dim_user_info dui on (dui.user_id = t.user_id)
-        LEFT JOIN dwd_user_game_record_oeta dugro on (dugro.source_id = t.source_id)
+        SELECT dugro.id,
+               t.source_id,
+               t.dates,
+               t.pkg_id,
+               t.game_id,
+               t.user_id,
+               t.s_id,
+               t.played_time,
+               t.game_result,
+               t.reward_source,
+               t.reward_account_type,
+               t.reward,
+               t.expend,
+               t.expend_account_type,
+               t.create_time    source_create_time,
+               t.update_time    source_update_time,
+               t.game_code,
+               dui.user_id,
+               dui.last_version `version`,
+               dui.pkg,
+               dui.country
+        FROM (SELECT ogron.id source_id,
+                     ogron.dates,
+                     ogron.pkg_id,
+                     ogron.game_id,
+                     ogron.game_code,
+                     ogron.user_id,
+                     ogron.s_id,
+                     ogron.played_time,
+                     ogron.start_time,
+                     ogron.end_time,
+                     ogron.game_result,
+                     ogron.reward_source,
+                     ogron.reward_account_type,
+                     ogron.reward,
+                     ogron.expend,
+                     ogron.expend_account_type,
+                     ogron.create_time,
+                     ogron.update_time
+              FROM ods_game_record_one_net ogron
+              where ogron.dates = #{dates}
+                and ogron.id > #{startSourceId}
+                and ogron.id <![CDATA[<= ]]>  #{endSourceId}) t
+                 INNER JOIN dim_user_info dui on (dui.user_id = t.user_id)
+                 LEFT JOIN dwd_user_game_record_oeta dugro on (dugro.source_id = t.source_id)
     </select>
 </mapper>
