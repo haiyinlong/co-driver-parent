@@ -36,7 +36,7 @@
                        left join dim_user_source dus on (lr.user_id = dus.user_id)
               where dates = #{dates}
               group by lr.dates, lr.pkg, lr.register_version, IFNULL(dus.network, 'Organic'), lr.register_dates) t
-                 left join dws_daily_pkg_ver_usrc_register ddovyo
+                 left join dws_daily_pkg_ver_usrc_retention ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
                                t.user_source = ddovyo.user_source)
 
