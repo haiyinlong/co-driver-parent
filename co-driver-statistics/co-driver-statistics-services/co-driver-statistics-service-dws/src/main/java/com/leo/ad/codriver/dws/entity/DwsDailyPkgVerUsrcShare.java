@@ -1,20 +1,19 @@
 package com.leo.ad.codriver.dws.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
+
 import lombok.Data;
 
 /**
- * 
+ *
  * @TableName dws_daily_pkg_ver_usrc_share
  */
-@TableName(value ="dws_daily_pkg_ver_usrc_share")
+@TableName(value = "dws_daily_pkg_ver_usrc_share")
 @Data
-public class DwsDailyPkgVerUsrcShare implements Serializable {
+public class DwsDailyPkgVerUsrcShare implements BaseEntity {
     /**
      * 主键ID
      */
@@ -65,6 +64,8 @@ public class DwsDailyPkgVerUsrcShare implements Serializable {
      */
     private Date updateTime;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
+    public void init() {
+        this.createTime = new Date();
+        this.updateTime = new Date();
+    }
 }

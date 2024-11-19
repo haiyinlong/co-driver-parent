@@ -1,6 +1,9 @@
 package com.leo.ad.codriver.dws.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -16,4 +19,7 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcShare;
 @DS("mysql")
 public interface DwsDailyPkgVerUsrcShareMapper extends BaseMapper<DwsDailyPkgVerUsrcShare> {
 
+    List<DwsDailyPkgVerUsrcShare> queryDbList(@Param("dates") Integer dates);
+
+    List<DwsDailyPkgVerUsrcShare> queryStatisticsList(@Param("dates") Integer dates);
 }

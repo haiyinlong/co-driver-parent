@@ -4,18 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcShareMapper">
 
-    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcShare">
-            <result property="id" column="id" jdbcType="BIGINT"/>
-            <result property="dates" column="dates" jdbcType="INTEGER"/>
-            <result property="version" column="version" jdbcType="VARCHAR"/>
-            <result property="userSource" column="user_source" jdbcType="VARCHAR"/>
-            <result property="pkg" column="pkg" jdbcType="VARCHAR"/>
-            <result property="invitationNum" column="invitation_num" jdbcType="BIGINT"/>
-            <result property="fillCodeNum" column="fill_code_num" jdbcType="BIGINT"/>
-            <result property="totalUserNum" column="total_user_num" jdbcType="BIGINT"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-            <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
-    </resultMap>
 
     <sql id="Base_Column_List">
         id,dates,version,
@@ -23,4 +11,36 @@
         fill_code_num,total_user_num,create_time,
         update_time
     </sql>
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcShare">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_ver_usrc_share
+        where dates=#{dates}
+    </select>
+    <select id="queryStatisticsList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcShare">
+        SELECT ddps.id,
+               shares.dates,
+               shares.pkg,
+               shares.version,
+               shares.user_source,
+               shares.invitation_num,
+               shares.fill_code_num,
+               shares.total_user_num,
+               ddps.create_time,
+               ddps.update_time
+        from (SELECT dusr.dates,
+                     dusr.pkg,
+                     dusr.version,
+                     IFNULL(dus.network, 'Organic')                      user_source,
+                     count(CASE dusr.source WHEN 1 THEN dusr.source END) invitation_num,
+                     count(CASE dusr.source WHEN 0 THEN dusr.source END) fill_code_num,
+                     COUNT(1)                                            total_user_num
+              FROM dwd_user_share_record dusr
+                       left join dim_user_source dus on (dusr.user_id = dus.user_id)
+              WHERE dusr.dates = #{dates}
+              GROUP BY dusr.dates, dusr.pkg, dusr.version, IFNULL(dus.network, 'Organic')) shares
+                 LEFT JOIN dws_daily_pkg_ver_usrc_share ddps on
+            (ddps.dates = shares.dates and ddps.pkg = shares.pkg and ddps.version = shares.version and
+             ddps.user_source = shares.user_source)
+    </select>
 </mapper>
