@@ -1,11 +1,17 @@
 package com.leo.ad.codriver.dws.service.impl.usrc;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcLoginMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcLogin;
+import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author user
@@ -13,7 +19,22 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcLogin;
  * @createDate 2024-11-19 16:43:31
  */
 @Service
-public class DwsDailyPkgVerUsrcLoginServiceImpl extends
-    ServiceImpl<DwsDailyPkgVerUsrcLoginMapper, DwsDailyPkgVerUsrcLogin> implements IService<DwsDailyPkgVerUsrcLogin> {
+@RequiredArgsConstructor
+public class DwsDailyPkgVerUsrcLoginServiceImpl implements DwsService {
 
+    private final DwsDailyPkgVerUsrcLoginMapper dwsDailyPkgVerUsrcLoginMapper;
+    private final DwBatchMapper<DwsDailyPkgVerUsrcLogin, DwsDailyPkgVerUsrcLoginMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    @Override
+    public void syncData(Integer dates) {
+        List<DwsDailyPkgVerUsrcLogin> dbList = dwsDailyPkgVerUsrcLoginMapper.queryDbList(dates);
+        List<DwsDailyPkgVerUsrcLogin> statisticsList = dwsDailyPkgVerUsrcLoginMapper.queryStatisticsList(dates);
+        if (!CollectionUtils.isEmpty(statisticsList)) {
+            return;
+        }
+        dwBatchMapper.batchInsert(statisticsList, DwsDailyPkgVerUsrcLoginMapper.class);
+        List<Long> delIds = getDelIds(dbList, statisticsList, null);
+        dwsDailyPkgVerUsrcLoginMapper.deleteBatchIds(delIds);
+    }
 }
