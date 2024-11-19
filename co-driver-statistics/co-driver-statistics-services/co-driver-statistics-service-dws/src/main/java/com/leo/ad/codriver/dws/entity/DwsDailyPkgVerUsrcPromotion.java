@@ -1,21 +1,20 @@
 package com.leo.ad.codriver.dws.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
+
 import lombok.Data;
 
 /**
- * 
+ *
  * @TableName dws_daily_pkg_ver_usrc_promotion
  */
-@TableName(value ="dws_daily_pkg_ver_usrc_promotion")
+@TableName(value = "dws_daily_pkg_ver_usrc_promotion")
 @Data
-public class DwsDailyPkgVerUsrcPromotion implements Serializable {
+public class DwsDailyPkgVerUsrcPromotion implements BaseEntity {
     /**
      * 主键id
      */
@@ -86,6 +85,4 @@ public class DwsDailyPkgVerUsrcPromotion implements Serializable {
      */
     private Date createTime;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }
