@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcQpLtvMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcQpLtv">
+            <result property="id" column="id" jdbcType="BIGINT"/>
+            <result property="dates" column="dates" jdbcType="INTEGER"/>
+            <result property="pkg" column="pkg" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="VARCHAR"/>
+            <result property="userSource" column="user_source" jdbcType="VARCHAR"/>
+            <result property="activeUserNum" column="active_user_num" jdbcType="BIGINT"/>
+            <result property="activeEventLtv" column="active_event_ltv" jdbcType="DECIMAL"/>
+            <result property="activeUserLtv" column="active_user_ltv" jdbcType="DECIMAL"/>
+            <result property="newUserNum" column="new_user_num" jdbcType="BIGINT"/>
+            <result property="newUserEventLtv" column="new_user_event_ltv" jdbcType="DECIMAL"/>
+            <result property="newUserLtv" column="new_user_ltv" jdbcType="DECIMAL"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        version,user_source,active_user_num,
+        active_event_ltv,active_user_ltv,new_user_num,
+        new_user_event_ltv,new_user_ltv,create_time
+    </sql>
+</mapper>

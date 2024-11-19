@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcOnlineMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcOnline">
+            <result property="id" column="id" jdbcType="BIGINT"/>
+            <result property="dates" column="dates" jdbcType="INTEGER"/>
+            <result property="version" column="version" jdbcType="VARCHAR"/>
+            <result property="userSource" column="user_source" jdbcType="VARCHAR"/>
+            <result property="pkg" column="pkg" jdbcType="VARCHAR"/>
+            <result property="totalOnlineTime" column="total_online_time" jdbcType="BIGINT"/>
+            <result property="avgUserOnlineTime" column="avg_user_online_time" jdbcType="DECIMAL"/>
+            <result property="newUserOnlineTime" column="new_user_online_time" jdbcType="BIGINT"/>
+            <result property="avgNewUserOnlineTime" column="avg_new_user_online_time" jdbcType="DECIMAL"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,version,
+        user_source,pkg,total_online_time,
+        avg_user_online_time,new_user_online_time,avg_new_user_online_time,
+        create_time
+    </sql>
+</mapper>
