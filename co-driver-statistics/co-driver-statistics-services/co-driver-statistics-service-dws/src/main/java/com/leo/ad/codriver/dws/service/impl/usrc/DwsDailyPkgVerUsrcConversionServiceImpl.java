@@ -2,10 +2,10 @@ package com.leo.ad.codriver.dws.service.impl.usrc;
 
 import org.springframework.stereotype.Service;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcConversionMapper;
-import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcConversion;
+import com.leo.ad.codriver.dws.service.DwsService;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author user
@@ -13,8 +13,12 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcConversion;
  * @createDate 2024-11-19 16:43:30
  */
 @Service
-public class DwsDailyPkgVerUsrcConversionServiceImpl
-    extends ServiceImpl<DwsDailyPkgVerUsrcConversionMapper, DwsDailyPkgVerUsrcConversion>
-    implements IService<DwsDailyPkgVerUsrcConversion> {
+@RequiredArgsConstructor
+public class DwsDailyPkgVerUsrcConversionServiceImpl implements DwsService {
+    private final DwsDailyPkgVerUsrcConversionMapper dwsDailyPkgVerUsrcConversionMapper;
 
+    @Override
+    public void syncData(Integer dates) {
+
+    }
 }
