@@ -1,19 +1,17 @@
 package com.leo.ad.codriver.dws.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
+
 import lombok.Data;
 
 /**
- * 
+ *
  * @TableName dws_daily_pkg_ver_usrc_register
  */
-@TableName(value ="dws_daily_pkg_ver_usrc_register")
+@TableName(value = "dws_daily_pkg_ver_usrc_register")
 @Data
-public class DwsDailyPkgVerUsrcRegister implements Serializable {
+public class DwsDailyPkgVerUsrcRegister implements BaseEntity {
     /**
      * 主键
      */
@@ -44,6 +42,4 @@ public class DwsDailyPkgVerUsrcRegister implements Serializable {
      */
     private Long userNum;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }
