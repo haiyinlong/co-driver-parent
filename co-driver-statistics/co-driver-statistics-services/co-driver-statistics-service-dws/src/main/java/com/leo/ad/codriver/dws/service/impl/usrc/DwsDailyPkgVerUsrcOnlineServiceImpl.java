@@ -1,11 +1,17 @@
 package com.leo.ad.codriver.dws.service.impl.usrc;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcOnlineMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcOnline;
+import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author user
@@ -13,8 +19,24 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcOnline;
  * @createDate 2024-11-19 16:43:31
  */
 @Service
-public class DwsDailyPkgVerUsrcOnlineServiceImpl
-    extends ServiceImpl<DwsDailyPkgVerUsrcOnlineMapper, DwsDailyPkgVerUsrcOnline>
-    implements IService<DwsDailyPkgVerUsrcOnline> {
+@RequiredArgsConstructor
+public class DwsDailyPkgVerUsrcOnlineServiceImpl implements DwsService {
 
+    private final DwsDailyPkgVerUsrcOnlineMapper dwsDailyPkgVerUsrcOnlineMapper;
+
+    private final DwBatchMapper<DwsDailyPkgVerUsrcOnline, DwsDailyPkgVerUsrcOnlineMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    @Override
+    public void syncData(Integer dates) {
+        List<DwsDailyPkgVerUsrcOnline> dbList = dwsDailyPkgVerUsrcOnlineMapper.queryDbList(dates);
+        List<DwsDailyPkgVerUsrcOnline> statisticsList = dwsDailyPkgVerUsrcOnlineMapper.queryStatisticsList(dates);
+        if (CollectionUtils.isEmpty(statisticsList)) {
+            return;
+        }
+        statisticsList.forEach(DwsDailyPkgVerUsrcOnline::init);
+        dwBatchMapper.batchInsert(statisticsList, DwsDailyPkgVerUsrcOnlineMapper.class);
+        List<Long> delIds = getDelIds(dbList, statisticsList, null);
+        dwsDailyPkgVerUsrcOnlineMapper.deleteBatchIds(delIds);
+    }
 }
