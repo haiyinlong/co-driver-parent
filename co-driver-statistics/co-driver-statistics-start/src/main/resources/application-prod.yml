@@ -72,6 +72,8 @@ co-driver:
         enable: true
       ods_event_report_queue:
         enable: true
+      dim_user_source:
+        enable: true
 management:
   health:
     rabbit:

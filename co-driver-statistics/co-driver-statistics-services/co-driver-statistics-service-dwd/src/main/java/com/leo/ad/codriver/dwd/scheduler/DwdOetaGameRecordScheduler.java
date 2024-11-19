@@ -1,7 +1,6 @@
 package com.leo.ad.codriver.dwd.scheduler;
 
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import com.leo.ad.codriver.common.util.DateUtils;
@@ -22,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 public class DwdOetaGameRecordScheduler {
     private final DwdService dwdUserGameRecordOetaServiceImpl;
 
-    @Scheduled(cron = "0 0 1-23 * * ?")
     @Async("asyncServiceExecutor")
     public void syncDwdOetaGameRecord() {
         Integer dates = DateUtils.getNowDates();
