@@ -1,11 +1,17 @@
 package com.leo.ad.codriver.dws.service.impl.usrc;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcQpLtvMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcQpLtv;
+import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author user
@@ -13,7 +19,24 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcQpLtv;
  * @createDate 2024-11-19 16:43:31
  */
 @Service
-public class DwsDailyPkgVerUsrcQpLtvServiceImpl extends
-    ServiceImpl<DwsDailyPkgVerUsrcQpLtvMapper, DwsDailyPkgVerUsrcQpLtv> implements IService<DwsDailyPkgVerUsrcQpLtv> {
+@RequiredArgsConstructor
+public class DwsDailyPkgVerUsrcQpLtvServiceImpl implements DwsService {
 
+    private final DwsDailyPkgVerUsrcQpLtvMapper dwsDailyPkgVerUsrcQpLtvMapper;
+    private final DwBatchMapper<DwsDailyPkgVerUsrcQpLtv, DwsDailyPkgVerUsrcQpLtvMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    @Override
+    public void syncData(Integer dates) {
+        List<DwsDailyPkgVerUsrcQpLtv> dbList = dwsDailyPkgVerUsrcQpLtvMapper.queryDbList(dates);
+        List<DwsDailyPkgVerUsrcQpLtv> statisticsLit = dwsDailyPkgVerUsrcQpLtvMapper.queryStatisticList(dates);
+        if (CollectionUtils.isEmpty(statisticsLit)) {
+            return;
+        }
+        statisticsLit.forEach(DwsDailyPkgVerUsrcQpLtv::init);
+        dwBatchMapper.batchInsert(statisticsLit, DwsDailyPkgVerUsrcQpLtvMapper.class);
+
+        List<Long> delIds = getDelIds(dbList, statisticsLit, null);
+        dwsDailyPkgVerUsrcQpLtvMapper.deleteBatchIds(delIds);
+    }
 }

@@ -4,20 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcQpLtvMapper">
 
-    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcQpLtv">
-            <result property="id" column="id" jdbcType="BIGINT"/>
-            <result property="dates" column="dates" jdbcType="INTEGER"/>
-            <result property="pkg" column="pkg" jdbcType="VARCHAR"/>
-            <result property="version" column="version" jdbcType="VARCHAR"/>
-            <result property="userSource" column="user_source" jdbcType="VARCHAR"/>
-            <result property="activeUserNum" column="active_user_num" jdbcType="BIGINT"/>
-            <result property="activeEventLtv" column="active_event_ltv" jdbcType="DECIMAL"/>
-            <result property="activeUserLtv" column="active_user_ltv" jdbcType="DECIMAL"/>
-            <result property="newUserNum" column="new_user_num" jdbcType="BIGINT"/>
-            <result property="newUserEventLtv" column="new_user_event_ltv" jdbcType="DECIMAL"/>
-            <result property="newUserLtv" column="new_user_ltv" jdbcType="DECIMAL"/>
-            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
-    </resultMap>
 
     <sql id="Base_Column_List">
         id,dates,pkg,
@@ -25,4 +11,42 @@
         active_event_ltv,active_user_ltv,new_user_num,
         new_user_event_ltv,new_user_ltv,create_time
     </sql>
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcQpLtv">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_ver_usrc_qp_ltv
+        where dates=#{dates}
+    </select>
+    <select id="queryStatisticList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcQpLtv">
+        SELECT ddovyo.id,
+               t.dates,
+               t.pkg,
+               t.version,
+               t.user_source,
+               t.active_user_num,
+               t.active_event_ltv,
+               t.active_user_ltv,
+               t.new_user_num,
+               t.new_user_event_ltv,
+               t.new_user_ltv
+        FROM (SELECT dqlr.dates,
+                     dqlr.pkg,
+                     dqlr.version,
+                     IFNULL(dus.network, 'Organic') user_source,
+                     COUNT(distinct dqlr.user_id)   active_user_num,
+                     SUM(dqlr.event_ltv)            active_event_ltv,
+                     SUM(dqlr.user_ltv)             active_user_ltv,
+                     COUNT(distinct dui.user_id)    new_user_num,
+                     SUM(dqlr.event_ltv)            new_user_event_ltv,
+                     SUM(dqlr.user_ltv)             new_user_ltv
+              FROM dwd_qp_ltv_record dqlr
+                       LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
+                       left join dim_user_source dus on (dus.user_id = dqlr.user_id)
+              where dqlr.dates = #{dates}
+              GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, IFNULL(dus.network, 'Organic')) t
+                 left join dws_daily_pkg_ver_usrc_qp_ltv ddovyo
+                           on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
+                               t.user_source = ddovyo.user_source)
+
+    </select>
 </mapper>
