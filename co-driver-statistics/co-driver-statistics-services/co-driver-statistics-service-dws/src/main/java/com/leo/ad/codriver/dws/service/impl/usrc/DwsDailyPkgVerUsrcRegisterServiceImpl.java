@@ -28,12 +28,12 @@ public class DwsDailyPkgVerUsrcRegisterServiceImpl implements DwsService {
     @Override
     public void syncData(Integer dates) {
         List<DwsDailyPkgVerUsrcRegister> dbList = dwsDailyPkgVerUsrcRegisterMapper.queryDbList(dates);
-        List<DwsDailyPkgVerUsrcRegister> statisticsLit = dwsDailyPkgVerUsrcRegisterMapper.queryStatisticList(dates);
-        if (CollectionUtils.isEmpty(statisticsLit)) {
+        List<DwsDailyPkgVerUsrcRegister> statisticsList = dwsDailyPkgVerUsrcRegisterMapper.queryStatisticList(dates);
+        if (CollectionUtils.isEmpty(statisticsList)) {
             return;
         }
-        dwBatchMapper.batchInsert(statisticsLit, DwsDailyPkgVerUsrcRegisterMapper.class);
-        List<Long> delIds = getDelIds(dbList, statisticsLit, null);
+        dwBatchMapper.batchInsert(statisticsList, DwsDailyPkgVerUsrcRegisterMapper.class);
+        List<Long> delIds = getDelIds(dbList, statisticsList, null);
         dwsDailyPkgVerUsrcRegisterMapper.deleteBatchIds(delIds);
     }
 }
