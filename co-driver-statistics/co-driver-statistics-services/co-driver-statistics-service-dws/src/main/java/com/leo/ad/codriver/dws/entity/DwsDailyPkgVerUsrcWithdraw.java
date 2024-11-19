@@ -1,20 +1,19 @@
 package com.leo.ad.codriver.dws.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import java.io.Serializable;
 import java.math.BigDecimal;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
+
 import lombok.Data;
 
 /**
- * 
+ *
  * @TableName dws_daily_pkg_ver_usrc_withdraw
  */
-@TableName(value ="dws_daily_pkg_ver_usrc_withdraw")
+@TableName(value = "dws_daily_pkg_ver_usrc_withdraw")
 @Data
-public class DwsDailyPkgVerUsrcWithdraw implements Serializable {
+public class DwsDailyPkgVerUsrcWithdraw implements BaseEntity {
     /**
      * 主键id
      */
@@ -195,6 +194,4 @@ public class DwsDailyPkgVerUsrcWithdraw implements Serializable {
      */
     private Long bankUserNum;
 
-    @TableField(exist = false)
-    private static final long serialVersionUID = 1L;
 }

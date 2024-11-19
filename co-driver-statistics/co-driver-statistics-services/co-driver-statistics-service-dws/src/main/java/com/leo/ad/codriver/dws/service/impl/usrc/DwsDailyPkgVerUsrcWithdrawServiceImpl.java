@@ -1,11 +1,17 @@
 package com.leo.ad.codriver.dws.service.impl.usrc;
 
-import org.springframework.stereotype.Service;
+import java.util.List;
 
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcWithdrawMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcWithdraw;
+import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+
+import lombok.RequiredArgsConstructor;
 
 /**
  * @author user
@@ -13,8 +19,31 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcWithdraw;
  * @createDate 2024-11-19 16:43:31
  */
 @Service
-public class DwsDailyPkgVerUsrcWithdrawServiceImpl
-    extends ServiceImpl<DwsDailyPkgVerUsrcWithdrawMapper, DwsDailyPkgVerUsrcWithdraw>
-    implements IService<DwsDailyPkgVerUsrcWithdraw> {
+@RequiredArgsConstructor
+public class DwsDailyPkgVerUsrcWithdrawServiceImpl implements DwsService {
+    private final DwsDailyPkgVerUsrcWithdrawMapper dwsDailyPkgVerUsrcWithdrawMapper;
+    private final DwBatchMapper<DwsDailyPkgVerUsrcWithdraw, DwsDailyPkgVerUsrcWithdrawMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
+    @Override
+    public void syncData(Integer dates) {
+        List<DwsDailyPkgVerUsrcWithdraw> dbList = dwsDailyPkgVerUsrcWithdrawMapper.queryList(dates);
+        List<DwsDailyPkgVerUsrcWithdraw> statisticsActiveList =
+            dwsDailyPkgVerUsrcWithdrawMapper.queryStatisticsActiveList(dates);
+        if (CollectionUtils.isEmpty(statisticsActiveList)) {
+            return;
+        }
+        dwBatchMapper.batchInsert(statisticsActiveList, DwsDailyPkgVerUsrcWithdrawMapper.class);
+        List<Long> delIds = getDelIds(dbList, statisticsActiveList, null);
+        dwsDailyPkgVerUsrcWithdrawMapper.deleteBatchIds(delIds);
+        // 新用户
+        List<DwsDailyPkgVerUsrcWithdraw> statisticsNewList =
+            dwsDailyPkgVerUsrcWithdrawMapper.queryStatisticsNewList(dates);
+        if (CollectionUtils.isEmpty(statisticsActiveList)) {
+            return;
+        }
+        dwBatchMapper.batchInsert(statisticsNewList, DwsDailyPkgVerUsrcWithdrawMapper.class);
+        delIds = getDelIds(dbList, statisticsNewList, null);
+        dwsDailyPkgVerUsrcWithdrawMapper.deleteBatchIds(delIds);
+    }
 }
