@@ -26,47 +26,18 @@ public interface AdsService {
      * 获取需要删除的id集合
      *
      * @param dbList
-     * @param activeList
-     * @param newList
+     * @param values
      * @return
      */
-    default List<Long> getNotExistsIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity> activeList,
-        List<? extends BaseEntity> newList) {
-        return getNotExistsIds(dbList, activeList, newList, null, null, null, null);
-
-    }
-
-    default List<Long> getNotExistsIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity> activeList,
-        List<? extends BaseEntity> newList, List<? extends BaseEntity> activeListAll,
-        List<? extends BaseEntity> newListAll) {
-        return getNotExistsIds(dbList, activeList, newList, activeListAll, newListAll, null, null);
-    }
-
-    default List<Long> getNotExistsIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity> activeList,
-        List<? extends BaseEntity> newList, List<? extends BaseEntity> activeListAll,
-        List<? extends BaseEntity> newListAll, List<? extends BaseEntity> activeUsrcListAll,
-        List<? extends BaseEntity> newUsrcListAll) {
+    default List<Long> getNotExistsIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity>... values) {
         if (CollectionUtils.isEmpty(dbList)) {
             return Collections.emptyList();
         }
         List<Long> dbIds = new java.util.ArrayList<>(dbList.stream().map(BaseEntity::getId).toList());
-        if (!CollectionUtils.isEmpty(activeList)) {
-            activeList.forEach(item -> dbIds.remove(item.getId()));
-        }
-        if (!CollectionUtils.isEmpty(newList)) {
-            newList.forEach(item -> dbIds.remove(item.getId()));
-        }
-        if (!CollectionUtils.isEmpty(activeListAll)) {
-            activeListAll.forEach(item -> dbIds.remove(item.getId()));
-        }
-        if (!CollectionUtils.isEmpty(newListAll)) {
-            newListAll.forEach(item -> dbIds.remove(item.getId()));
-        }
-        if (!CollectionUtils.isEmpty(activeUsrcListAll)) {
-            activeUsrcListAll.forEach(item -> dbIds.remove(item.getId()));
-        }
-        if (!CollectionUtils.isEmpty(newUsrcListAll)) {
-            newUsrcListAll.forEach(item -> dbIds.remove(item.getId()));
+        for (List<? extends BaseEntity> value : values) {
+            if (!CollectionUtils.isEmpty(value)) {
+                value.forEach(item -> dbIds.remove(item.getId()));
+            }
         }
         return dbIds;
     }

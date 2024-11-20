@@ -76,9 +76,22 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
             batchMapper.batchInsert(usrcNewList, AdsDailyOetaBaseReportMapper.class);
         }
 
+        // TODO ALL版本的统计用户来源数据
+        List<AdsDailyOetaBaseReport> usrcAllActiveList = adsDailyOetaBaseReportMapper.selectAllActiveUsrcList(dates);
+        if (!CollectionUtils.isEmpty(usrcAllActiveList)) {
+            usrcAllActiveList.forEach(AdsDailyOetaBaseReport::init);
+            batchMapper.batchInsert(usrcAllActiveList, AdsDailyOetaBaseReportMapper.class);
+        }
+        // 新用户
+        List<AdsDailyOetaBaseReport> usrcAllNewList = adsDailyOetaBaseReportMapper.selectAllNewUsrcList(dates);
+        if (!CollectionUtils.isEmpty(usrcAllNewList)) {
+            usrcAllNewList.forEach(AdsDailyOetaBaseReport::init);
+            batchMapper.batchInsert(usrcAllNewList, AdsDailyOetaBaseReportMapper.class);
+        }
+
         // 删除不存在的记录
-        List<Long> notExistsIds =
-            getNotExistsIds(oetaDbList, activeUserList, newUserList, activeUserAllList, newUserAllList);
+        List<Long> notExistsIds = getNotExistsIds(oetaDbList, activeUserList, newUserList, activeUserAllList,
+            newUserAllList, usrcActiveList, usrcNewList, usrcAllActiveList, usrcAllNewList);
         if (!CollectionUtils.isEmpty(notExistsIds)) {
             adsDailyOetaBaseReportMapper.deleteBatchIds(notExistsIds);
         }
