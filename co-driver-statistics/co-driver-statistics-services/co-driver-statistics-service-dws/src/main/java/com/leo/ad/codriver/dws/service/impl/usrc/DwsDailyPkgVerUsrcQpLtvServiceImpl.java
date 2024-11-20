@@ -29,14 +29,14 @@ public class DwsDailyPkgVerUsrcQpLtvServiceImpl implements DwsService {
     @Override
     public void syncData(Integer dates) {
         List<DwsDailyPkgVerUsrcQpLtv> dbList = dwsDailyPkgVerUsrcQpLtvMapper.queryDbList(dates);
-        List<DwsDailyPkgVerUsrcQpLtv> statisticsLit = dwsDailyPkgVerUsrcQpLtvMapper.queryStatisticList(dates);
-        if (CollectionUtils.isEmpty(statisticsLit)) {
+        List<DwsDailyPkgVerUsrcQpLtv> statisticsList = dwsDailyPkgVerUsrcQpLtvMapper.queryStatisticList(dates);
+        if (CollectionUtils.isEmpty(statisticsList)) {
             return;
         }
-        statisticsLit.forEach(DwsDailyPkgVerUsrcQpLtv::init);
-        dwBatchMapper.batchInsert(statisticsLit, DwsDailyPkgVerUsrcQpLtvMapper.class);
+        statisticsList.forEach(DwsDailyPkgVerUsrcQpLtv::init);
+        dwBatchMapper.batchInsert(statisticsList, DwsDailyPkgVerUsrcQpLtvMapper.class);
 
-        List<Long> delIds = getDelIds(dbList, statisticsLit, null);
+        List<Long> delIds = getDelIds(dbList, statisticsList, null);
         dwsDailyPkgVerUsrcQpLtvMapper.deleteBatchIds(delIds);
     }
 }

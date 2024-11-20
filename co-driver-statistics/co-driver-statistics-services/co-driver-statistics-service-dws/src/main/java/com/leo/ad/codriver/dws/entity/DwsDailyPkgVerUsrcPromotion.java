@@ -85,4 +85,7 @@ public class DwsDailyPkgVerUsrcPromotion implements BaseEntity {
      */
     private Date createTime;
 
+    public void init() {
+        this.createTime = new Date();
+    }
 }

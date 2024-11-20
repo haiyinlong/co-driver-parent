@@ -20,4 +20,6 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcPromotion;
 public interface DwsDailyPkgVerUsrcPromotionMapper extends BaseMapper<DwsDailyPkgVerUsrcPromotion> {
 
     List<DwsDailyPkgVerUsrcPromotion> queryDbList(@Param("dates") Integer dates);
+
+    List<DwsDailyPkgVerUsrcPromotion> queryStatisticsList(@Param("dates") Integer dates);
 }

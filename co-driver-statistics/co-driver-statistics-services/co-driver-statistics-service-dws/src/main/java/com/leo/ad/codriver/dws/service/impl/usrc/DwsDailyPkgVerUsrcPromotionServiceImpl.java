@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcPromotionMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcPromotion;
@@ -32,7 +33,15 @@ public class DwsDailyPkgVerUsrcPromotionServiceImpl implements DwsService {
     @Override
     public void syncData(Integer dates) {
         List<DwsDailyPkgVerUsrcPromotion> dbList = dwsDailyPkgVerUsrcPromotionMapper.queryDbList(dates);
-        // TODO 根据每日注册用户的来源进行投放花费计算
+        List<DwsDailyPkgVerUsrcPromotion> statisticsList = dwsDailyPkgVerUsrcPromotionMapper.queryStatisticsList(dates);
+        if (CollectionUtils.isEmpty(statisticsList)) {
+            return;
+        }
+        statisticsList.forEach(DwsDailyPkgVerUsrcPromotion::init);
+        dwBatchMapper.batchInsert(statisticsList, DwsDailyPkgVerUsrcPromotionMapper.class);
+
+        List<Long> delIds = getDelIds(dbList, statisticsList, null);
+        dwsDailyPkgVerUsrcPromotionMapper.deleteBatchIds(delIds);
 
     }
 }
