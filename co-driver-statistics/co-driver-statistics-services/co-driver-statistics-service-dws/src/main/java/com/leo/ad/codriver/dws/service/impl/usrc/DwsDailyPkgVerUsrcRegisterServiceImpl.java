@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcRegisterMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcRegister;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +28,9 @@ public class DwsDailyPkgVerUsrcRegisterServiceImpl implements DwsService {
     private final DwBatchMapper<DwsDailyPkgVerUsrcRegister, DwsDailyPkgVerUsrcRegisterMapper> dwBatchMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
 
+    @ShowExecuteTime(name = "DwsDailyPkgVerUsrcRegister")
+    @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "#dates")
     @Override
     public void syncData(Integer dates) {
         List<DwsDailyPkgVerUsrcRegister> dbList = dwsDailyPkgVerUsrcRegisterMapper.queryDbList(dates);

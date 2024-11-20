@@ -36,6 +36,7 @@ public class ExchangeRate {
 
     public void updateFeeUSDToINR() {
         String feeUSDToInrCahe = redisUtils.get("feeUSDToINR");
+        log.info("获取redis中的汇率值:{}", feeUSDToInrCahe);
         feeUSDToINR = new BigDecimal(feeUSDToInrCahe);
     }
 

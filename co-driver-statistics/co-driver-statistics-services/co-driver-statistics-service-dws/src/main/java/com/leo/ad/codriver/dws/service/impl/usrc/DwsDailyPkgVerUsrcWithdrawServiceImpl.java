@@ -4,12 +4,15 @@ import java.util.List;
 
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcWithdrawMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcWithdraw;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +28,9 @@ public class DwsDailyPkgVerUsrcWithdrawServiceImpl implements DwsService {
     private final DwBatchMapper<DwsDailyPkgVerUsrcWithdraw, DwsDailyPkgVerUsrcWithdrawMapper> dwBatchMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
 
+    @ShowExecuteTime(name = "DwsDailyPkgVerUsrcWithdraw")
+    @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "#dates")
     @Override
     public void syncData(Integer dates) {
         List<DwsDailyPkgVerUsrcWithdraw> dbList = dwsDailyPkgVerUsrcWithdrawMapper.queryList(dates);
@@ -35,7 +41,9 @@ public class DwsDailyPkgVerUsrcWithdrawServiceImpl implements DwsService {
         }
         dwBatchMapper.batchInsert(statisticsActiveList, DwsDailyPkgVerUsrcWithdrawMapper.class);
         List<Long> delIds = getDelIds(dbList, statisticsActiveList, null);
-        dwsDailyPkgVerUsrcWithdrawMapper.deleteBatchIds(delIds);
+        if (!CollectionUtils.isEmpty(delIds)) {
+            dwsDailyPkgVerUsrcWithdrawMapper.deleteBatchIds(delIds);
+        }
         // 新用户
         List<DwsDailyPkgVerUsrcWithdraw> statisticsNewList =
             dwsDailyPkgVerUsrcWithdrawMapper.queryStatisticsNewList(dates);
