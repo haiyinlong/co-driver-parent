@@ -32,22 +32,20 @@ public interface AdsService {
      */
     default List<Long> getNotExistsIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity> activeList,
         List<? extends BaseEntity> newList) {
-        if (CollectionUtils.isEmpty(dbList)) {
-            return Collections.emptyList();
-        }
-        List<Long> dbIds = new java.util.ArrayList<>(dbList.stream().map(BaseEntity::getId).toList());
-        if (!CollectionUtils.isEmpty(activeList)) {
-            activeList.forEach(item -> dbIds.remove(item.getId()));
-        }
-        if (!CollectionUtils.isEmpty(newList)) {
-            newList.forEach(item -> dbIds.remove(item.getId()));
-        }
-        return dbIds;
+        return getNotExistsIds(dbList, activeList, newList, null, null, null, null);
+
     }
 
     default List<Long> getNotExistsIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity> activeList,
         List<? extends BaseEntity> newList, List<? extends BaseEntity> activeListAll,
         List<? extends BaseEntity> newListAll) {
+        return getNotExistsIds(dbList, activeList, newList, activeListAll, newListAll, null, null);
+    }
+
+    default List<Long> getNotExistsIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity> activeList,
+        List<? extends BaseEntity> newList, List<? extends BaseEntity> activeListAll,
+        List<? extends BaseEntity> newListAll, List<? extends BaseEntity> activeUsrcListAll,
+        List<? extends BaseEntity> newUsrcListAll) {
         if (CollectionUtils.isEmpty(dbList)) {
             return Collections.emptyList();
         }
@@ -64,6 +62,13 @@ public interface AdsService {
         if (!CollectionUtils.isEmpty(newListAll)) {
             newListAll.forEach(item -> dbIds.remove(item.getId()));
         }
+        if (!CollectionUtils.isEmpty(activeUsrcListAll)) {
+            activeUsrcListAll.forEach(item -> dbIds.remove(item.getId()));
+        }
+        if (!CollectionUtils.isEmpty(newUsrcListAll)) {
+            newUsrcListAll.forEach(item -> dbIds.remove(item.getId()));
+        }
         return dbIds;
     }
+
 }

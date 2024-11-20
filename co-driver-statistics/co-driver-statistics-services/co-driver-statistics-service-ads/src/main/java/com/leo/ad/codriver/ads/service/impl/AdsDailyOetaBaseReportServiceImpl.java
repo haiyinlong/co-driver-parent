@@ -36,7 +36,7 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
-        // TODO 修改转化广告用户
+        // 修改转化广告用户
         List<AdsDailyOetaBaseReport> oetaDbList = adsDailyOetaBaseReportMapper.queryOetaBaseReportList(dates);
         // 活跃用户
         List<AdsDailyOetaBaseReport> activeUserList = adsDailyOetaBaseReportMapper.selectActiveUserVersionList(dates);
@@ -50,7 +50,7 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
             newUserList.forEach(AdsDailyOetaBaseReport::init);
             batchMapper.batchInsert(newUserList, AdsDailyOetaBaseReportMapper.class);
         }
-        // 所有版本
+        // ALL 所有版本
         // 活跃用户
         List<AdsDailyOetaBaseReport> activeUserAllList = adsDailyOetaBaseReportMapper.selectActiveUserPkgList(dates);
         if (!CollectionUtils.isEmpty(activeUserAllList)) {
@@ -63,6 +63,19 @@ public class AdsDailyOetaBaseReportServiceImpl implements AdsService {
             newUserAllList.forEach(AdsDailyOetaBaseReport::init);
             batchMapper.batchInsert(newUserAllList, AdsDailyOetaBaseReportMapper.class);
         }
+        // 统计用户来源数据
+        List<AdsDailyOetaBaseReport> usrcActiveList = adsDailyOetaBaseReportMapper.selectActiveUsrcList(dates);
+        if (!CollectionUtils.isEmpty(usrcActiveList)) {
+            usrcActiveList.forEach(AdsDailyOetaBaseReport::init);
+            batchMapper.batchInsert(usrcActiveList, AdsDailyOetaBaseReportMapper.class);
+        }
+        // 新用户
+        List<AdsDailyOetaBaseReport> usrcNewList = adsDailyOetaBaseReportMapper.selectNewUsrcList(dates);
+        if (!CollectionUtils.isEmpty(usrcNewList)) {
+            usrcNewList.forEach(AdsDailyOetaBaseReport::init);
+            batchMapper.batchInsert(usrcNewList, AdsDailyOetaBaseReportMapper.class);
+        }
+
         // 删除不存在的记录
         List<Long> notExistsIds =
             getNotExistsIds(oetaDbList, activeUserList, newUserList, activeUserAllList, newUserAllList);

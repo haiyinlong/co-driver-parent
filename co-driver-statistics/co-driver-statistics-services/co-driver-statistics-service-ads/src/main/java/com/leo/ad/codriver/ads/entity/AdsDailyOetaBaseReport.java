@@ -18,6 +18,7 @@ public class AdsDailyOetaBaseReport implements BaseEntity {
     private Long dates;
     private String version;
     private String pkg;
+    private String userSource;
     private Long userType;
     private Long newUserNum;
     private Long secondUserNum;
