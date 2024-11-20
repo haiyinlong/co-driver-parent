@@ -37,6 +37,8 @@ public class DwsDailyPkgVerUsrcOnlineServiceImpl implements DwsService {
         statisticsList.forEach(DwsDailyPkgVerUsrcOnline::init);
         dwBatchMapper.batchInsert(statisticsList, DwsDailyPkgVerUsrcOnlineMapper.class);
         List<Long> delIds = getDelIds(dbList, statisticsList, null);
-        dwsDailyPkgVerUsrcOnlineMapper.deleteBatchIds(delIds);
+        if (!CollectionUtils.isEmpty(delIds)) {
+            dwsDailyPkgVerUsrcOnlineMapper.deleteBatchIds(delIds);
+        }
     }
 }

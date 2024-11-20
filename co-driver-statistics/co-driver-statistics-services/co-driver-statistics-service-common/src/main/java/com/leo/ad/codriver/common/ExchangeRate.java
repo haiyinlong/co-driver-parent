@@ -1,14 +1,15 @@
 package com.leo.ad.codriver.common;
 
-import com.leo.ad.codriver.common.dto.ExchangeDTO;
-import com.leo.ad.codriver.common.service.ExchangeService;
+import java.math.BigDecimal;
+import java.util.Objects;
+
+import org.springframework.stereotype.Component;
+
+import com.leo.ad.codriver.starter.redis.util.RedisUtils;
+
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
-
-import java.math.BigDecimal;
-import java.util.Objects;
 
 /**
  * 汇率对象ExchangeRate
@@ -20,7 +21,7 @@ import java.util.Objects;
 @Slf4j
 @RequiredArgsConstructor
 public class ExchangeRate {
-    private final ExchangeService exchangeService;
+    private final RedisUtils redisUtils;
     private static BigDecimal feeUSDToINR = BigDecimal.ZERO;
 
     /**
@@ -34,8 +35,8 @@ public class ExchangeRate {
     }
 
     public void updateFeeUSDToINR() {
-        ExchangeDTO exchange = exchangeService.getExchange("USD", "INR", "80b090951138248b4d6a6b7401093279");
-        feeUSDToINR = exchange.getUsdToInrExchange();
+        String feeUSDToInrCahe = redisUtils.get("feeUSDToINR");
+        feeUSDToINR = new BigDecimal(feeUSDToInrCahe);
     }
 
     @PostConstruct

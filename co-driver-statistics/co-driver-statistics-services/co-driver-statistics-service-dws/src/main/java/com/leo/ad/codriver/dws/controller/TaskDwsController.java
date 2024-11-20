@@ -69,6 +69,18 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageAllGameSingleServiceImpl;
     private final DwsService dwsDailyPackageAllLabGameSingleServiceImpl;
 
+    // oeta base user source 统计
+    private final DwsService dwsDailyPkgVerUsrcAdServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcConversionServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcLoginServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcOnlineServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcPromotionServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcQpLtvServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcRegisterServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcRetentionServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcShareServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcWithdrawServiceImpl;
+
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
     public String dwsHandle(@RequestParam("dates") Integer dates) {
@@ -404,5 +416,25 @@ public class TaskDwsController {
         dwsDailyPackageAllLabVersionPromotionServiceImpl.syncData(dates);
         dwsDailyPackageAllLabAssetExchangeServiceImpl.syncData(dates);
         return "执行完成dws包维度的在线时长数据统计同步";
+    }
+
+    @GetMapping("/oetaBaseUsrc")
+    @Operation(summary = "触发dws包oetaBaseUsrc维度数据统计", description = "触发dws数据同步")
+    public String dwsOetaBaseUsrcHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsDailyPkgVerUsrcRegisterServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcLoginServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcAdServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcConversionServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcOnlineServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcQpLtvServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcRetentionServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcShareServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcWithdrawServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcPromotionServiceImpl.syncData(dates);
+        return "执行完成dws包oetaBaseUsrc维度数据统计同步";
     }
 }

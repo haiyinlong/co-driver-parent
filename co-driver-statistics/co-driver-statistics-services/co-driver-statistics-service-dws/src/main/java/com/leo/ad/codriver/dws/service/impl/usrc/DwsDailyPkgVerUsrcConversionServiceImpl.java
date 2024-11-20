@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcConversionMapper;
@@ -41,6 +42,10 @@ public class DwsDailyPkgVerUsrcConversionServiceImpl implements DwsService {
         // 不删除，更新数据
         List<DwsDailyPkgVerUsrcConversion> dbList = dwsDailyPkgVerUsrcConversionMapper.queryDbList(dates);
         List<Long> delIds = getDelIds(dbList, activeList, newList);
-        dwsDailyPkgVerUsrcConversionMapper.deleteBatchIds(delIds);
+
+        if (!CollectionUtils.isEmpty(delIds)) {
+            dwsDailyPkgVerUsrcConversionMapper.deleteBatchIds(delIds);
+        }
+
     }
 }

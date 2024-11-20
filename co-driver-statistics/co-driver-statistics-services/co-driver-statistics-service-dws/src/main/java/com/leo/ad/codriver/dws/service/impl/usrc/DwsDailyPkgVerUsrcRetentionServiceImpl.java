@@ -34,6 +34,8 @@ public class DwsDailyPkgVerUsrcRetentionServiceImpl implements DwsService {
         }
         dwBatchMapper.batchInsert(statisticsList, DwsDailyPkgVerUsrcRetentionMapper.class);
         List<Long> delIds = getDelIds(dbList, statisticsList, null);
-        dwsDailyPkgVerUsrcRetentionMapper.deleteBatchIds(delIds);
+        if (!CollectionUtils.isEmpty(delIds)) {
+            dwsDailyPkgVerUsrcRetentionMapper.deleteBatchIds(delIds);
+        }
     }
 }

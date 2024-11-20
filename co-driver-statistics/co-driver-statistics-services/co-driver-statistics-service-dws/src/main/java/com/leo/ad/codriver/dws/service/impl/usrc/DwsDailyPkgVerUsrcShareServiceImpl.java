@@ -35,6 +35,8 @@ public class DwsDailyPkgVerUsrcShareServiceImpl implements DwsService {
         statisticsList.forEach(DwsDailyPkgVerUsrcShare::init);
         dwBatchMapper.batchInsert(statisticsList, DwsDailyPkgVerUsrcShareMapper.class);
         List<Long> delIds = getDelIds(dbList, statisticsList, null);
-        dwsDailyPkgVerUsrcShareMapper.deleteBatchIds(delIds);
+        if (!CollectionUtils.isEmpty(delIds)) {
+            dwsDailyPkgVerUsrcShareMapper.deleteBatchIds(delIds);
+        }
     }
 }

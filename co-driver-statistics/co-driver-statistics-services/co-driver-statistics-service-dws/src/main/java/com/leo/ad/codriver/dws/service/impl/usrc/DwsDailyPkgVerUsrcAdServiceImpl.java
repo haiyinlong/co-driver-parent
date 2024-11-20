@@ -52,7 +52,9 @@ public class DwsDailyPkgVerUsrcAdServiceImpl implements DwsService {
         dwBatchMapper.batchInsert(queryStatisticsAll, DwsDailyPkgVerUsrcAdMapper.class);
         // 删除不用的
         List<Long> dbNewAdDelIds = this.getDelIds(dbAdList, queryStatisticsAll, null);
-        dwsDailyPkgVerUsrcAdMapper.deleteBatchIds(dbNewAdDelIds);
+        if (!CollectionUtils.isEmpty(dbNewAdDelIds)) {
+            dwsDailyPkgVerUsrcAdMapper.deleteBatchIds(dbNewAdDelIds);
+        }
         // 发布事件
         applicationEventPublisher.publishEvent(new DwsDailyPkgVerUsrcAdUpdateDwEvent(this, dates));
     }
