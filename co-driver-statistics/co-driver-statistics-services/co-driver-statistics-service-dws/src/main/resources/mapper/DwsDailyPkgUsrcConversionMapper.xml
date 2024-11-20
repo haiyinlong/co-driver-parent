@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgUsrcConversionMapper">
+
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        user_source,user_type,user_num
+    </sql>
+    <select id="queryActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcConversion">
+        SELECT ddpvuc.id,
+               t.dates,
+               t.pkg,
+               t.`user_type`,
+               t.user_source,
+               t.user_num
+        FROM (select duc.dates,
+                     duc.pkg,
+                     0                              `user_type`,
+                     IFNULL(dus.network, 'Organic') user_source,
+                     count(DISTINCT duc.user_id)    user_num
+              from dwd_user_conversion duc
+                       left join dim_user_source dus on (dus.user_id = duc.user_id)
+              where duc.dates = #{dates}
+              group by duc.dates, duc.pkg, IFNULL(dus.network, 'Organic')) t
+                 left join dws_daily_pkg_usrc_conversion ddpvuc
+                           on (t.dates = ddpvuc.dates and t.pkg = ddpvuc.pkg and t.user_type = ddpvuc.user_type and
+                               t.user_source = ddpvuc.user_source)
+
+    </select>
+    <select id="queryNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcConversion">
+        SELECT ddpvuc.id,
+               t.dates,
+               t.pkg,
+               t.`user_type`,
+               t.user_source,
+               t.user_num
+        FROM (select duc.dates,
+                     duc.pkg,
+                     1                              `user_type`,
+                     IFNULL(dus.network, 'Organic') user_source,
+                     count(DISTINCT duc.user_id)    user_num
+              from dwd_user_conversion duc
+                       left join dim_user_source dus on (dus.user_id = duc.user_id)
+              where duc.dates = #{dates}
+                and duc.dates = duc.register_dates
+              group by duc.dates, duc.pkg, IFNULL(dus.network, 'Organic')) t
+                 left join dws_daily_pkg_usrc_conversion ddpvuc
+                           on (t.dates = ddpvuc.dates and t.pkg = ddpvuc.pkg and t.user_type = ddpvuc.user_type and
+                               t.user_source = ddpvuc.user_source)
+    </select>
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcConversion">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_usrc_conversion
+        where dates = #{dates}
+    </select>
+</mapper>

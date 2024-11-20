@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgUsrcOnlineMapper">
+
+
+    <sql id="Base_Column_List">
+        id,dates,user_source,
+        pkg,total_online_time,avg_user_online_time,
+        new_user_online_time,avg_new_user_online_time,create_time
+    </sql>
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcOnline">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_usrc_online
+        where dates=#{dates}
+    </select>
+    <select id="queryStatisticsList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcOnline">
+        SELECT ddovyo.id,
+               t.dates,
+               t.pkg,
+               t.user_source,
+               t.total_online_time,
+               t.total_user_num,
+               t.new_user_online_time,
+               t.new_user_num
+        FROM (SELECT duo.dates,
+                     duo.pkg,
+                     IFNULL(dus.network, 'Organic')                                                    user_source,
+                     IFNULL(sum(duo.online_time), 0)                                                   total_online_time,
+                     IFNULL(count(DISTINCT duo.user_id), 0)                                            total_user_num,
+                     IFNULL(sum(case when dui.user_id is not null then duo.online_time end),
+                            0)                                                                         new_user_online_time,
+                     IFNULL(count(DISTINCT case when dui.user_id is not null then dui.user_id end), 0) new_user_num
+              FROM dwd_user_online duo
+                       LEFT JOIN dim_user_info dui on (duo.user_id = dui.user_id and dui.dates = duo.dates)
+                       left join dim_user_source dus on (duo.user_id = dus.user_id)
+              where duo.dates = #{dates}
+              GROUP BY duo.dates, duo.pkg, IFNULL(dus.network, 'Organic')) t
+                 left join dws_daily_pkg_usrc_online ddovyo
+                           on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and
+                               t.user_source = ddovyo.user_source)
+    </select>
+</mapper>

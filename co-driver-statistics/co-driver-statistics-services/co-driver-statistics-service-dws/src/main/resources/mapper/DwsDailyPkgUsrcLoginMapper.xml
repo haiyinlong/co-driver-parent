@@ -2,32 +2,35 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcLoginMapper">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgUsrcLoginMapper">
 
-    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcLogin">
-        select id, dates, pkg, version, user_source, user_num
-        from dws_daily_pkg_ver_usrc_login
-        where dates = #{dates}
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        user_source,user_num
+    </sql>
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcLogin">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_usrc_login
+        where dates=#{dates}
     </select>
-    <select id="queryStatisticsList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcLogin">
+    <select id="queryStatisticsList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcLogin">
         SELECT ddpvul.id,
                t.dates,
                t.pkg,
-               t.version,
                t.user_source,
                t.user_num
         FROM (select dulr.dates,
                      dulr.pkg,
-                     dulr.version,
                      IFNULL(dus.network, 'Organic') user_source,
                      count(DISTINCT dulr.user_id)   user_num
               from dwd_user_login_record dulr
                        left join dim_user_source dus on (dus.user_id = dulr.user_id)
               where dulr.dates = #{dates}
-              group by dulr.dates, dulr.pkg, dulr.version, IFNULL(dus.network, 'Organic')) t
-                 left join dws_daily_pkg_ver_usrc_login ddpvul
-                           on (t.dates = ddpvul.dates and t.pkg = ddpvul.pkg and t.version = ddpvul.version and
+              group by dulr.dates, dulr.pkg, IFNULL(dus.network, 'Organic')) t
+                 left join dws_daily_pkg_usrc_login ddpvul
+                           on (t.dates = ddpvul.dates and t.pkg = ddpvul.pkg and
                                t.user_source = ddpvul.user_source)
-
     </select>
 </mapper>

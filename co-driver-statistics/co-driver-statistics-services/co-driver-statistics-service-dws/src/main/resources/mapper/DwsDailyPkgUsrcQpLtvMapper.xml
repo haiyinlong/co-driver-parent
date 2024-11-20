@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgUsrcQpLtvMapper">
+
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        user_source,active_user_num,active_event_ltv,
+        active_user_ltv,new_user_num,new_user_event_ltv,
+        new_user_ltv,create_time
+    </sql>
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcQpLtv">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_usrc_qp_ltv
+        where dates = #{dates}
+    </select>
+    <select id="queryStatisticList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcQpLtv">
+        SELECT ddovyo.id,
+               t.dates,
+               t.pkg,
+               t.user_source,
+               t.active_user_num,
+               t.active_event_ltv,
+               t.active_user_ltv,
+               t.new_user_num,
+               t.new_user_event_ltv,
+               t.new_user_ltv
+        FROM (SELECT dqlr.dates,
+                     dqlr.pkg,
+                     IFNULL(dus.network, 'Organic') user_source,
+                     COUNT(distinct dqlr.user_id)   active_user_num,
+                     SUM(dqlr.event_ltv)            active_event_ltv,
+                     SUM(dqlr.user_ltv)             active_user_ltv,
+                     COUNT(distinct dui.user_id)    new_user_num,
+                     SUM(dqlr.event_ltv)            new_user_event_ltv,
+                     SUM(dqlr.user_ltv)             new_user_ltv
+              FROM dwd_qp_ltv_record dqlr
+                       LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
+                       left join dim_user_source dus on (dus.user_id = dqlr.user_id)
+              where dqlr.dates = #{dates}
+              GROUP BY dqlr.dates, dqlr.pkg, IFNULL(dus.network, 'Organic')) t
+                 left join dws_daily_pkg_usrc_qp_ltv ddovyo
+                           on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and
+                               t.user_source = ddovyo.user_source)
+    </select>
+</mapper>
