@@ -80,6 +80,16 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgVerUsrcRetentionServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcShareServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcWithdrawServiceImpl;
+    private final DwsService dwsDailyPkgUsrcAdServiceImpl;
+    private final DwsService dwsDailyPkgUsrcConversionServiceImpl;
+    private final DwsService dwsDailyPkgUsrcLoginServiceImpl;
+    private final DwsService dwsDailyPkgUsrcOnlineServiceImpl;
+    private final DwsService dwsDailyPkgUsrcPromotionServiceImpl;
+    private final DwsService dwsDailyPkgUsrcQpLtvServiceImpl;
+    private final DwsService dwsDailyPkgUsrcRegisterServiceImpl;
+    private final DwsService dwsDailyPkgUsrcRetentionServiceImpl;
+    private final DwsService dwsDailyPkgUsrcShareServiceImpl;
+    private final DwsService dwsDailyPkgUsrcWithdrawServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -435,6 +445,16 @@ public class TaskDwsController {
         dwsDailyPkgVerUsrcShareServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcWithdrawServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcPromotionServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcAdServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcConversionServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcLoginServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcOnlineServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcPromotionServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcQpLtvServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcRegisterServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcRetentionServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcShareServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcWithdrawServiceImpl.syncData(dates);
         return "执行完成dws包oetaBaseUsrc维度数据统计同步";
     }
 }
