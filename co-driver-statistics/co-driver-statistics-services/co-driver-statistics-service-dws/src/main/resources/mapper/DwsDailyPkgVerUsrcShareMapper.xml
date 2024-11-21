@@ -31,10 +31,10 @@
         from (SELECT dusr.dates,
                      dusr.pkg,
                      dusr.version,
-                     IFNULL(dus.network, 'Organic')                      user_source,
-                     count(CASE dusr.source WHEN 1 THEN dusr.source END) invitation_num,
-                     count(CASE dusr.source WHEN 0 THEN dusr.source END) fill_code_num,
-                     COUNT(1)                                            total_user_num
+                     IFNULL(dus.network, 'Organic')                                user_source,
+                     count(DISTINCT CASE dusr.source WHEN 1 THEN dusr.user_id END) invitation_num,
+                     count(DISTINCT CASE dusr.source WHEN 2 THEN dusr.user_id END) fill_code_num,
+                     COUNT(DISTINCT dusr.user_id)                                  total_user_num
               FROM dwd_user_share_record dusr
                        left join dim_user_source dus on (dusr.user_id = dus.user_id)
               WHERE dusr.dates = #{dates}

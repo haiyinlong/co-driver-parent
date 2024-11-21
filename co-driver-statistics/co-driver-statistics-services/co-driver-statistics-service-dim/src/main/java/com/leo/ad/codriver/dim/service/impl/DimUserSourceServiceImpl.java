@@ -25,7 +25,7 @@ public class DimUserSourceServiceImpl implements DimUserSourceService {
     @Override
     public void syncUserSource(String odsUserAttributeMsg) {
         DimUserSource dimUserSource = JSONObject.parseObject(odsUserAttributeMsg, DimUserSource.class);
-        DimUserSource dbUserSource = dimUserSourceMapper.selectById(dimUserSource.getUserId());
+        DimUserSource dbUserSource = dimUserSourceMapper.selectById(dimUserSource.getId());
         if (ObjectUtils.isEmpty(dbUserSource)) {
             dimUserSourceMapper.insert(dimUserSource);
         } else {

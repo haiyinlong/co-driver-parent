@@ -19,10 +19,10 @@
                      dusr.pkg,
                      dusr.version,
                      dul.config_group_type,
-                     dul.name                                            config_group_name,
-                     count(CASE dusr.source WHEN 1 THEN dusr.source END) invitation_num,
-                     count(CASE dusr.source WHEN 0 THEN dusr.source END) fill_code_num,
-                     COUNT(1)                                            total_user_num
+                     dul.name                                                      config_group_name,
+                     count(DISTINCT CASE dusr.source WHEN 1 THEN dusr.user_id END) invitation_num,
+                     count(DISTINCT CASE dusr.source WHEN 2 THEN dusr.user_id END) fill_code_num,
+                     COUNT(DISTINCT dusr.user_id)                                  total_user_num
               FROM dwd_user_share_record dusr
                        INNER JOIN dim_user_lab dul on (dul.user_id = dusr.user_id)
               WHERE dusr.dates = #{dates}

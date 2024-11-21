@@ -33,6 +33,7 @@ public class DwdUserShareRecordServiceImpl implements DwdService {
     @ShowExecuteTime(name = "dwdUserShareRecord  syncData")
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
+        // TODO 改造
         Long totalRecord = dwdUserShareRecordMapper.getCountByDate(dates);
         long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
         List<DwdUserShareRecord> userShareRecordList;

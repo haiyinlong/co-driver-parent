@@ -25,8 +25,9 @@
                oupprd.create_time
         FROM ods_user_prepare_parent_record_diversion oupprd
                  INNER JOIN dim_user_info dui on (oupprd.user_id = dui.user_id)
-                 LEFT JOIN dwd_user_share_record duoq on (duoq.dates = dui.dates and duoq.user_id = dui.user_id
-            and duoq.pkg = dui.pkg and duoq.country = dui.country)
+                 LEFT JOIN dwd_user_share_record duoq
+                           on (duoq.dates = oupprd.dates and duoq.user_id = oupprd.user_id) and duoq.pkg = dui.pkg and
+                              duoq.country = dui.country)
         WHERE oupprd.dates = #{dates}
         limit #{startRows}, #{rows}
     </select>
