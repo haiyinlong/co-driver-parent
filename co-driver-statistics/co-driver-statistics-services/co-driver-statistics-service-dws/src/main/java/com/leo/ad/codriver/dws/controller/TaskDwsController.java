@@ -51,6 +51,8 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageAdServiceImpl;
     private final DwsService dwsDailyPackageOnlineServiceImpl;
 
+    private final DwsService dwsDailyPackageShareServiceImpl;
+
     private final DwsService dwsDailyPackageAllLabAdServiceImpl;
     private final DwsService dwsDailyPackageAllLabConversionServiceImpl;
     private final DwsService dwsDailyPackageAllLabLoginServiceImpl;
@@ -59,6 +61,7 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageAllLabRegisterServiceImpl;
     private final DwsService dwsDailyPackageAllLabRetentionServiceImpl;
     private final DwsService dwsDailyPackageAllLabShareServiceImpl;
+    private final DwsService dwsDailyPackageAllShareServiceImpl;
     private final DwsService dwsDailyPackageAllLabVersionPromotionServiceImpl;
     private final DwsService dwsDailyPackageAllLabWithdrawServiceImpl;
     private final DwsService dwsDailyPackageAllGameServiceImpl;
@@ -456,5 +459,20 @@ public class TaskDwsController {
         dwsDailyPkgUsrcShareServiceImpl.syncData(dates);
         dwsDailyPkgUsrcWithdrawServiceImpl.syncData(dates);
         return "执行完成dws包oetaBaseUsrc维度数据统计同步";
+    }
+
+    @GetMapping("/packageShare")
+    @Operation(summary = "触发dws包packageShare维度数据统计", description = "触发dws数据同步")
+    public String dwsPackageShareHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsDailyPackageAllShareServiceImpl.syncData(dates);
+        dwsDailyPackageShareServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcShareServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcShareServiceImpl.syncData(dates);
+        dwsDailyPackageAllLabShareServiceImpl.syncData(dates);
+        return "执行完成dws包packageShare维度数据统计同步";
     }
 }

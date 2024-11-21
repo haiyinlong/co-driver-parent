@@ -211,4 +211,15 @@ public class TaskDwdController {
         return "执行完成dwd数据同步";
     }
 
+    @GetMapping("/userShareRecord")
+    @Operation(summary = "触发同步裂变记录dwd", description = "触发dwd数据同步")
+    public String syncUserShareRecordHandle(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        dwdUserShareRecordServiceImpl.syncData(dates);
+        return "执行完成dwd数据同步";
+    }
+
 }
