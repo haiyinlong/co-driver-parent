@@ -2,6 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper">
+    <select id="getDbCountOfId" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+        SELECT count(1), min(duar.id) min_id, max(duar.id) max_id
+        FROM dwd_user_ad_record duar
+        WHERE duar.dates = #{dates}
+    </select>
+
     <select id="getDbCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
         SELECT count(1), min(duar.source_id) min_id, max(duar.source_id) max_id
         FROM dwd_user_ad_record duar
@@ -30,7 +36,7 @@
         dui.country
         from (SELECT
         duar.id,
-        omasda.id        source_id,
+        omasda.id source_id,
         omasda.dates,
         omasda.gaid,
         omasda.pkg,
@@ -38,7 +44,7 @@
         omasda.network,
         omasda.ad_exhibit,
         omasda.revenue,
-        omasda.created   source_create_time
+        omasda.created source_create_time
         FROM ods_max_ad_stat_detail_ads omasda
         LEFT JOIN dwd_user_ad_record duar on (duar.source_id = omasda.id and duar.dates = omasda.dates)
         WHERE omasda.dates = #{dates}

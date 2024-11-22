@@ -20,6 +20,8 @@ import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
 @DS("mysql")
 public interface DwdUserAdRecordMapper extends BaseMapper<DwdUserAdRecord> {
 
+    DwCountDTO getDbCountOfId(@Param("dates") Integer dates);
+
     DwCountDTO getDbCount(@Param("dates") Integer dates);
 
     DwCountDTO getStatisticsCount(@Param("dates") Integer dates);

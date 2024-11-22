@@ -18,7 +18,8 @@
               from dwd_user_login_record lr
               where dates = #{dates}
               group by lr.dates, lr.pkg, lr.register_dates) q
-                 LEFT JOIN dws_pkg_retention_full_daily dprfd ON (dprfd.dates = q.dates and dprfd.pkg = q.pkg)
+                 LEFT JOIN dws_pkg_retention_full_daily dprfd
+                           ON (dprfd.dates = q.dates and dprfd.pkg = q.pkg and dprfd.register_dates = q.register_dates)
 
     </select>
 </mapper>

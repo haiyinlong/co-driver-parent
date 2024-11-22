@@ -23,26 +23,17 @@ public interface DwsService {
      */
     void syncData(Integer dates);
 
-    /**
-     * 获取需要删除的id集合
-     *
-     * @param dbList
-     * @param activeList
-     * @param newList
-     * @return
-     */
-    default List<Long> getDelIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity> activeList,
-        List<? extends BaseEntity> newList) {
+    default List<Long> getDelIds(List<? extends BaseEntity> dbList, List<? extends BaseEntity>... values) {
         if (CollectionUtils.isEmpty(dbList)) {
             return Collections.emptyList();
         }
         List<Long> dbIds = new java.util.ArrayList<>(dbList.stream().map(BaseEntity::getId).toList());
-        if (!CollectionUtils.isEmpty(activeList)) {
-            activeList.forEach(item -> dbIds.remove(item.getId()));
-        }
-        if (!CollectionUtils.isEmpty(newList)) {
-            newList.forEach(item -> dbIds.remove(item.getId()));
+        for (List<? extends BaseEntity> value : values) {
+            if (!CollectionUtils.isEmpty(value)) {
+                value.forEach(item -> dbIds.remove(item.getId()));
+            }
         }
         return dbIds;
     }
+
 }

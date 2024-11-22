@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerAdvertisingMapper">
+
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        version,user_type,directsold_user_num,
+        directsold_show_count,directsold_income,directsold_ecpm,
+        custom_network_user_num,custom_network_show_count,custom_network_income,
+        custom_network_ecpm,custom_directsold_user_num,custom_directsold_show_count,
+        custom_directsold_income,custom_directsold_ecpm,banner_user_num,
+        banner_show_count,banner_income,banner_ecpm,
+        banner_directsold_user_num,banner_directsold_show_count,banner_directsold_income,
+        banner_directsold_ecpm,banner_exchange_user_num,banner_exchange_show_count,
+        banner_exchange_income,banner_exchange_ecpm,banner_network_user_num,
+        banner_network_show_count,banner_network_income,banner_network_ecpm,
+        banner_custom_network_user_num,banner_custom_network_show_count,banner_custom_network_income,
+        banner_custom_network_ecpm,banner_mintegral_bidding_user_num,banner_mintegral_bidding_show_count,
+        banner_mintegral_bidding_income,banner_mintegral_bidding_ecpm,banner_not_custom_directsold_user_num,
+        banner_not_custom_directsold_show_count,banner_not_custom_directsold_income,banner_not_custom_directsold_ecpm,
+        inter_user_num,inter_show_count,inter_income,
+        inter_ecpm,inter_directsold_user_num,inter_directsold_show_count,
+        inter_directsold_income,inter_directsold_ecpm,inter_exchange_user_num,
+        inter_exchange_show_count,inter_exchange_income,inter_exchange_ecpm,
+        inter_network_user_num,inter_network_show_count,inter_network_income,
+        inter_network_ecpm,inter_mintegral_bidding_user_num,inter_mintegral_bidding_show_count,
+        inter_mintegral_bidding_income,inter_mintegral_bidding_ecpm,inter_vungle_bidding_user_num,
+        inter_vungle_bidding_show_count,inter_vungle_bidding_income,inter_vungle_bidding_ecpm,
+        inter_not_custom_directsold_user_num,inter_not_custom_directsold_show_count,inter_not_custom_directsold_income,
+        inter_not_custom_directsold_ecpm,mre_user_num,mre_show_count,
+        mre_income,mre_ecpm,mrec_directsold_user_num,
+        mrec_directsold_show_count,mrec_directsold_income,mrec_directsold_ecpm,
+        mrec_exchange_user_num,mrec_exchange_show_count,mrec_exchange_income,
+        mrec_exchange_ecpm,mrec_custom_network_user_num,mrec_custom_network_show_count,
+        mrec_custom_network_income,mrec_custom_network_ecpm,mrec_not_custom_directsold_user_num,
+        mrec_not_custom_directsold_show_count,mrec_not_custom_directsold_income,mrec_not_custom_directsold_ecpm,
+        reward_user_num,reward_show_count,reward_income,
+        reward_ecpm,reward_exchange_user_num,reward_exchange_show_count,
+        reward_exchange_income,reward_exchange_ecpm,reward_network_user_num,
+        reward_network_show_count,reward_network_income,reward_network_ecpm,
+        reward_custom_network_user_num,reward_custom_network_show_count,reward_custom_network_income,
+        reward_custom_network_ecpm,reward_facebook_network_user_num,reward_facebook_network_show_count,
+        reward_facebook_network_income,reward_facebook_network_ecpm,reward_mintegral_bidding_user_num,
+        reward_mintegral_bidding_show_count,reward_mintegral_bidding_income,reward_mintegral_bidding_ecpm,
+        reward_vungle_bidding_user_num,reward_vungle_bidding_show_count,reward_vungle_bidding_income,
+        reward_vungle_bidding_ecpm,reward_not_custom_directsold_user_num,reward_not_custom_directsold_show_count,
+        reward_not_custom_directsold_income,reward_not_custom_directsold_ecpm,create_time
+    </sql>
+    <!--    <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.dto.PkgVerAdDTO">-->
+    <!--        SELECT ddpva.id,-->
+    <!--               0 user_type,-->
+    <!--               t.dates,-->
+    <!--               t.pkg,-->
+    <!--               t.version,-->
+    <!--               t.ad_format,-->
+    <!--               t.network,-->
+    <!--               t.user_num,-->
+    <!--               t.ad_income,-->
+    <!--               t.ad_show_count-->
+    <!--        FROM (SELECT duar.dates,-->
+    <!--                     duar.pkg,-->
+    <!--                     duar.version,-->
+    <!--                     duar.ad_format,-->
+    <!--                     duar.network,-->
+    <!--                     COUNT(DISTINCT duar.user_id) user_num,-->
+    <!--                     SUM(duar.revenue)            ad_income,-->
+    <!--                     SUM(duar.ad_exhibit)         ad_show_count-->
+    <!--              FROM dwd_user_ad_record duar-->
+    <!--              WHERE duar.dates = #{dates}-->
+    <!--                and duar.ad_format = #{adFormat}-->
+    <!--              GROUP BY duar.dates, duar.pkg, duar.version, duar.ad_format, duar.network) t-->
+    <!--                 LEFT JOIN dws_daily_pkg_ver_advertising ddpva-->
+    <!--                           on (ddpva.dates = t.dates and ddpva.pkg = t.pkg and ddpva.version = t.version and-->
+    <!--                               ddpva.user_type = 0)-->
+    <!--    </select>-->
+    <!--    <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.dto.PkgVerAdDTO">-->
+    <!--        SELECT ddpva.id,-->
+    <!--               1 user_type,-->
+    <!--               t.dates,-->
+    <!--               t.pkg,-->
+    <!--               t.version,-->
+    <!--               t.ad_format,-->
+    <!--               t.network,-->
+    <!--               t.user_num,-->
+    <!--               t.ad_income,-->
+    <!--               t.ad_show_count-->
+    <!--        FROM (SELECT duar.dates,-->
+    <!--                     duar.pkg,-->
+    <!--                     duar.version,-->
+    <!--                     duar.ad_format,-->
+    <!--                     duar.network,-->
+    <!--                     COUNT(DISTINCT duar.user_id) user_num,-->
+    <!--                     SUM(duar.revenue)            ad_income,-->
+    <!--                     SUM(duar.ad_exhibit)         ad_show_count-->
+    <!--              FROM dwd_user_ad_record duar-->
+    <!--                       INNER JOIN dim_user_info dui-->
+    <!--                                  on (duar.user_id = dui.user_id and duar.dates = dui.dates)-->
+    <!--              WHERE duar.dates = #{dates}-->
+    <!--                and duar.ad_format = #{adFormat}-->
+    <!--              GROUP BY duar.dates, duar.pkg, duar.version, duar.ad_format, duar.network) t-->
+    <!--                 LEFT JOIN dws_daily_pkg_ver_advertising ddpva-->
+    <!--                           on (ddpva.dates = t.dates and ddpva.pkg = t.pkg and ddpva.version = t.version and-->
+    <!--                               ddpva.user_type = 1)-->
+    <!--    </select>-->
+    <!--    <select id="queryDbActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising">-->
+    <!--        select-->
+    <!--        <include refid="Base_Column_List"/>-->
+    <!--        from dws_daily_pkg_ver_advertising-->
+    <!--        where dates = #{dates}-->
+    <!--        and user_type = 0-->
+    <!--    </select>-->
+    <!--    <select id="queryDbNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising">-->
+    <!--        select-->
+    <!--        <include refid="Base_Column_List"/>-->
+    <!--        from dws_daily_pkg_ver_advertising-->
+    <!--        where dates = #{dates}-->
+    <!--        and user_type = 1-->
+    <!--    </select>-->
+</mapper>
