@@ -1,8 +1,8 @@
 package com.leo.ad.codriver.common.util;
 
-import org.springframework.util.ObjectUtils;
-
 import java.math.RoundingMode;
+
+import org.springframework.util.ObjectUtils;
 
 /**
  * BigDecimalUtils
@@ -31,5 +31,12 @@ public class LongUtils {
             return result;
         }
         return 0L;
+    }
+
+    public static Long getDefault(Long value) {
+        if (ObjectUtils.isEmpty(value)) {
+            return 0L;
+        }
+        return value;
     }
 }

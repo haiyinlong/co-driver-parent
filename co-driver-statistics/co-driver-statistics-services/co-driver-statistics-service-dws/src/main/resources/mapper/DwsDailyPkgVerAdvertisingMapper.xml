@@ -30,8 +30,8 @@
         inter_mintegral_bidding_income,inter_mintegral_bidding_ecpm,inter_vungle_bidding_user_num,
         inter_vungle_bidding_show_count,inter_vungle_bidding_income,inter_vungle_bidding_ecpm,
         inter_not_custom_directsold_user_num,inter_not_custom_directsold_show_count,inter_not_custom_directsold_income,
-        inter_not_custom_directsold_ecpm,mre_user_num,mre_show_count,
-        mre_income,mre_ecpm,mrec_directsold_user_num,
+        inter_not_custom_directsold_ecpm,mrec_user_num,mrec_show_count,
+        mrec_income,mrec_ecpm,mrec_directsold_user_num,
         mrec_directsold_show_count,mrec_directsold_income,mrec_directsold_ecpm,
         mrec_exchange_user_num,mrec_exchange_show_count,mrec_exchange_income,
         mrec_exchange_ecpm,mrec_custom_network_user_num,mrec_custom_network_show_count,
@@ -49,74 +49,18 @@
         reward_vungle_bidding_ecpm,reward_not_custom_directsold_user_num,reward_not_custom_directsold_show_count,
         reward_not_custom_directsold_income,reward_not_custom_directsold_ecpm,create_time
     </sql>
-    <!--    <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.dto.PkgVerAdDTO">-->
-    <!--        SELECT ddpva.id,-->
-    <!--               0 user_type,-->
-    <!--               t.dates,-->
-    <!--               t.pkg,-->
-    <!--               t.version,-->
-    <!--               t.ad_format,-->
-    <!--               t.network,-->
-    <!--               t.user_num,-->
-    <!--               t.ad_income,-->
-    <!--               t.ad_show_count-->
-    <!--        FROM (SELECT duar.dates,-->
-    <!--                     duar.pkg,-->
-    <!--                     duar.version,-->
-    <!--                     duar.ad_format,-->
-    <!--                     duar.network,-->
-    <!--                     COUNT(DISTINCT duar.user_id) user_num,-->
-    <!--                     SUM(duar.revenue)            ad_income,-->
-    <!--                     SUM(duar.ad_exhibit)         ad_show_count-->
-    <!--              FROM dwd_user_ad_record duar-->
-    <!--              WHERE duar.dates = #{dates}-->
-    <!--                and duar.ad_format = #{adFormat}-->
-    <!--              GROUP BY duar.dates, duar.pkg, duar.version, duar.ad_format, duar.network) t-->
-    <!--                 LEFT JOIN dws_daily_pkg_ver_advertising ddpva-->
-    <!--                           on (ddpva.dates = t.dates and ddpva.pkg = t.pkg and ddpva.version = t.version and-->
-    <!--                               ddpva.user_type = 0)-->
-    <!--    </select>-->
-    <!--    <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.dto.PkgVerAdDTO">-->
-    <!--        SELECT ddpva.id,-->
-    <!--               1 user_type,-->
-    <!--               t.dates,-->
-    <!--               t.pkg,-->
-    <!--               t.version,-->
-    <!--               t.ad_format,-->
-    <!--               t.network,-->
-    <!--               t.user_num,-->
-    <!--               t.ad_income,-->
-    <!--               t.ad_show_count-->
-    <!--        FROM (SELECT duar.dates,-->
-    <!--                     duar.pkg,-->
-    <!--                     duar.version,-->
-    <!--                     duar.ad_format,-->
-    <!--                     duar.network,-->
-    <!--                     COUNT(DISTINCT duar.user_id) user_num,-->
-    <!--                     SUM(duar.revenue)            ad_income,-->
-    <!--                     SUM(duar.ad_exhibit)         ad_show_count-->
-    <!--              FROM dwd_user_ad_record duar-->
-    <!--                       INNER JOIN dim_user_info dui-->
-    <!--                                  on (duar.user_id = dui.user_id and duar.dates = dui.dates)-->
-    <!--              WHERE duar.dates = #{dates}-->
-    <!--                and duar.ad_format = #{adFormat}-->
-    <!--              GROUP BY duar.dates, duar.pkg, duar.version, duar.ad_format, duar.network) t-->
-    <!--                 LEFT JOIN dws_daily_pkg_ver_advertising ddpva-->
-    <!--                           on (ddpva.dates = t.dates and ddpva.pkg = t.pkg and ddpva.version = t.version and-->
-    <!--                               ddpva.user_type = 1)-->
-    <!--    </select>-->
-    <!--    <select id="queryDbActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising">-->
-    <!--        select-->
-    <!--        <include refid="Base_Column_List"/>-->
-    <!--        from dws_daily_pkg_ver_advertising-->
-    <!--        where dates = #{dates}-->
-    <!--        and user_type = 0-->
-    <!--    </select>-->
-    <!--    <select id="queryDbNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising">-->
-    <!--        select-->
-    <!--        <include refid="Base_Column_List"/>-->
-    <!--        from dws_daily_pkg_ver_advertising-->
-    <!--        where dates = #{dates}-->
-    <!--        and user_type = 1-->
-    <!--    </select>-->
+    <select id="queryDbActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_ver_advertising
+        where dates = #{dates}
+        and user_type = 0
+    </select>
+    <select id="queryDbNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_ver_advertising
+        where dates = #{dates}
+        and user_type = 1
+    </select>
 </mapper>

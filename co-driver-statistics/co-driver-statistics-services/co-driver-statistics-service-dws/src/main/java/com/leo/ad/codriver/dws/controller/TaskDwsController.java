@@ -52,6 +52,7 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageOnlineServiceImpl;
 
     private final DwsService dwsDailyPackageShareServiceImpl;
+    private final DwsService dwsDailyPkgVerAdvertisingServiceImpl;
 
     private final DwsService dwsDailyPackageAllLabAdServiceImpl;
     private final DwsService dwsDailyPackageAllLabConversionServiceImpl;
@@ -373,7 +374,8 @@ public class TaskDwsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        dwsDailyPackageAdServiceImpl.syncData(dates);
+        // dwsDailyPackageAdServiceImpl.syncData(dates);
+        dwsDailyPkgVerAdvertisingServiceImpl.syncData(dates);
         return "执行完成dws包维度的包广告数据统计同步";
     }
 
@@ -458,6 +460,7 @@ public class TaskDwsController {
         dwsDailyPkgUsrcRetentionServiceImpl.syncData(dates);
         dwsDailyPkgUsrcShareServiceImpl.syncData(dates);
         dwsDailyPkgUsrcWithdrawServiceImpl.syncData(dates);
+        dwsDailyPkgVerAdvertisingServiceImpl.syncData(dates);
         return "执行完成dws包oetaBaseUsrc维度数据统计同步";
     }
 

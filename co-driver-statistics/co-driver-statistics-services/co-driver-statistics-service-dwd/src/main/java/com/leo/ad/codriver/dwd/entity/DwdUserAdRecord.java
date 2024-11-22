@@ -14,7 +14,7 @@ public class DwdUserAdRecord implements BaseEntity {
 
     private Long id;
     private Long sourceId;
-    private Long dates;
+    private Integer dates;
     private Long userId;
     private String version;
     private String pkg;
@@ -28,5 +28,49 @@ public class DwdUserAdRecord implements BaseEntity {
 
     public void init() {
         this.createTime = new Date();
+    }
+
+    public boolean isApplovinDirectsold() {
+        return "APPLOVIN_DIRECTSOLD".equalsIgnoreCase(this.getNetwork());
+    }
+
+    public boolean isCustomNetworkSdk() {
+        return "CUSTOM_NETWORK_SDK".equalsIgnoreCase(this.getNetwork());
+    }
+
+    public boolean isApplovinExchange() {
+        return "APPLOVIN_EXCHANGE".equalsIgnoreCase(this.getNetwork());
+    }
+
+    public boolean isApplovinNetwork() {
+        return "APPLOVIN_NETWORK".equalsIgnoreCase(this.getNetwork());
+    }
+
+    public boolean isMintegralBidding() {
+        return "MINTEGRAL_BIDDING".equalsIgnoreCase(this.getNetwork());
+    }
+
+    public boolean isVungleBidding() {
+        return "VUNGLE_BIDDING".equalsIgnoreCase(this.getNetwork());
+    }
+
+    public boolean isFacebookNetwork() {
+        return "FACEBOOK_NETWORK".equalsIgnoreCase(this.getNetwork());
+    }
+
+    public boolean isReward() {
+        return "reward".equalsIgnoreCase(this.getAdFormat());
+    }
+
+    public boolean isMrec() {
+        return "mrec".equalsIgnoreCase(this.getAdFormat());
+    }
+
+    public boolean isInter() {
+        return "inter".equalsIgnoreCase(this.getAdFormat());
+    }
+
+    public boolean isBanner() {
+        return "banner".equalsIgnoreCase(this.getAdFormat());
     }
 }

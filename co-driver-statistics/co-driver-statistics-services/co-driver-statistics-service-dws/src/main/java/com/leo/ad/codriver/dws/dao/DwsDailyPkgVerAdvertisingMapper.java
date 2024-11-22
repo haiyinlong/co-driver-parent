@@ -7,7 +7,6 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dws.dto.PkgVerAdDTO;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising;
 
 /**
@@ -19,10 +18,6 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising;
 @Mapper
 @DS("mysql")
 public interface DwsDailyPkgVerAdvertisingMapper extends BaseMapper<DwsDailyPkgVerAdvertising> {
-
-    List<PkgVerAdDTO> queryStatisticsActiveList(@Param("dates") Integer dates, @Param("adFormat") String adFormat);
-
-    List<PkgVerAdDTO> queryStatisticsNewList(@Param("dates") Integer dates, @Param("adFormat") String adFormat);
 
     List<DwsDailyPkgVerAdvertising> queryDbActiveList(@Param("dates") Integer dates);
 
