@@ -1,12 +1,8 @@
 package com.leo.ad.codriver.dws.entity;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 /**
  * dws广告汇总统计，有新增的广告商就新增字段
@@ -14,13 +10,10 @@ import lombok.EqualsAndHashCode;
  * @author user
  * @TableName dws_daily_pkg_ver_usrc_advertising
  */
-@EqualsAndHashCode(callSuper = true)
 @TableName(value = "dws_daily_pkg_ver_usrc_advertising")
 @Data
-public class DwsDailyPkgVerUsrcAdvertising extends DwsDailyPkgAdvertising implements Serializable {
+public class DwsDailyPkgVerUsrcAdvertising extends DwsDailyPkgAdvertising {
 
-    @Serial
-    private static final long serialVersionUID = -1786958690890671984L;
     /**
      * 应用版本
      */

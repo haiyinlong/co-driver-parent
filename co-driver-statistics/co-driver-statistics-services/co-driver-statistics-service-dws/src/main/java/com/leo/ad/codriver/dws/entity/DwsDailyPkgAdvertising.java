@@ -686,7 +686,6 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     private Set<Long> interMintegralBiddingUser;
     @TableField(exist = false)
     private Set<Long> interNotCustomDirectsoldUser;
-
     @TableField(exist = false)
     private Set<Long> mrecUser;
     @TableField(exist = false)
@@ -697,7 +696,6 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     private Set<Long> mrecCustomNetworkUser;
     @TableField(exist = false)
     private Set<Long> mrecNotCustomDirectsoldUser;
-
     @TableField(exist = false)
     private Set<Long> rewardUser;
     @TableField(exist = false)
@@ -925,7 +923,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleCustomDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isApplovinDirectsold() && !dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (!(dwdUserAdRecord.isApplovinDirectsold() && dwdUserAdRecord.isCustomNetworkSdk())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.customDirectsoldUser)) {
@@ -973,7 +971,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleBannerDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isBanner() && !dwdUserAdRecord.isApplovinDirectsold()) {
+        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isApplovinDirectsold())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.bannerDirectsoldUser)) {
@@ -987,7 +985,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleBannerCustomNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isBanner() && !dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isCustomNetworkSdk())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.bannerCustomNetworkUser)) {
@@ -1003,7 +1001,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleBannerExchange(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isBanner() && !dwdUserAdRecord.isApplovinExchange()) {
+        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isApplovinExchange())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.bannerExchangeUser)) {
@@ -1017,7 +1015,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleBannerNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isBanner() && !dwdUserAdRecord.isApplovinNetwork()) {
+        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isApplovinNetwork())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.bannerNetworkUser)) {
@@ -1031,7 +1029,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleBannerMintegralBidding(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isBanner() && !dwdUserAdRecord.isMintegralBidding()) {
+        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isMintegralBidding())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.bannerMintegralBiddingUser)) {
@@ -1081,7 +1079,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleInterDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isInter() && !dwdUserAdRecord.isApplovinDirectsold()) {
+        if (!(dwdUserAdRecord.isInter() && dwdUserAdRecord.isApplovinDirectsold())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.interDirectsoldUser)) {
@@ -1095,7 +1093,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleInterExchange(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isInter() && !dwdUserAdRecord.isApplovinExchange()) {
+        if (!(dwdUserAdRecord.isInter() && dwdUserAdRecord.isApplovinExchange())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.interExchangeUser)) {
@@ -1109,7 +1107,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleInterNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isInter() && !dwdUserAdRecord.isApplovinNetwork()) {
+        if (!(dwdUserAdRecord.isInter() && dwdUserAdRecord.isApplovinNetwork())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.interNetworkUser)) {
@@ -1123,7 +1121,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleInterVungleBidding(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isInter() && !dwdUserAdRecord.isVungleBidding()) {
+        if (!(dwdUserAdRecord.isInter() && dwdUserAdRecord.isVungleBidding())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.interVungleBiddingUser)) {
@@ -1139,7 +1137,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleInterMintegralBidding(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isInter() && !dwdUserAdRecord.isMintegralBidding()) {
+        if (!(dwdUserAdRecord.isInter() && dwdUserAdRecord.isMintegralBidding())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.interMintegralBiddingUser)) {
@@ -1189,7 +1187,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleMrecDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isMrec() && !dwdUserAdRecord.isApplovinDirectsold()) {
+        if (!(dwdUserAdRecord.isMrec() && dwdUserAdRecord.isApplovinDirectsold())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.mrecDirectsoldUser)) {
@@ -1203,7 +1201,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleMrecCustomNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isMrec() && !dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (!(dwdUserAdRecord.isMrec() && dwdUserAdRecord.isCustomNetworkSdk())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.mrecCustomNetworkUser)) {
@@ -1217,7 +1215,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleMrecExchange(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isMrec() && !dwdUserAdRecord.isApplovinExchange()) {
+        if (!(dwdUserAdRecord.isMrec() && dwdUserAdRecord.isApplovinExchange())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.mrecExchangeUser)) {
@@ -1265,7 +1263,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleRewardFacebookNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isReward() && !dwdUserAdRecord.isFacebookNetwork()) {
+        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isFacebookNetwork())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.rewardFacebookNetworkUser)) {
@@ -1281,7 +1279,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleRewardCustomNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isReward() && !dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isCustomNetworkSdk())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.rewardCustomNetworkUser)) {
@@ -1297,7 +1295,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleRewardExchange(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isReward() && !dwdUserAdRecord.isApplovinExchange()) {
+        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isApplovinExchange())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.rewardExchangeUser)) {
@@ -1311,7 +1309,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleRewardNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isReward() && !dwdUserAdRecord.isApplovinNetwork()) {
+        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isApplovinNetwork())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.rewardNetworkUser)) {
@@ -1325,7 +1323,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleRewardMintegralBidding(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isReward() && !dwdUserAdRecord.isMintegralBidding()) {
+        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isMintegralBidding())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.rewardMintegralBiddingUser)) {
@@ -1341,7 +1339,7 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     }
 
     private void handleRewardVungleBidding(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isReward() && !dwdUserAdRecord.isVungleBidding()) {
+        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isVungleBidding())) {
             return;
         }
         if (CollectionUtils.isEmpty(this.rewardVungleBiddingUser)) {
