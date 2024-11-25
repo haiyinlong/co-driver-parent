@@ -50,6 +50,46 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     /**
      * 用户数
      */
+    private Integer totalUserNum;
+
+    /**
+     * 展示次数
+     */
+    private Long totalShowCount;
+
+    /**
+     * 广告收入
+     */
+    private BigDecimal totalIncome;
+
+    /**
+     * ecpm
+     */
+    private BigDecimal totalEcpm;
+
+    /**
+     * 用户数
+     */
+    private Integer totalNotCustomDirectsoldUserNum;
+
+    /**
+     * 展示次数
+     */
+    private Long totalNotCustomDirectsoldShowCount;
+
+    /**
+     * 广告收入
+     */
+    private BigDecimal totalNotCustomDirectsoldIncome;
+
+    /**
+     * ecpm
+     */
+    private BigDecimal totalNotCustomDirectsoldEcpm;
+
+    /**
+     * 用户数
+     */
     private Integer directsoldUserNum;
 
     /**
@@ -653,6 +693,10 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     private Date createTime;
 
     @TableField(exist = false)
+    private Set<Long> totalUser;
+    @TableField(exist = false)
+    private Set<Long> totalNotCustomDirectsoldUser;
+    @TableField(exist = false)
     private Set<Long> directsoldUser;
     @TableField(exist = false)
     private Set<Long> customNetworkUser;
@@ -714,6 +758,14 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
     private Set<Long> rewardVungleBiddingUser;
 
     public DwsDailyPkgAdvertising() {
+        this.totalUserNum = 0;
+        this.totalShowCount = 0L;
+        this.totalIncome = BigDecimal.ZERO;
+        this.totalEcpm = BigDecimal.ZERO;
+        this.totalNotCustomDirectsoldUserNum = 0;
+        this.totalNotCustomDirectsoldShowCount = 0L;
+        this.totalNotCustomDirectsoldIncome = BigDecimal.ZERO;
+        this.totalNotCustomDirectsoldEcpm = BigDecimal.ZERO;
         this.directsoldUserNum = 0;
         this.directsoldShowCount = 0L;
         this.directsoldIncome = BigDecimal.ZERO;
@@ -857,6 +909,9 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
      * @param dwdUserAdRecord 广告对象
      */
     public void calculate(DwdUserAdRecord dwdUserAdRecord) {
+        // 计算汇总数据
+        handleTotal(dwdUserAdRecord);
+        handleTotalNotCustomDirectsold(dwdUserAdRecord);
         // 根据各个广告类型进行汇总
         handleDirectsold(dwdUserAdRecord);
         handleCustomNetwork(dwdUserAdRecord);
@@ -892,6 +947,33 @@ public class DwsDailyPkgAdvertising implements BaseEntity {
         handleRewardNetwork(dwdUserAdRecord);
         handleRewardMintegralBidding(dwdUserAdRecord);
         handleRewardVungleBidding(dwdUserAdRecord);
+    }
+
+    private void handleTotal(DwdUserAdRecord dwdUserAdRecord) {
+        if (CollectionUtils.isEmpty(this.totalUser)) {
+            this.totalUser = new HashSet<>();
+        }
+        this.totalUser.add(dwdUserAdRecord.getUserId());
+        this.totalUserNum = this.totalUser.size();
+        this.totalShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
+        this.totalIncome = BigDecimalUtils.add(this.totalIncome, dwdUserAdRecord.getRevenue());
+        this.totalEcpm = calculateEcpm(this.totalIncome, this.totalShowCount);
+    }
+
+    private void handleTotalNotCustomDirectsold(DwdUserAdRecord dwdUserAdRecord) {
+        if (dwdUserAdRecord.isApplovinDirectsold() || dwdUserAdRecord.isCustomNetworkSdk()) {
+            return;
+        }
+        if (CollectionUtils.isEmpty(this.totalNotCustomDirectsoldUser)) {
+            this.totalNotCustomDirectsoldUser = new HashSet<>();
+        }
+        this.totalNotCustomDirectsoldUser.add(dwdUserAdRecord.getUserId());
+        this.totalNotCustomDirectsoldUserNum = this.totalNotCustomDirectsoldUser.size();
+        this.totalNotCustomDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
+        this.totalNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.totalNotCustomDirectsoldIncome, dwdUserAdRecord.getRevenue());
+        this.totalNotCustomDirectsoldEcpm =
+            this.calculateEcpm(this.totalNotCustomDirectsoldIncome, this.totalNotCustomDirectsoldShowCount);
     }
 
     private void handleDirectsold(DwdUserAdRecord dwdUserAdRecord) {

@@ -7,7 +7,8 @@
 
     <sql id="Base_Column_List">
         id,dates,pkg,
-        version,user_source,user_type,
+        version,user_source,user_type,total_user_num,total_show_count,total_income,total_ecpm,total_not_custom_directsold_user_num,
+        total_not_custom_directsold_show_count,total_not_custom_directsold_income,total_not_custom_directsold_ecpm,
         directsold_user_num,directsold_show_count,directsold_income,
         directsold_ecpm,custom_network_user_num,custom_network_show_count,
         custom_network_income,custom_network_ecpm,custom_directsold_user_num,

@@ -49,6 +49,47 @@ public class AdsDailyOetaBaseReport implements BaseEntity {
     private BigDecimal avgUserAdShowNum;
     private BigDecimal avgUserAdInterShowNum;
     private BigDecimal avgUserAdMrecShowNum;
+
+    /**
+     * inter广告展示次数
+     */
+    private Long interShowNum;
+
+    /**
+     * ecpm(广告收入/广告展示)x1000
+     */
+    private BigDecimal interEcpm;
+
+    /**
+     * 人均inter广告展示次数
+     */
+    private BigDecimal interAvgUserShowNum;
+
+    /**
+     * inter广告渗透率:观看用户/ 统计用户
+     */
+    private BigDecimal interRate;
+
+    /**
+     * banner广告展示次数
+     */
+    private Long bannerShowNum;
+
+    /**
+     * ecpm(广告收入/广告展示)x1000
+     */
+    private BigDecimal bannerEcpm;
+
+    /**
+     * 人均banner广告展示次数
+     */
+    private BigDecimal bannerAvgUserShowNum;
+
+    /**
+     * banner广告渗透率:观看用户/ 统计用户
+     */
+    private BigDecimal bannerRate;
+
     private BigDecimal withdrawAmount;
     private BigDecimal withdrawFee;
     private BigDecimal withdrawCost;
