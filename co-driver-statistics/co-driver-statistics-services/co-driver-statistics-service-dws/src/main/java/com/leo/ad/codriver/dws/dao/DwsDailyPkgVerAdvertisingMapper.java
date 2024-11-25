@@ -19,7 +19,6 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising;
 @DS("mysql")
 public interface DwsDailyPkgVerAdvertisingMapper extends BaseMapper<DwsDailyPkgVerAdvertising> {
 
-    List<DwsDailyPkgVerAdvertising> queryDbActiveList(@Param("dates") Integer dates);
-
-    List<DwsDailyPkgVerAdvertising> queryDbNewList(@Param("dates") Integer dates);
+    List<DwsDailyPkgVerAdvertising> queryDbListByUserType(@Param("dates") Integer dates,
+        @Param("userType") Integer userType);
 }

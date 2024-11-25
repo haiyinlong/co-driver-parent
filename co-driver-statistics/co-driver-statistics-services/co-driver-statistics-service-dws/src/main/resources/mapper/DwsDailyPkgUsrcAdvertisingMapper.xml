@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerAdvertisingMapper">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgUsrcAdvertisingMapper">
 
 
     <sql id="Base_Column_List">
         id,dates,pkg,
-        version,user_type,directsold_user_num,
+        user_source,user_type,directsold_user_num,
         directsold_show_count,directsold_income,directsold_ecpm,
         custom_network_user_num,custom_network_show_count,custom_network_income,
         custom_network_ecpm,custom_directsold_user_num,custom_directsold_show_count,
@@ -49,11 +49,11 @@
         reward_vungle_bidding_ecpm,reward_not_custom_directsold_user_num,reward_not_custom_directsold_show_count,
         reward_not_custom_directsold_income,reward_not_custom_directsold_ecpm,create_time
     </sql>
-    <select id="queryDbListByUserType" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdvertising">
+    <select id="queryDbListByUserType" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcAdvertising">
         select
         <include refid="Base_Column_List"/>
-        from dws_daily_pkg_ver_advertising
+        from dws_daily_pkg_usrc_advertising
         where dates = #{dates}
-        and user_type = #{userType}
+        and user_source = #{userType}
     </select>
 </mapper>

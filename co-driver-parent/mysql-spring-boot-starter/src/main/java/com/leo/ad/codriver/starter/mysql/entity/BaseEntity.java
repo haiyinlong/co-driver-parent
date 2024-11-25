@@ -8,4 +8,5 @@ package com.leo.ad.codriver.starter.mysql.entity;
  **/
 public interface BaseEntity {
     Long getId();
+
 }
