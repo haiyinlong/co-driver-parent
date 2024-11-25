@@ -56,6 +56,6 @@
         <include refid="Base_Column_List"/>
         from dws_daily_pkg_ver_usrc_advertising
         where dates = #{dates}
-        and user_source = #{userType}
+        and user_type = #{userType}
     </select>
 </mapper>

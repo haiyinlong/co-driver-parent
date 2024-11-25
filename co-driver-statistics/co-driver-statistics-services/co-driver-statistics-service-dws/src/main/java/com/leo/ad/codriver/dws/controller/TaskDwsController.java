@@ -53,6 +53,9 @@ public class TaskDwsController {
 
     private final DwsService dwsDailyPackageShareServiceImpl;
     private final DwsService dwsDailyPkgVerAdvertisingServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcAdvertisingServiceImpl;
+    private final DwsService dwsDailyPkgAdvertisingServiceImpl;
+    private final DwsService dwsDailyPkgUsrcAdvertisingServiceImpl;
 
     private final DwsService dwsDailyPackageAllLabAdServiceImpl;
     private final DwsService dwsDailyPackageAllLabConversionServiceImpl;
@@ -376,6 +379,9 @@ public class TaskDwsController {
         }
         // dwsDailyPackageAdServiceImpl.syncData(dates);
         dwsDailyPkgVerAdvertisingServiceImpl.syncData(dates);
+        dwsDailyPkgVerUsrcAdvertisingServiceImpl.syncData(dates);
+        dwsDailyPkgAdvertisingServiceImpl.syncData(dates);
+        dwsDailyPkgUsrcAdvertisingServiceImpl.syncData(dates);
         return "执行完成dws包维度的包广告数据统计同步";
     }
 
