@@ -5,14 +5,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.dwd.event.DwdPromotionRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.dao.DwdPromotionRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdPromotionRecord;
+import com.leo.ad.codriver.dwd.event.DwdPromotionRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
@@ -46,11 +45,7 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
         if (CollectionUtils.isEmpty(dwdPromotionRecordList)) {
             return delRowNum > 0;
         }
-        dwdPromotionRecordList.forEach(dwdPromotionRecord -> {
-            if (ObjectUtils.isEmpty(dwdPromotionRecord.getId())) {
-                dwdPromotionRecord.init();
-            }
-        });
+        dwdPromotionRecordList.forEach(DwdPromotionRecord::init);
         batchMapper.batchInsert(dwdPromotionRecordList, DwdPromotionRecordMapper.class);
         return true;
     }
