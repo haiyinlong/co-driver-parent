@@ -55,13 +55,13 @@ public class DwsDailyPkgUsrcAdvertisingServiceImpl implements DwsService {
 
         try {
             Function3<Integer, Long, Long, List<DwdUserAdRecord>> queryDbActiveListByDate =
-                dwdUserAdRecordMapper::queryDbActiveListByDate;
+                dwdUserAdRecordMapper::queryDbActiveListByDateUsrc;
             BiFunction<Integer, Integer, List<DwsDailyPkgUsrcAdvertising>> queryDbListByUserType =
                 dwsDailyPkgUsrcAdvertisingMapper::queryDbListByUserType;
             this.handle(dates, dbCount, UserTypeConstant.ACTIVE_TYPE, queryDbActiveListByDate, queryDbListByUserType);
 
             Function3<Integer, Long, Long, List<DwdUserAdRecord>> queryDbNewListByDate =
-                dwdUserAdRecordMapper::queryDbNewListByDate;
+                dwdUserAdRecordMapper::queryDbNewListByDateUsrc;
             this.handle(dates, dbCount, UserTypeConstant.NEW_TYPE, queryDbNewListByDate, queryDbListByUserType);
         } catch (Throwable e) {
             log.error("DwsDailyPkgUsrcAdvertising " + dates + "异常", e);
@@ -91,8 +91,9 @@ public class DwsDailyPkgUsrcAdvertisingServiceImpl implements DwsService {
             for (DwdUserAdRecord dwdUserAdRecord : dbList) {
                 // 创建一个临时对象，用于存储数据. 包、版本
                 String adPkgUsrc = getAdPkgUsrc(dwdUserAdRecord);
-                DwsDailyPkgUsrcAdvertising ad = pkgVerAdMap.getOrDefault(adPkgUsrc, DwsDailyPkgUsrcAdvertising
-                    .of(dwdUserAdRecord.getDates(), dwdUserAdRecord.getPkg(), dwdUserAdRecord.getNetwork(), userType));
+                DwsDailyPkgUsrcAdvertising ad =
+                    pkgVerAdMap.getOrDefault(adPkgUsrc, DwsDailyPkgUsrcAdvertising.of(dwdUserAdRecord.getDates(),
+                        dwdUserAdRecord.getPkg(), dwdUserAdRecord.getUserSource(), userType));
                 // 缓存各个统计维度的用户数量
                 ad.calculate(dwdUserAdRecord);
                 pkgVerAdMap.put(adPkgUsrc, ad);
@@ -129,6 +130,6 @@ public class DwsDailyPkgUsrcAdvertisingServiceImpl implements DwsService {
     }
 
     private String getAdPkgUsrc(DwdUserAdRecord dwdUserAdRecord) {
-        return dwdUserAdRecord.getPkg() + "_" + dwdUserAdRecord.getNetwork();
+        return dwdUserAdRecord.getPkg() + "_" + dwdUserAdRecord.getUserSource();
     }
 }

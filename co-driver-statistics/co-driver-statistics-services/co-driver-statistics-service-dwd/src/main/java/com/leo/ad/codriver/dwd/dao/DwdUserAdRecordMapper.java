@@ -34,4 +34,10 @@ public interface DwdUserAdRecordMapper extends BaseMapper<DwdUserAdRecord> {
 
     List<DwdUserAdRecord> queryDbNewListByDate(@Param("dates") Integer dates, @Param("startId") Long startId,
         @Param("endId") Long endId);
+
+    List<DwdUserAdRecord> queryDbActiveListByDateUsrc(@Param("dates") Integer dates, @Param("startId") Long startId,
+        @Param("endId") Long endId);
+
+    List<DwdUserAdRecord> queryDbNewListByDateUsrc(@Param("dates") Integer dates, @Param("startId") Long startId,
+        @Param("endId") Long endId);
 }

@@ -55,13 +55,13 @@ public class DwsDailyPkgVerUsrcAdvertisingServiceImpl implements DwsService {
 
         try {
             Function3<Integer, Long, Long, List<DwdUserAdRecord>> queryDbActiveListByDate =
-                dwdUserAdRecordMapper::queryDbActiveListByDate;
+                dwdUserAdRecordMapper::queryDbActiveListByDateUsrc;
             BiFunction<Integer, Integer, List<DwsDailyPkgVerUsrcAdvertising>> queryDbListByUserType =
                 dwsDailyPkgVerUsrcAdvertisingMapper::queryDbListByUserType;
             this.handle(dates, dbCount, UserTypeConstant.ACTIVE_TYPE, queryDbActiveListByDate, queryDbListByUserType);
 
             Function3<Integer, Long, Long, List<DwdUserAdRecord>> queryDbNewListByDate =
-                dwdUserAdRecordMapper::queryDbNewListByDate;
+                dwdUserAdRecordMapper::queryDbNewListByDateUsrc;
             this.handle(dates, dbCount, UserTypeConstant.NEW_TYPE, queryDbNewListByDate, queryDbListByUserType);
         } catch (Throwable e) {
             log.error("DwsDailyPkgVerUsrcAdvertising " + dates + "异常", e);
@@ -93,7 +93,7 @@ public class DwsDailyPkgVerUsrcAdvertisingServiceImpl implements DwsService {
                 String adPkgUsrc = getAdPkgVersionUsrc(dwdUserAdRecord);
                 DwsDailyPkgVerUsrcAdvertising ad = pkgVerAdMap.getOrDefault(adPkgUsrc,
                     DwsDailyPkgVerUsrcAdvertising.of(dwdUserAdRecord.getDates(), dwdUserAdRecord.getPkg(),
-                        dwdUserAdRecord.getVersion(), dwdUserAdRecord.getNetwork(), userType));
+                        dwdUserAdRecord.getVersion(), dwdUserAdRecord.getUserSource(), userType));
                 // 缓存各个统计维度的用户数量
                 ad.calculate(dwdUserAdRecord);
                 pkgVerAdMap.put(adPkgUsrc, ad);
@@ -133,6 +133,6 @@ public class DwsDailyPkgVerUsrcAdvertisingServiceImpl implements DwsService {
     }
 
     private String getAdPkgVersionUsrc(DwdUserAdRecord dwdUserAdRecord) {
-        return dwdUserAdRecord.getPkg() + "_" + dwdUserAdRecord.getVersion() + "_" + dwdUserAdRecord.getNetwork();
+        return dwdUserAdRecord.getPkg() + "_" + dwdUserAdRecord.getVersion() + "_" + dwdUserAdRecord.getUserSource();
     }
 }

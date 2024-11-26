@@ -5,6 +5,7 @@ import java.util.Date;
 
 import org.springframework.util.ObjectUtils;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
@@ -27,6 +28,9 @@ public class DwdUserAdRecord implements BaseEntity {
     private BigDecimal revenue;
     private Date sourceCreateTime;
     private Date createTime;
+
+    @TableField(exist = false)
+    private String userSource;
 
     public void init() {
         this.createTime = new Date();
