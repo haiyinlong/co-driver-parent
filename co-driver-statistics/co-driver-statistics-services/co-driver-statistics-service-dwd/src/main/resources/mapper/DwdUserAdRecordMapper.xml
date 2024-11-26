@@ -19,40 +19,33 @@
         WHERE omasda.dates = #{dates}
     </select>
     <select id="queryStatisticsByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
-        select
-        t.id,
-        t.source_id,
-        t.dates,
-        t.gaid,
-        t.pkg,
-        t.ad_format,
-        t.network,
-        t.ad_exhibit,
-        t.revenue,
-        t.source_create_time,
-        dui.user_id,
-        dui.last_version `version`,
-        dui.pkg,
-        dui.country
-        from (SELECT
-        duar.id,
-        omasda.id source_id,
-        omasda.dates,
-        omasda.gaid,
-        omasda.pkg,
-        omasda.ad_format,
-        omasda.network,
-        omasda.ad_exhibit,
-        omasda.revenue,
-        omasda.created source_create_time
-        FROM ods_max_ad_stat_detail_ads omasda
-        LEFT JOIN dwd_user_ad_record duar on (duar.source_id = omasda.id and duar.dates = omasda.dates)
-        WHERE omasda.dates = #{dates}
-        <if test="startSourceId != null and startSourceId > 0">
-            and omasda.id > #{startSourceId}
-        </if>
-        order by omasda.id LIMIT #{rowNum}) t
-        INNER JOIN dim_user_info dui on (t.gaid = dui.gaid and t.pkg = dui.pkg)
+        select duar.id,
+               t.source_id,
+               t.dates,
+               t.pkg,
+               t.ad_format,
+               t.network,
+               t.ad_exhibit,
+               t.revenue,
+               t.source_create_time,
+               dui.user_id,
+               dui.last_version `version`,
+               dui.country
+        from (SELECT omasda.id      source_id,
+                     omasda.dates,
+                     omasda.gaid,
+                     omasda.pkg,
+                     omasda.ad_format,
+                     omasda.network,
+                     omasda.ad_exhibit,
+                     omasda.revenue,
+                     omasda.created source_create_time
+              FROM ods_max_ad_stat_detail_ads omasda
+              WHERE omasda.dates = #{dates}
+                and omasda.id >= #{startSourceId}
+                and omasda.id  <![CDATA[<= ]]> #{endSourceId}) t
+                 LEFT JOIN dwd_user_ad_record duar on (duar.source_id = t.source_id and duar.dates = t.dates)
+                 LEFT JOIN dim_user_info dui on (t.gaid = dui.gaid and t.pkg = dui.pkg)
     </select>
     <select id="queryDbActiveListByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
         SELECT *

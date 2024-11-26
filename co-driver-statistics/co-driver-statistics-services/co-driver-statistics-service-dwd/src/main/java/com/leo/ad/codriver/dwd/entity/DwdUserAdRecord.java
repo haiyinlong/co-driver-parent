@@ -3,6 +3,8 @@ package com.leo.ad.codriver.dwd.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.util.ObjectUtils;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
@@ -28,6 +30,13 @@ public class DwdUserAdRecord implements BaseEntity {
 
     public void init() {
         this.createTime = new Date();
+    }
+
+    public String getVersion() {
+        if (ObjectUtils.isEmpty(this.version)) {
+            return "";
+        }
+        return version;
     }
 
     public boolean isApplovinDirectsold() {

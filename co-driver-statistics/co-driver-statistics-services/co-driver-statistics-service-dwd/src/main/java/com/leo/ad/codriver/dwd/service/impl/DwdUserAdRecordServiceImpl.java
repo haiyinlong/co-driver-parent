@@ -1,7 +1,6 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * TODO 注意，整点不一定有数据，需要监控ods有数据后再触发同步
+ * TODO 注意，数据会有滞后，目前解决办法是1点的时候再单独执行<br/>
+ * applovin 返回的数据gaid有可能为空，关联不到用户id，导致具体版本统计数据有误差，可以看ALL版本的数据是版本gaid为空的。
  *
  * @author HaiYinLong
  * @version 2024/08/26 15:18
@@ -48,47 +48,24 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
         }
         try {
             long startSourceId = statisticsCount.getMinId();
+            long endSourceId = startSourceId + BatchConst.BATCH_MAX_NUMBER;
             List<DwdUserAdRecord> userAdRecordList;
-            List<DwdUserAdRecord> newList;
             do {
-                userAdRecordList =
-                    dwdUserAdRecordMapper.queryStatisticsByDate(dates, BatchConst.BATCH_NUMBER, startSourceId);
+                userAdRecordList = dwdUserAdRecordMapper.queryStatisticsByDate(dates, startSourceId, endSourceId);
+                startSourceId = endSourceId + 1;
+                endSourceId += BatchConst.BATCH_MAX_NUMBER;
+                if (endSourceId > statisticsCount.getMaxId()) {
+                    endSourceId = statisticsCount.getMaxId();
+                }
                 if (CollectionUtils.isEmpty(userAdRecordList)) {
-                    break;
+                    continue;
                 }
-                startSourceId = userAdRecordList.stream().map(DwdUserAdRecord::getSourceId).sorted().toList()
-                    .get(userAdRecordList.size() - 1);
-                // 过滤掉已经有id的数据
-                newList =
-                    userAdRecordList.stream().filter(userAdRecordItem -> ObjectUtils.isEmpty(userAdRecordItem.getId()))
-                        .peek(DwdUserAdRecord::init).toList();
-                if (!CollectionUtils.isEmpty(newList)) {
-                    dwBatchMapper.batchInsert(newList, DwdUserAdRecordMapper.class);
-                }
-            } while (!CollectionUtils.isEmpty(userAdRecordList));
+                userAdRecordList.forEach(DwdUserAdRecord::init);
+                dwBatchMapper.batchInsert(userAdRecordList, DwdUserAdRecordMapper.class);
+            } while (startSourceId < statisticsCount.getMaxId());
         } catch (Exception e) {
             log.error("dwdUserAdRecord  syncData error", e);
             throw e;
-        }
-        return true;
-    }
-
-    private long getStartSourceId(DwCountDTO dbCount) {
-        if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId())) {
-            return dbCount.getMaxId();
-        }
-        return 0L;
-    }
-
-    private boolean isExistsDiff(DwCountDTO dbCount, DwCountDTO statisticsCount) {
-        if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
-            log.info("dwdUserAdRecord 统计对象为空,不执行同步");
-            return false;
-        }
-        if (!ObjectUtils.isEmpty(dbCount) && !ObjectUtils.isEmpty(dbCount.getMaxId())
-            && Objects.equals(dbCount.getMaxId(), statisticsCount.getMaxId())) {
-            log.info("dwdUserAdRecord 数据对象和统计对象的最大记录Id相同，不执行同步");
-            return false;
         }
         return true;
     }

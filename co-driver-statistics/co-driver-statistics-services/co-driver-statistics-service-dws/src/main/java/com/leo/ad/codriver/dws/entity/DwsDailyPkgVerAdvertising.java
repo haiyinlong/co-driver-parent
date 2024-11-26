@@ -1,5 +1,7 @@
 package com.leo.ad.codriver.dws.entity;
 
+import org.springframework.util.ObjectUtils;
+
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
@@ -21,6 +23,13 @@ public class DwsDailyPkgVerAdvertising extends DwsDailyPkgAdvertising {
 
     public DwsDailyPkgVerAdvertising() {
         super();
+    }
+
+    public String getVersion() {
+        if (ObjectUtils.isEmpty(this.version)) {
+            return "";
+        }
+        return version;
     }
 
     public static DwsDailyPkgVerAdvertising of(Integer dates, String pkg, String version, Integer userType) {
