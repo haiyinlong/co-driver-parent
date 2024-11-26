@@ -27,6 +27,7 @@ import lombok.RequiredArgsConstructor;
  */
 @Service
 @RequiredArgsConstructor
+@Deprecated
 public class DwsDailyPkgVerUsrcAdServiceImpl implements DwsService {
 
     private final DwsDailyPkgVerUsrcAdMapper dwsDailyPkgVerUsrcAdMapper;

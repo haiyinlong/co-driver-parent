@@ -30,7 +30,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwsDailyPkgAdServiceImpl implements DwsService {
+@Deprecated
+class DwsDailyPkgAdServiceImpl implements DwsService {
     private final DwsDailyPkgAdMapper dwsDailyPkgAdMapper;
     private final DwBatchMapper<DwsDailyPkgAd, DwsDailyPkgAdMapper> dwBatchMapper;
     private final ApplicationEventPublisher applicationEventPublisher;

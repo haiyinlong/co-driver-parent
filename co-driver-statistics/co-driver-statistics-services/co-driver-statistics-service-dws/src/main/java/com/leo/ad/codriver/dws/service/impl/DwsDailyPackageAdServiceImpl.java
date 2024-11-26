@@ -11,9 +11,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.dws.event.DwsDailyPackageAdUpdateDwEvent;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAdMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageAd;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAdUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@Deprecated
 public class DwsDailyPackageAdServiceImpl implements DwsService {
     private final DwsDailyPackageAdMapper dwsDailyPackageAdMapper;
     private final DwBatchMapper<DwsDailyPackageAd, DwsDailyPackageAdMapper> dwBatchMapper;

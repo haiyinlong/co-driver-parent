@@ -23,7 +23,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * DwdUserAdRecordService
+ * TODO 注意，整点不一定有数据，需要监控ods有数据后再触发同步
  *
  * @author HaiYinLong
  * @version 2024/08/26 15:18
