@@ -28,4 +28,16 @@ public class DwdPromotionRecord implements BaseEntity {
     public void init() {
         this.createTime = new Date();
     }
+
+    public boolean isFacebook() {
+        return "Facebook".equalsIgnoreCase(network);
+    }
+
+    public boolean isMintegral() {
+        return "Mintegral".equalsIgnoreCase(network);
+    }
+
+    public boolean isGoogle() {
+        return "Google".equalsIgnoreCase(network);
+    }
 }

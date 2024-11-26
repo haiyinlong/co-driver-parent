@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerInvestedMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerInvested">
+            <id property="id" column="id" jdbcType="BIGINT"/>
+            <result property="dates" column="dates" jdbcType="INTEGER"/>
+            <result property="pkg" column="pkg" jdbcType="VARCHAR"/>
+            <result property="version" column="version" jdbcType="VARCHAR"/>
+            <result property="totalInrCost" column="total_inr_cost" jdbcType="DECIMAL"/>
+            <result property="totalDollarCost" column="total_dollar_cost" jdbcType="DECIMAL"/>
+            <result property="mtgInrCost" column="mtg_inr_cost" jdbcType="DECIMAL"/>
+            <result property="mtgDollarCost" column="mtg_dollar_cost" jdbcType="DECIMAL"/>
+            <result property="fbInrCost" column="fb_inr_cost" jdbcType="DECIMAL"/>
+            <result property="fbDollarCost" column="fb_dollar_cost" jdbcType="DECIMAL"/>
+            <result property="ggInrCost" column="gg_inr_cost" jdbcType="DECIMAL"/>
+            <result property="ggDollarCost" column="gg_dollar_cost" jdbcType="DECIMAL"/>
+            <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        version,total_inr_cost,total_dollar_cost,
+        mtg_inr_cost,mtg_dollar_cost,fb_inr_cost,
+        fb_dollar_cost,gg_inr_cost,gg_dollar_cost,
+        create_time
+    </sql>
+</mapper>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgInvestedMapper">
+
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,inr_cost,dollar_cost, create_time
+    </sql>
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgInvested">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_invested
+        where dates = #{dates}
+    </select>
+</mapper>

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dwd.entity.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdPromotionRecord;
 
 /**
@@ -22,4 +23,9 @@ public interface DwdPromotionRecordMapper extends BaseMapper<DwdPromotionRecord>
     Integer deleteByDate(@Param("dates") Integer dates);
 
     List<DwdPromotionRecord> queryByDate(@Param("dates") Integer dates, @Param("singleFee") BigDecimal singleFee);
+
+    List<DwdPromotionRecord> queryByDateAndId(@Param("dates") Integer dates, @Param("startId") long startId,
+        @Param("endId") long endId);
+
+    DwCountDTO getDbCountOfId(@Param("dates") Integer dates);
 }

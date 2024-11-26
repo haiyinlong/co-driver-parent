@@ -19,4 +19,18 @@
         from ods_adjust_cost ac
         where ac.dates = #{dates}
     </select>
+    <select id="queryByDateAndId" resultType="com.leo.ad.codriver.dwd.entity.DwdPromotionRecord">
+        select *
+        from dwd_promotion_record
+        where dates = #{dates}
+          and id >= #{startId}
+          and id <![CDATA[<= ]]> #{endId}
+    </select>
+    <select id="getDbCountOfId" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+        select min(id)  min_id,
+               max(id)  max_id,
+               count(1) count
+        from dwd_promotion_record
+        where dates = #{dates}
+    </select>
 </mapper>

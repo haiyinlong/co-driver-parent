@@ -22,6 +22,7 @@ import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgAdvertisingMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgAdvertising;
 import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -81,12 +82,12 @@ public class DwsDailyPkgAdvertisingServiceImpl extends ServiceImpl<DwsDailyPkgAd
         Map<String, DwsDailyPkgAdvertising> pkgVerAdMap = new HashMap<>();
         List<DwdUserAdRecord> dbList;
         do {
-            endId = minId + 10000;
+            endId = minId + BatchConst.BATCH_MAX_NUMBER;
             if (endId > maxId) {
                 endId = maxId;
             }
             dbList = queryDbActiveListByDate.apply(dates, minId, endId);
-            minId += 10000;
+            minId += BatchConst.BATCH_MAX_NUMBER;
             if (CollectionUtils.isEmpty(dbList)) {
                 continue;
             }
