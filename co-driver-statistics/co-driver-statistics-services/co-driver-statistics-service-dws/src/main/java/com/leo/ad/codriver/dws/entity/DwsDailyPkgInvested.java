@@ -54,6 +54,7 @@ public class DwsDailyPkgInvested implements BaseEntity {
     public DwsDailyPkgInvested() {
         this.inrCost = BigDecimal.ZERO;
         this.dollarCost = BigDecimal.ZERO;
+        this.createTime = new Date();
     }
 
     public static DwsDailyPkgInvested of(Integer dates, String pkg) {

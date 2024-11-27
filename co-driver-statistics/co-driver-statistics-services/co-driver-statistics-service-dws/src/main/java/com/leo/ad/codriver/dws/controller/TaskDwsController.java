@@ -38,6 +38,9 @@ public class TaskDwsController {
     private final DwsService dwsUserRegisterPkgFullDailyServiceImpl;
     private final DwsService dwsDailyPackageCohortConversionServiceImpl;
     private final DwsService dwsDailyPackagePromotionServiceImpl;
+    private final DwsService dwsDailyPkgUsrcInvestedServiceImpl;
+    private final DwsService dwsDailyPkgInvestedServiceImpl;
+
     private final DwsService dwsDailyPackageRetentionServiceImpl;
     private final DwsService dwsDailyPackageCohortRetentionServiceImpl;
     private final DwsService dwsDailyPackageLoginServiceImpl;
@@ -312,7 +315,21 @@ public class TaskDwsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        dwsDailyPackagePromotionServiceImpl.syncData(dates);
+        try {
+            dwsDailyPkgUsrcInvestedServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgInvestedServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPackagePromotionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return "执行完成dws数据同步";
     }
 

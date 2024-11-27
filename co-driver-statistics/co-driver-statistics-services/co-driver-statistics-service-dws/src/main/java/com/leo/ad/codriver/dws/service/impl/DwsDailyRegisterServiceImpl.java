@@ -99,7 +99,7 @@ public class DwsDailyRegisterServiceImpl implements DwsService {
         // 进行版本赋值
         setTotalWithPkgUserRegisterMap(pkgUsrcRegisterMap, pkgRegisterMap);
         setTotalWithPkgVerRegisterMap(pkgVerRegisterMap, pkgRegisterMap);
-        setTotalWithPkgVerUserRegisterMap(pkgVerUsrcRegisterMap, pkgVerRegisterMap);
+        setTotalWithPkgVerUserRegisterMap(pkgVerUsrcRegisterMap, pkgVerRegisterMap, pkgUsrcRegisterMap);
         // 删除数据库中不用的记录
         List<DwsDailyPkgRegister> pkgRegisterList = dwsDailyPkgRegisterMapper.queryDbList(dates);
         List<DwsDailyPkgRegister> pkgRegisters = mergePkgRegisterHistoryId(pkgRegisterList, pkgRegisterMap);
@@ -203,16 +203,21 @@ public class DwsDailyRegisterServiceImpl implements DwsService {
     }
 
     private static void setTotalWithPkgVerUserRegisterMap(Map<String, DwsDailyPkgVerUsrcRegister> pkgVerUsrcRegisterMap,
-        Map<String, DwsDailyPackageAllRegister> pkgVerRegisterMap) {
+        Map<String, DwsDailyPackageAllRegister> pkgVerRegisterMap,
+        Map<String, DwsDailyPkgUsrcRegister> pkgUsrcRegisterMap) {
         for (Map.Entry<String, DwsDailyPkgVerUsrcRegister> pkgVerUsrcRegisterEntry : pkgVerUsrcRegisterMap.entrySet()) {
             String pkgVerKey =
                 pkgVerUsrcRegisterEntry.getValue().getPkg() + "_" + pkgVerUsrcRegisterEntry.getValue().getVersion();
             if (pkgVerRegisterMap.containsKey(pkgVerKey)) {
                 DwsDailyPackageAllRegister pkgVerRegister = pkgVerRegisterMap.get(pkgVerKey);
-                pkgVerUsrcRegisterEntry.getValue().setVerTotal(pkgVerRegister.getUserNum(),
-                    pkgVerRegister.getInvestedUserNum());
                 pkgVerUsrcRegisterEntry.getValue().setTotal(pkgVerRegister.getTotalUserNum(),
                     pkgVerRegister.getTotalInvestedUserNum());
+            }
+            String pkgUsrcKey =
+                pkgVerUsrcRegisterEntry.getValue().getPkg() + "_" + pkgVerUsrcRegisterEntry.getValue().getUserSource();
+            if (pkgUsrcRegisterMap.containsKey(pkgUsrcKey)) {
+                DwsDailyPkgUsrcRegister pkgUsrcRegister = pkgUsrcRegisterMap.get(pkgUsrcKey);
+                pkgVerUsrcRegisterEntry.getValue().setVerTotal(pkgUsrcRegister.getUserNum());
             }
         }
     }

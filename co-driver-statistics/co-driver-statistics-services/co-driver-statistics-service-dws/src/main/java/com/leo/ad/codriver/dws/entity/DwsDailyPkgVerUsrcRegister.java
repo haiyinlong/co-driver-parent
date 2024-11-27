@@ -51,7 +51,6 @@ public class DwsDailyPkgVerUsrcRegister implements BaseEntity {
     private Integer userNum;
 
     private Integer verUserNum;
-    private Integer verInvestedUserNum;
     private Integer totalUserNum;
     private Integer totalInvestedUserNum;
     private Date createTime;
@@ -64,7 +63,6 @@ public class DwsDailyPkgVerUsrcRegister implements BaseEntity {
         this.totalUserNum = 0;
         this.totalInvestedUserNum = 0;
         this.verUserNum = 0;
-        this.verInvestedUserNum = 0;
         this.createTime = new Date();
     }
 
@@ -85,9 +83,8 @@ public class DwsDailyPkgVerUsrcRegister implements BaseEntity {
         this.userNum = this.users.size();
     }
 
-    public void setVerTotal(Integer varUserNum, Integer varInvestedUserNum) {
+    public void setVerTotal(Integer varUserNum) {
         this.verUserNum = varUserNum;
-        this.verInvestedUserNum = varInvestedUserNum;
     }
 
     public void setTotal(Integer totalUserNum, Integer totalInvestedUserNum) {

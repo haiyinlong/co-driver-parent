@@ -27,11 +27,23 @@ public class DwdPromotionRecordUpdateDwEventHandler {
     private final DwsService dwsDailyPackageAllVersionPromotionServiceImpl;
     private final DwsService dwsDailyPackagePromotionServiceImpl;
     private final DwsService dwsDailyPackageVersionPromotionServiceImpl;
+    private final DwsService dwsDailyPkgUsrcInvestedServiceImpl;
+    private final DwsService dwsDailyPkgInvestedServiceImpl;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
     public void handleEvent(DwdPromotionRecordUpdateDwEvent dwdPromotionRecordUpdateEvent) {
         log.info("{} 事件触发 DwdPromotionRecordUpdateDwEventHandler", dwdPromotionRecordUpdateEvent.getDates());
+        try {
+            dwsDailyPkgUsrcInvestedServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgInvestedServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         try {
             dwsDailyPkgUsrcPromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
         } catch (Exception e) {

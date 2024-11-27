@@ -73,7 +73,7 @@ public class DwsDailyPkgUsrcInvestedServiceImpl implements DwsService {
                 pkgInvested = pkgInvestedMap.getOrDefault(uniqueKey,
                     DwsDailyPkgUsrcInvested.of(dates, promotionRecord.getPkg(), promotionRecord.getNetwork()));
                 pkgInvested.calculate(promotionRecord);
-                pkgInvestedMap.put(promotionRecord.getPkg(), pkgInvested);
+                pkgInvestedMap.put(uniqueKey, pkgInvested);
             }
         } while (startId < dbCount.getMaxId());
         // 获取数据库记录
