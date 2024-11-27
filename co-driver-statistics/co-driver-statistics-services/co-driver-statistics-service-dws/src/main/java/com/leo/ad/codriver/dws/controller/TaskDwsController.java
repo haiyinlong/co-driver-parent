@@ -76,7 +76,6 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageAllLabGameSingleServiceImpl;
 
     // oeta base user source 统计
-    private final DwsService dwsDailyPkgVerUsrcAdServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcConversionServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcLoginServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcOnlineServiceImpl;
@@ -87,7 +86,6 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgVerUsrcRetentionServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcShareServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcWithdrawServiceImpl;
-    private final DwsService dwsDailyPkgUsrcAdServiceImpl;
     private final DwsService dwsDailyPkgUsrcConversionServiceImpl;
     private final DwsService dwsDailyPkgUsrcLoginServiceImpl;
     private final DwsService dwsDailyPkgUsrcOnlineServiceImpl;
@@ -451,7 +449,6 @@ public class TaskDwsController {
         }
         dwsDailyRegisterServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcLoginServiceImpl.syncData(dates);
-        dwsDailyPkgVerUsrcAdServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcConversionServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcOnlineServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcQpLtvServiceImpl.syncData(dates);
@@ -459,7 +456,6 @@ public class TaskDwsController {
         dwsDailyPkgVerUsrcShareServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcWithdrawServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcPromotionServiceImpl.syncData(dates);
-        dwsDailyPkgUsrcAdServiceImpl.syncData(dates);
         dwsDailyPkgUsrcConversionServiceImpl.syncData(dates);
         dwsDailyPkgUsrcLoginServiceImpl.syncData(dates);
         dwsDailyPkgUsrcOnlineServiceImpl.syncData(dates);

@@ -1,13 +1,13 @@
 package com.leo.ad.codriver.dws.dao;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllAd;
-import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGame;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllGame;
 
 /**
  * DwsDailyPackageAdMapper
@@ -19,8 +19,8 @@ import java.util.List;
 @DS("mysql")
 public interface DwsDailyPackageAllGameMapper extends BaseMapper<DwsDailyPackageAllGame> {
     List<DwsDailyPackageAllGame> queryStatisticsAll(@Param("dates") Integer dates);
-    List<DwsDailyPackageAllGame> queryStatisticsNew(@Param("dates") Integer dates);
 
+    List<DwsDailyPackageAllGame> queryStatisticsNew(@Param("dates") Integer dates);
 
     void deleteByDates(@Param("dates") Integer dates);
 }
