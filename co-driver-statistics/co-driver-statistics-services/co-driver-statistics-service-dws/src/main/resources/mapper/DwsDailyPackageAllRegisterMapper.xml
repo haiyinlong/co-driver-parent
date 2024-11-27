@@ -3,15 +3,9 @@
 
 <mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPackageAllRegisterMapper">
 
-    <delete id="deleteByDates">
-        delete
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllRegister">
+        select *
         from dws_daily_package_all_register
         where dates = #{dates}
-    </delete>
-    <select id="statistics" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllRegister">
-        select dates, pkg, version, count(1) user_num
-        from dwd_user_register
-        where dates = #{dates}
-        group by dates, pkg, version
     </select>
 </mapper>

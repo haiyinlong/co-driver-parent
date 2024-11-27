@@ -48,7 +48,6 @@ public class TaskDwsController {
     private final DwsService dwsPkgGameFullDailyServiceImpl;
     private final DwsService dwsPkgUserFullDailyServiceImpl;
     private final DwsService dwsPkgRetentionFullDailyServiceImpl;
-    private final DwsService dwsDailyPackageAdServiceImpl;
     private final DwsService dwsDailyPackageOnlineServiceImpl;
 
     private final DwsService dwsDailyPackageShareServiceImpl;
@@ -83,7 +82,8 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgVerUsrcOnlineServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcPromotionServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcQpLtvServiceImpl;
-    private final DwsService dwsDailyPkgVerUsrcRegisterServiceImpl;
+    // private final DwsService dwsDailyPkgVerUsrcRegisterServiceImpl;
+    private final DwsService dwsDailyRegisterServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcRetentionServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcShareServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcWithdrawServiceImpl;
@@ -93,7 +93,7 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgUsrcOnlineServiceImpl;
     private final DwsService dwsDailyPkgUsrcPromotionServiceImpl;
     private final DwsService dwsDailyPkgUsrcQpLtvServiceImpl;
-    private final DwsService dwsDailyPkgUsrcRegisterServiceImpl;
+    // private final DwsService dwsDailyPkgUsrcRegisterServiceImpl;
     private final DwsService dwsDailyPkgUsrcRetentionServiceImpl;
     private final DwsService dwsDailyPkgUsrcShareServiceImpl;
     private final DwsService dwsDailyPkgUsrcWithdrawServiceImpl;
@@ -212,18 +212,21 @@ public class TaskDwsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        dwsDailyPackageRegisterServiceImpl.syncData(dates);
-        return "执行完成dws数据同步";
-    }
-
-    @GetMapping("/userRegisterPkg")
-    @Operation(summary = "触发dws每日用户注册task", description = "触发dws数据同步")
-    public String dwsUserRegisterPkgHandle(@RequestParam("dates") Integer dates) {
-        // 获取统计日期
-        if (ObjectUtils.isEmpty(dates)) {
-            dates = DateUtils.getPreviousDate();
+        try {
+            dwsDailyRegisterServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        dwsUserRegisterPkgFullDailyServiceImpl.syncData(dates);
+        try {
+            dwsDailyPackageRegisterServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsUserRegisterPkgFullDailyServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return "执行完成dws数据同步";
     }
 
@@ -446,7 +449,7 @@ public class TaskDwsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        dwsDailyPkgVerUsrcRegisterServiceImpl.syncData(dates);
+        dwsDailyRegisterServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcLoginServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcAdServiceImpl.syncData(dates);
         dwsDailyPkgVerUsrcConversionServiceImpl.syncData(dates);
@@ -462,7 +465,6 @@ public class TaskDwsController {
         dwsDailyPkgUsrcOnlineServiceImpl.syncData(dates);
         dwsDailyPkgUsrcPromotionServiceImpl.syncData(dates);
         dwsDailyPkgUsrcQpLtvServiceImpl.syncData(dates);
-        dwsDailyPkgUsrcRegisterServiceImpl.syncData(dates);
         dwsDailyPkgUsrcRetentionServiceImpl.syncData(dates);
         dwsDailyPkgUsrcShareServiceImpl.syncData(dates);
         dwsDailyPkgUsrcWithdrawServiceImpl.syncData(dates);

@@ -17,8 +17,5 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgRegister;
 @DS("mysql")
 public interface DwsDailyPkgRegisterMapper extends BaseMapper<DwsDailyPkgRegister> {
 
-    void deleteByDates(@Param("dates") Integer dates);
-
-    List<DwsDailyPkgRegister> statistics(@Param("dates") Integer dates);
-
+    List<DwsDailyPkgRegister> queryDbList(@Param("dates") Integer dates);
 }

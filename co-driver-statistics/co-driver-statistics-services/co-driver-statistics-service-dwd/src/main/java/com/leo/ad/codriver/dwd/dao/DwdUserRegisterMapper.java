@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dwd.entity.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserRegister;
 
 /**
@@ -25,4 +26,8 @@ public interface DwdUserRegisterMapper extends BaseMapper<DwdUserRegister> {
 
     Long getStatisticsCount(@Param("dates") Integer dates);
 
+    DwCountDTO getDbCountOfId(@Param("dates") Integer dates);
+
+    List<DwdUserRegister> queryUsrcListWithAndId(@Param("dates") Integer dates, @Param("startId") long startId,
+        @Param("endId") long endId);
 }

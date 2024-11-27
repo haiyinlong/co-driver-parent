@@ -21,5 +21,4 @@ public interface DwsDailyPkgVerUsrcRegisterMapper extends BaseMapper<DwsDailyPkg
 
     List<DwsDailyPkgVerUsrcRegister> queryDbList(@Param("dates") Integer dates);
 
-    List<DwsDailyPkgVerUsrcRegister> queryStatisticList(@Param("dates") Integer dates);
 }

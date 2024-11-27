@@ -32,4 +32,17 @@
         from ods_user u
         where u.dates = #{dates}
     </select>
+    <select id="getDbCountOfId" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+        select min(id) as minId, max(id) as maxId, count(1) as count
+        from dwd_user_register
+        where dates = #{dates}
+    </select>
+    <select id="queryUsrcListWithAndId" resultType="com.leo.ad.codriver.dwd.entity.DwdUserRegister">
+        select dur.*, IFNULL(dus.network, 'Organic') user_source
+        from dwd_user_register dur
+                 left join dim_user_source dus on (dur.user_id = dus.user_id)
+        where dur.dates = #{dates}
+          and dur.id >= #{startId}
+          and <![CDATA[ dur.id <= ]]>#{endId}
+    </select>
 </mapper>
