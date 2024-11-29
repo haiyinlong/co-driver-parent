@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.common.dao.enetity.DwTaskRecord;
+import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
 
 /**
  * @author user
@@ -23,4 +23,7 @@ public interface DwTaskRecordMapper extends BaseMapper<DwTaskRecord> {
 
     List<DwTaskRecord> queryTaskRecord(@Param("dates") Integer dates, @Param("type") String type,
         @Param("status") int status);
+
+    DwTaskRecord queryFirstTaskRecordNotDone();
+
 }

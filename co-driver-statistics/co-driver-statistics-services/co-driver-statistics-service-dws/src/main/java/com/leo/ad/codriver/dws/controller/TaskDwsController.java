@@ -92,6 +92,7 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgUsrcConversionServiceImpl;
     private final DwsService dwsDailyPkgUsrcLoginServiceImpl;
     private final DwsService dwsDailyPkgUsrcOnlineServiceImpl;
+    private final DwsService dwsDailyPkgOnlineServiceImpl;
     private final DwsService dwsDailyPkgUsrcPromotionServiceImpl;
     private final DwsService dwsDailyPkgUsrcQpLtvServiceImpl;
     // private final DwsService dwsDailyPkgUsrcRegisterServiceImpl;
@@ -476,6 +477,7 @@ public class TaskDwsController {
         dwsDailyPkgUsrcConversionServiceImpl.syncData(dates);
         dwsDailyPkgUsrcLoginServiceImpl.syncData(dates);
         dwsDailyPkgUsrcOnlineServiceImpl.syncData(dates);
+        dwsDailyPkgOnlineServiceImpl.syncData(dates);
         dwsDailyPkgUsrcPromotionServiceImpl.syncData(dates);
         dwsDailyPkgUsrcQpLtvServiceImpl.syncData(dates);
         dwsDailyPkgUsrcRetentionServiceImpl.syncData(dates);

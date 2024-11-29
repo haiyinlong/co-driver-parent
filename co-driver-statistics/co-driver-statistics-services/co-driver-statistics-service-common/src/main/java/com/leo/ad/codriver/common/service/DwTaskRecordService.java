@@ -2,7 +2,7 @@ package com.leo.ad.codriver.common.service;
 
 import java.util.List;
 
-import com.leo.ad.codriver.common.dao.enetity.DwTaskRecord;
+import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
 
 public interface DwTaskRecordService {
 
@@ -14,4 +14,7 @@ public interface DwTaskRecordService {
 
     void update(DwTaskRecord taskRecord);
 
+    DwTaskRecord getLastTaskRecord(Integer dates, String tableName);
+
+    DwTaskRecord getOneTaskRecord();
 }

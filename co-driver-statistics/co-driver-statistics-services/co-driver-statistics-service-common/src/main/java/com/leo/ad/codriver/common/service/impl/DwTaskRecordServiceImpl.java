@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.DwTaskTypeConstant;
 import com.leo.ad.codriver.common.dao.DwTaskRecordMapper;
-import com.leo.ad.codriver.common.dao.enetity.DwTaskRecord;
+import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
 import com.leo.ad.codriver.common.service.DwTaskRecordService;
 
 import lombok.RequiredArgsConstructor;
@@ -47,4 +47,13 @@ public class DwTaskRecordServiceImpl implements DwTaskRecordService {
         dwTaskRecordMapper.updateById(taskRecord);
     }
 
+    @Override
+    public DwTaskRecord getLastTaskRecord(Integer dates, String tableName) {
+        return dwTaskRecordMapper.getLastTaskRecord(dates, tableName);
+    }
+
+    @Override
+    public DwTaskRecord getOneTaskRecord() {
+        return dwTaskRecordMapper.queryFirstTaskRecordNotDone();
+    }
 }

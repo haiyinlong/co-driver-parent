@@ -11,7 +11,7 @@ import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.dao.enetity.DwTaskRecord;
+import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
 import com.leo.ad.codriver.common.event.DwRestartTaskEvent;
 import com.leo.ad.codriver.common.service.DwTaskRecordService;
 import com.leo.ad.codriver.dwd.dao.DwdUserGameRecordOetaMapper;

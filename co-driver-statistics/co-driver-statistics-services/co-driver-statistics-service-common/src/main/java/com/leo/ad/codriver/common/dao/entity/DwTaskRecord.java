@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.common.dao.enetity;
+package com.leo.ad.codriver.common.dao.entity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -96,4 +96,11 @@ public class DwTaskRecord implements Serializable {
         this.updateTime = LocalDateTime.now();
     }
 
+    public void execute() {
+        this.status = 1;
+    }
+
+    public void done() {
+        this.status = 2;
+    }
 }

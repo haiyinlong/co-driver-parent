@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leo.ad.codriver.common.dao.DwTaskRecordMapper">
 
-    <select id="getLastTaskRecord" resultType="com.leo.ad.codriver.common.dao.enetity.DwTaskRecord">
+    <select id="getLastTaskRecord" resultType="com.leo.ad.codriver.common.dao.entity.DwTaskRecord">
         select id,
                dates,
                type,
@@ -20,7 +20,7 @@
         order by id desc
         limit 1
     </select>
-    <select id="queryTaskRecord" resultType="com.leo.ad.codriver.common.dao.enetity.DwTaskRecord">
+    <select id="queryTaskRecord" resultType="com.leo.ad.codriver.common.dao.entity.DwTaskRecord">
         select id,
                dates,
                type,
@@ -34,5 +34,22 @@
         where dates = #{dates}
           and type = #{type}
           and status = #{status}
+    </select>
+    <select id="queryFirstTaskRecordNotDone" resultType="com.leo.ad.codriver.common.dao.entity.DwTaskRecord">
+        select id,
+               dates,
+               type,
+               status,
+               start_id,
+               end_id,
+               process_id,
+               create_time,
+               update_time
+        from dw_task_record
+        where status
+        <![CDATA[  < ]]>
+        2
+        order by id asc
+        limit 1
     </select>
 </mapper>

@@ -2,7 +2,7 @@ package com.leo.ad.codriver.common.event;
 
 import java.io.Serial;
 
-import com.leo.ad.codriver.common.dao.enetity.DwTaskRecord;
+import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
 
 import lombok.Getter;
 
