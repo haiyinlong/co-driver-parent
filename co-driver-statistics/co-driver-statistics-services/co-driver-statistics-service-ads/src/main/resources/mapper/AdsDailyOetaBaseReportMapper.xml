@@ -61,10 +61,12 @@
                IFNULL(IF(ddpr.invested_user_num is null or ddpr.invested_user_num = 0, 0,
                          ddpi.dollar_cost / ddpr.total_invested_user_num * ddpr.invested_user_num) / ddpr.user_num,
                       0)                                                                               cpi,
-               IFNULL(ddpa.total_income / IF(ddpr.invested_user_num is null or ddpr.invested_user_num = 0, 0,
-                                             ddpi.dollar_cost / ddpr.total_invested_user_num * ddpr.invested_user_num),
+               IFNULL(ddpa.total_not_custom_directsold_income /
+                      IF(ddpr.invested_user_num is null or ddpr.invested_user_num = 0, 0,
+                         ddpi.dollar_cost / ddpr.total_invested_user_num * ddpr.invested_user_num),
                       0)                                                                               ad_roi,
-               IFNULL((ddpa.total_income + ddpql.active_event_ltv - IFNULL(dwfd.success_change_amount_fee, 0)) /
+               IFNULL((ddpa.total_not_custom_directsold_income + ddpql.active_event_ltv -
+                       IFNULL(dwfd.success_change_amount_fee, 0)) /
                       IF(ddpr.invested_user_num is null or ddpr.invested_user_num = 0, 0,
                          ddpi.dollar_cost / ddpr.total_invested_user_num * ddpr.invested_user_num), 0) total_roi
         FROM dws_daily_package_all_login ddpl
@@ -160,10 +162,12 @@
                IFNULL(IF(ddpr.invested_user_num is null or ddpr.invested_user_num = 0, 0,
                          ddpi.dollar_cost / ddpr.total_invested_user_num * ddpr.invested_user_num) / ddpr.user_num,
                       0)                                                                               cpi,
-               IFNULL(ddpa.total_income / IF(ddpr.invested_user_num is null or ddpr.invested_user_num = 0, 0,
-                                             ddpi.dollar_cost / ddpr.total_invested_user_num * ddpr.invested_user_num),
+               IFNULL(ddpa.total_not_custom_directsold_income /
+                      IF(ddpr.invested_user_num is null or ddpr.invested_user_num = 0, 0,
+                         ddpi.dollar_cost / ddpr.total_invested_user_num * ddpr.invested_user_num),
                       0)                                                                               ad_roi,
-               IFNULL((ddpa.total_income + ddpql.active_event_ltv - IFNULL(dwfd.success_change_amount_fee, 0)) /
+               IFNULL((ddpa.total_not_custom_directsold_income + ddpql.active_event_ltv -
+                       IFNULL(dwfd.success_change_amount_fee, 0)) /
                       IF(ddpr.invested_user_num is null or ddpr.invested_user_num = 0, 0,
                          ddpi.dollar_cost / ddpr.total_invested_user_num * ddpr.invested_user_num), 0) total_roi
 
@@ -258,8 +262,9 @@
                IFNULL(ddpi.dollar_cost, 0)                                             promotion_cost,
                IFNULL(ddpi.dollar_cost + IFNULL(dwfd.success_change_amount_fee, 0), 0) total_expenditure,
                IFNULL(ddpi.dollar_cost / ddpr.user_num, 0)                             cpi,
-               IFNULL(ddpa.total_income / ddpi.dollar_cost, 0)                         ad_roi,
-               IFNULL((ddpa.total_income + ddpql.active_event_ltv - IFNULL(dwfd.success_change_amount_fee, 0)) /
+               IFNULL(ddpa.total_not_custom_directsold_income / ddpi.dollar_cost, 0)   ad_roi,
+               IFNULL((ddpa.total_not_custom_directsold_income + ddpql.active_event_ltv -
+                       IFNULL(dwfd.success_change_amount_fee, 0)) /
                       ddpi.dollar_cost, 0)                                             total_roi
         FROM dws_daily_pkg_login ddpl
                  LEFT JOIN dws_daily_pkg_register ddpr
@@ -336,8 +341,9 @@
                IFNULL(ddpi.dollar_cost, 0)                                             promotion_cost,
                IFNULL(ddpi.dollar_cost + IFNULL(dwfd.success_change_amount_fee, 0), 0) total_expenditure,
                IFNULL(ddpi.dollar_cost / ddpr.user_num, 0)                             cpi,
-               IFNULL(ddpa.total_income / ddpi.dollar_cost, 0)                         ad_roi,
-               IFNULL((ddpa.total_income + ddpql.active_event_ltv - IFNULL(dwfd.success_change_amount_fee, 0)) /
+               IFNULL(ddpa.total_not_custom_directsold_income / ddpi.dollar_cost, 0)   ad_roi,
+               IFNULL((ddpa.total_not_custom_directsold_income + ddpql.active_event_ltv -
+                       IFNULL(dwfd.success_change_amount_fee, 0)) /
                       ddpi.dollar_cost, 0)                                             total_roi
         FROM dws_daily_pkg_login ddpl
                  LEFT JOIN dws_daily_pkg_register ddpr
@@ -424,10 +430,11 @@
                IFNULL(IF(ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or
                          ddpr.user_num = 0, 0, ddpui.dollar_cost / ddpr.ver_user_num * ddpr.user_num) / ddpr.user_num,
                       0)                                                                                  cpi,
-               IFNULL(ddpa.total_income / IF(
+               IFNULL(ddpa.total_not_custom_directsold_income / IF(
                        ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or ddpr.user_num = 0,
                        0, ddpui.dollar_cost / ddpr.ver_user_num * ddpr.user_num), 0)                      ad_roi,
-               IFNULL((ddpa.total_income + ddpql.active_event_ltv - IFNULL(dwfd.success_change_amount_fee, 0)) /
+               IFNULL((ddpa.total_not_custom_directsold_income + ddpql.active_event_ltv -
+                       IFNULL(dwfd.success_change_amount_fee, 0)) /
                       IF(ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or
                          ddpr.user_num = 0, 0, ddpui.dollar_cost / ddpr.ver_user_num * ddpr.user_num), 0) total_roi
         FROM dws_daily_pkg_ver_usrc_login ddpl
@@ -527,10 +534,11 @@
                IFNULL(IF(ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or
                          ddpr.user_num = 0, 0, ddpui.dollar_cost / ddpr.ver_user_num * ddpr.user_num) / ddpr.user_num,
                       0)                                                                                  cpi,
-               IFNULL(ddpa.total_income / IF(
+               IFNULL(ddpa.total_not_custom_directsold_income / IF(
                        ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or ddpr.user_num = 0,
                        0, ddpui.dollar_cost / ddpr.ver_user_num * ddpr.user_num), 0)                      ad_roi,
-               IFNULL((ddpa.total_income + ddpql.active_event_ltv - IFNULL(dwfd.success_change_amount_fee, 0)) /
+               IFNULL((ddpa.total_not_custom_directsold_income + ddpql.active_event_ltv -
+                       IFNULL(dwfd.success_change_amount_fee, 0)) /
                       IF(ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or
                          ddpr.user_num = 0, 0, ddpui.dollar_cost / ddpr.ver_user_num * ddpr.user_num), 0) total_roi
         FROM dws_daily_pkg_ver_usrc_login ddpl
@@ -624,10 +632,11 @@
                       0)                                                               total_expenditure,
                IFNULL(IF(ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or
                          ddpr.user_num = 0, 0, ddpui.dollar_cost) / ddpr.user_num, 0)  cpi,
-               IFNULL(ddpa.total_income / IF(
+               IFNULL(ddpa.total_not_custom_directsold_income / IF(
                        ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or ddpr.user_num = 0,
                        0, ddpui.dollar_cost), 0)                                       ad_roi,
-               IFNULL((ddpa.total_income + ddpql.active_event_ltv - IFNULL(dwfd.success_change_amount_fee, 0)) /
+               IFNULL((ddpa.total_not_custom_directsold_income + ddpql.active_event_ltv -
+                       IFNULL(dwfd.success_change_amount_fee, 0)) /
                       IF(ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or
                          ddpr.user_num = 0, 0, ddpui.dollar_cost), 0)                  total_roi
         FROM dws_daily_pkg_usrc_login ddpl
@@ -722,10 +731,11 @@
                       0)                                                               total_expenditure,
                IFNULL(IF(ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or
                          ddpr.user_num = 0, 0, ddpui.dollar_cost) / ddpr.user_num, 0)  cpi,
-               IFNULL(ddpa.total_income / IF(
+               IFNULL(ddpa.total_not_custom_directsold_income / IF(
                        ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or ddpr.user_num = 0,
                        0, ddpui.dollar_cost), 0)                                       ad_roi,
-               IFNULL((ddpa.total_income + ddpql.active_event_ltv - IFNULL(dwfd.success_change_amount_fee, 0)) /
+               IFNULL((ddpa.total_not_custom_directsold_income + ddpql.active_event_ltv -
+                       IFNULL(dwfd.success_change_amount_fee, 0)) /
                       IF(ddpui.dollar_cost is null or ddpui.dollar_cost = 0 or ddpr.user_num is null or
                          ddpr.user_num = 0, 0, ddpui.dollar_cost), 0)                  total_roi
         FROM dws_daily_pkg_usrc_login ddpl
