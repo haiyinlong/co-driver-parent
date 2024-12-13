@@ -1,22 +1,23 @@
 package com.leo.ad.codriver.starter.redis;
 
-import com.alibaba.fastjson2.support.spring6.data.redis.GenericFastJsonRedisSerializer;
-import com.fasterxml.jackson.annotation.JsonAutoDetect;
-import com.fasterxml.jackson.annotation.PropertyAccessor;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.util.CollectionUtils;
 
-import java.time.Duration;
+import com.alibaba.fastjson2.support.spring6.data.redis.GenericFastJsonRedisSerializer;
 
 /**
  * RedisCacheConfig
@@ -26,18 +27,32 @@ import java.time.Duration;
  **/
 @Configuration
 @EnableCaching
+@EnableConfigurationProperties(RedisCacheConfigProperties.class)
 public class RedisCacheConfig {
+
+    @Autowired
+    private RedisCacheConfigProperties redisCacheConfigProperties;
+
     @Bean
     @ConditionalOnMissingBean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         GenericFastJsonRedisSerializer fastJsonRedisSerializer = new GenericFastJsonRedisSerializer();
 
-        RedisCacheConfiguration cacheConfiguration =
-            RedisCacheConfiguration.defaultCacheConfig().entryTtl(Duration.ofDays(30))
-                .serializeKeysWith(
-                    RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(
-                    RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer));
-        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();
+        // 默认缓存配置
+        RedisCacheConfiguration defaultCacheConfig = RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(Duration.ofDays(30))
+            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer));
+
+        // 特定缓存配置
+        Map<String, RedisCacheConfiguration> specificCacheConfigurations = new HashMap<>();
+        if (!CollectionUtils.isEmpty(redisCacheConfigProperties.getConfigs())) {
+            for (RedisCacheConfigProperties.Config config : redisCacheConfigProperties.getConfigs()) {
+                specificCacheConfigurations.put(config.getKey(), defaultCacheConfig.entryTtl(config.getTtl()));
+
+            }
+        }
+        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(defaultCacheConfig)
+            .withInitialCacheConfigurations(specificCacheConfigurations).build();
     }
 }
