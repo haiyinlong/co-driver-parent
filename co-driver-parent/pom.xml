@@ -5,7 +5,7 @@
 
     <groupId>com.leo.ad</groupId>
     <artifactId>co-driver-parent</artifactId>
-    <version>1.0.8</version>
+    <version>1.0.9</version>
     <packaging>pom</packaging>
     <modules>
         <module>mysql-spring-boot-starter</module>
@@ -18,7 +18,7 @@
         <module>gateway-spring-boot-starter</module>
     </modules>
     <properties>
-        <co-driver.version>1.0.8</co-driver.version>
+        <co-driver.version>1.0.9</co-driver.version>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
