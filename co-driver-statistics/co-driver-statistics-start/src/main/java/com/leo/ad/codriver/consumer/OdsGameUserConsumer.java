@@ -23,7 +23,7 @@ public class OdsGameUserConsumer {
     private final DimGameUserInfoService dimGameUserInfoService;
 
     @RabbitListener(queues = {"ods_game_user_queue"},
-        autoStartup = "${co-driver.rabbitmq.listener.ods_game_user_queue.enable:true}", concurrency = "8")
+        autoStartup = "${co-driver.rabbitmq.listener.ods_game_user_queue.enable:true}", concurrency = "6")
     public void notifyDataChange(String msg) {
         if (ObjectUtils.isEmpty(msg)) {
             return;

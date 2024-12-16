@@ -7,7 +7,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.dwd.event.DwdPromotionRecordUpdateDwEvent;
-import com.leo.ad.codriver.dws.event.DwsDailyPkgAdEventUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPromotionEventUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
 import lombok.RequiredArgsConstructor;
@@ -79,7 +79,7 @@ public class DwdPromotionRecordUpdateDwEventHandler {
             throw new RuntimeException(e);
         }
         // 添加事件更新 ads相关计算
-        applicationEventPublisher.publishEvent(new DwsDailyPkgAdEventUpdateDwEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwsDailyPromotionEventUpdateDwEvent(this, dates));
 
     }
 }

@@ -3,12 +3,15 @@ package com.leo.ad.codriver.dwd.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.ExchangeRate;
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserWithdrawRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord;
+import com.leo.ad.codriver.dwd.event.DwdUserWithdrawRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -31,6 +34,8 @@ public class DwdUserWithdrawRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserWithdrawRecord syncData")
+    @Transactional(rollbackFor = Exception.class)
+    @AutoPushEventWithTrue(events = {DwdUserWithdrawRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         // 先删除数据

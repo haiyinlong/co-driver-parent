@@ -15,27 +15,28 @@
     </select>
     <select id="queryWithdrawList" resultType="com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord">
         select wr.dates,
-               wr.id                                                    source_id,
+               wr.id                                                              source_id,
                wr.project_name,
                wr.user_id,
                wr.withdraw_type,
                wr.status,
                wr.amount,
-               IFNULL(wr.fee, 0)                                        fee,
+               (IFNULL(wr.fee, 0) + IFNULL(oprw.fee, 0))                          fee,
                #{singleFee} `exchange_rate`,
-               ROUND(wr.amount / #{singleFee}, 8)                       `change_amount`,
-               ROUND((IFNULL(wr.fee, 0)) / #{singleFee}, 8)             `change_fee`,
-               ROUND((IFNULL(wr.fee, 0) + wr.amount) / #{singleFee}, 8) change_total_amount,
+               ROUND(wr.amount / #{singleFee}, 8)                                 `change_amount`,
+               ROUND((IFNULL(wr.fee, 0) + IFNULL(oprw.fee, 0)) / #{singleFee}, 8) `change_fee`,
+               ROUND((IFNULL(wr.fee, 0) + IFNULL(wr.amount, 0) + IFNULL(oprw.fee, 0)) / #{singleFee},
+                     8)                                                           change_total_amount,
                wr.num,
-               uv.max_pvn                                               version,
+               uv.max_pvn                                                         version,
                u.pkg,
-               IFNULL(uh.address, 'IN')                                 country,
-               u.dates                                                  register_dates,
-               u.create_time                                            register_date,
-               uv.pvn                                                   register_version,
-               TIMESTAMPDIFF(DAY, u.create_time, wr.created)            register_cohort_day,
-               TIMESTAMPDIFF(DAY, u.dates, wr.dates)                    register_day,
-               wr.created                                               create_time
+               IFNULL(uh.address, 'IN')                                           country,
+               u.dates                                                            register_dates,
+               u.create_time                                                      register_date,
+               uv.pvn                                                             register_version,
+               TIMESTAMPDIFF(DAY, u.create_time, wr.created)                      register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, wr.dates)                              register_day,
+               wr.created                                                         create_time
         from ods_withdraw_record wr
                  INNER JOIN ods_user u on (wr.user_id = u.id)
                  LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
@@ -43,6 +44,7 @@
                             FROM ods_user_version uv
                             where uv.dates <![CDATA[ <=]]> #{dates}
                             GROUP BY user_id) uv on (uv.user_id = u.id)
+                 LEFT JOIN ods_pay_record_withdraw oprw on (oprw.withdraw_record_id = wr.id and oprw.status = 1)
         where wr.dates = #{dates}
         limit #{rows} OFFSET #{startRows}
     </select>

@@ -31,8 +31,9 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
         if (ObjectUtils.isEmpty(odsGameUserId)) {
             return;
         }
+        long gameUserId = 0L;
         try {
-            long gameUserId = new BigDecimal(odsGameUserId).longValue();
+            gameUserId = new BigDecimal(odsGameUserId).longValue();
             DimGameUserInfo dimGameUserInfo = dimGameUserInfoMapper.getOdsGameUserInfo(gameUserId);
             if (ObjectUtils.isEmpty(dimGameUserInfo)) {
                 return;
@@ -45,7 +46,7 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
             dimGameUserInfo.modifyUpdateTime();
             dimGameUserInfoMapper.updateById(dimGameUserInfo);
         } catch (Exception e) {
-            log.error("syncGameUser error", e);
+            log.error("userId:" + gameUserId + " syncGameUser error", e);
             throw new RuntimeException(e);
         }
     }

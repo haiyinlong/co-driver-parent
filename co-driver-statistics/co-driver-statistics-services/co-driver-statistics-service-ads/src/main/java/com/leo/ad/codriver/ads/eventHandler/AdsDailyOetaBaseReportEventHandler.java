@@ -1,15 +1,12 @@
 package com.leo.ad.codriver.ads.eventHandler;
 
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.ads.service.AdsService;
-import com.leo.ad.codriver.dws.event.DwsDailyPackageAllAdEventUpdateDwEvent;
-import com.leo.ad.codriver.dws.event.DwsDailyPackageAllAdUpdateDwEvent;
-import com.leo.ad.codriver.dws.event.DwsDailyPackageAllVersionPromotionUpdateDwEvent;
-import com.leo.ad.codriver.dws.event.DwsDailyPkgAdEventUpdateDwEvent;
+import com.leo.ad.codriver.common.event.CoDriverDwEvent;
+import com.leo.ad.codriver.dws.event.*;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,37 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 public class AdsDailyOetaBaseReportEventHandler {
     private final AdsService adsDailyOetaBaseReportServiceImpl;
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @EventListener
     @Async
-    public void handleEvent(DwsDailyPackageAllAdUpdateDwEvent dwsDailyPackageAdUpdateEvent) {
-        log.info("{} 事件触发 DwsDailyPackageAllAdUpdateEvent adsDailyOetaBaseReport",
-            dwsDailyPackageAdUpdateEvent.getDates());
-        adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAdUpdateEvent.getDates());
-    }
-
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Async
-    public void
-        handleEvent(DwsDailyPackageAllVersionPromotionUpdateDwEvent dwsDailyPackageAllVersionPromotionUpdateEvent) {
-        log.info("{} 事件触发 DwsDailyPackageAllVersionPromotionUpdateEvent adsDailyOetaBaseReport",
-            dwsDailyPackageAllVersionPromotionUpdateEvent.getDates());
-        adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAllVersionPromotionUpdateEvent.getDates());
-    }
-
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Async
-    public void handleEvent(DwsDailyPackageAllAdEventUpdateDwEvent dwsDailyPackageAllAdEventUpdateDwEvent) {
-        log.info("{} 事件触发 DwsDailyPackageAllAdEventUpdateDwEvent adsDailyOetaBaseReport",
-            dwsDailyPackageAllAdEventUpdateDwEvent.getDates());
-        adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPackageAllAdEventUpdateDwEvent.getDates());
-    }
-
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
-    @Async
-    public void handleEvent(DwsDailyPkgAdEventUpdateDwEvent dwsDailyPkgAdEventUpdateDwEvent) {
-        log.info("{} 事件触发 DwsDailyPkgAdEventUpdateDwEvent adsDailyOetaBaseReport",
-            dwsDailyPkgAdEventUpdateDwEvent.getDates());
-        adsDailyOetaBaseReportServiceImpl.syncData(dwsDailyPkgAdEventUpdateDwEvent.getDates());
+    public void handleEvent(CoDriverDwEvent event) {
+        if (event instanceof DwsDailyPackageAdUpdateDwEvent || event instanceof DwsDailyPackageAllAdEventUpdateDwEvent
+            || event instanceof DwsDailyPackageAllVersionPromotionUpdateDwEvent
+            || event instanceof DwsDailyPkgAdEventUpdateDwEvent || event instanceof DwsDailyWithdrawEventUpdateDwEvent
+            || event instanceof DwsDailyPromotionEventUpdateDwEvent) {
+            log.info("{} 事件触发 adsDailyOetaBaseReport", event.getDates());
+            adsDailyOetaBaseReportServiceImpl.syncData(event.getDates());
+        }
     }
 
 }
