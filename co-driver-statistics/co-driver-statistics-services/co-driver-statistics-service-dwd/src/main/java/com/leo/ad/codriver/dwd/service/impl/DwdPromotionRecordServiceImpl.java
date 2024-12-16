@@ -39,11 +39,11 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdPromotionRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        Integer delRowNum = dwdPromotionRecordMapper.deleteByDate(dates);
+        dwdPromotionRecordMapper.deleteByDate(dates);
         List<DwdPromotionRecord> dwdPromotionRecordList =
             dwdPromotionRecordMapper.queryByDate(dates, exchangeRate.getIndianToDollar());
         if (CollectionUtils.isEmpty(dwdPromotionRecordList)) {
-            return delRowNum > 0;
+            return false;
         }
         dwdPromotionRecordList.forEach(DwdPromotionRecord::init);
         batchMapper.batchInsert(dwdPromotionRecordList, DwdPromotionRecordMapper.class);

@@ -27,7 +27,8 @@ public class PromotionDataChangeConsumer {
         autoStartup = "${co-driver.rabbitmq.listener.data_change_queue.enable:true}")
     public void notifyDataChange(String dataChangeMsg) {
         DataChangeDTO dataChangeDTO = JSONObject.parseObject(dataChangeMsg, DataChangeDTO.class);
-        if (PROMOTE.equals(dataChangeDTO.getChangeType())) {
+        log.info("推广花费数据通过mq接收到：{}", dataChangeDTO);
+        if (PROMOTE.equalsIgnoreCase(dataChangeDTO.getChangeType())) {
             try {
                 dwdPromotionRecordServiceImpl.syncData(dataChangeDTO.getDates());
             } catch (Exception e) {

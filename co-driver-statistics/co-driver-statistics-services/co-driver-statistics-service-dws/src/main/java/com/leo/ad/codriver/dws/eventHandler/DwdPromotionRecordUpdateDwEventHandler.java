@@ -1,11 +1,13 @@
 package com.leo.ad.codriver.dws.eventHandler;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.dwd.event.DwdPromotionRecordUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPkgAdEventUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
 import lombok.RequiredArgsConstructor;
@@ -29,50 +31,55 @@ public class DwdPromotionRecordUpdateDwEventHandler {
     private final DwsService dwsDailyPackageVersionPromotionServiceImpl;
     private final DwsService dwsDailyPkgUsrcInvestedServiceImpl;
     private final DwsService dwsDailyPkgInvestedServiceImpl;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
     public void handleEvent(DwdPromotionRecordUpdateDwEvent dwdPromotionRecordUpdateEvent) {
-        log.info("{} 事件触发 DwdPromotionRecordUpdateDwEventHandler", dwdPromotionRecordUpdateEvent.getDates());
+        Integer dates = dwdPromotionRecordUpdateEvent.getDates();
+        log.info("{} 事件触发 DwdPromotionRecordUpdateDwEventHandler", dates);
         try {
-            dwsDailyPkgUsrcInvestedServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+            dwsDailyPkgUsrcInvestedServiceImpl.syncData(dates);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         try {
-            dwsDailyPkgInvestedServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+            dwsDailyPkgInvestedServiceImpl.syncData(dates);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         try {
-            dwsDailyPkgUsrcPromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+            dwsDailyPkgUsrcPromotionServiceImpl.syncData(dates);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         try {
-            dwsDailyPkgVerUsrcPromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+            dwsDailyPkgVerUsrcPromotionServiceImpl.syncData(dates);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         try {
-            dwsDailyPackageAllLabVersionPromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+            dwsDailyPackageAllLabVersionPromotionServiceImpl.syncData(dates);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         try {
-            dwsDailyPackageAllVersionPromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+            dwsDailyPackageAllVersionPromotionServiceImpl.syncData(dates);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         try {
-            dwsDailyPackagePromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+            dwsDailyPackagePromotionServiceImpl.syncData(dates);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
         try {
-            dwsDailyPackageVersionPromotionServiceImpl.syncData(dwdPromotionRecordUpdateEvent.getDates());
+            dwsDailyPackageVersionPromotionServiceImpl.syncData(dates);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        // 添加事件更新 ads相关计算
+        applicationEventPublisher.publishEvent(new DwsDailyPkgAdEventUpdateDwEvent(this, dates));
+
     }
 }
