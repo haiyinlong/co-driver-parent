@@ -1,6 +1,5 @@
 package com.leo.ad.codriver.starter.rabbitmq;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
@@ -15,6 +14,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * RabbitmqConfig
@@ -41,7 +42,6 @@ public class RabbitMqConfig {
         return connectionFactory;
     }
 
-
     @Bean()
     @Primary
     @ConditionalOnProperty(name = "co-driver.rabbitmq.enable", havingValue = "false", matchIfMissing = false)
@@ -55,13 +55,14 @@ public class RabbitMqConfig {
 
     @Bean()
     @ConditionalOnMissingBean
-    public SimpleRabbitListenerContainerFactory containerFactory(
-            SimpleRabbitListenerContainerFactoryConfigurer configurer, ConnectionFactory connectionFactory) {
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(
+        SimpleRabbitListenerContainerFactoryConfigurer configurer, ConnectionFactory connectionFactory) {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConcurrentConsumers(2);
-        factory.setMaxConcurrentConsumers(2);
+        factory.setMaxConcurrentConsumers(8);
         factory.setAcknowledgeMode(AcknowledgeMode.MANUAL);
         configurer.configure(factory, connectionFactory);
+        factory.setPrefetchCount(100);
         return factory;
     }
 
