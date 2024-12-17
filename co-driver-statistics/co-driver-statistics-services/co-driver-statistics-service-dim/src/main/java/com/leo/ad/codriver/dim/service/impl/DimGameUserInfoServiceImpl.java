@@ -54,7 +54,7 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
             dimGameUserInfo.modifyUpdateTime();
             dimGameUserInfoMapper.updateById(dimGameUserInfo);
         } catch (Exception e) {
-            log.error("userId:" + gameUserId + " syncGameUser error", e);
+            log.error("userId:" + gameUserId + " syncGameUser error, lockKey:" + lockKey, e);
             throw new RuntimeException(e);
         } finally {
             if (rLock.isLocked()) {
