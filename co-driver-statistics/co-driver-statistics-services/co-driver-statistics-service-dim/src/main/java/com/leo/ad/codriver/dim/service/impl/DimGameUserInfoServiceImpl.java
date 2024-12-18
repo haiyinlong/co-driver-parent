@@ -1,10 +1,7 @@
 package com.leo.ad.codriver.dim.service.impl;
 
 import java.math.BigDecimal;
-import java.util.concurrent.TimeUnit;
 
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
     private final DimGameUserInfoMapper dimGameUserInfoMapper;
-    private final RedissonClient redissonClient;
 
     @Override
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
@@ -37,10 +33,8 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
             return;
         }
         long gameUserId = 0L;
-        String lockKey = getLockKey(odsGameUserId);
-        RLock rLock = redissonClient.getLock(lockKey);
+
         try {
-            rLock.lock(10L, TimeUnit.SECONDS);
             gameUserId = new BigDecimal(odsGameUserId).longValue();
             DimGameUserInfo dimGameUserInfo = dimGameUserInfoMapper.getOdsGameUserInfo(gameUserId);
             if (ObjectUtils.isEmpty(dimGameUserInfo)) {
@@ -54,16 +48,9 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
             dimGameUserInfo.modifyUpdateTime();
             dimGameUserInfoMapper.updateById(dimGameUserInfo);
         } catch (Exception e) {
-            log.error("ods_game_user_one_net.id:" + gameUserId + " syncGameUser error, lockKey:" + lockKey, e);
+            log.error("ods_game_user_one_net.id:" + gameUserId + " syncGameUser error", e);
             throw new RuntimeException(e);
-        } finally {
-            if (rLock.isLocked()) {
-                rLock.unlock();
-            }
         }
     }
 
-    private String getLockKey(String odsGameUserId) {
-        return "dim_game_user_info_" + odsGameUserId;
-    }
 }
