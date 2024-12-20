@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserConversionMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserConversion;
+import com.leo.ad.codriver.dwd.event.DwdUserConversionUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -31,6 +33,7 @@ public class DwdUserConversionServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdUserConversion syncData")
     @Transactional(rollbackFor = Exception.class)
+    @AutoPushEventWithTrue(events = {DwdUserConversionUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         Integer delRowNum = dwdUserConversionMapper.deleteByDates(dates);

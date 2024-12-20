@@ -37,7 +37,7 @@ public class DwsDailyPackageAllGameServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
-        // TODO 改为数据库获取明细，代码中进行汇总，控制新增，修改和删除；
+        // TODO 处理太慢了 需要再优化
         dwsDailyPackageAllGameMapper.deleteByDates(dates);
         List<DwsDailyPackageAllGame> queryStatisticsAll = dwsDailyPackageAllGameMapper.queryStatisticsAll(dates);
         if (CollectionUtils.isEmpty(queryStatisticsAll)) {

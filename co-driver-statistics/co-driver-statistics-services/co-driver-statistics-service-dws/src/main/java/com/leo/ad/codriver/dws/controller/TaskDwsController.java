@@ -41,8 +41,6 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgUsrcInvestedServiceImpl;
     private final DwsService dwsDailyPkgInvestedServiceImpl;
 
-    private final DwsService dwsDailyPackageRetentionServiceImpl;
-    private final DwsService dwsDailyPackageCohortRetentionServiceImpl;
     private final DwsService dwsDailyPackageLoginServiceImpl;
     private final DwsService dwsDailyPackagePaymentServiceImpl;
     private final DwsService dwsDailyPackageCohortMissionServiceImpl;
@@ -50,7 +48,6 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageGameLevelServiceImpl;
     private final DwsService dwsPkgGameFullDailyServiceImpl;
     private final DwsService dwsPkgUserFullDailyServiceImpl;
-    private final DwsService dwsPkgRetentionFullDailyServiceImpl;
     private final DwsService dwsDailyPackageOnlineServiceImpl;
 
     private final DwsService dwsDailyPackageShareServiceImpl;
@@ -65,7 +62,6 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageAllLabOnlineServiceImpl;
     private final DwsService dwsDailyPackageAllLabQpLtvServiceImpl;
     private final DwsService dwsDailyPackageAllLabRegisterServiceImpl;
-    private final DwsService dwsDailyPackageAllLabRetentionServiceImpl;
     private final DwsService dwsDailyPackageAllLabShareServiceImpl;
     private final DwsService dwsDailyPackageAllShareServiceImpl;
     private final DwsService dwsDailyPackageAllLabVersionPromotionServiceImpl;
@@ -75,8 +71,17 @@ public class TaskDwsController {
     private final DwsService dwsDailyPackageAllLabGameServiceImpl;
     private final DwsService dwsDailyPackageAllAssetExchangeServiceImpl;
     private final DwsService dwsDailyPackageAllLabAssetExchangeServiceImpl;
-    private final DwsService dwsDailyPackageAllGameSingleServiceImpl;
-    private final DwsService dwsDailyPackageAllLabGameSingleServiceImpl;
+    // private final DwsService dwsDailyPackageAllGameSingleServiceImpl;
+    // private final DwsService dwsDailyPackageAllLabGameSingleServiceImpl;
+
+    // 留存
+    private final DwsService dwsDailyPackageRetentionServiceImpl;
+    private final DwsService dwsDailyPackageCohortRetentionServiceImpl;
+    private final DwsService dwsPkgRetentionFullDailyServiceImpl;
+    private final DwsService dwsDailyPackageAllLabRetentionServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcRetentionServiceImpl;
+    private final DwsService dwsDailyPkgRetentionServiceImpl;
+    private final DwsService dwsDailyPkgUsrcRetentionServiceImpl;
 
     // oeta base user source 统计
     private final DwsService dwsDailyPkgVerUsrcConversionServiceImpl;
@@ -86,7 +91,6 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgVerUsrcQpLtvServiceImpl;
     // private final DwsService dwsDailyPkgVerUsrcRegisterServiceImpl;
     private final DwsService dwsDailyRegisterServiceImpl;
-    private final DwsService dwsDailyPkgVerUsrcRetentionServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcShareServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcWithdrawServiceImpl;
     private final DwsService dwsDailyPkgUsrcConversionServiceImpl;
@@ -96,7 +100,6 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgUsrcPromotionServiceImpl;
     private final DwsService dwsDailyPkgUsrcQpLtvServiceImpl;
     // private final DwsService dwsDailyPkgUsrcRegisterServiceImpl;
-    private final DwsService dwsDailyPkgUsrcRetentionServiceImpl;
     private final DwsService dwsDailyPkgUsrcShareServiceImpl;
     private final DwsService dwsDailyPkgUsrcWithdrawServiceImpl;
 
@@ -152,27 +155,27 @@ public class TaskDwsController {
         return "执行完成dws数据同步";
     }
 
-    @GetMapping("/packageGameSingleOetaHandle")
-    @Operation(summary = "触发dws各个游戏oeta数据", description = "触发dws数据同步")
-    public String dwsPackageGameSingleOetaHandle(@RequestParam("dates") Integer dates) {
-        // 获取统计日期
-        if (ObjectUtils.isEmpty(dates)) {
-            dates = DateUtils.getPreviousDate();
-        }
-        dwsDailyPackageAllGameSingleServiceImpl.syncData(dates);
-        return "执行完成dws数据同步";
-    }
+    // @GetMapping("/packageGameSingleOetaHandle")
+    // @Operation(summary = "触发dws各个游戏oeta数据", description = "触发dws数据同步")
+    // public String dwsPackageGameSingleOetaHandle(@RequestParam("dates") Integer dates) {
+    // // 获取统计日期
+    // if (ObjectUtils.isEmpty(dates)) {
+    // dates = DateUtils.getPreviousDate();
+    // }
+    // dwsDailyPackageAllGameSingleServiceImpl.syncData(dates);
+    // return "执行完成dws数据同步";
+    // }
 
-    @GetMapping("/packageLabGameSingleOetaHandle")
-    @Operation(summary = "触发dwsLab各个游戏oeta数据", description = "触发dws数据同步")
-    public String dwsPackageLabGameSingleOetaHandle(@RequestParam("dates") Integer dates) {
-        // 获取统计日期
-        if (ObjectUtils.isEmpty(dates)) {
-            dates = DateUtils.getPreviousDate();
-        }
-        dwsDailyPackageAllLabGameSingleServiceImpl.syncData(dates);
-        return "执行完成dws数据同步";
-    }
+    // @GetMapping("/packageLabGameSingleOetaHandle")
+    // @Operation(summary = "触发dwsLab各个游戏oeta数据", description = "触发dws数据同步")
+    // public String dwsPackageLabGameSingleOetaHandle(@RequestParam("dates") Integer dates) {
+    // // 获取统计日期
+    // if (ObjectUtils.isEmpty(dates)) {
+    // dates = DateUtils.getPreviousDate();
+    // }
+    // dwsDailyPackageAllLabGameSingleServiceImpl.syncData(dates);
+    // return "执行完成dws数据同步";
+    // }
 
     @GetMapping("/packageUserConversion")
     @Operation(summary = "触发dws用户转化task", description = "触发dws数据同步")
@@ -250,7 +253,41 @@ public class TaskDwsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        dwsDailyPackageRetentionServiceImpl.syncData(dates);
+        try {
+            dwsDailyPackageRetentionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPackageCohortRetentionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsPkgRetentionFullDailyServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPackageAllLabRetentionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgVerUsrcRetentionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgRetentionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgUsrcRetentionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         return "执行完成dws数据同步";
     }
 

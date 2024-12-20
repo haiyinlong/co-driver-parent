@@ -33,3 +33,7 @@ DW数据处理服务，负责对数据的清洗并生成对应的主题数据。
     1. `co-driver-start` 数据处理服务日志清理
     2. `seatunnel` 数据同步服务日志清理
 
+## 遗留问题
+
+DwsDailyPkgMiniGameMapper 数据暂时停止统计，数据量大时会有影响；
+DwdUserOnlineServiceImpl 统计耗时，需要优化

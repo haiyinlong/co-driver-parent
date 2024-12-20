@@ -28,7 +28,7 @@ public class OdsGameUserConsumer {
     private final RedissonClient redissonClient;
 
     @RabbitListener(queues = {"ods_game_user_queue"},
-        autoStartup = "${co-driver.rabbitmq.listener.ods_game_user_queue.enable:true}", concurrency = "6")
+        autoStartup = "${co-driver.rabbitmq.listener.ods_game_user_queue.enable:true}", concurrency = "9")
     public void notifyDataChange(String msg) {
         if (ObjectUtils.isEmpty(msg)) {
             return;

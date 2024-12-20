@@ -33,7 +33,7 @@ public class DwdUserOnlineServiceImpl implements DwdService {
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         Long totalRecord = dwdUserOnlineMapper.getCountByDate(dates);
-        long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
+        long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_MAX_NUMBER.longValue());
         List<DwdUserOnline> userOnlineList;
         for (int i = 0; i < totalPageNum; i++) {
             userOnlineList =

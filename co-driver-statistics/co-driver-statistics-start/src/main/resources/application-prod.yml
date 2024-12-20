@@ -51,6 +51,7 @@ spring:
         auto-startup: ${co-driver.rabbitmq.enable}
       simple:
         auto-startup: ${co-driver.rabbitmq.enable}
+        prefetch: 100
 ### 生产环境需要开启 enable
 co-driver:
   rabbitmq:

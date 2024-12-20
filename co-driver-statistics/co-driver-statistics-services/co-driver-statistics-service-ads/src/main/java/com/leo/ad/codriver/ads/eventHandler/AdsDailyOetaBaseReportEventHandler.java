@@ -29,7 +29,8 @@ public class AdsDailyOetaBaseReportEventHandler {
         if (event instanceof DwsDailyPackageAdUpdateDwEvent || event instanceof DwsDailyPackageAllAdEventUpdateDwEvent
             || event instanceof DwsDailyPackageAllVersionPromotionUpdateDwEvent
             || event instanceof DwsDailyPkgAdEventUpdateDwEvent || event instanceof DwsDailyWithdrawEventUpdateDwEvent
-            || event instanceof DwsDailyPromotionEventUpdateDwEvent) {
+            || event instanceof DwsDailyPromotionEventUpdateDwEvent
+            || event instanceof DwsDailyPkgConversionUpdateDwEvent) {
             log.info("{} 事件触发 adsDailyOetaBaseReport", event.getDates());
             adsDailyOetaBaseReportServiceImpl.syncData(event.getDates());
         }
