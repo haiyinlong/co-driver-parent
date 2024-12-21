@@ -3,11 +3,14 @@ package com.leo.ad.codriver.dwd.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserShareRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserShareRecord;
+import com.leo.ad.codriver.dwd.event.DwdUserShareRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -31,6 +34,8 @@ public class DwdUserShareRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserShareRecord  syncData")
+    @Transactional(rollbackFor = Exception.class)
+    @AutoPushEventWithTrue(events = {DwdUserShareRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         // TODO 改造

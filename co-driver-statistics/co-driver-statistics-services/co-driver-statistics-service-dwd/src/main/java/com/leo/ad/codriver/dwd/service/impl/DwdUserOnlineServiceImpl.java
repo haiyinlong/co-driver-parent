@@ -3,11 +3,14 @@ package com.leo.ad.codriver.dwd.service.impl;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserOnlineMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserOnline;
+import com.leo.ad.codriver.dwd.event.DwdUserOnlineRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -30,6 +33,8 @@ public class DwdUserOnlineServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserOnline  syncData")
+    @Transactional(rollbackFor = Exception.class)
+    @AutoPushEventWithTrue(events = {DwdUserOnlineRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         Long totalRecord = dwdUserOnlineMapper.getCountByDate(dates);

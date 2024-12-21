@@ -4,11 +4,14 @@ import java.util.List;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserRegisterMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserRegister;
+import com.leo.ad.codriver.dwd.event.DwdUserRegisterRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -31,6 +34,8 @@ public class DwdUserRegisterServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdUserRegister syncData")
+    @Transactional(rollbackFor = Exception.class)
+    @AutoPushEventWithTrue(events = {DwdUserRegisterRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         Integer delRowNum = dwdUserRegisterMapper.deleteByDates(dates);
