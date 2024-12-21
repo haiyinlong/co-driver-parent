@@ -18,6 +18,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 河马使用到的数据，暂时没有应用场景就不做优化，还是每天定时处理
+ *
  * @author HaiYinLong
  * @version 2024/04/18 16:47
  **/

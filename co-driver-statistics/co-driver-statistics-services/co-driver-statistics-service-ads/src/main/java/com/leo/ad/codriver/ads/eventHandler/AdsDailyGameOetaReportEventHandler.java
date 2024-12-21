@@ -1,13 +1,17 @@
 package com.leo.ad.codriver.ads.eventHandler;
 
-import com.leo.ad.codriver.ads.service.AdsService;
-import com.leo.ad.codriver.dws.event.DwsDailyPackageAllGameUpdateDwEvent;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
+
+import com.leo.ad.codriver.ads.service.AdsService;
+import com.leo.ad.codriver.common.event.CoDriverDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPackageAllGameUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPkgExchangeRecordUpdateDwEvent;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * AdsDailyLabOetaBaseReportEventHandler
@@ -23,11 +27,12 @@ public class AdsDailyGameOetaReportEventHandler {
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
-    public void handleEvent(DwsDailyPackageAllGameUpdateDwEvent dwsDailyPackageAllGameUpdateDwEvent) {
-        log.info("{} DwsDailyPackageAllLabAdUpdateEvent事件触发 adsDailyLabOetaBaseReport",
-                dwsDailyPackageAllGameUpdateDwEvent.getDates());
-        adsDailyGameOetaReportServiceImpl.syncData(dwsDailyPackageAllGameUpdateDwEvent.getDates());
+    public void handleEvent(CoDriverDwEvent event) {
+        if (event instanceof DwsDailyPackageAllGameUpdateDwEvent
+            || event instanceof DwsDailyPkgExchangeRecordUpdateDwEvent) {
+            log.info("{} 事件触发 adsDailyGameOetaReport", event.getDates());
+            adsDailyGameOetaReportServiceImpl.syncData(event.getDates());
+        }
     }
-
 
 }

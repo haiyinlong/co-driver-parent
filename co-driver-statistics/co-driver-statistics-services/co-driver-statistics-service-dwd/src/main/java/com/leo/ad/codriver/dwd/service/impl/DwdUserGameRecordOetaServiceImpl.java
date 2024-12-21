@@ -2,6 +2,8 @@ package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
 
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.scheduling.annotation.Async;
@@ -38,6 +40,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, Application
     private final DwdUserGameRecordOetaMapper dwdUserGameRecordOetaMapper;
     private final DwBatchMapper<DwdUserGameRecordOeta, DwdUserGameRecordOetaMapper> batchMapper;
     private final DwTaskRecordService dwTaskRecordService;
+    private final RedissonClient redissonClient;
     private final ApplicationEventPublisher applicationEventPublisher;
     private volatile boolean isRestart = false;
 
@@ -120,10 +123,23 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, Application
     @Async
     public void onApplicationEvent(DwRestartTaskEvent event) {
         DwTaskRecord taskRecord = event.getTask();
-        log.info("dwdUserGameRecordOeta 重新处理终端任务,id:{}", taskRecord.getId());
-        taskRecord.process(taskRecord.getProcessId());
-        dwTaskRecordService.update(taskRecord);
-        handelOdsGameRecordSyncToDwd(event.getDates(), taskRecord);
+        RLock rLock = redissonClient.getLock("coDriver:lock:userGameRecord" + taskRecord.getId());
+        if (!rLock.tryLock()) {
+            return;
+        }
+        try {
+            log.info("dwdUserGameRecordOeta 重新处理终端任务,id:{}", taskRecord.getId());
+            taskRecord.process(taskRecord.getProcessId());
+            dwTaskRecordService.update(taskRecord);
+            handelOdsGameRecordSyncToDwd(event.getDates(), taskRecord);
+        } catch (Exception e) {
+            log.error("dwdUserGameRecordOeta 重新处理终端任务,id:" + taskRecord.getId(), e);
+            throw new RuntimeException(e);
+        } finally {
+            if (rLock.isLocked()) {
+                rLock.unlock();
+            }
+        }
     }
 
 }

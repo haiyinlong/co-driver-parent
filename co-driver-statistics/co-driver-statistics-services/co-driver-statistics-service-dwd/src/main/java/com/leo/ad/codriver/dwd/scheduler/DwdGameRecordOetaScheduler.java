@@ -18,9 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class DwdOetaGameRecordScheduler {
+public class DwdGameRecordOetaScheduler {
     private final DwdService dwdUserGameRecordOetaServiceImpl;
 
+    // @Scheduled(cron = "0 */30 * * * ?")
     @Async("asyncServiceExecutor")
     public void syncDwdOetaGameRecord() {
         Integer dates = DateUtils.getNowDates();
