@@ -17,11 +17,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 /***
- * 定义同步入口**
+ * 定义同步入口**<br>
+ * 定时任务通过各个模块自己配置，不进行统一调用
  *
  * @author HaiYinLong
  * @version 2024/04/09 11:48
  **/
+@Deprecated
 @Component
 @Slf4j
 @RequiredArgsConstructor

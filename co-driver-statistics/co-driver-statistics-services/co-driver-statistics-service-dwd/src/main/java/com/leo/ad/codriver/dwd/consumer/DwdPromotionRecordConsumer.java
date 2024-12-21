@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson2.JSONObject;
 import com.leo.ad.codriver.dwd.consumer.dto.DataChangeDTO;
-import com.leo.ad.codriver.dwd.service.DwdService;
+import com.leo.ad.codriver.dwd.service.impl.DwdPromotionRecordServiceImpl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class DwdPromotionRecordConsumer {
-    private final DwdService dwdPromotionRecordServiceImpl;
+    private final DwdPromotionRecordServiceImpl dwdPromotionRecordServiceImpl;
     private static final String PROMOTE = "promote";
 
     @RabbitListener(queues = {"data_change_queue"},

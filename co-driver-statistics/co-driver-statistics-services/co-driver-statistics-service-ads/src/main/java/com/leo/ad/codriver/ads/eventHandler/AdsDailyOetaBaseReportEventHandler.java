@@ -4,7 +4,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
-import com.leo.ad.codriver.ads.service.AdsService;
+import com.leo.ad.codriver.ads.service.impl.AdsDailyOetaBaseReportServiceImpl;
 import com.leo.ad.codriver.common.event.CoDriverDwEvent;
 import com.leo.ad.codriver.dws.event.*;
 
@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @RequiredArgsConstructor
 public class AdsDailyOetaBaseReportEventHandler {
-    private final AdsService adsDailyOetaBaseReportServiceImpl;
+    private final AdsDailyOetaBaseReportServiceImpl adsDailyOetaBaseReportServiceImpl;
 
     @EventListener
     @Async

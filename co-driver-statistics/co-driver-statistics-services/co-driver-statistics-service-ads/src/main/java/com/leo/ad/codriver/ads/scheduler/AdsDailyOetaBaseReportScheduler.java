@@ -25,7 +25,7 @@ public class AdsDailyOetaBaseReportScheduler {
     /**
      * 凌晨1点更新前三天的数据，进行重算
      */
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "0 0 0-3 * * ?")
     @Async("asyncServiceExecutor")
     public void syncUpdateOetaBaseReportHistory() {
         Integer dates;
