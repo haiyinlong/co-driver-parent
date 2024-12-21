@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dwd.dao.DwdQpLtvRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdQpLtvRecord;
+import com.leo.ad.codriver.dwd.event.DwdUserQpLtvUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
@@ -32,6 +34,7 @@ public class DwdQpLtvRecordServiceImpl implements DwdService {
     @Override
     @ShowExecuteTime(name = "dwdQpLtvRecord syncData")
     @Transactional(rollbackFor = Exception.class)
+    @AutoPushEventWithTrue(events = {DwdUserQpLtvUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
         Integer delRowNum = dwdQpLtvRecordMapper.deleteByDate(dates);

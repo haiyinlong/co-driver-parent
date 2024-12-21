@@ -30,7 +30,8 @@ public class AdsDailyOetaBaseReportEventHandler {
             || event instanceof DwsDailyPackageAllVersionPromotionUpdateDwEvent
             || event instanceof DwsDailyPkgAdEventUpdateDwEvent || event instanceof DwsDailyWithdrawEventUpdateDwEvent
             || event instanceof DwsDailyPromotionEventUpdateDwEvent
-            || event instanceof DwsDailyPkgConversionUpdateDwEvent) {
+            || event instanceof DwsDailyPkgConversionUpdateDwEvent
+            || event instanceof DwsDailyQpLtvEventUpdateDwEvent) {
             log.info("{} 事件触发 adsDailyOetaBaseReport", event.getDates());
             adsDailyOetaBaseReportServiceImpl.syncData(event.getDates());
         }
