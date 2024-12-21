@@ -19,6 +19,7 @@
         <module>co-driver-statistics-service-dws</module>
         <module>co-driver-statistics-service-ads</module>
         <module>co-driver-statistics-service-clean</module>
+        <module>co-driver-statistics-service-ods</module>
     </modules>
 
     <properties>

@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.consumer;
+package com.leo.ad.codriver.dim.consumer;
 
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class OdsGameUserConsumer {
+public class DimGameUserInfoConsumer {
     private final DimGameUserInfoService dimGameUserInfoService;
     private final RedissonClient redissonClient;
 

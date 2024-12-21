@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.consumer;
+package com.leo.ad.codriver.dim.consumer;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class OdsUserChangeConsumer {
+public class DimUserInfoConsumer {
     private final DimUserInfoService dimUserInfoService;
 
     @RabbitListener(queues = {"ods_user_change_queue"},

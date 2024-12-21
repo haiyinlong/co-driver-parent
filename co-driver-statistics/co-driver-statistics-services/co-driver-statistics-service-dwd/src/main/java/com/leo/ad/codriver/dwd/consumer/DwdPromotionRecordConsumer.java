@@ -1,10 +1,10 @@
-package com.leo.ad.codriver.consumer;
+package com.leo.ad.codriver.dwd.consumer;
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import com.alibaba.fastjson2.JSONObject;
-import com.leo.ad.codriver.consumer.dto.DataChangeDTO;
+import com.leo.ad.codriver.dwd.consumer.dto.DataChangeDTO;
 import com.leo.ad.codriver.dwd.service.DwdService;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class PromotionDataChangeConsumer {
+public class DwdPromotionRecordConsumer {
     private final DwdService dwdPromotionRecordServiceImpl;
     private static final String PROMOTE = "promote";
 

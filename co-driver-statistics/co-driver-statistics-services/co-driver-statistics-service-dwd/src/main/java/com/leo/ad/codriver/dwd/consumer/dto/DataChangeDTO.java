@@ -1,8 +1,9 @@
-package com.leo.ad.codriver.consumer.dto;
+package com.leo.ad.codriver.dwd.consumer.dto;
+
+import java.io.Serial;
+import java.io.Serializable;
 
 import lombok.Data;
-
-import java.io.Serializable;
 
 /**
  * DataChangeDTO
@@ -13,6 +14,8 @@ import java.io.Serializable;
 @Data
 public class DataChangeDTO implements Serializable {
 
+    @Serial
+    private static final long serialVersionUID = 7811505754299700400L;
     private Integer dates;
     /**
      * dwd-promote

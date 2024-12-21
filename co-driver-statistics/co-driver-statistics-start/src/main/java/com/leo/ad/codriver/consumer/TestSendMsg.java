@@ -1,16 +1,18 @@
 package com.leo.ad.codriver.consumer;
 
-import com.leo.ad.codriver.consumer.dto.DataChangeDTO;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import lombok.RequiredArgsConstructor;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.leo.ad.codriver.dwd.consumer.dto.DataChangeDTO;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 
 /**
  * TestSendMsg

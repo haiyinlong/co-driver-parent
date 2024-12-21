@@ -10,7 +10,7 @@
     <artifactId>co-driver-statistics-service-clean</artifactId>
     <packaging>jar</packaging>
 
-    <name>co-driver-statistics-service-clean</name>
+    <name>co-driver-service-clean</name>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

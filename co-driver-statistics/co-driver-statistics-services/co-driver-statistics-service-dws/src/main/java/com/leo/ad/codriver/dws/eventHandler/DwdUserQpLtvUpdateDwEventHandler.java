@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
-import com.leo.ad.codriver.dwd.event.DwdPromotionRecordUpdateDwEvent;
+import com.leo.ad.codriver.dwd.event.DwdUserQpLtvUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyQpLtvEventUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
@@ -33,8 +33,8 @@ public class DwdUserQpLtvUpdateDwEventHandler {
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
     @Async
-    public void handleEvent(DwdPromotionRecordUpdateDwEvent dwdPromotionRecordUpdateEvent) {
-        Integer dates = dwdPromotionRecordUpdateEvent.getDates();
+    public void handleEvent(DwdUserQpLtvUpdateDwEvent dwdUserQpLtvUpdateDwEvent) {
+        Integer dates = dwdUserQpLtvUpdateDwEvent.getDates();
         log.info("{} 事件触发 DwdPromotionRecordUpdateDwEvent", dates);
         try {
             dwsDailyPkgVerUsrcQpLtvServiceImpl.syncData(dates);
