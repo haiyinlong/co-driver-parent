@@ -3,7 +3,6 @@ package com.leo.ad.codriver.dim.service.impl;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import com.alibaba.fastjson2.JSONObject;
 import com.leo.ad.codriver.dim.dao.DimUserSourceMapper;
 import com.leo.ad.codriver.dim.entity.DimUserSource;
 import com.leo.ad.codriver.dim.service.DimUserSourceService;
@@ -23,8 +22,7 @@ public class DimUserSourceServiceImpl implements DimUserSourceService {
     private final DimUserSourceMapper dimUserSourceMapper;
 
     @Override
-    public void syncUserSource(String odsUserAttributeMsg) {
-        DimUserSource dimUserSource = JSONObject.parseObject(odsUserAttributeMsg, DimUserSource.class);
+    public void syncUserSource(DimUserSource dimUserSource) {
         DimUserSource dbUserSource = dimUserSourceMapper.selectById(dimUserSource.getId());
         if (ObjectUtils.isEmpty(dbUserSource)) {
             dimUserSourceMapper.insert(dimUserSource);

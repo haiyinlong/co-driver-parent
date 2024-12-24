@@ -23,7 +23,7 @@ public class DimUserInfoConsumer {
     private final DimUserInfoService dimUserInfoService;
 
     @RabbitListener(queues = {"ods_user_change_queue"},
-        autoStartup = "${co-driver.rabbitmq.listener.ods_user_change_queue.enable:true}")
+        autoStartup = "${co-driver.rabbitmq.listener.ods_user_change_queue.enable:true}", concurrency = "4")
     public void notifyDataChange(String odsUserChangeMsg) {
         if (ObjectUtils.isEmpty(odsUserChangeMsg)) {
             return;

@@ -63,7 +63,7 @@
                t.bank_user_num
         FROM (SELECT duwr.dates,
                      duwr.pkg,
-                     IFNULL(dus.network, 'Organic')                                        user_source,
+                     IFNULL(dus.network, 'Unknow')                                         user_source,
                      0                                                                     user_type,
                      count(1)                                                              total_record_num,
                      count(DISTINCT duwr.user_id)                                          total_user_num,
@@ -139,7 +139,7 @@
               FROM dwd_user_withdraw_record duwr
                        left join dim_user_source dus on (duwr.user_id = dus.user_id)
               WHERE duwr.dates = #{dates}
-              group by duwr.dates, duwr.pkg, IFNULL(dus.network, 'Organic')) t
+              group by duwr.dates, duwr.pkg, IFNULL(dus.network, 'Unknow')) t
                  left join dws_daily_pkg_usrc_withdraw ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and
                                t.user_source = ddovyo.user_source and t.user_type = ddovyo.user_type)
@@ -183,7 +183,7 @@
                t.bank_user_num
         FROM (SELECT duwr.dates,
                      duwr.pkg,
-                     IFNULL(dus.network, 'Organic')                                        user_source,
+                     IFNULL(dus.network, 'Unknow')                                         user_source,
                      1                                                                     user_type,
                      count(1)                                                              total_record_num,
                      count(DISTINCT duwr.user_id)                                          total_user_num,
@@ -260,7 +260,7 @@
                        left join dim_user_source dus on (duwr.user_id = dus.user_id)
               WHERE duwr.dates = #{dates}
                 and duwr.register_day = 0
-              group by duwr.dates, duwr.pkg, IFNULL(dus.network, 'Organic')) t
+              group by duwr.dates, duwr.pkg, IFNULL(dus.network, 'Unknow')) t
                  left join dws_daily_pkg_usrc_withdraw ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and
                                t.user_source = ddovyo.user_source and t.user_type = ddovyo.user_type)

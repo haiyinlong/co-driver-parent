@@ -3,7 +3,6 @@ package com.leo.ad.codriver.dim.service.impl;
 import java.math.BigDecimal;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
@@ -27,7 +26,7 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
     private final DimGameUserInfoMapper dimGameUserInfoMapper;
 
     @Override
-    @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
+    @Transactional(rollbackFor = Exception.class)
     public void syncGameUser(String odsGameUserId) {
         if (ObjectUtils.isEmpty(odsGameUserId)) {
             return;
@@ -49,7 +48,6 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
             dimGameUserInfoMapper.updateById(dimGameUserInfo);
         } catch (Exception e) {
             log.error("ods_game_user_one_net.id:" + gameUserId + " syncGameUser error", e);
-            throw new RuntimeException(e);
         }
     }
 

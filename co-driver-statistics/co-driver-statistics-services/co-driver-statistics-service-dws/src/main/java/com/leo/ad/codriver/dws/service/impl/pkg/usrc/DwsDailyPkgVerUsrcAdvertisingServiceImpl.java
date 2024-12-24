@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.dws.service.impl.pkg.ver.usrc;
+package com.leo.ad.codriver.dws.service.impl.pkg.usrc;
 
 import java.util.ArrayList;
 import java.util.HashMap;

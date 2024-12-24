@@ -14,14 +14,14 @@
                t.user_num
         FROM (select duc.dates,
                      duc.pkg,
-                     0                              `user_type`,
-                     duc.version                    `version`,
-                     IFNULL(dus.network, 'Organic') user_source,
-                     count(DISTINCT duc.user_id)    user_num
+                     0                             `user_type`,
+                     duc.version                   `version`,
+                     IFNULL(dus.network, 'Unknow') user_source,
+                     count(DISTINCT duc.user_id)   user_num
               from dwd_user_conversion duc
                        left join dim_user_source dus on (dus.user_id = duc.user_id)
               where duc.dates = #{dates}
-              group by duc.dates, duc.pkg, duc.version, IFNULL(dus.network, 'Organic')) t
+              group by duc.dates, duc.pkg, duc.version, IFNULL(dus.network, 'Unknow')) t
                  left join dws_daily_pkg_ver_usrc_conversion ddpvuc
                            on (t.dates = ddpvuc.dates and t.pkg = ddpvuc.pkg and t.user_type = ddpvuc.user_type and
                                t.version = ddpvuc.version and t.user_source = ddpvuc.user_source)
@@ -38,15 +38,15 @@
                t.user_num
         FROM (select duc.dates,
                      duc.pkg,
-                     1                              `user_type`,
-                     duc.version                    `version`,
-                     IFNULL(dus.network, 'Organic') user_source,
-                     count(DISTINCT duc.user_id)    user_num
+                     1                             `user_type`,
+                     duc.version                   `version`,
+                     IFNULL(dus.network, 'Unknow') user_source,
+                     count(DISTINCT duc.user_id)   user_num
               from dwd_user_conversion duc
                        left join dim_user_source dus on (dus.user_id = duc.user_id)
               where duc.dates = #{dates}
                 and duc.dates = duc.register_dates
-              group by duc.dates, duc.pkg, duc.version, IFNULL(dus.network, 'Organic')) t
+              group by duc.dates, duc.pkg, duc.version, IFNULL(dus.network, 'Unknow')) t
                  left join dws_daily_pkg_ver_usrc_conversion ddpvuc
                            on (t.dates = ddpvuc.dates and t.pkg = ddpvuc.pkg and t.user_type = ddpvuc.user_type and
                                t.version = ddpvuc.version and t.user_source = ddpvuc.user_source)

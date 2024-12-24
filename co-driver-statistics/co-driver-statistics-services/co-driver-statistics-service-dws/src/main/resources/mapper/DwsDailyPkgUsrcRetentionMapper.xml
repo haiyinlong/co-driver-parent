@@ -26,14 +26,14 @@
                t.retention_user_num
         FROM (select lr.dates,
                      lr.pkg,
-                     IFNULL(dus.network, 'Organic')                  user_source,
+                     IFNULL(dus.network, 'Unknow')                   user_source,
                      lr.register_dates,
                      TIMESTAMPDIFF(DAY, lr.register_dates, lr.dates) register_day,
                      count(DISTINCT lr.user_id)                      retention_user_num
               from dwd_user_login_record lr
                        left join dim_user_source dus on (lr.user_id = dus.user_id)
               where dates = #{dates}
-              group by lr.dates, lr.pkg, IFNULL(dus.network, 'Organic'), lr.register_dates) t
+              group by lr.dates, lr.pkg, IFNULL(dus.network, 'Unknow'), lr.register_dates) t
                  left join dws_daily_pkg_usrc_retention ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and
                                t.user_source = ddovyo.user_source and t.register_dates = ddovyo.register_dates)

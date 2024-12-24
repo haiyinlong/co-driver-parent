@@ -38,7 +38,7 @@
         where dates = #{dates}
     </select>
     <select id="queryUsrcListWithAndId" resultType="com.leo.ad.codriver.dwd.entity.DwdUserRegister">
-        select dur.*, IFNULL(dus.network, 'Organic') user_source
+        select dur.*, IFNULL(dus.network, 'Unknow') user_source
         from dwd_user_register dur
                  left join dim_user_source dus on (dur.user_id = dus.user_id)
         where dur.dates = #{dates}
