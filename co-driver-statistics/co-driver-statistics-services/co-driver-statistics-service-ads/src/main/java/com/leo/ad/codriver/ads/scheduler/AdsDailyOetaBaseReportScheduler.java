@@ -32,8 +32,12 @@ public class AdsDailyOetaBaseReportScheduler {
         int[] days = {1, 2, 3};
         for (int day : days) {
             dates = DateUtils.getPreviousDate(day);
-            adsDailyOetaBaseReportServiceImpl.syncData(dates);
-            log.info("{} dws DailyOetaBaseReportHistory 更新 {}留数据 同步结束", dates, day);
+            try {
+                adsDailyOetaBaseReportServiceImpl.syncData(dates);
+                log.info("{} dws DailyOetaBaseReportHistory 更新 {}留数据 同步结束", dates, day);
+            } catch (Exception e) {
+                log.error("adsDailyOetaBaseReportServiceImpl.syncData error", e);
+            }
         }
     }
 }

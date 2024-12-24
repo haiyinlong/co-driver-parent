@@ -32,8 +32,12 @@ public class AdsDailyOetaBaseReportEventHandler {
             || event instanceof DwsDailyPromotionEventUpdateDwEvent
             || event instanceof DwsDailyPkgConversionUpdateDwEvent
             || event instanceof DwsDailyQpLtvEventUpdateDwEvent) {
-            log.info("{} 事件触发 adsDailyOetaBaseReport", event.getDates());
-            adsDailyOetaBaseReportServiceImpl.syncData(event.getDates());
+            try {
+                log.info("{} 事件触发 adsDailyOetaBaseReport", event.getDates());
+                adsDailyOetaBaseReportServiceImpl.syncData(event.getDates());
+            } catch (Exception e) {
+                log.error("adsDailyOetaBaseReportServiceImpl.syncData error", e);
+            }
         }
     }
 

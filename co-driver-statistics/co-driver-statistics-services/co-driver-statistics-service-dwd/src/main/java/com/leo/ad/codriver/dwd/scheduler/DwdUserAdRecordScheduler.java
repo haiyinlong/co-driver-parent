@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DwdUserAdRecordScheduler {
     private final DwdService dwdUserAdRecordServiceImpl;
 
-    @Scheduled(cron = "0 0 1 * * ?")
+    @Scheduled(cron = "0 0 1-5 * * ?")
     @Async("asyncServiceExecutor")
     public void syncUpdateHmGameRetention() {
         Integer dates = DateUtils.getPreviousDate();

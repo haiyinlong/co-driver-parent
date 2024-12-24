@@ -1,12 +1,14 @@
 package com.leo.ad.codriver.ads.scheduler;
 
-import com.leo.ad.codriver.ads.service.AdsService;
-import com.leo.ad.codriver.common.util.DateUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.leo.ad.codriver.ads.service.AdsService;
+import com.leo.ad.codriver.common.util.DateUtils;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * AdsDailyOetaBaseReportScheduler
@@ -30,8 +32,12 @@ public class AdsDailyOetaGameReportScheduler {
         int[] days = {1, 2, 3};
         for (int day : days) {
             dates = DateUtils.getPreviousDate(day);
-            adsDailyGameOetaReportServiceImpl.syncData(dates);
-            log.info("{} dws DailyOetaBaseReportHistory 更新 {}留数据 同步结束", dates, day);
+            try {
+                adsDailyGameOetaReportServiceImpl.syncData(dates);
+                log.info("{} dws DailyOetaBaseReportHistory 更新 {}留数据 同步结束", dates, day);
+            } catch (Exception e) {
+                log.error("adsDailyOetaBaseReportServiceImpl.syncData error", e);
+            }
         }
     }
 }
