@@ -1,6 +1,7 @@
 package com.leo.ad.codriver.dim.service.impl;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
@@ -30,7 +31,7 @@ public class DimUserInfoServiceImpl implements DimUserInfoService {
      * @param odsUserChangeId 用户id
      */
     @Override
-    @Transactional(rollbackFor = Exception.class)
+    @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void syncUserInfo(String odsUserChangeId) {
         if (ObjectUtils.isEmpty(odsUserChangeId)) {
             return;
