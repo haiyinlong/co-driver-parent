@@ -41,12 +41,17 @@ public class DimGameUserInfoConsumer {
         String lockKey = getLockKey(odsGameUserId);
         RLock rLock = redissonClient.getLock(lockKey);
         try {
-            rLock.lock(10L, TimeUnit.SECONDS);
-            dimGameUserInfoService.syncGameUser(odsGameUserId);
-        } finally {
-            if (rLock.isLocked()) {
-                rLock.unlock();
+            if (rLock.tryLock(10, 30, TimeUnit.SECONDS)) {
+                try {
+                    dimGameUserInfoService.syncGameUser(odsGameUserId);
+                } finally {
+                    if (rLock.isLocked()) {
+                        rLock.unlock();
+                    }
+                }
             }
+        } catch (InterruptedException e) {
+            log.error("DimGameUserInfoConsumer 尝试加锁失败", e);
         }
     }
 
