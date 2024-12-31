@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dwd.entity.DwCountDTO;
+import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserRegister;
 
 /**

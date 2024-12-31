@@ -4,16 +4,17 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.util.LongUtils;
+import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserWithdrawRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord;
 import com.leo.ad.codriver.dwd.event.DwdUserWithdrawRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
-import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -38,21 +39,25 @@ public class DwdUserWithdrawRecordServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdUserWithdrawRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        // 先删除数据
-        Integer delRowNum = dwdUserWithdrawRecordMapper.deleteByDates(dates);
-        // 查询统计总数据，然后分页进行获取
-        long recordCount = dwdUserWithdrawRecordMapper.getWithdrawCount(dates);
-        if (recordCount <= 0) {
-            return delRowNum > 0;
+        String dateStr = DateUtils.toDateString(dates);
+        DwCountDTO recordCount = dwdUserWithdrawRecordMapper.getWithdrawCountByUpdateDate(dateStr);
+        if (recordCount == null || recordCount.getCount() <= 0) {
+            return false;
         }
-        long totalPage = LongUtils.divide(recordCount, BatchConst.BATCH_NUMBER.longValue());
-        if (totalPage <= 0) {
-            return delRowNum > 0;
-        }
+        // 遍历由更新的数据，进行插入或更新；
+        int loopNum = recordCount.loopNum();
+        long startId;
+        long endId;
         List<DwdUserWithdrawRecord> userWithdrawRecords;
-        for (int i = 1; i <= totalPage; i++) {
-            userWithdrawRecords = dwdUserWithdrawRecordMapper.queryWithdrawList(dates, exchangeRate.getIndianToDollar(),
-                BatchConst.BATCH_NUMBER, ((i - 1) * BatchConst.BATCH_NUMBER));
+        for (int i = 1; i <= loopNum; i++) {
+            startId = recordCount.loopStartId(i);
+            endId = recordCount.loopEndId(i);
+            // 同步数据，根据状态更新字段； 成功、失败；补全数据生命周期数据；
+            userWithdrawRecords = dwdUserWithdrawRecordMapper.queryWithdrawList(dates, dateStr,
+                exchangeRate.getIndianToDollar(), startId, endId);
+            if (CollectionUtils.isEmpty(userWithdrawRecords)) {
+                continue;
+            }
             batchMapper.batchInsert(userWithdrawRecords, DwdUserWithdrawRecordMapper.class);
         }
         return true;

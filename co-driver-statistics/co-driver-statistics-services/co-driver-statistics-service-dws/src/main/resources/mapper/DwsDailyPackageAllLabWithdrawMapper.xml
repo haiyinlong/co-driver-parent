@@ -9,7 +9,7 @@
         where dates = #{dates}
     </delete>
     <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabWithdraw">
-        SELECT duwr.dates,
+        SELECT duwr.update_dates                                                                        dates,
                duwr.pkg,
                duwr.version,
                dul.config_group_type,
@@ -78,11 +78,11 @@
                      (case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.user_id end)) bank_user_num
         FROM dwd_user_withdraw_record duwr
                  INNER JOIN dim_user_lab dul on (dul.user_id = duwr.user_id)
-        WHERE duwr.dates = #{dates}
-        group by duwr.dates, duwr.pkg, duwr.version, dul.config_group_type, dul.name
+        WHERE duwr.update_dates = #{dates}
+        group by duwr.update_dates, duwr.pkg, duwr.version, dul.config_group_type, dul.name
     </select>
     <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabWithdraw">
-        SELECT duwr.dates,
+        SELECT duwr.update_dates                                                                        dates,
                duwr.pkg,
                duwr.version,
                dul.config_group_type,
@@ -151,8 +151,8 @@
                      (case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.user_id end)) bank_user_num
         FROM dwd_user_withdraw_record duwr
                  INNER JOIN dim_user_lab dul on (dul.user_id = duwr.user_id)
-        WHERE duwr.dates = #{dates}
-          and duwr.register_day = 0
-        group by duwr.dates, duwr.pkg, duwr.version, dul.config_group_type, dul.name
+        WHERE duwr.update_dates = #{dates}
+          and duwr.register_withdraw_day = 0
+        group by duwr.update_dates, duwr.pkg, duwr.version, dul.config_group_type, dul.name
     </select>
 </mapper>

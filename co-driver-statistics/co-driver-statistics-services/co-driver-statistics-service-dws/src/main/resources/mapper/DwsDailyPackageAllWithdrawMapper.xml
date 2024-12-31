@@ -9,7 +9,7 @@
         where dates = #{dates}
     </delete>
     <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllWithdraw">
-        SELECT duwr.dates,
+        SELECT duwr.update_dates                                                                        dates,
                duwr.pkg,
                duwr.version,
                0                                                                                        user_type,
@@ -75,11 +75,11 @@
                count(DISTINCT
                      (case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.user_id end)) bank_user_num
         FROM dwd_user_withdraw_record duwr
-        WHERE duwr.dates = #{dates}
-        group by duwr.dates, duwr.pkg, duwr.version
+        WHERE duwr.update_dates = #{dates}
+        group by duwr.update_dates, duwr.pkg, duwr.version
     </select>
     <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllWithdraw">
-        SELECT duwr.dates,
+        SELECT duwr.update_dates                                                                        dates,
                duwr.pkg,
                duwr.version,
                1                                                                                        user_type,
@@ -145,8 +145,8 @@
                count(DISTINCT
                      (case when duwr.withdraw_type = 'BANK' and duwr.status = 1 then duwr.user_id end)) bank_user_num
         FROM dwd_user_withdraw_record duwr
-        WHERE duwr.dates = #{dates}
-          and duwr.register_day = 0
-        group by duwr.dates, duwr.pkg, duwr.version
+        WHERE duwr.update_dates = #{dates}
+          and duwr.register_withdraw_day = 0
+        group by duwr.update_dates, duwr.pkg, duwr.version
     </select>
 </mapper>

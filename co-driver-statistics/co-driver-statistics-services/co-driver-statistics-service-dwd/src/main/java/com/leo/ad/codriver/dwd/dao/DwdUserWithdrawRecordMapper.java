@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord;
 
 /**
@@ -19,11 +20,9 @@ import com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord;
 @Mapper
 @DS("mysql")
 public interface DwdUserWithdrawRecordMapper extends BaseMapper<DwdUserWithdrawRecord> {
-    Integer deleteByDates(@Param("dates") Integer dates);
 
-    long getWithdrawCount(@Param("dates") Integer dates);
+    DwCountDTO getWithdrawCountByUpdateDate(@Param("dateStr") String dateStr);
 
-    List<DwdUserWithdrawRecord> queryWithdrawList(@Param("dates") Integer dates,
-        @Param("singleFee") BigDecimal singleFee, @Param("rows") Integer rows, @Param("startRows") Integer pageSize);
-
+    List<DwdUserWithdrawRecord> queryWithdrawList(@Param("dates") Integer dates, @Param("dateStr") String dateStr,
+        @Param("singleFee") BigDecimal singleFee, @Param("startId") long startId, @Param("endId") long endId);
 }

@@ -67,7 +67,7 @@ public class DateUtils {
 
     public static Integer getNowDates() {
         return Integer
-                .valueOf((LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD))));
+            .valueOf((LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD))));
     }
 
     /**
@@ -87,13 +87,13 @@ public class DateUtils {
      */
     public static Integer getPreviousDate(int day) {
         return Integer.valueOf((LocalDateTime.now().plusDays(-1 * day)
-                .format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD))));
+            .format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD))));
     }
 
     public static Integer getAfterDay(Integer dates, int day) {
         LocalDate localDate = LocalDate.parse(dates + "", java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD));
         return Integer
-                .valueOf(localDate.plusDays(day).format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD)));
+            .valueOf(localDate.plusDays(day).format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD)));
     }
 
     public static List<Integer> getDates(Integer dates, int withinDay) {
@@ -102,11 +102,15 @@ public class DateUtils {
         boolean isPlus = withinDay > 0;
         for (int i = 0; i < Math.abs(withinDay); i++) {
             Integer value = Integer.valueOf(localDate.plusDays(isPlus ? i : -i)
-                    .format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD)));
+                .format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD)));
             withinDates.add(value);
         }
 
         return withinDates;
     }
 
+    public static String toDateString(Integer dates) {
+        String datesString = dates.toString();
+        return datesString.substring(0, 4) + "-" + datesString.substring(4, 6) + "-" + datesString.substring(6, 8);
+    }
 }

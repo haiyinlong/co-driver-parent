@@ -35,6 +35,7 @@ public class DwsDailyPkgWithdrawServiceImpl implements DwsService {
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
+        // TODO 根据状态计算汇总数据
         dwsDailyPkgWithdrawMapper.deleteByDates(dates);
         List<DwsDailyPkgWithdraw> withdrawFullDailies = dwsDailyPkgWithdrawMapper.queryStatisticsActiveList(dates);
         if (!CollectionUtils.isEmpty(withdrawFullDailies)) {

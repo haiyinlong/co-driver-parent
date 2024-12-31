@@ -35,13 +35,13 @@
                  LEFT JOIN dwd_user_game_record_oeta dugro on (dugro.source_id = ogron.id)
         where ogron.id = #{sourceId}
     </select>
-    <select id="getDbCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+    <select id="getDbCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
         SELECT count(1), min(duar.source_id) min_id, max(duar.source_id) max_id
         FROM dwd_user_game_record_oeta duar
         WHERE duar.dates = #{dates}
     </select>
 
-    <select id="getStatisticsCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+    <select id="getStatisticsCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
         SELECT count(1), min(ogron.id) min_id, max(ogron.id) max_id
         FROM ods_game_record_one_net ogron
         WHERE ogron.dates = #{dates}

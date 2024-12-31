@@ -2,18 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper">
-    <select id="getDbCountOfId" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+    <select id="getDbCountOfId" resultType="com.leo.ad.codriver.common.DwCountDTO">
         SELECT count(1) count, min(duar.id) min_id, max(duar.id) max_id
         FROM dwd_user_ad_record duar
         WHERE duar.dates = #{dates}
     </select>
 
-    <select id="getDbCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+    <select id="getDbCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
         SELECT count(1) count, min(duar.source_id) min_id, max(duar.source_id) max_id
         FROM dwd_user_ad_record duar
         WHERE duar.dates = #{dates}
     </select>
-    <select id="getStatisticsCount" resultType="com.leo.ad.codriver.dwd.entity.DwCountDTO">
+    <select id="getStatisticsCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
         SELECT count(1) count, min(omasda.id) min_id, max(omasda.id) max_id
         FROM ods_max_ad_stat_detail_ads omasda
         WHERE omasda.dates = #{dates}

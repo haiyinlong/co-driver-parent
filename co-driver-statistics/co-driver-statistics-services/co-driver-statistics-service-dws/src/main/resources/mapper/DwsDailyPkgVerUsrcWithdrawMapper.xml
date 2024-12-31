@@ -62,7 +62,7 @@
                t.bank_change_fee,
                t.bank_record_num,
                t.bank_user_num
-        FROM (SELECT duwr.dates,
+        FROM (SELECT duwr.update_dates                                                     dates,
                      duwr.pkg,
                      duwr.version,
                      IFNULL(dus.network, 'Unknow')                                         user_source,
@@ -140,8 +140,8 @@
                                     then duwr.user_id end))                                bank_user_num
               FROM dwd_user_withdraw_record duwr
                        left join dim_user_source dus on (duwr.user_id = dus.user_id)
-              WHERE duwr.dates = #{dates}
-              group by duwr.dates, duwr.pkg, duwr.version, IFNULL(dus.network, 'Unknow')) t
+              WHERE duwr.update_dates = #{dates}
+              group by duwr.update_dates, duwr.pkg, duwr.version, IFNULL(dus.network, 'Unknow')) t
                  left join dws_daily_pkg_ver_usrc_withdraw ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
                                t.user_source = ddovyo.user_source and t.user_type = ddovyo.user_type)
@@ -184,7 +184,7 @@
                t.bank_change_fee,
                t.bank_record_num,
                t.bank_user_num
-        FROM (SELECT duwr.dates,
+        FROM (SELECT duwr.update_dates                                                     dates,
                      duwr.pkg,
                      duwr.version,
                      IFNULL(dus.network, 'Unknow')                                         user_source,
@@ -262,9 +262,9 @@
                                     then duwr.user_id end))                                bank_user_num
               FROM dwd_user_withdraw_record duwr
                        left join dim_user_source dus on (duwr.user_id = dus.user_id)
-              WHERE duwr.dates = #{dates}
-                and duwr.register_day = 0
-              group by duwr.dates, duwr.pkg, duwr.version, IFNULL(dus.network, 'Unknow')) t
+              WHERE duwr.update_dates = #{dates}
+                and duwr.register_withdraw_day = 0
+              group by duwr.update_dates, duwr.pkg, duwr.version, IFNULL(dus.network, 'Unknow')) t
                  left join dws_daily_pkg_ver_usrc_withdraw ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
                                t.user_source = ddovyo.user_source and t.user_type = ddovyo.user_type)

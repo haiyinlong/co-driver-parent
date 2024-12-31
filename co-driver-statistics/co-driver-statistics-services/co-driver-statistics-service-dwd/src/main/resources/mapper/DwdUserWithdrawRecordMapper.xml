@@ -3,18 +3,17 @@
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserWithdrawRecordMapper">
 
-    <delete id="deleteByDates">
-        delete
-        from dwd_user_withdraw_record
-        where dates = #{dates}
-    </delete>
-    <select id="getWithdrawCount" resultType="java.lang.Long">
-        select count(1)
+    <select id="getWithdrawCountByUpdateDate" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        select count(1) count, min(wr.id) min_id, max(wr.id) max_id
         from ods_withdraw_record wr
-        where wr.dates = #{dates}
+        where wr.updated >= CONCAT(#{dateStr}, ' 00:00:00')
+          and wr.updated <![CDATA[ <]]> DATE_ADD(CONCAT(#{dateStr}, ' 00:00:00'),
+                                       INTERVAL 1 DAY)
     </select>
+
     <select id="queryWithdrawList" resultType="com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord">
-        select wr.dates,
+        select duwr.id,
+               wr.dates,
                wr.id                                                                   source_id,
                wr.project_name,
                wr.user_id,
@@ -36,7 +35,11 @@
                uv.pvn                                                                  register_version,
                TIMESTAMPDIFF(DAY, u.create_time, wr.created)                           register_cohort_day,
                TIMESTAMPDIFF(DAY, u.dates, wr.dates)                                   register_day,
-               wr.created                                                              create_time
+               wr.created                                                              create_time,
+               DATE_FORMAT(wr.updated, '%Y%m%d')                                       update_dates,
+               TIMESTAMPDIFF(DAY, u.create_time, wr.updated)                           register_withdraw_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, wr.updated)                                 register_withdraw_day,
+               wr.updated                                                              update_time
         from ods_withdraw_record wr
                  INNER JOIN ods_user u on (wr.user_id = u.id)
                  LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
@@ -45,8 +48,13 @@
                             where uv.dates <![CDATA[ <=]]> #{dates}
                             GROUP BY user_id) uv on (uv.user_id = u.id)
                  LEFT JOIN ods_pay_record_withdraw oprw on (oprw.withdraw_record_id = wr.id and oprw.status = 1)
-        where wr.dates = #{dates}
-        limit #{rows} OFFSET #{startRows}
+                 LEFT JOIN dwd_user_withdraw_record duwr on (duwr.source_id = wr.id)
+        where wr.updated >= CONCAT(#{dateStr}, ' 00:00:00')
+          and wr.updated <![CDATA[ <]]> DATE_ADD(CONCAT(#{dateStr}, ' 00:00:00'),
+                                       INTERVAL 1 DAY)
+          and wr.id >= #{startId}
+          and wr.id <![CDATA[<=]]> #{endId}
     </select>
+
 
 </mapper>
