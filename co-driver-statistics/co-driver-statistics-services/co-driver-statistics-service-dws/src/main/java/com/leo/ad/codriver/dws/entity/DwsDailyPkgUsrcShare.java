@@ -51,6 +51,7 @@ public class DwsDailyPkgUsrcShare implements BaseEntity {
      * 总用户数量
      */
     private Long totalUserNum;
+    private Long hasSubordinateUserNum;
 
     /**
      * 创建时间

@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.springframework.util.ObjectUtils;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
@@ -19,7 +21,7 @@ import lombok.Data;
 @Data
 @TableName("dwd_user_game_record_oeta")
 public class DwdUserGameRecordOeta implements BaseEntity {
-
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long sourceId;
     private Long dates;

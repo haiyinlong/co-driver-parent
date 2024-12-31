@@ -3,6 +3,8 @@ package com.leo.ad.codriver.dwd.entity;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
 import lombok.Data;
@@ -10,7 +12,7 @@ import lombok.Data;
 @Data
 @TableName("dwd_qp_ltv_record")
 public class DwdQpLtvRecord {
-
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Long dates;
     private Long userId;

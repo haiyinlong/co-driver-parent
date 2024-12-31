@@ -20,6 +20,7 @@ public class DwsDailyPackageAllLabShare implements BaseEntity {
     private Long invitationNum;
     private Long fillCodeNum;
     private Long totalUserNum;
+    private Long hasSubordinateUserNum;
     private Date createTime;
     private Date updateTime;
 

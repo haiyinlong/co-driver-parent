@@ -3,8 +3,8 @@
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserShareRecordMapper">
 
-    <select id="getCountByDate" resultType="java.lang.Long">
-        SELECT count(1)
+    <select id="getCountByDate" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        SELECT count(1) count, min(oupprd.id) min_id, max(oupprd.id) max_id
         FROM ods_user_prepare_parent_record_diversion oupprd
                  INNER JOIN dim_user_info dui on (oupprd.user_id = dui.user_id)
         WHERE oupprd.dates = #{dates}
@@ -27,6 +27,7 @@
                  INNER JOIN dim_user_info dui on (oupprd.user_id = dui.user_id)
                  LEFT JOIN dwd_user_share_record duoq on (duoq.user_id = oupprd.user_id)
         WHERE oupprd.dates = #{dates}
-        limit #{startRows}, #{rows}
+          and oupprd.id >= #{startId}
+          and oupprd.id <![CDATA[<=]]> #{endId}
     </select>
 </mapper>

@@ -1,10 +1,13 @@
 package com.leo.ad.codriver.dwd.entity;
 
+import java.math.BigDecimal;
+
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
-import lombok.Data;
 
-import java.math.BigDecimal;
+import lombok.Data;
 
 /**
  * DwdUserGameRecord
@@ -15,6 +18,7 @@ import java.math.BigDecimal;
 @Data
 @TableName("dwd_user_game_record")
 public class DwdUserGameRecord implements BaseEntity {
+    @TableId(type = IdType.AUTO)
     private Long id;
     private Integer dates;
     private Long userId;
