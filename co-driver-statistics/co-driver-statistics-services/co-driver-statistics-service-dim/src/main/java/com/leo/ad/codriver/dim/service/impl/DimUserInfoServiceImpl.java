@@ -9,6 +9,8 @@ import com.leo.ad.codriver.dim.dao.DimUserInfoMapper;
 import com.leo.ad.codriver.dim.entity.DimUserInfo;
 import com.leo.ad.codriver.dim.entity.RealTimeUserInfoDTO;
 import com.leo.ad.codriver.dim.service.DimUserInfoService;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
+import com.leo.ad.codriver.starter.redis.annotation.LockEnum;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,6 +33,7 @@ public class DimUserInfoServiceImpl implements DimUserInfoService {
      * @param odsUserChangeId 用户id
      */
     @Override
+    @Lock(key = "co-diver:lock:syncDimUserInfo", paramName = "#odsUserChangeId", type = LockEnum.LOCK)
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void syncUserInfo(String odsUserChangeId) {
         if (ObjectUtils.isEmpty(odsUserChangeId)) {

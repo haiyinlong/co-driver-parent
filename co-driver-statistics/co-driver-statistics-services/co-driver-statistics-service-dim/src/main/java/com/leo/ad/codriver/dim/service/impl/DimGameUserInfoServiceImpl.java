@@ -10,6 +10,8 @@ import org.springframework.util.ObjectUtils;
 import com.leo.ad.codriver.dim.dao.DimGameUserInfoMapper;
 import com.leo.ad.codriver.dim.entity.DimGameUserInfo;
 import com.leo.ad.codriver.dim.service.DimGameUserInfoService;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
+import com.leo.ad.codriver.starter.redis.annotation.LockEnum;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +29,7 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
     private final DimGameUserInfoMapper dimGameUserInfoMapper;
 
     @Override
+    @Lock(key = "co-diver:lock:syncDimGameUserInfo", paramName = "#odsGameUserId", type = LockEnum.LOCK)
     @Transactional(rollbackFor = Exception.class, isolation = Isolation.READ_COMMITTED)
     public void syncGameUser(String odsGameUserId) {
         if (ObjectUtils.isEmpty(odsGameUserId)) {

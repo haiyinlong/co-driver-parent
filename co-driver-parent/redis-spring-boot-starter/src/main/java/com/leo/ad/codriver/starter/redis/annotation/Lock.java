@@ -29,4 +29,5 @@ public @interface Lock {
      */
     String paramName() default "";
 
+    LockEnum type() default LockEnum.TRY_LOCK;
 }

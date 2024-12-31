@@ -34,7 +34,6 @@ public class DwdUserWithdrawRecordUpdateDwEventHandler {
     @Async
     public void handleEvent(DwdUserWithdrawRecordUpdateDwEvent dwdUserWithdrawRecordUpdateDwEvent) {
         Integer dates = dwdUserWithdrawRecordUpdateDwEvent.getDates();
-        // TODO 根据状态计算汇总数据
         log.info("{} 事件触发 DwdUserWithdrawRecordUpdateDwEventHandler", dates);
         try {
             dwsWithdrawFullDailyServiceImpl.syncData(dates);

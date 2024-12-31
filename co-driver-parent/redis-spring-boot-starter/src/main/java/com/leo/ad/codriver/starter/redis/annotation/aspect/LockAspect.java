@@ -16,7 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
-import com.leo.ad.codriver.starter.redis.exception.LockException;
+import com.leo.ad.codriver.starter.redis.annotation.LockFunction;
+import com.leo.ad.codriver.starter.redis.annotation.LockFunctionFactory;
 import com.leo.ad.codriver.starter.redis.util.ReflectionUtils;
 
 import lombok.RequiredArgsConstructor;
@@ -40,24 +41,21 @@ public class LockAspect {
     @Around("lockPointCut()")
     public Object lockAround(ProceedingJoinPoint joinPoint) throws Throwable {
         Map<String, Object> methodParams = getMethodParams(joinPoint);
-
-        String lockKey = getLockKey(methodParams, joinPoint);
+        Lock lockObject = getLockObject(joinPoint);
+        String lockKey = getLockKey(lockObject, methodParams, joinPoint);
         if (ObjectUtils.isEmpty(lockKey)) {
             return joinPoint.proceed();
         }
-
         RLock lock = redissonClient.getLock(lockKey);
-        if (lock.tryLock()) {
-            try {
-                return joinPoint.proceed();
-            } finally {
-                if (lock.isLocked()) {
-                    lock.unlock();
-                }
-            }
-        } else {
-            throw new LockException("获取加失败，key:" + lockKey);
-        }
+        LockFunction<RLock, ProceedingJoinPoint, String, Object> tryLock =
+            LockFunctionFactory.getLockFunction(lockObject.type());
+        return tryLock.apply(lock, joinPoint, lockKey);
+    }
+
+    private Lock getLockObject(ProceedingJoinPoint joinPoint) {
+        MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
+        Method method = methodSignature.getMethod();
+        return method.getAnnotation(Lock.class);
     }
 
     /**
@@ -69,10 +67,9 @@ public class LockAspect {
      * @param joinPoint
      * @return
      */
-    private String getLockKey(Map<String, Object> methodParams, ProceedingJoinPoint joinPoint) {
+    private String getLockKey(Lock lock, Map<String, Object> methodParams, ProceedingJoinPoint joinPoint) {
         MethodSignature methodSignature = (MethodSignature)joinPoint.getSignature();
         Method method = methodSignature.getMethod();
-        Lock lock = method.getAnnotation(Lock.class);
         if (lock.key().trim().isEmpty() && lock.paramName().trim().isEmpty()) {
             // 类名:方法名
             return joinPoint.getTarget().getClass().getSimpleName().concat(":").concat(method.getName());

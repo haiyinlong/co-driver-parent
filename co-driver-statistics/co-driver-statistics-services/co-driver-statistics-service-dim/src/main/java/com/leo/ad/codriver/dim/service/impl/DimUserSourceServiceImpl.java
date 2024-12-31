@@ -6,6 +6,8 @@ import org.springframework.util.ObjectUtils;
 import com.leo.ad.codriver.dim.dao.DimUserSourceMapper;
 import com.leo.ad.codriver.dim.entity.DimUserSource;
 import com.leo.ad.codriver.dim.service.DimUserSourceService;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
+import com.leo.ad.codriver.starter.redis.annotation.LockEnum;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +24,7 @@ public class DimUserSourceServiceImpl implements DimUserSourceService {
     private final DimUserSourceMapper dimUserSourceMapper;
 
     @Override
+    @Lock(key = "co-diver:lock:syncDimUserSource", paramName = "#dimUserSource.id", type = LockEnum.LOCK)
     public void syncUserSource(DimUserSource dimUserSource) {
         DimUserSource dbUserSource = dimUserSourceMapper.selectById(dimUserSource.getId());
         if (ObjectUtils.isEmpty(dbUserSource)) {
