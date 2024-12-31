@@ -10,20 +10,14 @@
                shares.invitation_num,
                shares.fill_code_num,
                shares.total_user_num,
-               shares.has_subordinate_user_num,
                ddps.create_time,
                ddps.update_time
         from (SELECT dusr.dates,
                      dusr.pkg,
                      count(DISTINCT CASE dusr.source WHEN 1 THEN dusr.user_id END) invitation_num,
                      count(DISTINCT CASE dusr.source WHEN 2 THEN dusr.user_id END) fill_code_num,
-                     COUNT(DISTINCT dusr.user_id)                                  total_user_num,
-                     COUNT(DISTINCT t.parent_user_id)                              has_subordinate_user_num
+                     COUNT(DISTINCT dusr.user_id)                                  total_user_num
               FROM dwd_user_share_record dusr
-                       left join (select DISTINCT dusrt.parent_user_id
-                                  from dwd_user_share_record dusrt
-                                  WHERE dusrt.dates = #{dates}) t
-                                 on (t.parent_user_id = dusr.user_id)
               WHERE dusr.dates = #{dates}
               GROUP BY dusr.dates, dusr.pkg) shares
                  LEFT JOIN dws_daily_pkg_share ddps on
