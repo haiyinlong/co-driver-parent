@@ -46,6 +46,7 @@ public class DimUserInfo {
     }
 
     public void updateUserInfo(RealTimeUserInfoDTO realTimeUserInfo) {
+        this.setVersion(realTimeUserInfo.getMinVersion());
         this.setLastVersion(realTimeUserInfo.getVersion());
         this.setLastLoginDates(realTimeUserInfo.getLastLoginDates());
         this.setLastLoginTime(realTimeUserInfo.getLastLoginTime());

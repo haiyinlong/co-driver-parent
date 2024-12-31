@@ -14,7 +14,7 @@
     <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcShare">
         select
         <include refid="Base_Column_List"/>
-        from dwss_daily_pkg_ver_usrc_share
+        from dws_daily_pkg_ver_usrc_share
         where dates=#{dates}
     </select>
     <select id="queryStatisticsList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcShare">

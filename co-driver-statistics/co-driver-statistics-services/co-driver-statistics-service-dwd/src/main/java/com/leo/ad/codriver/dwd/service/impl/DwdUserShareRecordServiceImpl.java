@@ -40,6 +40,7 @@ public class DwdUserShareRecordServiceImpl implements DwdService {
     public boolean syncData(Integer dates) {
         DwCountDTO recordCount = dwdUserShareRecordMapper.getCountByDate(dates);
         if (recordCount == null || recordCount.getCount() <= 0) {
+            log.info("DwdUserShareRecordServiceImpl {} 没有需要同步的数据", recordCount);
             return false;
         }
         // 遍历由更新的数据，进行插入或更新；
