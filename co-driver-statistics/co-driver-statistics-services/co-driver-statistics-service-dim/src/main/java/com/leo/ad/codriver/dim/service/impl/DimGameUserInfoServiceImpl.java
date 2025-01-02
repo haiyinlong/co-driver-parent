@@ -36,7 +36,6 @@ public class DimGameUserInfoServiceImpl implements DimGameUserInfoService {
             return;
         }
         long gameUserId = 0L;
-
         try {
             gameUserId = new BigDecimal(odsGameUserId).longValue();
             DimGameUserInfo dimGameUserInfo = dimGameUserInfoMapper.getOdsGameUserInfo(gameUserId);
