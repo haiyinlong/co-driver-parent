@@ -68,7 +68,7 @@
               #{endId}
     </select>
     <select id="queryDbActiveListByDateUsrc" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
-        SELECT duar.*, IFNULL(dus.network, 'Unknow') user_source
+        SELECT duar.*, IFNULL(dus.network, 'Unknown') user_source
         FROM dwd_user_ad_record duar
                  left join dim_user_source dus on (dus.user_id = duar.user_id)
         WHERE duar.dates = #{dates}
@@ -78,7 +78,7 @@
               #{endId}
     </select>
     <select id="queryDbNewListByDateUsrc" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
-        SELECT duar.*, IFNULL(dus.network, 'Unknow') user_source
+        SELECT duar.*, IFNULL(dus.network, 'Unknown') user_source
         FROM dwd_user_ad_record duar
                  INNER JOIN dim_user_info dui
                             on (duar.user_id = dui.user_id and duar.dates = dui.dates)

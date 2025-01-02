@@ -23,12 +23,12 @@
                t.user_num
         FROM (select dulr.dates,
                      dulr.pkg,
-                     IFNULL(dus.network, 'Unknow') user_source,
-                     count(DISTINCT dulr.user_id)  user_num
+                     IFNULL(dus.network, 'Unknown') user_source,
+                     count(DISTINCT dulr.user_id)   user_num
               from dwd_user_login_record dulr
                        left join dim_user_source dus on (dus.user_id = dulr.user_id)
               where dulr.dates = #{dates}
-              group by dulr.dates, dulr.pkg, IFNULL(dus.network, 'Unknow')) t
+              group by dulr.dates, dulr.pkg, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_usrc_login ddpvul
                            on (t.dates = ddpvul.dates and t.pkg = ddpvul.pkg and
                                t.user_source = ddpvul.user_source)

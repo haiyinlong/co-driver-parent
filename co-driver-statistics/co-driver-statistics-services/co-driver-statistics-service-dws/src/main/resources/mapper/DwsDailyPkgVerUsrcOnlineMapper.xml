@@ -31,7 +31,7 @@
         FROM (SELECT duo.dates,
                      duo.pkg,
                      duo.version,
-                     IFNULL(dus.network, 'Unknow')                                                     user_source,
+                     IFNULL(dus.network, 'Unknown')                                                    user_source,
                      IFNULL(sum(duo.online_time), 0)                                                   total_online_time,
                      IFNULL(count(DISTINCT duo.user_id), 0)                                            total_user_num,
                      IFNULL(sum(case when dui.user_id is not null then duo.online_time end),
@@ -41,7 +41,7 @@
                        LEFT JOIN dim_user_info dui on (duo.user_id = dui.user_id and dui.dates = duo.dates)
                        left join dim_user_source dus on (duo.user_id = dus.user_id)
               where duo.dates = #{dates}
-              GROUP BY duo.dates, duo.pkg, duo.version, IFNULL(dus.network, 'Unknow')) t
+              GROUP BY duo.dates, duo.pkg, duo.version, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_ver_usrc_online ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
                                t.user_source = ddovyo.user_source)

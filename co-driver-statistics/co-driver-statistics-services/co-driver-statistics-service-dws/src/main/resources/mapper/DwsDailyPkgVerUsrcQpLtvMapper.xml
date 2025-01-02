@@ -32,18 +32,18 @@
         FROM (SELECT dqlr.dates,
                      dqlr.pkg,
                      dqlr.version,
-                     IFNULL(dus.network, 'Unknow') user_source,
-                     COUNT(distinct dqlr.user_id)  active_user_num,
-                     SUM(dqlr.event_ltv)           active_event_ltv,
-                     SUM(dqlr.user_ltv)            active_user_ltv,
-                     COUNT(distinct dui.user_id)   new_user_num,
-                     SUM(dqlr.event_ltv)           new_user_event_ltv,
-                     SUM(dqlr.user_ltv)            new_user_ltv
+                     IFNULL(dus.network, 'Unknown') user_source,
+                     COUNT(distinct dqlr.user_id)   active_user_num,
+                     SUM(dqlr.event_ltv)            active_event_ltv,
+                     SUM(dqlr.user_ltv)             active_user_ltv,
+                     COUNT(distinct dui.user_id)    new_user_num,
+                     SUM(dqlr.event_ltv)            new_user_event_ltv,
+                     SUM(dqlr.user_ltv)             new_user_ltv
               FROM dwd_qp_ltv_record dqlr
                        LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
                        left join dim_user_source dus on (dus.user_id = dqlr.user_id)
               where dqlr.dates = #{dates}
-              GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, IFNULL(dus.network, 'Unknow')) t
+              GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_ver_usrc_qp_ltv ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
                                t.user_source = ddovyo.user_source)

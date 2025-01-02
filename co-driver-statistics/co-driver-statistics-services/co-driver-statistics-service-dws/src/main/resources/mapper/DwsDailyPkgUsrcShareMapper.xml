@@ -28,14 +28,14 @@
                ddps.update_time
         from (SELECT dusr.dates,
                      dusr.pkg,
-                     IFNULL(dus.network, 'Unknow')                                 user_source,
+                     IFNULL(dus.network, 'Unknown')                                user_source,
                      count(DISTINCT CASE dusr.source WHEN 1 THEN dusr.user_id END) invitation_num,
                      count(DISTINCT CASE dusr.source WHEN 2 THEN dusr.user_id END) fill_code_num,
                      COUNT(DISTINCT dusr.user_id)                                  total_user_num
               FROM dwd_user_share_record dusr
                        left join dim_user_source dus on (dusr.parent_user_id = dus.user_id)
               WHERE dusr.dates = #{dates}
-              GROUP BY dusr.dates, dusr.pkg, IFNULL(dus.network, 'Unknow')) shares
+              GROUP BY dusr.dates, dusr.pkg, IFNULL(dus.network, 'Unknown')) shares
                  LEFT JOIN dws_daily_pkg_usrc_share ddps on
             (ddps.dates = shares.dates and ddps.pkg = shares.pkg and
              ddps.user_source = shares.user_source)
