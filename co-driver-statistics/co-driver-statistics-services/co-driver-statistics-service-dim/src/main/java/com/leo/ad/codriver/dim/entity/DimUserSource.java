@@ -53,4 +53,11 @@ public class DimUserSource {
     @JSONField(name = "create_time")
     private Date createTime;
 
+    /**
+     *
+     */
+    private String extraInfo;
+
+    private Integer dates;
+
 }
