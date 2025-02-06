@@ -113,7 +113,7 @@ public class DwsDailyRegisterServiceImpl implements DwsService {
         List<DwsDailyPkgUsrcRegister> pkgUsrcRegisters =
             mergePkgUsrcRegisterHistoryId(pkgUsrcRegisterList, pkgUsrcRegisterMap);
         dwPkgUsrcBatchMapper.batchInsert(pkgUsrcRegisters, DwsDailyPkgUsrcRegisterMapper.class);
-        List<Long> delPkgUsrcRegisterIds = getDelIds(pkgRegisterList, pkgUsrcRegisters);
+        List<Long> delPkgUsrcRegisterIds = getDelIds(pkgUsrcRegisterList, pkgUsrcRegisters);
         if (!CollectionUtils.isEmpty(delPkgUsrcRegisterIds)) {
             dwsDailyPkgUsrcRegisterMapper.deleteBatchIds(delPkgUsrcRegisterIds);
         }
