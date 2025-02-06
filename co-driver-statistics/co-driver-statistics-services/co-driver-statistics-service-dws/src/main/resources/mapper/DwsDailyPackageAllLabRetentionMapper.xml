@@ -21,7 +21,7 @@
                count(DISTINCT lr.user_id)                      retention_user_num
         from dwd_user_login_record lr
                  INNER JOIN dim_user_lab dul on (dul.user_id = lr.user_id)
-        where dates = #{dates}
+        where lr.dates = #{dates}
         group by lr.dates, lr.pkg, lr.register_version, lr.register_dates, dul.config_group_type, dul.name
     </insert>
 </mapper>

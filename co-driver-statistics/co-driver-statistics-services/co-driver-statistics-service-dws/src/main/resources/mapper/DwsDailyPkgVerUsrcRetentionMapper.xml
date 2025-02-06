@@ -34,7 +34,7 @@
                      count(DISTINCT lr.user_id)                      retention_user_num
               from dwd_user_login_record lr
                        left join dim_user_source dus on (lr.user_id = dus.user_id)
-              where dates = #{dates}
+              where lr.dates = #{dates}
               group by lr.dates, lr.pkg, lr.register_version, IFNULL(dus.network, 'Unknown'), lr.register_dates) t
                  left join dws_daily_pkg_ver_usrc_retention ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and

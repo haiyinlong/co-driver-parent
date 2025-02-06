@@ -18,7 +18,7 @@
                TIMESTAMPDIFF(DAY, lr.register_dates, lr.dates) register_day,
                count(DISTINCT lr.user_id)                      retention_user_num
         from dwd_user_login_record lr
-        where dates = #{dates}
+        where lr.dates = #{dates}
         group by lr.dates, lr.pkg, lr.register_version, lr.register_dates
     </insert>
 </mapper>
