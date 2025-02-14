@@ -1,10 +1,11 @@
 package com.leo.ad.codriver.dws.dao;
 
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPackageUserConversion;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 /**
  * @author HaiYinLong
@@ -19,6 +20,4 @@ public interface DwsDailyPackageUserConversionMapper extends BaseMapper<DwsDaily
 
     void syncNewList(@Param("dates") Integer dates);
 
-    DwsDailyPackageUserConversion query(@Param("dates") Integer dates, @Param("country") String country,
-                                        @Param("pkg") String pkg, @Param("version") String version);
 }

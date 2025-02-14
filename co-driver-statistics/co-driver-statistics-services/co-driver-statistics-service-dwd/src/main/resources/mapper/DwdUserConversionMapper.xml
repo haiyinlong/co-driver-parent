@@ -19,6 +19,7 @@
                u.dates                                                                               register_dates,
                CONVERT(r.user_id, SIGNED)                                                            user_id,
                type,
+               r.extra_type,
                DATE_FORMAT(FROM_UNIXTIME(CONVERT(r.time_stamp, SIGNED) / 1000), '%Y-%m-%d %H:%i:%s') create_time
         from ods_offer_record r
                  LEFT JOIN ods_user u on (r.user_id = u.id)
@@ -51,6 +52,7 @@
                u.dates                                                                               register_dates,
                u.id                                                                                  user_id,
                r.type,
+               r.extra_type,
                DATE_FORMAT(FROM_UNIXTIME(CONVERT(r.time_stamp, SIGNED) / 1000), '%Y-%m-%d %H:%i:%s') create_time
         FROM ods_offer_record r
                  LEFT JOIN ods_user u ON r.user_id = u.aid

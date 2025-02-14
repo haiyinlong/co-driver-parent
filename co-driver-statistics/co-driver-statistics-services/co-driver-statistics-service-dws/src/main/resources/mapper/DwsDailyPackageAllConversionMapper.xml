@@ -8,19 +8,19 @@
         where dates = #{dates}
     </delete>
     <insert id="syncActiveList">
-        insert into dws_daily_package_all_conversion(dates, pkg, `user_type`, `version`, user_num)
-        select dates, pkg, 0, version, count(DISTINCT user_id)
+        insert into dws_daily_package_all_conversion(dates, pkg, `user_type`, `version`, user_num, source_type)
+        select dates, pkg, 0, version, count(DISTINCT user_id), extra_type
         from dwd_user_conversion
         where dates = #{dates}
-        group by dates, pkg, version
+        group by dates, pkg, version, extra_type
     </insert>
     <insert id="syncNewList">
-        insert into dws_daily_package_all_conversion(dates, pkg, `user_type`, `version`, user_num)
-        select dates, pkg, 1, version, count(DISTINCT user_id)
+        insert into dws_daily_package_all_conversion(dates, pkg, `user_type`, `version`, user_num, source_type)
+        select dates, pkg, 1, version, count(DISTINCT user_id), extra_type
         from dwd_user_conversion
         where dates = #{dates}
           and dates = register_dates
-        group by dates, pkg, version
+        group by dates, pkg, version, extra_type
     </insert>
 
 

@@ -9,35 +9,37 @@
     </delete>
     <insert id="syncActiveList">
         insert into dws_daily_package_all_lab_conversion(dates, pkg, `user_type`, `version`, config_group_type,
-                                                         config_group_name, user_num)
+                                                         config_group_name, user_num, source_type)
         select duc.dates,
                duc.pkg,
                0,
                duc.version,
                dul.config_group_type,
                dul.name config_group_name,
-               count(DISTINCT duc.user_id)
+               count(DISTINCT duc.user_id),
+               duc.extra_type
         from dwd_user_conversion duc
                  INNER JOIN dim_user_lab dul on (dul.user_id = duc.user_id)
         where duc.dates = #{dates}
-        group by duc.dates, duc.pkg, duc.version, dul.config_group_type,
+        group by duc.dates, duc.pkg, duc.version, duc.extra_type, dul.config_group_type,
                  dul.name
     </insert>
     <insert id="syncNewList">
         insert into dws_daily_package_all_lab_conversion(dates, pkg, `user_type`, `version`, config_group_type,
-                                                         config_group_name, user_num)
+                                                         config_group_name, user_num, source_type)
         select duc.dates,
                duc.pkg,
                1,
                duc.version,
                dul.config_group_type,
                dul.name config_group_name,
-               count(DISTINCT duc.user_id)
+               count(DISTINCT duc.user_id),
+               duc.extra_type
         from dwd_user_conversion duc
                  INNER JOIN dim_user_lab dul on (dul.user_id = duc.user_id)
         where duc.dates = #{dates}
           and duc.dates = duc.register_dates
-        group by duc.dates, duc.pkg, duc.version, dul.config_group_type,
+        group by duc.dates, duc.pkg, duc.version, duc.extra_type, dul.config_group_type,
                  dul.name
     </insert>
 

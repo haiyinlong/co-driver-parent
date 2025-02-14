@@ -46,6 +46,8 @@
                IFNULL(ddps.total_user_num / ddpl.user_num, 0)                        share_rate,
                IFNULL(ddpuc.user_num, 0)                                             offer_user_num,
                IFNULL(ddpuc.user_num / ddpl.user_num, 0)                             offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                          offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                          offer_mystery_box_rate,
                IFNULL(ddpql.active_user_num, 0)                                      payment_user_num,
                IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)                     payment_rate,
                IFNULL(ddpql.active_event_ltv, 0)                                     qp_ltv,
@@ -91,7 +93,10 @@
                                ddpl.version = ddps.version)
                  LEFT JOIN dws_daily_package_all_conversion ddpuc
                            on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and
-                               ddpl.version = ddpuc.version and ddpuc.user_type = 0)
+                               ddpl.version = ddpuc.version and ddpuc.user_type = 0 and ddpuc.source_type = 1)
+                 LEFT JOIN dws_daily_package_all_conversion ddpucbox
+                           on (ddpl.dates = ddpucbox.dates and ddpl.pkg = ddpucbox.pkg and
+                               ddpl.version = ddpucbox.version and ddpucbox.user_type = 0 and ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_package_all_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                ddpl.version = dwfd.version and dwfd.user_type = 0)
@@ -148,6 +153,8 @@
                IFNULL(ddps.total_user_num / ddpr.user_num, 0)                        share_rate,
                IFNULL(ddpuc.user_num, 0)                                             offer_user_num,
                IFNULL(ddpuc.user_num / ddpr.user_num, 0)                             offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                          offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                          offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                         payment_user_num,
                IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                        payment_rate,
                IFNULL(ddpql.new_user_event_ltv, 0)                                   qp_ltv,
@@ -193,7 +200,10 @@
                                ddpl.version = ddps.version)
                  LEFT JOIN dws_daily_package_all_conversion ddpuc
                            on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and
-                               ddpl.version = ddpuc.version and ddpuc.user_type = 1)
+                               ddpl.version = ddpuc.version and ddpuc.user_type = 1 and ddpuc.source_type = 1)
+                 LEFT JOIN dws_daily_package_all_conversion ddpucbox
+                           on (ddpl.dates = ddpucbox.dates and ddpl.pkg = ddpucbox.pkg and
+                               ddpl.version = ddpucbox.version and ddpucbox.user_type = 1 and ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_package_all_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                ddpl.version = dwfd.version and dwfd.user_type = 1)
@@ -255,6 +265,8 @@
                IFNULL(ddps.total_user_num / ddpl.user_num, 0)                                   share_rate,
                IFNULL(ddpuc.user_num, 0)                                                        offer_user_num,
                IFNULL(ddpuc.user_num / ddpl.user_num, 0)                                        offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                     offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                                     offer_mystery_box_rate,
                IFNULL(ddpql.active_user_num, 0)                                                 payment_user_num,
                IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)                                payment_rate,
                IFNULL(ddpql.active_event_ltv, 0)                                                qp_ltv,
@@ -282,7 +294,11 @@
                  LEFT JOIN dws_daily_pkg_share ddps
                            on (ddpl.dates = ddps.dates and ddpl.pkg = ddps.pkg)
                  LEFT JOIN dws_daily_pkg_conversion ddpuc
-                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpuc.user_type = 0)
+                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpuc.user_type = 0 and
+                               ddpuc.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_conversion ddpucbox
+                           on (ddpl.dates = ddpucbox.dates and ddpl.pkg = ddpucbox.pkg and ddpucbox.user_type = 0 and
+                               ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_pkg_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and dwfd.user_type = 0)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
@@ -336,6 +352,8 @@
                IFNULL(ddps.total_user_num / ddpr.user_num, 0)                                     share_rate,
                IFNULL(ddpuc.user_num, 0)                                                          offer_user_num,
                IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                          offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                       offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                       offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                                      payment_user_num,
                IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                                     payment_rate,
                IFNULL(ddpql.new_user_event_ltv, 0)                                                qp_ltv,
@@ -363,7 +381,11 @@
                  LEFT JOIN dws_daily_pkg_share ddps
                            on (ddpl.dates = ddps.dates and ddpl.pkg = ddps.pkg)
                  LEFT JOIN dws_daily_pkg_conversion ddpuc
-                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpuc.user_type = 1)
+                           on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpuc.user_type = 1 and
+                               ddpuc.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_conversion ddpucbox
+                           on (ddpl.dates = ddpucbox.dates and ddpl.pkg = ddpucbox.pkg and ddpucbox.user_type = 1 and
+                               ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_pkg_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and dwfd.user_type = 1)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
@@ -417,6 +439,8 @@
                IFNULL(ddps.total_user_num / ddpl.user_num, 0)                        share_rate,
                IFNULL(ddpuc.user_num, 0)                                             offer_user_num,
                IFNULL(ddpuc.user_num / ddpl.user_num, 0)                             offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                          offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                          offer_mystery_box_rate,
                IFNULL(ddpql.active_user_num, 0)                                      payment_user_num,
                IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)                     payment_rate,
                IFNULL(ddpql.active_event_ltv, 0)                                     qp_ltv,
@@ -458,7 +482,12 @@
                                ddps.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_ver_usrc_conversion ddpuc
                            on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpl.version = ddpuc.version and
-                               ddpuc.user_type = 0 and ddpuc.user_source = ddpl.user_source)
+                               ddpuc.user_type = 0 and ddpuc.user_source = ddpl.user_source and ddpuc.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_ver_usrc_conversion ddpucbox
+                           on (ddpl.dates = ddpucbox.dates and ddpl.pkg = ddpucbox.pkg and
+                               ddpl.version = ddpucbox.version and
+                               ddpucbox.user_type = 0 and ddpucbox.user_source = ddpl.user_source and
+                               ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_pkg_ver_usrc_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and ddpl.version = dwfd.version and
                                dwfd.user_type = 0 and dwfd.user_source = ddpl.user_source)
@@ -516,6 +545,8 @@
                IFNULL(ddps.total_user_num / ddpr.user_num, 0)                                         share_rate,
                IFNULL(ddpuc.user_num, 0)                                                              offer_user_num,
                IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                              offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                           offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                           offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                                          payment_user_num,
                IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                                         payment_rate,
                IFNULL(ddpql.new_user_event_ltv, 0)                                                    qp_ltv,
@@ -557,7 +588,12 @@
                                ddps.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_ver_usrc_conversion ddpuc
                            on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and ddpl.version = ddpuc.version and
-                               ddpuc.user_type = 1 and ddpuc.user_source = ddpl.user_source)
+                               ddpuc.user_type = 1 and ddpuc.user_source = ddpl.user_source and ddpuc.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_ver_usrc_conversion ddpucbox
+                           on (ddpl.dates = ddpucbox.dates and ddpl.pkg = ddpucbox.pkg and
+                               ddpl.version = ddpucbox.version and
+                               ddpucbox.user_type = 1 and ddpucbox.user_source = ddpl.user_source and
+                               ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_pkg_ver_usrc_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and ddpl.version = dwfd.version and
                                dwfd.user_type = 1 and dwfd.user_source = ddpl.user_source)
@@ -614,6 +650,8 @@
                IFNULL(ddps.total_user_num / ddpl.user_num, 0)                                    share_rate,
                IFNULL(ddpuc.user_num, 0)                                                         offer_user_num,
                IFNULL(ddpuc.user_num / ddpl.user_num, 0)                                         offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                      offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                                      offer_mystery_box_rate,
                IFNULL(ddpql.active_user_num, 0)                                                  payment_user_num,
                IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)                                 payment_rate,
                IFNULL(ddpql.active_event_ltv, 0)                                                 qp_ltv,
@@ -651,7 +689,11 @@
                                ddps.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_conversion ddpuc
                            on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and
-                               ddpuc.user_type = 0 and ddpuc.user_source = ddpl.user_source)
+                               ddpuc.user_type = 0 and ddpuc.user_source = ddpl.user_source and ddpuc.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_usrc_conversion ddpucbox
+                           on (ddpl.dates = ddpucbox.dates and ddpl.pkg = ddpucbox.pkg and
+                               ddpucbox.user_type = 0 and ddpucbox.user_source = ddpl.user_source and
+                               ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_pkg_usrc_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                dwfd.user_type = 0 and dwfd.user_source = ddpl.user_source)
@@ -709,6 +751,8 @@
                IFNULL(ddps.total_user_num / ddpr.user_num, 0)                                    share_rate,
                IFNULL(ddpuc.user_num, 0)                                                         offer_user_num,
                IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                         offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                      offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                      offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                                     payment_user_num,
                IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                                    payment_rate,
                IFNULL(ddpql.new_user_event_ltv, 0)                                               qp_ltv,
@@ -746,7 +790,11 @@
                                ddps.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_conversion ddpuc
                            on (ddpl.dates = ddpuc.dates and ddpl.pkg = ddpuc.pkg and
-                               ddpuc.user_type = 1 and ddpuc.user_source = ddpl.user_source)
+                               ddpuc.user_type = 1 and ddpuc.user_source = ddpl.user_source and ddpuc.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_usrc_conversion ddpucbox
+                           on (ddpl.dates = ddpucbox.dates and ddpl.pkg = ddpucbox.pkg and
+                               ddpucbox.user_type = 1 and ddpucbox.user_source = ddpl.user_source and
+                               ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_pkg_usrc_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                dwfd.user_type = 1 and dwfd.user_source = ddpl.user_source)

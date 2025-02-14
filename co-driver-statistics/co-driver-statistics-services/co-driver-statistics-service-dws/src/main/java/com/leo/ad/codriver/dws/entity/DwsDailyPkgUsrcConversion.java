@@ -39,6 +39,10 @@ public class DwsDailyPkgUsrcConversion implements BaseEntity {
      * 用户类型：活跃用户、新用户
      */
     private Integer userType;
+    /**
+     * 1导流来源；2盲盒来源
+     */
+    private Integer sourceType;
 
     /**
      * 转化用户数

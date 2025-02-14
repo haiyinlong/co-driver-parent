@@ -47,9 +47,6 @@ public class TaskDwdController {
     private final DwdEventService dwdUserEventDetailFormAdsReportPointServiceImpl;
     private final DwdEventService dwdUserEventDetailFormReportEventServiceImpl;
 
-    private final DwdService dwdQpLtvRecordServiceImpl;
-    private final DwdService dwdUserExchangeRecordServiceImpl;
-    private final DwdService dwdUserLtvRecordServiceImpl;
     private final DwdService dwdUserShareRecordServiceImpl;
 
     @GetMapping("/")

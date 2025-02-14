@@ -7,7 +7,7 @@
 
     <sql id="Base_Column_List">
         id,dates,pkg,
-        user_source,user_type,user_num
+        user_source,user_type,user_num,source_type
     </sql>
     <select id="queryActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcConversion">
         SELECT ddpvuc.id,
@@ -15,19 +15,21 @@
                t.pkg,
                t.`user_type`,
                t.user_source,
-               t.user_num
+               t.user_num,
+               t.extra_type source_type
         FROM (select duc.dates,
                      duc.pkg,
                      0                              `user_type`,
                      IFNULL(dus.network, 'Unknown') user_source,
-                     count(DISTINCT duc.user_id)    user_num
+                     count(DISTINCT duc.user_id)    user_num,
+                     duc.extra_type
               from dwd_user_conversion duc
                        left join dim_user_source dus on (dus.user_id = duc.user_id)
               where duc.dates = #{dates}
-              group by duc.dates, duc.pkg, IFNULL(dus.network, 'Unknown')) t
+              group by duc.dates, duc.pkg, duc.extra_type, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_usrc_conversion ddpvuc
                            on (t.dates = ddpvuc.dates and t.pkg = ddpvuc.pkg and t.user_type = ddpvuc.user_type and
-                               t.user_source = ddpvuc.user_source)
+                               t.user_source = ddpvuc.user_source and t.extra_type = ddpvuc.source_type)
 
     </select>
     <select id="queryNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcConversion">
@@ -41,15 +43,16 @@
                      duc.pkg,
                      1                              `user_type`,
                      IFNULL(dus.network, 'Unknown') user_source,
-                     count(DISTINCT duc.user_id)    user_num
+                     count(DISTINCT duc.user_id)    user_num,
+                     duc.extra_type
               from dwd_user_conversion duc
                        left join dim_user_source dus on (dus.user_id = duc.user_id)
               where duc.dates = #{dates}
                 and duc.dates = duc.register_dates
-              group by duc.dates, duc.pkg, IFNULL(dus.network, 'Unknown')) t
+              group by duc.dates, duc.pkg, duc.extra_type, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_usrc_conversion ddpvuc
                            on (t.dates = ddpvuc.dates and t.pkg = ddpvuc.pkg and t.user_type = ddpvuc.user_type and
-                               t.user_source = ddpvuc.user_source)
+                               t.user_source = ddpvuc.user_source and t.extra_type = ddpvuc.source_type)
     </select>
     <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcConversion">
         select

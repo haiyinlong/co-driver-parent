@@ -17,39 +17,45 @@
                q.cohort_day,
                q.cohort_user_num,
                IFNULL(d_user.user_num, 0)                                          register_user_num,
-               IFNULL(ROUND(q.cohort_user_num / IFNULL(d_user.user_num, 0), 8), 0) conversion_rate
+               IFNULL(ROUND(q.cohort_user_num / IFNULL(d_user.user_num, 0), 8), 0) conversion_rate,
+               q.extra_type                                                        source_type
         from (select cohort_q.register_dates,
                      cohort_q.pkg,
                      cohort_q.register_version,
                      cohort_q.country,
                      cohort_q.cohort_day,
+                     cohort_q.extra_type,
                      COUNT(DISTINCT duc.user_id) cohort_user_num
               FROM (SELECT du.`pkg`,
                            du.register_version,
                            du.`country`,
                            du.`register_dates`                                  register_dates,
-                           TIMESTAMPDIFF(DAY, du.register_date, du.create_time) cohort_day
+                           TIMESTAMPDIFF(DAY, du.register_date, du.create_time) cohort_day,
+                           du.extra_type
                     FROM dwd_user_conversion du
                     WHERE du.dates = #{dates}
                     GROUP BY du.`pkg`,
                              du.`register_version`,
                              du.`country`,
                              du.`register_dates`,
+                             du.extra_type,
                              TIMESTAMPDIFF(DAY, du.register_date, du.create_time)) cohort_q
                        left join dwd_user_conversion duc
                                  on (cohort_q.pkg = duc.pkg and cohort_q.`register_version` = duc.register_version and
                                      cohort_q.`country` = duc.country and
                                      cohort_q.`register_dates` = duc.register_dates and
+                                     cohort_q.extra_type = duc.extra_type and
                                      cohort_q.cohort_day = TIMESTAMPDIFF(DAY, duc.register_date, duc.create_time))
               GROUP BY cohort_q.pkg, cohort_q.`register_version`, cohort_q.`country`, cohort_q.`register_dates`,
-                       cohort_q.cohort_day) q
+                       cohort_q.cohort_day, cohort_q.extra_type) q
                  LEFT JOIN dws_daily_package_cohort_conversion dws_cohort
                            on (q.register_dates = dws_cohort.register_dates and
                                q.register_version =
                                dws_cohort.register_version and
                                q.country = dws_cohort.country and
                                q.pkg = dws_cohort.pkg and
-                               q.cohort_day = dws_cohort.cohort_day)
+                               q.cohort_day = dws_cohort.cohort_day and
+                               q.extra_type = dws_cohort.source_type)
                  LEFT JOIN dws_daily_package_register d_user
                            on (q.register_dates = d_user.dates and q.register_version = d_user.version and
                                q.country = d_user.country and q.pkg = d_user.pkg)
