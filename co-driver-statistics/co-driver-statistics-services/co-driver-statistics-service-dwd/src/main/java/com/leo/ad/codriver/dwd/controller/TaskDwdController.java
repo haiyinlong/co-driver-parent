@@ -49,6 +49,8 @@ public class TaskDwdController {
 
     private final DwdService dwdUserShareRecordServiceImpl;
 
+    private final DwdService dwdQpLtvRecordServiceImpl;
+
     @GetMapping("/")
     @Operation(summary = "触发所有dwd", description = "触发dwd数据同步")
     public String dwdHandle(@RequestParam("dates") Integer dates) {
@@ -69,6 +71,17 @@ public class TaskDwdController {
         }
         // 同步数据到dwd
         dwdUserConversionServiceImpl.syncData(dates);
+        return "执行完成dwd数据同步";
+    }
+
+    @GetMapping("/userQpLtv")
+    @Operation(summary = "触发用户转化dwd", description = "触发dwd数据同步")
+    public String dwdUserQpLtvHandle(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        dwdQpLtvRecordServiceImpl.syncData(dates);
         return "执行完成dwd数据同步";
     }
 

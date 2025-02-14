@@ -105,7 +105,7 @@
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_package_all_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
-                               ddpl.version = ddpql.version and ddpl.source_type = 1)
+                               ddpl.version = ddpql.version and ddpql.source_type = 1)
                  LEFT JOIN dws_daily_package_all_qp_ltv ddpqlbox
                            on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and
                                ddpl.version = ddpqlbox.version and ddpqlbox.source_type = 2)

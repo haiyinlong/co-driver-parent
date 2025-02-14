@@ -35,6 +35,8 @@ public class AdsDailyOetaBaseReport implements BaseEntity {
     private BigDecimal offerMysteryBoxRate;
     private Long paymentUserNum;
     private BigDecimal paymentRate;
+    private Long paymentMysteryBoxUserNum;
+    private BigDecimal paymentMysteryBoxRate;
     private BigDecimal qpLtv;
     private BigDecimal adRewardIncome;
     private Long adRewardUserNum;
