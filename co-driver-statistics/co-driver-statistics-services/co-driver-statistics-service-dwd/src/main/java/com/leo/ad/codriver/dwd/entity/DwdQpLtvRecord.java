@@ -22,6 +22,7 @@ public class DwdQpLtvRecord {
     private BigDecimal eventLtv;
     private String event;
     private BigDecimal userLtv;
+    private Integer sourceType;
     private Date createTime;
 
 }

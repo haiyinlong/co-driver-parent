@@ -50,6 +50,8 @@
                IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                          offer_mystery_box_rate,
                IFNULL(ddpql.active_user_num, 0)                                      payment_user_num,
                IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)                     payment_rate,
+               IFNULL(ddpqlbox.active_user_num, 0)                                   payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.active_user_num / ddpuc.user_num, 0)                  payment_mystery_box_rate,
                IFNULL(ddpql.active_event_ltv, 0)                                     qp_ltv,
                IFNULL(dwfd.success_change_amount, 0)                                 withdraw_amount,
                IFNULL(dwfd.success_change_fee, 0)                                    withdraw_fee,
@@ -103,7 +105,10 @@
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_package_all_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
-                               ddpl.version = ddpql.version)
+                               ddpl.version = ddpql.version and ddpl.source_type = 1)
+                 LEFT JOIN dws_daily_package_all_qp_ltv ddpqlbox
+                           on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and
+                               ddpl.version = ddpqlbox.version and ddpqlbox.source_type = 2)
                  LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
             and adobr.version = ddpl.version and adobr.user_source = 'ALL' and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
@@ -157,6 +162,8 @@
                IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                          offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                         payment_user_num,
                IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                        payment_rate,
+               IFNULL(ddpqlbox.new_user_num, 0)                                      payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.new_user_num / ddpuc.user_num, 0)                     payment_mystery_box_rate,
                IFNULL(ddpql.new_user_event_ltv, 0)                                   qp_ltv,
                IFNULL(dwfd.success_change_amount, 0)                                 withdraw_amount,
                IFNULL(dwfd.success_change_fee, 0)                                    withdraw_fee,
@@ -210,7 +217,10 @@
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_package_all_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
-                               ddpl.version = ddpql.version)
+                               ddpl.version = ddpql.version and ddpql.source_type = 1)
+                 LEFT JOIN dws_daily_package_all_qp_ltv ddpqlbox
+                           on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and
+                               ddpl.version = ddpqlbox.version and ddpqlbox.source_type = 2)
                  LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
             and adobr.version = ddpl.version and adobr.user_source = 'ALL' and adobr.user_type = 1)
         WHERE ddpl.dates = #{dates}
@@ -269,6 +279,8 @@
                IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                                     offer_mystery_box_rate,
                IFNULL(ddpql.active_user_num, 0)                                                 payment_user_num,
                IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)                                payment_rate,
+               IFNULL(ddpqlbox.active_user_num, 0)                                              payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.active_user_num / ddpuc.user_num, 0)                             payment_mystery_box_rate,
                IFNULL(ddpql.active_event_ltv, 0)                                                qp_ltv,
                IFNULL(dwfd.success_change_amount, 0)                                            withdraw_amount,
                IFNULL(dwfd.success_change_fee, 0)                                               withdraw_fee,
@@ -303,7 +315,9 @@
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and dwfd.user_type = 0)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_pkg_qp_ltv ddpql
-                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg)
+                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpql.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_qp_ltv ddpqlbox
+                           on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and ddpqlbox.source_type = 2)
                  LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
             and adobr.version = 'ALL' and adobr.user_source = 'ALL' and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
@@ -356,6 +370,8 @@
                IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                       offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                                      payment_user_num,
                IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                                     payment_rate,
+               IFNULL(ddpqlbox.new_user_num, 0)                                                   payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.new_user_num / ddpuc.user_num, 0)                                  payment_mystery_box_rate,
                IFNULL(ddpql.new_user_event_ltv, 0)                                                qp_ltv,
                IFNULL(dwfd.success_change_amount, 0)                                              withdraw_amount,
                IFNULL(dwfd.success_change_fee, 0)                                                 withdraw_fee,
@@ -390,7 +406,9 @@
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and dwfd.user_type = 1)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_pkg_qp_ltv ddpql
-                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg)
+                           on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpql.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_qp_ltv ddpqlbox
+                           on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and ddpqlbox.source_type = 2)
                  LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
             and adobr.version = 'ALL' and adobr.user_source = 'ALL' and adobr.user_type = 1)
         WHERE ddpl.dates = #{dates}
@@ -443,6 +461,8 @@
                IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                          offer_mystery_box_rate,
                IFNULL(ddpql.active_user_num, 0)                                      payment_user_num,
                IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)                     payment_rate,
+               IFNULL(ddpqlbox.active_user_num, 0)                                   payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.active_user_num / ddpuc.user_num, 0)                  payment_mystery_box_rate,
                IFNULL(ddpql.active_event_ltv, 0)                                     qp_ltv,
                IFNULL(dwfd.success_change_amount, 0)                                 withdraw_amount,
                IFNULL(dwfd.success_change_fee, 0)                                    withdraw_fee,
@@ -495,7 +515,11 @@
                                                                  ddpui.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_ver_usrc_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpl.version = ddpql.version and
-                               ddpql.user_source = ddpl.user_source)
+                               ddpql.user_source = ddpl.user_source and ddpql.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_ver_usrc_qp_ltv ddpqlbox
+                           on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and
+                               ddpl.version = ddpqlbox.version and
+                               ddpqlbox.user_source = ddpl.user_source and ddpqlbox.source_type = 2)
                  LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
             and adobr.version = ddpl.version and adobr.user_source = ddpl.user_source and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
@@ -549,6 +573,8 @@
                IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                           offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                                          payment_user_num,
                IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                                         payment_rate,
+               IFNULL(ddpqlbox.new_user_num, 0)                                                       payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.new_user_num / ddpuc.user_num, 0)                                      payment_mystery_box_rate,
                IFNULL(ddpql.new_user_event_ltv, 0)                                                    qp_ltv,
                IFNULL(dwfd.success_change_amount, 0)                                                  withdraw_amount,
                IFNULL(dwfd.success_change_fee, 0)                                                     withdraw_fee,
@@ -601,7 +627,11 @@
                                                                  ddpui.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_ver_usrc_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpl.version = ddpql.version and
-                               ddpql.user_source = ddpl.user_source)
+                               ddpql.user_source = ddpl.user_source and ddpql.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_ver_usrc_qp_ltv ddpqlbox
+                           on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and
+                               ddpl.version = ddpqlbox.version and
+                               ddpqlbox.user_source = ddpl.user_source and ddpqlbox.source_type = 2)
                  LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
             and adobr.version = ddpl.version and adobr.user_source = ddpl.user_source and adobr.user_type = 1)
         WHERE ddpl.dates = #{dates}
@@ -654,6 +684,8 @@
                IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                                      offer_mystery_box_rate,
                IFNULL(ddpql.active_user_num, 0)                                                  payment_user_num,
                IFNULL(ddpql.active_user_num / ddpuc.user_num, 0)                                 payment_rate,
+               IFNULL(ddpqlbox.active_user_num, 0)                                               payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.active_user_num / ddpuc.user_num, 0)                              payment_mystery_box_rate,
                IFNULL(ddpql.active_event_ltv, 0)                                                 qp_ltv,
                IFNULL(dwfd.success_change_amount, 0)                                             withdraw_amount,
                IFNULL(dwfd.success_change_fee, 0)                                                withdraw_fee,
@@ -701,7 +733,10 @@
                                                                  ddpui.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
-                               ddpql.user_source = ddpl.user_source)
+                               ddpql.user_source = ddpl.user_source and ddpql.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_usrc_qp_ltv ddpqlbox
+                           on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and
+                               ddpqlbox.user_source = ddpl.user_source and ddpqlbox.source_type = 2)
                  LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
             and adobr.version = 'ALL' and adobr.user_source = ddpl.user_source and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
@@ -752,9 +787,10 @@
                IFNULL(ddpuc.user_num, 0)                                                         offer_user_num,
                IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                         offer_rate,
                IFNULL(ddpucbox.user_num, 0)                                                      offer_mystery_box_user_num,
-               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                      offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                                     payment_user_num,
                IFNULL(ddpql.new_user_num / ddpuc.user_num, 0)                                    payment_rate,
+               IFNULL(ddpqlbox.new_user_num, 0)                                                  payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.new_user_num / ddpuc.user_num, 0)                                 payment_mystery_box_rate,
                IFNULL(ddpql.new_user_event_ltv, 0)                                               qp_ltv,
                IFNULL(dwfd.success_change_amount, 0)                                             withdraw_amount,
                IFNULL(dwfd.success_change_fee, 0)                                                withdraw_fee,
@@ -802,7 +838,10 @@
                                                                  ddpui.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
-                               ddpql.user_source = ddpl.user_source)
+                               ddpql.user_source = ddpl.user_source and ddpql.source_type = 1)
+                 LEFT JOIN dws_daily_pkg_usrc_qp_ltv ddpqlbox
+                           on (ddpl.dates = ddpqlbox.dates and ddpl.pkg = ddpqlbox.pkg and
+                               ddpqlbox.user_source = ddpl.user_source and ddpqlbox.source_type = 2)
                  LEFT JOIN ads_daily_oeta_base_report adobr on (adobr.dates = ddpl.dates and adobr.pkg = ddpl.pkg
             and adobr.version = 'ALL' and adobr.user_source = ddpl.user_source and adobr.user_type = 1)
         WHERE ddpl.dates = #{dates}

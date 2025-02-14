@@ -16,6 +16,7 @@
                oelrd.event,
                oelrd.event_ltv,
                oelrd.user_ltv,
+               oelrd.extra_type source_type,
                dui.create_time
         FROM ods_extra_ltv_record_diversion oelrd
                  INNER JOIN dim_user_info dui on (dui.user_id = oelrd.user_id)

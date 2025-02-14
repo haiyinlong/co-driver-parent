@@ -15,6 +15,7 @@ public class DwsDailyPkgQpLtv implements BaseEntity {
     private Long id;
     private Long dates;
     private String pkg;
+    private Integer sourceType;
     private Long activeUserNum;
     private BigDecimal activeEventLtv;
     private BigDecimal activeUserLtv;

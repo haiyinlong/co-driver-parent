@@ -17,6 +17,7 @@ public class DwsDailyPackageQpLtv {
     private Long dates;
     private String pkg;
     private String version;
+    private Integer sourceType;
     private String country;
     private Long activeUserNum;
     private BigDecimal activeEventLtv;

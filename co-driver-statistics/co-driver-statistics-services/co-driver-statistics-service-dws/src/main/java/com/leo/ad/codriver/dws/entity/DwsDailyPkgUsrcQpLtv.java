@@ -32,7 +32,7 @@ public class DwsDailyPkgUsrcQpLtv implements BaseEntity {
      * 包名
      */
     private String pkg;
-
+    private Integer sourceType;
     /**
      * 用户来源
      */

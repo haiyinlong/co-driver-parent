@@ -6,7 +6,7 @@
 
 
     <sql id="Base_Column_List">
-        id,dates,pkg,
+        id,dates,pkg,source_type,
         version,user_source,active_user_num,
         active_event_ltv,active_user_ltv,new_user_num,
         new_user_event_ltv,new_user_ltv,create_time
@@ -23,6 +23,7 @@
                t.pkg,
                t.version,
                t.user_source,
+               t.source_type,
                t.active_user_num,
                t.active_event_ltv,
                t.active_user_ltv,
@@ -32,6 +33,7 @@
         FROM (SELECT dqlr.dates,
                      dqlr.pkg,
                      dqlr.version,
+                     dqlr.source_type,
                      IFNULL(dus.network, 'Unknown') user_source,
                      COUNT(distinct dqlr.user_id)   active_user_num,
                      SUM(dqlr.event_ltv)            active_event_ltv,
@@ -43,10 +45,10 @@
                        LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
                        left join dim_user_source dus on (dus.user_id = dqlr.user_id)
               where dqlr.dates = #{dates}
-              GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, IFNULL(dus.network, 'Unknown')) t
+              GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, dqlr.source_type, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_ver_usrc_qp_ltv ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
-                               t.user_source = ddovyo.user_source)
+                               t.user_source = ddovyo.user_source and t.source_type = ddovyo.source_type)
 
     </select>
 </mapper>

@@ -11,6 +11,7 @@
         SELECT dqlr.dates,
                dqlr.pkg,
                dqlr.version,
+               dqlr.source_type,
                COUNT(distinct dqlr.user_id) active_user_num,
                SUM(dqlr.event_ltv)          active_event_ltv,
                SUM(dqlr.user_ltv)           active_user_ltv,
@@ -20,6 +21,6 @@
         FROM dwd_qp_ltv_record dqlr
                  LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
         where dqlr.dates = #{dates}
-        GROUP BY dqlr.dates, dqlr.pkg, dqlr.version
+        GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, dqlr.source_type
     </select>
 </mapper>

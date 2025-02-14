@@ -39,7 +39,7 @@ public class DwsDailyPkgVerUsrcQpLtv implements BaseEntity {
      * 用户来源
      */
     private String userSource;
-
+    private Integer sourceType;
     /**
      * 用户数量
      */

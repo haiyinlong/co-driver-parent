@@ -11,6 +11,7 @@
         SELECT dqlr.dates,
                dqlr.pkg,
                dqlr.version,
+               dqlr.source_type,
                dul.config_group_type,
                dul.name                     config_group_name,
                COUNT(distinct dqlr.user_id) active_user_num,
@@ -23,6 +24,6 @@
                  LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
                  INNER JOIN dim_user_lab dul on (dul.user_id = dqlr.user_id)
         where dqlr.dates = #{dates}
-        GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, dul.config_group_type, dul.name
+        GROUP BY dqlr.dates, dqlr.pkg, dqlr.version, dqlr.source_type, dul.config_group_type, dul.name
     </select>
 </mapper>
