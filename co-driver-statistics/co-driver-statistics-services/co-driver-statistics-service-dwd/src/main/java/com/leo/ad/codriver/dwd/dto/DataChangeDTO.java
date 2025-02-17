@@ -13,6 +13,7 @@ public class DataChangeDTO {
     private Long sourceId;
     private long timestamp;
     private Integer dates;
+    private String msg;
 
     /**
      * 创建一个数据变更对象
@@ -26,10 +27,20 @@ public class DataChangeDTO {
         dataChangeDTO.setTimestamp(System.currentTimeMillis());
         return dataChangeDTO;
     }
+
     public static DataChangeDTO of(Long sourceId, Integer dates) {
         DataChangeDTO dataChangeDTO = new DataChangeDTO();
         dataChangeDTO.setSourceId(sourceId);
         dataChangeDTO.setDates(dates);
+        dataChangeDTO.setTimestamp(System.currentTimeMillis());
+        return dataChangeDTO;
+    }
+
+    public static DataChangeDTO of(Long sourceId, Integer dates, String msg) {
+        DataChangeDTO dataChangeDTO = new DataChangeDTO();
+        dataChangeDTO.setSourceId(sourceId);
+        dataChangeDTO.setDates(dates);
+        dataChangeDTO.setMsg(msg);
         dataChangeDTO.setTimestamp(System.currentTimeMillis());
         return dataChangeDTO;
     }

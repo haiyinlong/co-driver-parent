@@ -2,7 +2,7 @@ package com.leo.ad.codriver.clean.handler;
 
 import org.springframework.stereotype.Component;
 
-import com.leo.ad.codriver.clean.dao.DwdUserEventDetailCleanDao;
+import com.leo.ad.codriver.clean.dao.DwdUserEventCleanDao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,14 +14,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class DwdUserEventDetailCleanHandler extends AbstractCleanHandler {
-    private final DwdUserEventDetailCleanDao dwdUserEventDetailCleanDao;
+public class DwdUserEventCleanHandler extends AbstractCleanHandler {
+    private final DwdUserEventCleanDao dwdUserEventCleanDao;
 
     @Override
     public void cleanHandler() {
-        Integer delRowNum = dwdUserEventDetailCleanDao.deleteByLastMonthsAgo();
+        Integer delRowNum = dwdUserEventCleanDao.deleteByLastMonthsAgo();
         while (delRowNum > 0) {
-            delRowNum = dwdUserEventDetailCleanDao.deleteByLastMonthsAgo();
+            delRowNum = dwdUserEventCleanDao.deleteByLastMonthsAgo();
         }
     }
 }

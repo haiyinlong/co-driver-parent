@@ -1,9 +1,6 @@
 package com.leo.ad.codriver.dws.dao;
 
-import java.util.List;
-
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -18,9 +15,9 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllAdEvent;
 @Mapper
 @DS("mysql")
 public interface DwsDailyPackageAllAdEventMapper extends BaseMapper<DwsDailyPackageAllAdEvent> {
-    List<DwsDailyPackageAllAdEvent> queryList(@Param("dates") Integer dates);
-
-    List<DwsDailyPackageAllAdEvent> queryStatisticsActive(@Param("dates") Integer dates);
-
-    List<DwsDailyPackageAllAdEvent> queryStatisticsNew(@Param("dates") Integer dates);
+    // List<DwsDailyPackageAllAdEvent> queryList(@Param("dates") Integer dates);
+    //
+    // List<DwsDailyPackageAllAdEvent> queryStatisticsActive(@Param("dates") Integer dates);
+    //
+    // List<DwsDailyPackageAllAdEvent> queryStatisticsNew(@Param("dates") Integer dates);
 }

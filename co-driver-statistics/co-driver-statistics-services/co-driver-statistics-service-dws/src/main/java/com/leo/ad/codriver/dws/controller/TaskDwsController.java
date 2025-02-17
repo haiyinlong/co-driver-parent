@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskDwsController {
 
     private final List<DwsService> dwsServices;
-    private final DwsService dwsHemaEventFullDailyServiceImpl;
+    // private final DwsService dwsHemaEventFullDailyServiceImpl;
     private final DwsService dwsHemaAccountFullDailyServiceImpl;
     private final DwsService dwsWithdrawFullDailyServiceImpl;
     private final DwsService dwsDailyPackageUserConversionServiceImpl;
@@ -313,16 +313,16 @@ public class TaskDwsController {
         return "执行完成dws数据同步";
     }
 
-    @GetMapping("/hemaEvent")
-    @Operation(summary = "触发dws 河马事件记录task", description = "触发dws数据同步")
-    public String dwsHemaEventHandle(@RequestParam("dates") Integer dates) {
-        // 获取统计日期
-        if (ObjectUtils.isEmpty(dates)) {
-            dates = DateUtils.getPreviousDate();
-        }
-        dwsHemaEventFullDailyServiceImpl.syncData(dates);
-        return "执行完成dws数据同步";
-    }
+    // @GetMapping("/hemaEvent")
+    // @Operation(summary = "触发dws 河马事件记录task", description = "触发dws数据同步")
+    // public String dwsHemaEventHandle(@RequestParam("dates") Integer dates) {
+    // // 获取统计日期
+    // if (ObjectUtils.isEmpty(dates)) {
+    // dates = DateUtils.getPreviousDate();
+    // }
+    // dwsHemaEventFullDailyServiceImpl.syncData(dates);
+    // return "执行完成dws数据同步";
+    // }
 
     @GetMapping("/hemaBalance")
     @Operation(summary = "触发dws河马余额记录task", description = "触发dws数据同步")

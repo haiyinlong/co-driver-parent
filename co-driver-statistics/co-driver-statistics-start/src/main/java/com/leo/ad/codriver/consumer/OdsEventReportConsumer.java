@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 public class OdsEventReportConsumer {
-    private final DwdStreamService dwdUserEventDetailFormEventReportServiceImpl;
+    private final DwdStreamService dwdUserEventFormEventReportServiceImpl;
 
     @RabbitListener(queues = {"ods_event_report_queue"},
         autoStartup = "${co-driver.rabbitmq.listener.ods_event_report_queue.enable:false}", concurrency = "2")
@@ -37,7 +37,7 @@ public class OdsEventReportConsumer {
             JSONObject odsUserChangeJson = JSONObject.parseObject(msg);
             sourceId = new BigDecimal(odsUserChangeJson.getString("id")).longValue();
             dates = new BigDecimal(odsUserChangeJson.getString("dates")).intValue();
-            dwdUserEventDetailFormEventReportServiceImpl.syncChangeData(DataChangeDTO.of(sourceId,dates));
+            dwdUserEventFormEventReportServiceImpl.syncChangeData(DataChangeDTO.of(sourceId, dates, msg));
         } catch (Exception e) {
             log.info("同步event report 数据异常, 数据id:" + sourceId, e);
             throw new RuntimeException(e);

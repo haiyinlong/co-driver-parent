@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  **/
 @Mapper
 @DS("mysql")
-public interface DwdUserEventDetailCleanDao extends BaseMapper {
+public interface DwdUserEventCleanDao extends BaseMapper {
 
     Integer deleteByLastMonthsAgo();
 }

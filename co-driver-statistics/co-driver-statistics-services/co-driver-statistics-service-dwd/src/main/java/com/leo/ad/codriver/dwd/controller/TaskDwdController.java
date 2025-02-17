@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.leo.ad.codriver.common.util.DateUtils;
-import com.leo.ad.codriver.dwd.service.DwdEventService;
 import com.leo.ad.codriver.dwd.service.DwdService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -42,10 +41,6 @@ public class TaskDwdController {
     private final DwdService dwdUserOnlineServiceImpl;
     private final DwdService dwdPromotionRecordServiceImpl;
     private final DwdService dwdUserGameRecordOetaServiceImpl;
-
-    private final DwdEventService dwdUserEventDetailFormReportPointServiceImpl;
-    private final DwdEventService dwdUserEventDetailFormAdsReportPointServiceImpl;
-    private final DwdEventService dwdUserEventDetailFormReportEventServiceImpl;
 
     private final DwdService dwdUserShareRecordServiceImpl;
 
@@ -128,20 +123,6 @@ public class TaskDwdController {
         // 同步数据到dwd
         dwdUserLoginRecordServiceImpl.syncData(dates);
         return "执行完成dwdUserLoginRecordHandle数据同步";
-    }
-
-    @GetMapping("/userEventDetail")
-    @Operation(summary = "触发用户事件明细dwd", description = "触发dwd数据同步")
-    public String dwdUserEventDetailHandle(@RequestParam("dates") Integer dates) {
-        if (ObjectUtils.isEmpty(dates)) {
-            dates = DateUtils.getPreviousDate();
-        }
-        log.info("{} DwdUserEventDetail dwd数据开始同步", dates);
-        dwdUserEventDetailFormReportPointServiceImpl.syncData(dates);
-        dwdUserEventDetailFormAdsReportPointServiceImpl.syncData(dates);
-        dwdUserEventDetailFormReportEventServiceImpl.syncData(dates);
-        log.info("{} DwdUserEventDetail dwd数据同步完成", dates);
-        return "执行完成dwd数据同步";
     }
 
     @GetMapping("/userAccountRecord")
