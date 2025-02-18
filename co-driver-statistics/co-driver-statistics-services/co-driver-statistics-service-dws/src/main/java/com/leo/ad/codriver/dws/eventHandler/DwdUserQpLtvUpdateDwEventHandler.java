@@ -7,7 +7,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.dwd.event.DwdUserQpLtvUpdateDwEvent;
-import com.leo.ad.codriver.dws.event.DwsDailyQpLtvEventUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyQpLtvUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
 import lombok.RequiredArgsConstructor;
@@ -67,7 +67,7 @@ public class DwdUserQpLtvUpdateDwEventHandler {
             throw new RuntimeException(e);
         }
         // 添加事件更新 ads相关计算
-        applicationEventPublisher.publishEvent(new DwsDailyQpLtvEventUpdateDwEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwsDailyQpLtvUpdateDwEvent(this, dates));
 
     }
 }

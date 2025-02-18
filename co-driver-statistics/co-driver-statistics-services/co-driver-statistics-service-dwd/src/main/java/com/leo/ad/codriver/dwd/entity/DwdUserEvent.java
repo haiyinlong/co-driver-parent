@@ -26,4 +26,8 @@ public class DwdUserEvent implements BaseEntity {
     public DwdUserEvent() {
         this.createTime = new Date();
     }
+
+    public String getPkgVersionKey() {
+        return pkg + "_" + version;
+    }
 }

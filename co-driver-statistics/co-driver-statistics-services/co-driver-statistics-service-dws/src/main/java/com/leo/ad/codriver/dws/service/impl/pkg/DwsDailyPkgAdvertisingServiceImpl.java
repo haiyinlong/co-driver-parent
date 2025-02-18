@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.UserTypeConstant;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
@@ -38,8 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwsDailyPkgAdvertisingServiceImpl extends ServiceImpl<DwsDailyPkgAdvertisingMapper, DwsDailyPkgAdvertising>
-    implements DwsService {
+public class DwsDailyPkgAdvertisingServiceImpl implements DwsService {
     private final DwdUserAdRecordMapper dwdUserAdRecordMapper;
     private final DwsDailyPkgAdvertisingMapper dwsDailyPkgAdvertisingMapper;
     private final DwBatchMapper<DwsDailyPkgAdvertising, DwsDailyPkgAdvertisingMapper> dwBatchMapper;

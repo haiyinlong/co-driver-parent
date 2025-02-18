@@ -7,7 +7,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.dwd.event.DwdUserShareRecordUpdateDwEvent;
-import com.leo.ad.codriver.dws.event.DwsDailyShareEventUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyShareUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
 import lombok.RequiredArgsConstructor;
@@ -66,6 +66,6 @@ public class DwdUserShareRecordUpdateDwEventHandler {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        applicationEventPublisher.publishEvent(new DwsDailyShareEventUpdateDwEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwsDailyShareUpdateDwEvent(this, dates));
     }
 }

@@ -13,12 +13,12 @@ import lombok.Getter;
  * @version 2024/09/04 15:54
  **/
 @Getter
-public class DwsDailyPkgAdEventUpdateDwEvent extends CoDriverDwEvent {
+public class DwsDailyPkgAdvertisingUpdateDwEvent extends CoDriverDwEvent {
 
     @Serial
     private static final long serialVersionUID = -8006576641441461931L;
 
-    public DwsDailyPkgAdEventUpdateDwEvent(Object source, Integer dates) {
+    public DwsDailyPkgAdvertisingUpdateDwEvent(Object source, Integer dates) {
         super(source, dates);
     }
 }

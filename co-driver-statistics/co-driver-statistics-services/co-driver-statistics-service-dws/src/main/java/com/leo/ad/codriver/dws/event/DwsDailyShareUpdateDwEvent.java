@@ -7,19 +7,18 @@ import com.leo.ad.codriver.common.event.CoDriverDwEvent;
 import lombok.Getter;
 
 /**
- * DwsDailyWithdrawEventUpdateDwEvent
+ * DwsDailyShareEventUpdateDwEvent
  *
  * @author HaiYinLong
  * @version 2024/09/04 15:54
  **/
 @Getter
-public class DwsDailyWithdrawEventUpdateDwEvent extends CoDriverDwEvent {
-
+public class DwsDailyShareUpdateDwEvent extends CoDriverDwEvent {
 
     @Serial
-    private static final long serialVersionUID = 6289224627737022787L;
+    private static final long serialVersionUID = 1582461105189084940L;
 
-    public DwsDailyWithdrawEventUpdateDwEvent(Object source, Integer dates) {
+    public DwsDailyShareUpdateDwEvent(Object source, Integer dates) {
         super(source, dates);
     }
 }

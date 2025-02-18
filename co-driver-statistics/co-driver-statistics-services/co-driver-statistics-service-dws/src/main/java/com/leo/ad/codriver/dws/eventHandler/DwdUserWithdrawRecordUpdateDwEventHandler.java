@@ -7,7 +7,7 @@ import org.springframework.transaction.event.TransactionPhase;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.dwd.event.DwdUserWithdrawRecordUpdateDwEvent;
-import com.leo.ad.codriver.dws.event.DwsDailyWithdrawEventUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyWithdrawUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
 import lombok.RequiredArgsConstructor;
@@ -60,6 +60,6 @@ public class DwdUserWithdrawRecordUpdateDwEventHandler {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        applicationEventPublisher.publishEvent(new DwsDailyWithdrawEventUpdateDwEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwsDailyWithdrawUpdateDwEvent(this, dates));
     }
 }

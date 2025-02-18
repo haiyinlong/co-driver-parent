@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcAdConversionEventMapper">
+
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        user_source,version,user_type,
+        click_user_num,click_record_num,show_user_num,
+        show_record_num,create_time
+    </sql>
+    <delete id="deleteByDate">
+        DELETE
+        FROM dws_daily_pkg_ver_usrc_ad_conversion_event
+        WHERE dates = #{dates}
+    </delete>
+</mapper>

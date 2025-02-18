@@ -28,10 +28,10 @@ public class AdsDailyOetaBaseReportEventHandler {
     public void handleEvent(CoDriverDwEvent event) {
         if (event instanceof DwsDailyPackageAdUpdateDwEvent || event instanceof DwsDailyPackageAllAdEventUpdateDwEvent
             || event instanceof DwsDailyPackageAllVersionPromotionUpdateDwEvent
-            || event instanceof DwsDailyPkgAdEventUpdateDwEvent || event instanceof DwsDailyWithdrawEventUpdateDwEvent
-            || event instanceof DwsDailyPromotionEventUpdateDwEvent
-            || event instanceof DwsDailyPkgConversionUpdateDwEvent || event instanceof DwsDailyShareEventUpdateDwEvent
-            || event instanceof DwsDailyQpLtvEventUpdateDwEvent) {
+            || event instanceof DwsDailyPkgAdvertisingUpdateDwEvent || event instanceof DwsDailyWithdrawUpdateDwEvent
+            || event instanceof DwsDailyPromotionUpdateDwEvent || event instanceof DwsDailyPkgConversionUpdateDwEvent
+            || event instanceof DwsDailyShareUpdateDwEvent || event instanceof DwsDailyQpLtvUpdateDwEvent
+            || event instanceof DwsDailyAdConversionEventUpdateDwEvent) {
             try {
                 log.info("{} 事件触发 adsDailyOetaBaseReport", event.getDates());
                 adsDailyOetaBaseReportServiceImpl.syncData(event.getDates());

@@ -4,4 +4,63 @@
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserEventMapper">
 
 
+    <select id="getCountByDate" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        SELECT count(1) count, min(oupprd.id) min_id, max(oupprd.id) max_id
+        FROM dwd_user_event oupprd
+        WHERE oupprd.dates = #{dates}
+        <if test="events != null and events.size() > 0">
+            and oupprd.event_id in
+            <foreach collection="events" item="event" open="(" separator="," close=")">
+                #{event}
+            </foreach>
+        </if>
+    </select>
+    <select id="queryWithRegisterDateByInterval"
+            resultType="com.leo.ad.codriver.dwd.dto.DwdUserEventWithRegisterDateDTO">
+        SELECT oupprd.id,
+        oupprd.dates,
+        oupprd.user_id,
+        oupprd.event_id,
+        oupprd.event_msg,
+        oupprd.version,
+        oupprd.pkg,
+        dui.dates register_date,
+        oupprd.create_time
+        FROM dwd_user_event oupprd
+        INNER JOIN dim_user_info dui on (oupprd.user_id = dui.user_id)
+        WHERE oupprd.dates = #{dates}
+        <if test="events != null and events.size() > 0">
+            and oupprd.event_id in
+            <foreach collection="events" item="event" open="(" separator="," close=")">
+                #{event}
+            </foreach>
+        </if>
+        and oupprd.id >= #{startId}
+        and oupprd.id <![CDATA[<=]]> #{endId}
+    </select>
+    <select id="queryWithRegisterDateAndSourceByInterval"
+            resultType="com.leo.ad.codriver.dwd.dto.DwdUserEventWithRegisterDateSourceDTO">
+        SELECT oupprd.id,
+        oupprd.dates,
+        oupprd.user_id,
+        oupprd.event_id,
+        oupprd.event_msg,
+        oupprd.version,
+        oupprd.pkg,
+        dui.dates register_date,
+        IFNULL(dus.network, 'Unknown') user_source,
+        oupprd.create_time
+        FROM dwd_user_event oupprd
+        INNER JOIN dim_user_info dui on (oupprd.user_id = dui.user_id)
+        left join dim_user_source dus on (dui.user_id = dus.user_id)
+        WHERE oupprd.dates = #{dates}
+        <if test="events != null and events.size() > 0">
+            and oupprd.event_id in
+            <foreach collection="events" item="event" open="(" separator="," close=")">
+                #{event}
+            </foreach>
+        </if>
+        and oupprd.id >= #{startId}
+        and oupprd.id <![CDATA[<=]]> #{endId}
+    </select>
 </mapper>

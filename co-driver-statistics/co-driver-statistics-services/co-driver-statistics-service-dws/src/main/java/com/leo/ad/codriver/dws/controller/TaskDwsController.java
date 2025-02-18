@@ -30,7 +30,6 @@ import lombok.extern.slf4j.Slf4j;
 public class TaskDwsController {
 
     private final List<DwsService> dwsServices;
-    // private final DwsService dwsHemaEventFullDailyServiceImpl;
     private final DwsService dwsHemaAccountFullDailyServiceImpl;
     private final DwsService dwsWithdrawFullDailyServiceImpl;
     private final DwsService dwsDailyPackageUserConversionServiceImpl;
@@ -102,6 +101,11 @@ public class TaskDwsController {
     // private final DwsService dwsDailyPkgUsrcRegisterServiceImpl;
     private final DwsService dwsDailyPkgUsrcShareServiceImpl;
     private final DwsService dwsDailyPkgUsrcWithdrawServiceImpl;
+    // 广告事件，广告转化
+    private final DwsService dwsDailyPkgVerAdConversionEventServiceImpl;
+    private final DwsService dwsDailyPkgUsrcAdConversionEventServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcAdConversionEventServiceImpl;
+    private final DwsService dwsDailyPkgAdConversionEventServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -538,4 +542,39 @@ public class TaskDwsController {
         dwsDailyPackageAllLabShareServiceImpl.syncData(dates);
         return "执行完成dws包packageShare维度数据统计同步";
     }
+
+    @GetMapping("/packageAdConversionEvent")
+    @Operation(summary = "触发dws包AdConversionEvent维度数据统计", description = "触发dws数据同步")
+    public String dwsPkgVerAdConversionEvent(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        try {
+            dwsDailyPkgVerAdConversionEventServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgVerAdConversionEventServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgUsrcAdConversionEventServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgUsrcAdConversionEventServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgVerUsrcAdConversionEventServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgVerUsrcAdConversionEventServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgAdConversionEventServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgAdConversionEventServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        return "执行完成dws包AdConversionEvent维度数据统计同步";
+    }
+
 }
