@@ -551,6 +551,12 @@ public class TaskDwsController {
             dates = DateUtils.getPreviousDate();
         }
         try {
+            dwsDailyPkgAdConversionEventServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgAdConversionEventServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
             dwsDailyPkgVerAdConversionEventServiceImpl.syncData(dates);
         } catch (Exception e) {
             log.error("dws包dwsDailyPkgVerAdConversionEventServiceImpl维度数据统计同步异常", e);
@@ -568,12 +574,7 @@ public class TaskDwsController {
             log.error("dws包dwsDailyPkgVerUsrcAdConversionEventServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
         }
-        try {
-            dwsDailyPkgAdConversionEventServiceImpl.syncData(dates);
-        } catch (Exception e) {
-            log.error("dws包dwsDailyPkgAdConversionEventServiceImpl维度数据统计同步异常", e);
-            throw new RuntimeException(e);
-        }
+
         return "执行完成dws包AdConversionEvent维度数据统计同步";
     }
 

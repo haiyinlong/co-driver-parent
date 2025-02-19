@@ -14,11 +14,12 @@ import org.springframework.util.CollectionUtils;
 import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dwd.dao.DwdUserEventMapper;
-import com.leo.ad.codriver.dwd.dto.DwdUserEventWithRegisterDateSourceDTO;
+import com.leo.ad.codriver.dwd.dto.DwdUserEventWithUserSourceDTO;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgUsrcAdConversionEventMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcAdConversionEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyAdConversionEventUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.dws.service.QueryAdConversionEvent;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.RequiredArgsConstructor;
@@ -33,10 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwsDailyPkgUsrcAdConversionEventServiceImpl implements DwsService {
-    private static final String AD_CLICK_EVENT = "ad_click";
-    private static final String AD_SHOW_EVENT = "ad_show";
-    private static final List<String> AD_EVENT_LIST = List.of(AD_CLICK_EVENT, AD_SHOW_EVENT);
+public class DwsDailyPkgUsrcAdConversionEventServiceImpl extends QueryAdConversionEvent implements DwsService {
     private final DwdUserEventMapper dwdUserEventMapper;
     private final DwsDailyPkgUsrcAdConversionEventMapper dwsDailyPkgUsrcAdConversionEventMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -56,7 +54,7 @@ public class DwsDailyPkgUsrcAdConversionEventServiceImpl implements DwsService {
         int loopNum = recordCount.loopNum();
         long startId;
         long endId;
-        List<DwdUserEventWithRegisterDateSourceDTO> userEvents;
+        List<DwdUserEventWithUserSourceDTO> userEvents;
         Map<String, DwsDailyPkgUsrcAdConversionEvent> dwsDailyPkgSourceNewUserAdConversionEventMap = new HashMap<>();
         Map<String, DwsDailyPkgUsrcAdConversionEvent> dwsDailyPkgSourceActiveUserAdConversionEventMap = new HashMap<>();
         for (int i = 1; i <= loopNum; i++) {
@@ -68,27 +66,26 @@ public class DwsDailyPkgUsrcAdConversionEventServiceImpl implements DwsService {
                 continue;
             }
             // 进行包、用户注册日期进行统计
-            userEvents.stream().collect(Collectors.groupingBy(DwdUserEventWithRegisterDateSourceDTO::getPkg))
+            userEvents.stream().collect(Collectors.groupingBy(DwdUserEventWithUserSourceDTO::getPkg))
                 .forEach((pkg, pkgList) -> {
-                    Map<String, List<DwdUserEventWithRegisterDateSourceDTO>> sourceMap = pkgList.stream()
-                        .collect(Collectors.groupingBy(DwdUserEventWithRegisterDateSourceDTO::getUserSource));
+                    Map<String, List<DwdUserEventWithUserSourceDTO>> sourceMap =
+                        pkgList.stream().collect(Collectors.groupingBy(DwdUserEventWithUserSourceDTO::getUserSource));
                     // 用户来源
                     sourceMap.forEach((source, sourceList) -> {
-                        Map<Integer, List<DwdUserEventWithRegisterDateSourceDTO>> registerDateMap = sourceList.stream()
-                            .collect(Collectors.groupingBy(DwdUserEventWithRegisterDateSourceDTO::getRegisterDates));
+                        Map<Integer, List<DwdUserEventWithUserSourceDTO>> registerDateMap = sourceList.stream()
+                            .collect(Collectors.groupingBy(DwdUserEventWithUserSourceDTO::getRegisterDate));
                         // 用户注册日期
                         registerDateMap.forEach((key, registerDateList) -> {
-                            Map<String, List<DwdUserEventWithRegisterDateSourceDTO>> eventMap =
-                                registerDateList.stream()
-                                    .collect(Collectors.groupingBy(DwdUserEventWithRegisterDateSourceDTO::getEventId));
+                            Map<String, List<DwdUserEventWithUserSourceDTO>> eventMap = registerDateList.stream()
+                                .collect(Collectors.groupingBy(DwdUserEventWithUserSourceDTO::getEventId));
 
                             eventMap.forEach((eventId, eventUserEventList) -> {
                                 // 计算用户数量，点击数量
                                 long userCount = eventUserEventList.stream()
-                                    .map(DwdUserEventWithRegisterDateSourceDTO::getUserId).distinct().count();
+                                    .map(DwdUserEventWithUserSourceDTO::getUserId).distinct().count();
                                 int eventCount = eventUserEventList.size();
                                 String pkgSourceKey = eventUserEventList.get(0).getPkgSourceKey();
-                                if (Objects.equals(dates, eventUserEventList.get(0).getRegisterDates())) {
+                                if (Objects.equals(dates, eventUserEventList.get(0).getRegisterDate())) {
                                     DwsDailyPkgUsrcAdConversionEvent newUserAdConversionEvent =
                                         dwsDailyPkgSourceNewUserAdConversionEventMap.getOrDefault(pkgSourceKey,
                                             DwsDailyPkgUsrcAdConversionEvent.ofNewUserType(dates, pkg, source));

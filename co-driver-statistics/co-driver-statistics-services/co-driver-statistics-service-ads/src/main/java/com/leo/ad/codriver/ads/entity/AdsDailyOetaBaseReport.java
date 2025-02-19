@@ -48,7 +48,7 @@ public class AdsDailyOetaBaseReport implements BaseEntity {
     private Long adDirectSoldShowNum;
     private BigDecimal avgUserAdDirectSoldShowNum;
     private Long adDirectSoldClickNum;
-    private Long adDirectSoldClickShowRate;
+    private BigDecimal adDirectSoldClickShowRate;
     private BigDecimal adDirectSoldRate;
     private BigDecimal avgUserAdShowNum;
     private BigDecimal avgUserAdInterShowNum;

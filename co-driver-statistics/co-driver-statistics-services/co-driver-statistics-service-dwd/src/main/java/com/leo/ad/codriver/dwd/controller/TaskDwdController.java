@@ -45,6 +45,7 @@ public class TaskDwdController {
     private final DwdService dwdUserShareRecordServiceImpl;
 
     private final DwdService dwdQpLtvRecordServiceImpl;
+    private final DwdService dwdEventReportServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发所有dwd", description = "触发dwd数据同步")
@@ -55,6 +56,17 @@ public class TaskDwdController {
         for (DwdService service : dwdServices) {
             service.syncData(dates);
         }
+        return "执行完成dwd数据同步";
+    }
+
+    @GetMapping("/eventReport")
+    @Operation(summary = "触发用户转化dwd", description = "触发dwd数据同步")
+    public String dwdUsereventReport(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        dwdEventReportServiceImpl.syncData(dates);
         return "执行完成dwd数据同步";
     }
 

@@ -19,6 +19,7 @@ import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerAdConversionEventMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAdConversionEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyAdConversionEventUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.dws.service.QueryAdConversionEvent;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.RequiredArgsConstructor;
@@ -33,10 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwsDailyPkgVerAdConversionEventServiceImpl implements DwsService {
-    private static final String AD_CLICK_EVENT = "ad_click";
-    private static final String AD_SHOW_EVENT = "ad_show";
-    private static final List<String> AD_EVENT_LIST = List.of(AD_CLICK_EVENT, AD_SHOW_EVENT);
+public class DwsDailyPkgVerAdConversionEventServiceImpl extends QueryAdConversionEvent implements DwsService {
     private final DwdUserEventMapper dwdUserEventMapper;
     private final DwsDailyPkgVerAdConversionEventMapper dwsDailyPkgVerAdConversionEventMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -72,9 +70,9 @@ public class DwsDailyPkgVerAdConversionEventServiceImpl implements DwsService {
                     Map<String, List<DwdUserEventWithRegisterDateDTO>> versionMap =
                         pkgList.stream().collect(Collectors.groupingBy(DwdUserEventWithRegisterDateDTO::getVersion));
                     // 版本
-                    versionMap.forEach((version, sourceList) -> {
-                        Map<Integer, List<DwdUserEventWithRegisterDateDTO>> registerDateMap = sourceList.stream()
-                            .collect(Collectors.groupingBy(DwdUserEventWithRegisterDateDTO::getRegisterDates));
+                    versionMap.forEach((version, versionList) -> {
+                        Map<Integer, List<DwdUserEventWithRegisterDateDTO>> registerDateMap = versionList.stream()
+                            .collect(Collectors.groupingBy(DwdUserEventWithRegisterDateDTO::getRegisterDate));
                         // 用户注册日期
                         registerDateMap.forEach((key, registerDateList) -> {
                             Map<String, List<DwdUserEventWithRegisterDateDTO>> eventMap = registerDateList.stream()
@@ -86,7 +84,7 @@ public class DwsDailyPkgVerAdConversionEventServiceImpl implements DwsService {
                                     .map(DwdUserEventWithRegisterDateDTO::getUserId).distinct().count();
                                 int eventCount = eventUserEventList.size();
                                 String pkgSourceKey = eventUserEventList.get(0).getPkgVersionKey();
-                                if (Objects.equals(dates, eventUserEventList.get(0).getRegisterDates())) {
+                                if (Objects.equals(dates, eventUserEventList.get(0).getRegisterDate())) {
                                     DwsDailyPkgVerAdConversionEvent newUserAdConversionEvent =
                                         dwsDailyPkgVerNewUserAdConversionEventMap.getOrDefault(pkgSourceKey,
                                             DwsDailyPkgVerAdConversionEvent.ofNewUserType(dates, pkg, version));

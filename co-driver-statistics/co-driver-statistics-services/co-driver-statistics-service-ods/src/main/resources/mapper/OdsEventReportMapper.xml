@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.ods.dao.OdsEventReportMapper">
+
+
+    <sql id="Base_Column_List">
+        id,gaid,pkg,
+        create_time,dates,event_id,
+        event_msg,user_id
+    </sql>
+    <select id="getOdsCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        select count(1) as count,
+               min(id)  as minId,
+               max(id)  as maxId
+        from ods_event_report
+        where dates = #{dates}
+    </select>
+    <select id="queryOdsByInterval" resultType="com.leo.ad.codriver.ods.entity.OdsEventReport">
+        select *
+        from ods_event_report
+        where dates = #{dates}
+          and id >= #{startId}
+          and id <![CDATA[<=]]> #{endId}
+    </select>
+</mapper>

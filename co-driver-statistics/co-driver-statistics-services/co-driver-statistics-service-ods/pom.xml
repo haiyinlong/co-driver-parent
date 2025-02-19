@@ -9,12 +9,18 @@
         <version>${revision}</version>
     </parent>
 
-    <artifactId>co-driver-service-ods</artifactId>
-
+    <artifactId>co-driver-statistics-service-ods</artifactId>
+    <packaging>jar</packaging>
+    <name>co-driver-service-ods</name>
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-common</artifactId>
+        </dependency>
+    </dependencies>
 </project>

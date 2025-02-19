@@ -9,7 +9,7 @@ import lombok.Data;
  * @version 2025/02/18 10:58
  **/
 @Data
-public class DwdUserEventWithRegisterDateSourceDTO extends DwdUserEventWithRegisterDateDTO {
+public class DwdUserEventWithUserSourceDTO extends DwdUserEventWithRegisterDateDTO {
     private String userSource;
 
     public String getPkgSourceKey() {

@@ -22,12 +22,12 @@
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                     avg_user_ad_reward_show_num,
                IFNULL(ddpa.reward_user_num, 0)                                       ad_reward_user_num,
                IFNULL(ddpa.reward_user_num / ddpl.user_num, 0)                       ad_reward_rate,
-               IFNULL(ddpa.custom_directsold_user_num, 0)                            ad_direct_sold_user_num,
-               IFNULL(ddpa.custom_network_show_count, 0)                             ad_direct_sold_show_num,
-               IFNULL(ddpa.custom_network_show_count / ddpl.user_num, 0)             avg_user_ad_direct_sold_show_num,
-               0                                                                     ad_direct_sold_click_num,
-               0                                                                     ad_direct_sold_click_show_rate,
-               IFNULL(ddpa.custom_directsold_user_num / ddpl.user_num, 0)            ad_direct_sold_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                      ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                    ad_direct_sold_show_num,
+               IFNULL(ddpvace.show_record_num / ddpl.user_num, 0)                    avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                   ad_direct_sold_click_num,
+               IFNULL(ddpvace.click_record_num / ddpvace.show_record_num, 0)         ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpl.user_num, 0)                      ad_direct_sold_rate,
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                     avg_user_ad_show_num,
                IFNULL(ddpa.inter_show_count / ddpl.user_num, 0)                      avg_user_ad_inter_show_num,
                IFNULL(ddpa.mrec_show_count / ddpl.user_num, 0)                       avg_user_ad_mrec_show_num,
@@ -103,6 +103,9 @@
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                ddpl.version = dwfd.version and dwfd.user_type = 0)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
+                 LEFT JOIN dws_daily_pkg_ver_ad_conversion_event ddpvace
+                           on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and
+                               ddpl.version = ddpvace.version and ddpvace.user_type = 0)
                  LEFT JOIN dws_daily_package_all_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpl.version = ddpql.version and ddpql.source_type = 1)
@@ -133,12 +136,12 @@
                IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                     avg_user_ad_reward_show_num,
                IFNULL(ddpa.reward_user_num, 0)                                       ad_reward_user_num,
                IFNULL(ddpa.reward_user_num / ddpr.user_num, 0)                       ad_reward_rate,
-               IFNULL(ddpa.custom_directsold_user_num, 0)                            ad_direct_sold_user_num,
-               IFNULL(ddpa.custom_network_show_count, 0)                             ad_direct_sold_show_num,
-               IFNULL(ddpa.custom_network_show_count / ddpr.user_num, 0)             avg_user_ad_direct_sold_show_num,
-               0                                                                     ad_direct_sold_click_num,
-               0                                                                     ad_direct_sold_click_show_rate,
-               IFNULL(ddpa.custom_directsold_user_num / ddpr.user_num, 0)            ad_direct_sold_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                      ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                    ad_direct_sold_show_num,
+               IFNULL(ddpvace.show_record_num / ddpr.user_num, 0)                    avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                   ad_direct_sold_click_num,
+               IFNULL(ddpvace.click_record_num / ddpvace.show_record_num, 0)         ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpr.user_num, 0)                      ad_direct_sold_rate,
                IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                     avg_user_ad_show_num,
                IFNULL(ddpa.inter_show_count / ddpr.user_num, 0)                      avg_user_ad_inter_show_num,
                IFNULL(ddpa.mrec_show_count / ddpr.user_num, 0)                       avg_user_ad_mrec_show_num,
@@ -215,6 +218,9 @@
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                ddpl.version = dwfd.version and dwfd.user_type = 1)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
+                 LEFT JOIN dws_daily_pkg_ver_ad_conversion_event ddpvace
+                           on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and
+                               ddpl.version = ddpvace.version and ddpvace.user_type = 1)
                  LEFT JOIN dws_daily_package_all_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpl.version = ddpql.version and ddpql.source_type = 1)
@@ -251,12 +257,12 @@
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                                avg_user_ad_reward_show_num,
                IFNULL(ddpa.reward_user_num, 0)                                                  ad_reward_user_num,
                IFNULL(ddpa.reward_user_num / ddpl.user_num, 0)                                  ad_reward_rate,
-               IFNULL(ddpa.custom_directsold_user_num, 0)                                       ad_direct_sold_user_num,
-               IFNULL(ddpa.custom_network_show_count, 0)                                        ad_direct_sold_show_num,
-               IFNULL(ddpa.custom_network_show_count / ddpl.user_num, 0)                        avg_user_ad_direct_sold_show_num,
-               0                                                                                ad_direct_sold_click_num,
-               0                                                                                ad_direct_sold_click_show_rate,
-               IFNULL(ddpa.custom_directsold_user_num / ddpl.user_num, 0)                       ad_direct_sold_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                 ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                               ad_direct_sold_show_num,
+               IFNULL(ddpvace.show_record_num / ddpl.user_num, 0)                               avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                              ad_direct_sold_click_num,
+               IFNULL(ddpvace.click_record_num / ddpvace.show_record_num, 0)                    ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpl.user_num, 0)                                 ad_direct_sold_rate,
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                                avg_user_ad_show_num,
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                                avg_user_ad_inter_show_num,
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                                avg_user_ad_mrec_show_num,
@@ -314,6 +320,8 @@
                  LEFT JOIN dws_daily_pkg_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and dwfd.user_type = 0)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
+                 LEFT JOIN dws_daily_pkg_ad_conversion_event ddpvace
+                           on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and ddpvace.user_type = 0)
                  LEFT JOIN dws_daily_pkg_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpql.source_type = 1)
                  LEFT JOIN dws_daily_pkg_qp_ltv ddpqlbox
@@ -342,12 +350,12 @@
                IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                                  avg_user_ad_reward_show_num,
                IFNULL(ddpa.reward_user_num, 0)                                                    ad_reward_user_num,
                IFNULL(ddpa.reward_user_num / ddpr.user_num, 0)                                    ad_reward_rate,
-               IFNULL(ddpa.custom_directsold_user_num, 0)                                         ad_direct_sold_user_num,
-               IFNULL(ddpa.custom_network_show_count, 0)                                          ad_direct_sold_show_num,
-               IFNULL(ddpa.custom_network_show_count / ddpr.user_num, 0)                          avg_user_ad_direct_sold_show_num,
-               0                                                                                  ad_direct_sold_click_num,
-               0                                                                                  ad_direct_sold_click_show_rate,
-               IFNULL(ddpa.custom_directsold_user_num / ddpr.user_num, 0)                         ad_direct_sold_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                   ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                                 ad_direct_sold_show_num,
+               IFNULL(ddpvace.show_record_num / ddpr.user_num, 0)                                 avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                                ad_direct_sold_click_num,
+               IFNULL(ddpvace.click_record_num / ddpvace.show_record_num, 0)                      ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpr.user_num, 0)                                   ad_direct_sold_rate,
                IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                                  avg_user_ad_show_num,
                IFNULL(ddpa.inter_show_count / ddpr.user_num, 0)                                   avg_user_ad_inter_show_num,
                IFNULL(ddpa.mrec_show_count / ddpr.user_num, 0)                                    avg_user_ad_mrec_show_num,
@@ -405,6 +413,8 @@
                  LEFT JOIN dws_daily_pkg_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and dwfd.user_type = 1)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
+                 LEFT JOIN dws_daily_pkg_ad_conversion_event ddpvace
+                           on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and ddpvace.user_type = 1)
                  LEFT JOIN dws_daily_pkg_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpql.source_type = 1)
                  LEFT JOIN dws_daily_pkg_qp_ltv ddpqlbox
@@ -433,12 +443,12 @@
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                     avg_user_ad_reward_show_num,
                IFNULL(ddpa.reward_user_num, 0)                                       ad_reward_user_num,
                IFNULL(ddpa.reward_user_num / ddpl.user_num, 0)                       ad_reward_rate,
-               IFNULL(ddpa.custom_directsold_user_num, 0)                            ad_direct_sold_user_num,
-               IFNULL(ddpa.custom_network_show_count, 0)                             ad_direct_sold_show_num,
-               IFNULL(ddpa.custom_network_show_count / ddpl.user_num, 0)             avg_user_ad_direct_sold_show_num,
-               0                                                                     ad_direct_sold_click_num,
-               0                                                                     ad_direct_sold_click_show_rate,
-               IFNULL(ddpa.custom_directsold_user_num / ddpl.user_num, 0)            ad_direct_sold_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                      ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                    ad_direct_sold_show_num,
+               IFNULL(ddpvace.show_record_num / ddpl.user_num, 0)                    avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                   ad_direct_sold_click_num,
+               IFNULL(ddpvace.click_record_num / ddpvace.show_record_num, 0)         ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpl.user_num, 0)                      ad_direct_sold_rate,
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                     avg_user_ad_show_num,
                IFNULL(ddpa.inter_show_count / ddpl.user_num, 0)                      avg_user_ad_inter_show_num,
                IFNULL(ddpa.mrec_show_count / ddpl.user_num, 0)                       avg_user_ad_mrec_show_num,
@@ -513,6 +523,10 @@
                                dwfd.user_type = 0 and dwfd.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_invested ddpui on (ddpl.dates = ddpui.dates and ddpl.pkg = ddpui.pkg and
                                                                  ddpui.user_source = ddpl.user_source)
+                 LEFT JOIN dws_daily_pkg_ver_usrc_ad_conversion_event ddpvace
+                           on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and
+                               ddpl.version = ddpvace.version and ddpvace.user_type = 0 and
+                               ddpvace.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_ver_usrc_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpl.version = ddpql.version and
                                ddpql.user_source = ddpl.user_source and ddpql.source_type = 1)
@@ -544,12 +558,12 @@
                IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                                      avg_user_ad_reward_show_num,
                IFNULL(ddpa.reward_user_num, 0)                                                        ad_reward_user_num,
                IFNULL(ddpa.reward_user_num / ddpr.user_num, 0)                                        ad_reward_rate,
-               IFNULL(ddpa.custom_directsold_user_num, 0)                                             ad_direct_sold_user_num,
-               IFNULL(ddpa.custom_network_show_count, 0)                                              ad_direct_sold_show_num,
-               IFNULL(ddpa.custom_network_show_count / ddpr.user_num, 0)                              avg_user_ad_direct_sold_show_num,
-               0                                                                                      ad_direct_sold_click_num,
-               0                                                                                      ad_direct_sold_click_show_rate,
-               IFNULL(ddpa.custom_directsold_user_num / ddpr.user_num, 0)                             ad_direct_sold_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                       ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                                     ad_direct_sold_show_num,
+               IFNULL(ddpvace.show_record_num / ddpr.user_num, 0)                                     avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                                    ad_direct_sold_click_num,
+               IFNULL(ddpvace.click_record_num / ddpvace.show_record_num, 0)                          ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.click_user_num / ddpr.user_num, 0)                                      ad_direct_sold_rate,
                IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                                      avg_user_ad_show_num,
                IFNULL(ddpa.inter_show_count / ddpr.user_num, 0)                                       avg_user_ad_inter_show_num,
                IFNULL(ddpa.mrec_show_count / ddpr.user_num, 0)                                        avg_user_ad_mrec_show_num,
@@ -625,6 +639,10 @@
                                dwfd.user_type = 1 and dwfd.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_invested ddpui on (ddpl.dates = ddpui.dates and ddpl.pkg = ddpui.pkg and
                                                                  ddpui.user_source = ddpl.user_source)
+                 LEFT JOIN dws_daily_pkg_ver_usrc_ad_conversion_event ddpvace
+                           on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and
+                               ddpl.version = ddpvace.version and ddpvace.user_type = 1 and
+                               ddpvace.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_ver_usrc_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and ddpl.version = ddpql.version and
                                ddpql.user_source = ddpl.user_source and ddpql.source_type = 1)
@@ -656,12 +674,12 @@
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                                 avg_user_ad_reward_show_num,
                IFNULL(ddpa.reward_user_num, 0)                                                   ad_reward_user_num,
                IFNULL(ddpa.reward_user_num / ddpl.user_num, 0)                                   ad_reward_rate,
-               IFNULL(ddpa.custom_directsold_user_num, 0)                                        ad_direct_sold_user_num,
-               IFNULL(ddpa.custom_network_show_count, 0)                                         ad_direct_sold_show_num,
-               IFNULL(ddpa.custom_network_show_count / ddpl.user_num, 0)                         avg_user_ad_direct_sold_show_num,
-               0                                                                                 ad_direct_sold_click_num,
-               0                                                                                 ad_direct_sold_click_show_rate,
-               IFNULL(ddpa.custom_directsold_user_num / ddpl.user_num, 0)                        ad_direct_sold_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                  ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                                ad_direct_sold_show_num,
+               IFNULL(ddpvace.show_record_num / ddpl.user_num, 0)                                avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                               ad_direct_sold_click_num,
+               IFNULL(ddpvace.click_record_num / ddpvace.show_record_num, 0)                     ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpl.user_num, 0)                                  ad_direct_sold_rate,
                IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                                 avg_user_ad_show_num,
                IFNULL(ddpa.inter_show_count / ddpl.user_num, 0)                                  avg_user_ad_inter_show_num,
                IFNULL(ddpa.mrec_show_count / ddpl.user_num, 0)                                   avg_user_ad_mrec_show_num,
@@ -731,6 +749,9 @@
                                dwfd.user_type = 0 and dwfd.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_invested ddpui on (ddpl.dates = ddpui.dates and ddpl.pkg = ddpui.pkg and
                                                                  ddpui.user_source = ddpl.user_source)
+                 LEFT JOIN dws_daily_pkg_usrc_ad_conversion_event ddpvace
+                           on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and ddpvace.user_type = 0 and
+                               ddpvace.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpql.user_source = ddpl.user_source and ddpql.source_type = 1)
@@ -761,12 +782,12 @@
                IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                                 avg_user_ad_reward_show_num,
                IFNULL(ddpa.reward_user_num, 0)                                                   ad_reward_user_num,
                IFNULL(ddpa.reward_user_num / ddpr.user_num, 0)                                   ad_reward_rate,
-               IFNULL(ddpa.custom_directsold_user_num, 0)                                        ad_direct_sold_user_num,
-               IFNULL(ddpa.custom_network_show_count, 0)                                         ad_direct_sold_show_num,
-               IFNULL(ddpa.custom_network_show_count / ddpr.user_num, 0)                         avg_user_ad_direct_sold_show_num,
-               0                                                                                 ad_direct_sold_click_num,
-               0                                                                                 ad_direct_sold_click_show_rate,
-               IFNULL(ddpa.custom_directsold_user_num / ddpr.user_num, 0)                        ad_direct_sold_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                  ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                                ad_direct_sold_show_num,
+               IFNULL(ddpvace.show_record_num / ddpr.user_num, 0)                                avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                               ad_direct_sold_click_num,
+               IFNULL(ddpvace.click_record_num / ddpvace.show_record_num, 0)                     ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpr.user_num, 0)                                  ad_direct_sold_rate,
                IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                                 avg_user_ad_show_num,
                IFNULL(ddpa.inter_show_count / ddpr.user_num, 0)                                  avg_user_ad_inter_show_num,
                IFNULL(ddpa.mrec_show_count / ddpr.user_num, 0)                                   avg_user_ad_mrec_show_num,
@@ -836,6 +857,9 @@
                                dwfd.user_type = 1 and dwfd.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_invested ddpui on (ddpl.dates = ddpui.dates and ddpl.pkg = ddpui.pkg and
                                                                  ddpui.user_source = ddpl.user_source)
+                 LEFT JOIN dws_daily_pkg_usrc_ad_conversion_event ddpvace
+                           on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and ddpvace.user_type = 0 and
+                               ddpvace.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_qp_ltv ddpql
                            on (ddpl.dates = ddpql.dates and ddpl.pkg = ddpql.pkg and
                                ddpql.user_source = ddpl.user_source and ddpql.source_type = 1)

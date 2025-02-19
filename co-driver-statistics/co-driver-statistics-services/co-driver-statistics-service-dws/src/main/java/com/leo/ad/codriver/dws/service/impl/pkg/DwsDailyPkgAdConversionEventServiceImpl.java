@@ -19,6 +19,7 @@ import com.leo.ad.codriver.dws.dao.DwsDailyPkgAdConversionEventMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgAdConversionEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyAdConversionEventUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.dws.service.QueryAdConversionEvent;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.RequiredArgsConstructor;
@@ -33,10 +34,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwsDailyPkgAdConversionEventServiceImpl implements DwsService {
-    private static final String AD_CLICK_EVENT = "ad_click";
-    private static final String AD_SHOW_EVENT = "ad_show";
-    private static final List<String> AD_EVENT_LIST = List.of(AD_CLICK_EVENT, AD_SHOW_EVENT);
+public class DwsDailyPkgAdConversionEventServiceImpl extends QueryAdConversionEvent implements DwsService {
+
     private final DwdUserEventMapper dwdUserEventMapper;
     private final DwsDailyPkgAdConversionEventMapper dwsDailyPkgAdConversionEventMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -70,7 +69,7 @@ public class DwsDailyPkgAdConversionEventServiceImpl implements DwsService {
             userEvents.stream().collect(Collectors.groupingBy(DwdUserEventWithRegisterDateDTO::getPkg))
                 .forEach((pkg, pkgList) -> {
                     Map<Integer, List<DwdUserEventWithRegisterDateDTO>> registerDateMap = pkgList.stream()
-                        .collect(Collectors.groupingBy(DwdUserEventWithRegisterDateDTO::getRegisterDates));
+                        .collect(Collectors.groupingBy(DwdUserEventWithRegisterDateDTO::getRegisterDate));
 
                     registerDateMap.forEach((key, registerDateList) -> {
                         Map<String, List<DwdUserEventWithRegisterDateDTO>> eventMap = registerDateList.stream()
@@ -81,7 +80,7 @@ public class DwsDailyPkgAdConversionEventServiceImpl implements DwsService {
                             long userCount = eventUserEventList.stream().map(DwdUserEventWithRegisterDateDTO::getUserId)
                                 .distinct().count();
                             int eventCount = eventUserEventList.size();
-                            if (Objects.equals(dates, eventUserEventList.get(0).getRegisterDates())) {
+                            if (Objects.equals(dates, eventUserEventList.get(0).getRegisterDate())) {
                                 DwsDailyPkgAdConversionEvent newUserAdConversionEvent =
                                     dwsDailyPkgNewUserAdConversionEventMap.getOrDefault(pkg,
                                         DwsDailyPkgAdConversionEvent.ofNewUserType(dates, pkg));

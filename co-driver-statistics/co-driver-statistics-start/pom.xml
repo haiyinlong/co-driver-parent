@@ -38,6 +38,10 @@
         </dependency>
         <dependency>
             <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-ods</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
             <artifactId>co-driver-statistics-service-clean</artifactId>
         </dependency>
         <dependency>
