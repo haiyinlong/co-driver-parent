@@ -1,9 +1,6 @@
 package com.leo.ad.codriver.dws.service.impl.pkg.usrc;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.springframework.context.ApplicationEventPublisher;
@@ -45,16 +42,17 @@ public class DwsDailyPkgUsrcAdConversionEventServiceImpl extends QueryAdConversi
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         // 分模块逐个处理
-        dwsDailyPkgUsrcAdConversionEventMapper.deleteByDate(dates);
         DwCountDTO recordCount = dwdUserEventMapper.getCountByDate(dates, AD_EVENT_LIST);
         if (recordCount == null || recordCount.getCount() <= 0) {
             log.info("DwsDailyPkgUserAdConversionEventServiceImpl {} 没有需要同步的数据", recordCount);
             return;
         }
+        dwsDailyPkgUsrcAdConversionEventMapper.deleteByDate(dates);
         int loopNum = recordCount.loopNum();
         long startId;
         long endId;
         List<DwdUserEventWithUserSourceDTO> userEvents;
+        Map<String, Set<Long>> eventUserIdMap = new HashMap<>();
         Map<String, DwsDailyPkgUsrcAdConversionEvent> dwsDailyPkgSourceNewUserAdConversionEventMap = new HashMap<>();
         Map<String, DwsDailyPkgUsrcAdConversionEvent> dwsDailyPkgSourceActiveUserAdConversionEventMap = new HashMap<>();
         for (int i = 1; i <= loopNum; i++) {
@@ -81,14 +79,19 @@ public class DwsDailyPkgUsrcAdConversionEventServiceImpl extends QueryAdConversi
 
                             eventMap.forEach((eventId, eventUserEventList) -> {
                                 // 计算用户数量，点击数量
-                                long userCount = eventUserEventList.stream()
-                                    .map(DwdUserEventWithUserSourceDTO::getUserId).distinct().count();
+                                List<Long> userIds =
+                                    eventUserEventList.stream().map(DwdUserEventWithUserSourceDTO::getUserId).toList();
+
                                 int eventCount = eventUserEventList.size();
                                 String pkgSourceKey = eventUserEventList.get(0).getPkgSourceKey();
                                 if (Objects.equals(dates, eventUserEventList.get(0).getRegisterDate())) {
                                     DwsDailyPkgUsrcAdConversionEvent newUserAdConversionEvent =
                                         dwsDailyPkgSourceNewUserAdConversionEventMap.getOrDefault(pkgSourceKey,
                                             DwsDailyPkgUsrcAdConversionEvent.ofNewUserType(dates, pkg, source));
+
+                                    String mapKey = pkg + source + "new" + eventId;
+                                    long userCount = getUserCount(eventUserIdMap, mapKey, userIds);
+
                                     updateEventValue(newUserAdConversionEvent, eventId, userCount, eventCount);
                                     dwsDailyPkgSourceNewUserAdConversionEventMap.put(pkgSourceKey,
                                         newUserAdConversionEvent);
@@ -96,6 +99,10 @@ public class DwsDailyPkgUsrcAdConversionEventServiceImpl extends QueryAdConversi
                                 DwsDailyPkgUsrcAdConversionEvent userAdConversionEvent =
                                     dwsDailyPkgSourceActiveUserAdConversionEventMap.getOrDefault(pkgSourceKey,
                                         DwsDailyPkgUsrcAdConversionEvent.ofActiveUserType(dates, pkg, source));
+
+                                String mapKey = pkg + source + "active" + eventId;
+                                long userCount = getUserCount(eventUserIdMap, mapKey, userIds);
+
                                 updateEventValue(userAdConversionEvent, eventId, userCount, eventCount);
                                 dwsDailyPkgSourceActiveUserAdConversionEventMap.put(pkgSourceKey,
                                     userAdConversionEvent);
@@ -113,6 +120,13 @@ public class DwsDailyPkgUsrcAdConversionEventServiceImpl extends QueryAdConversi
             dwsDailyPkgUsrcAdConversionEventMapper.insert(dwsDailyPkgAdConversionEvent);
         });
         applicationEventPublisher.publishEvent(new DwsDailyAdConversionEventUpdateDwEvent(this, dates));
+    }
+
+    private long getUserCount(Map<String, Set<Long>> eventUserIdMap, String mapKey, List<Long> userIds) {
+        Set<Long> eventUserIdList = eventUserIdMap.getOrDefault(mapKey, new HashSet<>());
+        eventUserIdList.addAll(userIds);
+        eventUserIdMap.put(mapKey, eventUserIdList);
+        return eventUserIdList.size();
     }
 
     private void updateEventValue(DwsDailyPkgUsrcAdConversionEvent userAdConversionEvent, String eventId,

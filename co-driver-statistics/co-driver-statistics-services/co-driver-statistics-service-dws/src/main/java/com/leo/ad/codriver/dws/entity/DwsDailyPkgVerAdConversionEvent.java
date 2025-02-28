@@ -99,12 +99,12 @@ public class DwsDailyPkgVerAdConversionEvent implements Serializable {
     }
 
     public void updateAdClick(long userCount, int eventCount) {
-        this.setClickUserNum(this.getClickUserNum() + userCount);
+        this.setClickUserNum(userCount);
         this.setClickRecordNum(this.getClickRecordNum() + eventCount);
     }
 
     public void updateAdShow(long userCount, int eventCount) {
-        this.setShowUserNum(this.getShowUserNum() + userCount);
+        this.setShowUserNum(userCount);
         this.setShowRecordNum(this.getShowRecordNum() + eventCount);
     }
 }
