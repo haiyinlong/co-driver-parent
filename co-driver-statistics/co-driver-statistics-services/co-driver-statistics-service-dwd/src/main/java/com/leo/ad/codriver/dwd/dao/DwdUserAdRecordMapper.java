@@ -22,8 +22,6 @@ public interface DwdUserAdRecordMapper extends BaseMapper<DwdUserAdRecord> {
 
     DwCountDTO getDbCountOfId(@Param("dates") Integer dates);
 
-    DwCountDTO getDbCount(@Param("dates") Integer dates);
-
     DwCountDTO getStatisticsCount(@Param("dates") Integer dates);
 
     List<DwdUserAdRecord> queryStatisticsByDate(@Param("dates") Integer dates,

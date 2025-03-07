@@ -7,7 +7,7 @@
     <delete id="deleteByLastMonthsAgo">
         DELETE
         FROM analysis_data.dwd_user_event
-        where dates <![CDATA[ <  ]]> DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y%m01')
+        where dates <![CDATA[ <  ]]> DATE_FORMAT(NOW() - INTERVAL 4 MONTH, '%Y%m01')
         limit 20000
 
     </delete>

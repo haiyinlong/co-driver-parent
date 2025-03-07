@@ -8,11 +8,6 @@
         WHERE duar.dates = #{dates}
     </select>
 
-    <select id="getDbCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
-        SELECT count(1) count, min(duar.source_id) min_id, max(duar.source_id) max_id
-        FROM dwd_user_ad_record duar
-        WHERE duar.dates = #{dates}
-    </select>
     <select id="getStatisticsCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
         SELECT count(1) count, min(omasda.id) min_id, max(omasda.id) max_id
         FROM ods_max_ad_stat_detail_ads omasda
@@ -29,8 +24,11 @@
                t.revenue,
                t.source_create_time,
                dui.user_id,
-               dui.last_version `version`,
-               dui.country
+               dui.last_version                                          `version`,
+               dui.country,
+               dui.dates                                                 register_dates,
+               TIMESTAMPDIFF(DAY, dui.create_time, t.source_create_time) register_cohort_day,
+               TIMESTAMPDIFF(DAY, dui.dates, t.dates)                    register_day
         from (SELECT omasda.id      source_id,
                      omasda.dates,
                      omasda.gaid,

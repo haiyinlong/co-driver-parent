@@ -7,7 +7,7 @@
     <delete id="deleteByTwoMonthsAgo">
         DELETE
         FROM analysis_data.dwd_user_game_record
-        where dates <![CDATA[ <=  ]]> DATE_FORMAT(NOW() - INTERVAL 2 MONTH, '%Y%m01')
+        where dates <![CDATA[ <=  ]]> DATE_FORMAT(NOW() - INTERVAL 4 MONTH, '%Y%m01')
 
     </delete>
 </mapper>

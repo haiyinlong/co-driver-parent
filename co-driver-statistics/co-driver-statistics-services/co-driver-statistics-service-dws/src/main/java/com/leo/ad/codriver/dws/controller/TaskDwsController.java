@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.dws.service.impl.pkg.DwsRegister90DaysAccumulatePkgAdServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -107,6 +108,8 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgVerUsrcAdConversionEventServiceImpl;
     private final DwsService dwsDailyPkgAdConversionEventServiceImpl;
 
+    private final DwsRegister90DaysAccumulatePkgAdServiceImpl dwsRegister90DaysAccumulatePkgAdServiceImpl;
+
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
     public String dwsHandle(@RequestParam("dates") Integer dates) {
@@ -158,28 +161,6 @@ public class TaskDwsController {
         dwsDailyPackageAllLabGameServiceImpl.syncData(dates);
         return "执行完成dws数据同步";
     }
-
-    // @GetMapping("/packageGameSingleOetaHandle")
-    // @Operation(summary = "触发dws各个游戏oeta数据", description = "触发dws数据同步")
-    // public String dwsPackageGameSingleOetaHandle(@RequestParam("dates") Integer dates) {
-    // // 获取统计日期
-    // if (ObjectUtils.isEmpty(dates)) {
-    // dates = DateUtils.getPreviousDate();
-    // }
-    // dwsDailyPackageAllGameSingleServiceImpl.syncData(dates);
-    // return "执行完成dws数据同步";
-    // }
-
-    // @GetMapping("/packageLabGameSingleOetaHandle")
-    // @Operation(summary = "触发dwsLab各个游戏oeta数据", description = "触发dws数据同步")
-    // public String dwsPackageLabGameSingleOetaHandle(@RequestParam("dates") Integer dates) {
-    // // 获取统计日期
-    // if (ObjectUtils.isEmpty(dates)) {
-    // dates = DateUtils.getPreviousDate();
-    // }
-    // dwsDailyPackageAllLabGameSingleServiceImpl.syncData(dates);
-    // return "执行完成dws数据同步";
-    // }
 
     @GetMapping("/packageUserConversion")
     @Operation(summary = "触发dws用户转化task", description = "触发dws数据同步")
@@ -316,17 +297,6 @@ public class TaskDwsController {
         dwsWithdrawFullDailyServiceImpl.syncData(dates);
         return "执行完成dws数据同步";
     }
-
-    // @GetMapping("/hemaEvent")
-    // @Operation(summary = "触发dws 河马事件记录task", description = "触发dws数据同步")
-    // public String dwsHemaEventHandle(@RequestParam("dates") Integer dates) {
-    // // 获取统计日期
-    // if (ObjectUtils.isEmpty(dates)) {
-    // dates = DateUtils.getPreviousDate();
-    // }
-    // dwsHemaEventFullDailyServiceImpl.syncData(dates);
-    // return "执行完成dws数据同步";
-    // }
 
     @GetMapping("/hemaBalance")
     @Operation(summary = "触发dws河马余额记录task", description = "触发dws数据同步")
@@ -576,6 +546,23 @@ public class TaskDwsController {
         }
 
         return "执行完成dws包AdConversionEvent维度数据统计同步";
+    }
+
+    @GetMapping("/accumulatePkgAd")
+    @Operation(summary = "触发dws包AccumulatePkgAd维度数据统计", description = "触发dws数据同步")
+    public String dwsAccumulatePkgAd(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        try {
+            dwsRegister90DaysAccumulatePkgAdServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsRegister90DaysAccumulatePkgAdServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        return "执行完成dws包AccumulatePkgAd维度数据统计同步";
     }
 
 }

@@ -30,6 +30,9 @@ public class DwdUserAdRecord implements BaseEntity {
     private BigDecimal revenue;
     private Date sourceCreateTime;
     private Date createTime;
+    private Integer registerDates;
+    private Integer registerDay;
+    private Integer registerCohortDay;
 
     @TableField(exist = false)
     private String userSource;

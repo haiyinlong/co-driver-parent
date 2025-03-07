@@ -90,6 +90,12 @@ public class DateUtils {
             .format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD))));
     }
 
+    public static Integer getPreviousDate(int dates, int day) {
+        LocalDate localDate = LocalDate.parse(dates + "", java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD));
+        return Integer.valueOf(
+            (localDate.plusDays(-1 * day).format(java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD))));
+    }
+
     public static Integer getAfterDay(Integer dates, int day) {
         LocalDate localDate = LocalDate.parse(dates + "", java.time.format.DateTimeFormatter.ofPattern(DATE_YYYYMMMDD));
         return Integer

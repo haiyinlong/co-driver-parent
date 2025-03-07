@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsRegister90DaysAccumulatePkgAdMapper">
+
+
+    <sql id="Base_Column_List">
+        id,dates,register_dates,
+        pkg,register_day,total_show_count,
+        total_income,total_ecpm,total_not_custom_directsold_show_count,
+        total_not_custom_directsold_income,total_not_custom_directsold_ecpm,directsold_show_count,
+        directsold_income,directsold_ecpm,custom_network_show_count,
+        custom_network_income,custom_network_ecpm,custom_directsold_show_count,
+        custom_directsold_income,custom_directsold_ecpm,banner_show_count,
+        banner_income,banner_ecpm,banner_directsold_show_count,
+        banner_directsold_income,banner_directsold_ecpm,banner_exchange_show_count,
+        banner_exchange_income,banner_exchange_ecpm,banner_network_show_count,
+        banner_network_income,banner_network_ecpm,banner_custom_network_show_count,
+        banner_custom_network_income,banner_custom_network_ecpm,banner_mintegral_bidding_show_count,
+        banner_mintegral_bidding_income,banner_mintegral_bidding_ecpm,banner_not_custom_directsold_show_count,
+        banner_not_custom_directsold_income,banner_not_custom_directsold_ecpm,inter_show_count,
+        inter_income,inter_ecpm,inter_directsold_show_count,
+        inter_directsold_income,inter_directsold_ecpm,inter_exchange_show_count,
+        inter_exchange_income,inter_exchange_ecpm,inter_network_show_count,
+        inter_network_income,inter_network_ecpm,inter_mintegral_bidding_show_count,
+        inter_mintegral_bidding_income,inter_mintegral_bidding_ecpm,inter_vungle_bidding_show_count,
+        inter_vungle_bidding_income,inter_vungle_bidding_ecpm,inter_not_custom_directsold_show_count,
+        inter_not_custom_directsold_income,inter_not_custom_directsold_ecpm,mrec_show_count,
+        mrec_income,mrec_ecpm,mrec_directsold_show_count,
+        mrec_directsold_income,mrec_directsold_ecpm,mrec_exchange_show_count,
+        mrec_exchange_income,mrec_exchange_ecpm,mrec_custom_network_show_count,
+        mrec_custom_network_income,mrec_custom_network_ecpm,mrec_not_custom_directsold_show_count,
+        mrec_not_custom_directsold_income,mrec_not_custom_directsold_ecpm,reward_show_count,
+        reward_income,reward_ecpm,reward_exchange_show_count,
+        reward_exchange_income,reward_exchange_ecpm,reward_network_show_count,
+        reward_network_income,reward_network_ecpm,reward_custom_network_show_count,
+        reward_custom_network_income,reward_custom_network_ecpm,reward_facebook_network_show_count,
+        reward_facebook_network_income,reward_facebook_network_ecpm,reward_mintegral_bidding_show_count,
+        reward_mintegral_bidding_income,reward_mintegral_bidding_ecpm,reward_vungle_bidding_show_count,
+        reward_vungle_bidding_income,reward_vungle_bidding_ecpm,reward_not_custom_directsold_show_count,
+        reward_not_custom_directsold_income,reward_not_custom_directsold_ecpm,accumulate_total_show_count,
+        accumulate_total_income,accumulate_total_ecpm,accumulate_total_not_custom_directsold_show_count,
+        accumulate_total_not_custom_directsold_income,accumulate_total_not_custom_directsold_ecpm,accumulate_directsold_show_count,
+        accumulate_directsold_income,accumulate_directsold_ecpm,accumulate_custom_network_show_count,
+        accumulate_custom_network_income,accumulate_custom_network_ecpm,accumulate_custom_directsold_show_count,
+        accumulate_custom_directsold_income,accumulate_custom_directsold_ecpm,accumulate_banner_show_count,
+        accumulate_banner_income,accumulate_banner_ecpm,accumulate_banner_directsold_show_count,
+        accumulate_banner_directsold_income,accumulate_banner_directsold_ecpm,accumulate_banner_exchange_show_count,
+        accumulate_banner_exchange_income,accumulate_banner_exchange_ecpm,accumulate_banner_network_show_count,
+        accumulate_banner_network_income,accumulate_banner_network_ecpm,accumulate_banner_custom_network_show_count,
+        accumulate_banner_custom_network_income,accumulate_banner_custom_network_ecpm,accumulate_banner_mintegral_bidding_show_count,
+        accumulate_banner_mintegral_bidding_income,accumulate_banner_mintegral_bidding_ecpm,accumulate_banner_not_custom_directsold_show_count,
+        accumulate_banner_not_custom_directsold_income,accumulate_banner_not_custom_directsold_ecpm,accumulate_inter_show_count,
+        accumulate_inter_income,accumulate_inter_ecpm,accumulate_inter_directsold_show_count,
+        accumulate_inter_directsold_income,accumulate_inter_directsold_ecpm,accumulate_inter_exchange_show_count,
+        accumulate_inter_exchange_income,accumulate_inter_exchange_ecpm,accumulate_inter_network_show_count,
+        accumulate_inter_network_income,accumulate_inter_network_ecpm,accumulate_inter_mintegral_bidding_show_count,
+        accumulate_inter_mintegral_bidding_income,accumulate_inter_mintegral_bidding_ecpm,accumulate_inter_vungle_bidding_show_count,
+        accumulate_inter_vungle_bidding_income,accumulate_inter_vungle_bidding_ecpm,accumulate_inter_not_custom_directsold_show_count,
+        accumulate_inter_not_custom_directsold_income,accumulate_inter_not_custom_directsold_ecpm,accumulate_mrec_show_count,
+        accumulate_mrec_income,accumulate_mrec_ecpm,accumulate_mrec_directsold_show_count,
+        accumulate_mrec_directsold_income,accumulate_mrec_directsold_ecpm,accumulate_mrec_exchange_show_count,
+        accumulate_mrec_exchange_income,accumulate_mrec_exchange_ecpm,accumulate_mrec_custom_network_show_count,
+        accumulate_mrec_custom_network_income,accumulate_mrec_custom_network_ecpm,accumulate_mrec_not_custom_directsold_show_count,
+        accumulate_mrec_not_custom_directsold_income,accumulate_mrec_not_custom_directsold_ecpm,accumulate_reward_show_count,
+        accumulate_reward_income,accumulate_reward_ecpm,accumulate_reward_exchange_show_count,
+        accumulate_reward_exchange_income,accumulate_reward_exchange_ecpm,accumulate_reward_network_show_count,
+        accumulate_reward_network_income,accumulate_reward_network_ecpm,accumulate_reward_custom_network_show_count,
+        accumulate_reward_custom_network_income,accumulate_reward_custom_network_ecpm,accumulate_reward_facebook_network_show_count,
+        accumulate_reward_facebook_network_income,accumulate_reward_facebook_network_ecpm,accumulate_reward_mintegral_bidding_show_count,
+        accumulate_reward_mintegral_bidding_income,accumulate_reward_mintegral_bidding_ecpm,accumulate_reward_vungle_bidding_show_count,
+        accumulate_reward_vungle_bidding_income,accumulate_reward_vungle_bidding_ecpm,accumulate_reward_not_custom_directsold_show_count,
+        accumulate_reward_not_custom_directsold_income,accumulate_reward_not_custom_directsold_ecpm,create_time
+    </sql>
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgAd">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_register_90_days_accumulate_pkg_ad
+        where dates = #{dates}
+    </select>
+    <select id="queryPreviousDayList"
+            resultType="com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgAd">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_register_90_days_accumulate_pkg_ad
+        where dates = #{previousDate}
+    </select>
+</mapper>

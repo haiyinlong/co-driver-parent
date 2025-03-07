@@ -1,0 +1,151 @@
+package com.leo.ad.codriver.dws.service.impl.pkg;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
+
+import com.leo.ad.codriver.common.DwCountDTO;
+import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
+import com.leo.ad.codriver.common.util.DateUtils;
+import com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
+import com.leo.ad.codriver.dws.dao.DwsRegister90DaysAccumulatePkgAdMapper;
+import com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgAd;
+import com.leo.ad.codriver.dws.service.DwsTestService;
+import com.leo.ad.codriver.starter.mysql.BatchConst;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+/**
+ * @author user
+ * @description DwsRegister90DaysAccumulatePkgAdServiceImpl 处理注册90天累计用户广告数据
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class DwsRegister90DaysAccumulatePkgAdServiceImpl implements DwsTestService {
+    private final DwdUserAdRecordMapper dwdUserAdRecordMapper;
+    private final DwsRegister90DaysAccumulatePkgAdMapper dwsRegister90DaysAccumulatePkgAdMapper;
+    private final DwBatchMapper<DwsRegister90DaysAccumulatePkgAd, DwsRegister90DaysAccumulatePkgAdMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
+
+    /**
+     *
+     * 1) 针对当前的数据进行汇总 <br>
+     * 2) 获取前一天的所有数据，生成当日的数据<br>
+     * 3) 基于1生成的数据 在2 的基础上进行累加；<br>
+     * 4) 入库当天数据
+     *
+     * @param dates 20241010 日期
+     */
+    @Override
+    @Lock(paramName = "#dates")
+    @ShowExecuteTime(name = "DwsRegister90DaysAccumulatePkgAd")
+    public void syncData(Integer dates) {
+        // 批量处理，一条一条的从数据库中获取与内存中的数据近汇总
+        DwCountDTO dbCount = dwdUserAdRecordMapper.getDbCountOfId(dates);
+        if (ObjectUtils.isEmpty(dbCount) || dbCount.getCount() == 0) {
+            log.info("DwsDailyPkgAdvertising {} 统计数据为空，跳过处理", dates);
+            return;
+        }
+
+        try {
+            Long minId = dbCount.getMinId();
+            Long endId;
+            Long maxId = dbCount.getMaxId() + 1;
+            Map<String, DwsRegister90DaysAccumulatePkgAd> pkgAdMap = new HashMap<>();
+            List<DwdUserAdRecord> dbList;
+            do {
+                endId = minId + BatchConst.BATCH_MAX_NUMBER;
+                if (endId > maxId) {
+                    endId = maxId;
+                }
+                dbList = dwdUserAdRecordMapper.queryDbActiveListByDate(dates, minId, endId);
+                log.info("dates:{}, minId:{}, endId:{}, result数量：{}", dates, minId, endId, dbList.size());
+                minId += BatchConst.BATCH_MAX_NUMBER;
+                if (CollectionUtils.isEmpty(dbList)) {
+                    continue;
+                }
+                String uniqueKey;
+                for (DwdUserAdRecord dwdUserAdRecord : dbList) {
+                    uniqueKey = DwsRegister90DaysAccumulatePkgAd.getPkgAdUniqueKey(dwdUserAdRecord);
+                    // 创建一个临时对象，用于存储数据. 包、版本
+                    DwsRegister90DaysAccumulatePkgAd ad = pkgAdMap.getOrDefault(uniqueKey,
+                        DwsRegister90DaysAccumulatePkgAd.of(dwdUserAdRecord.getDates(), dwdUserAdRecord.getPkg(),
+                            dwdUserAdRecord.getRegisterDates(), dwdUserAdRecord.getRegisterDay()));
+                    // 缓存各个统计维度的用户数量
+                    ad.calculateToday(dwdUserAdRecord);
+                    pkgAdMap.put(uniqueKey, ad);
+                }
+            } while (minId <= maxId);
+            log.info("dwd 中记录数:{}, 转化为包、注册天MAP明细数:{}", dbCount.getCount(), pkgAdMap.values().size());
+            // 获取前一天的所有数据，生成当日的数据
+            Integer previousDate = DateUtils.getPreviousDate(dates, 1);
+            List<DwsRegister90DaysAccumulatePkgAd> previousDayList =
+                dwsRegister90DaysAccumulatePkgAdMapper.queryPreviousDayList(previousDate);
+            // 转化为当天的数据，清空id;
+            List<DwsRegister90DaysAccumulatePkgAd> todayList =
+                previousDayList.stream().map(previousPkgAd -> previousPkgAd.convertToday(dates)).toList();
+
+            // 转集合
+            List<DwsRegister90DaysAccumulatePkgAd> qbList = dwsRegister90DaysAccumulatePkgAdMapper.queryDbList(dates);
+            List<DwsRegister90DaysAccumulatePkgAd> datesPkgAdList = this.setHistoryIdToList(qbList, pkgAdMap);
+            if (CollectionUtils.isEmpty(datesPkgAdList)) {
+                return;
+            }
+            Map<String, DwsRegister90DaysAccumulatePkgAd> todayMap = todayList.stream()
+                .collect(Collectors.toMap(DwsRegister90DaysAccumulatePkgAd::getPkg, Function.identity()));
+
+            for (DwsRegister90DaysAccumulatePkgAd dwsRegister90DaysAccumulatePkgAd : datesPkgAdList) {
+                if (todayMap.containsKey(dwsRegister90DaysAccumulatePkgAd.getPkg())) {
+                    DwsRegister90DaysAccumulatePkgAd aDefault = todayMap
+                        .getOrDefault(dwsRegister90DaysAccumulatePkgAd.getPkg(), dwsRegister90DaysAccumulatePkgAd);
+                    dwsRegister90DaysAccumulatePkgAd = aDefault.calculateAccumulate(dwsRegister90DaysAccumulatePkgAd);
+                } else {
+                    dwsRegister90DaysAccumulatePkgAd.calculateAccumulate(dwsRegister90DaysAccumulatePkgAd);
+                }
+                todayMap.put(dwsRegister90DaysAccumulatePkgAd.getPkg(), dwsRegister90DaysAccumulatePkgAd);
+            }
+            List<DwsRegister90DaysAccumulatePkgAd> accumulatePkgAds = todayMap.values().stream().toList();
+            log.info("todayMap 数量:{}", accumulatePkgAds.size());
+            dwBatchMapper.batchInsert(accumulatePkgAds, DwsRegister90DaysAccumulatePkgAdMapper.class);
+            // 删除没用的数据
+            List<Long> delIds = getDelIds(qbList, datesPkgAdList);
+            if (!CollectionUtils.isEmpty(delIds)) {
+                dwsRegister90DaysAccumulatePkgAdMapper.deleteBatchIds(delIds);
+            }
+        } catch (Throwable e) {
+            log.error("DwsDailyPkgAdvertising " + dates + "异常", e);
+            throw new RuntimeException(e);
+        }
+
+    }
+
+    private List<DwsRegister90DaysAccumulatePkgAd> setHistoryIdToList(
+        List<DwsRegister90DaysAccumulatePkgAd> dbActiveList,
+        Map<String, DwsRegister90DaysAccumulatePkgAd> pkgVerAdMap) {
+        if (!CollectionUtils.isEmpty(dbActiveList)) {
+            Map<String, DwsRegister90DaysAccumulatePkgAd> dbMap = dbActiveList.stream()
+                .collect(Collectors.toMap(DwsRegister90DaysAccumulatePkgAd::getPkgAdUniqueKey, Function.identity()));
+            dbMap.forEach((key, value) -> {
+                if (pkgVerAdMap.containsKey(key)) {
+                    DwsRegister90DaysAccumulatePkgAd dwsDailyPkgVerAdvertising = pkgVerAdMap.get(key);
+                    dwsDailyPkgVerAdvertising.setId(value.getId());
+                    pkgVerAdMap.put(key, dwsDailyPkgVerAdvertising);
+                }
+            });
+        }
+        return new ArrayList<>(pkgVerAdMap.values());
+    }
+}
