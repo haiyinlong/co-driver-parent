@@ -68,8 +68,8 @@ public class DwsRegister90DaysAccumulatePkgVerAd extends PkgAdIncome implements 
         return dwdUserAdRecord.getPkg() + dwdUserAdRecord.getVersion() + dwdUserAdRecord.getRegisterDay();
     }
 
-    public static String getPkgAdUniqueKey(DwsRegister90DaysAccumulatePkgVerAd pkgAd) {
-        return pkgAd.getPkg() + pkgAd.getVersion() + pkgAd.getRegisterDay();
+    public String getPkgAdUniqueKey() {
+        return this.getPkg() + this.getVersion() + this.getRegisterDay();
     }
 
     public static DwsRegister90DaysAccumulatePkgVerAd of(Integer dates, String pkg, String version,

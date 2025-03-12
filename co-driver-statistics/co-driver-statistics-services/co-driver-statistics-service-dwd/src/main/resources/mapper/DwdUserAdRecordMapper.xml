@@ -11,6 +11,7 @@
     <select id="getStatisticsCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
         SELECT count(1) count, min(omasda.id) min_id, max(omasda.id) max_id
         FROM ods_max_ad_stat_detail_ads omasda
+                 inner join dim_channel dc on dc.pkg = omasda.pkg
         WHERE omasda.dates = #{dates}
     </select>
     <select id="queryStatisticsByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
@@ -39,6 +40,7 @@
                      omasda.revenue,
                      omasda.created source_create_time
               FROM ods_max_ad_stat_detail_ads omasda
+                       inner join dim_channel dc on dc.pkg = omasda.pkg
               WHERE omasda.dates = #{dates}
                 and omasda.id >= #{startSourceId}
                 and omasda.id  <![CDATA[<= ]]> #{endSourceId}) t

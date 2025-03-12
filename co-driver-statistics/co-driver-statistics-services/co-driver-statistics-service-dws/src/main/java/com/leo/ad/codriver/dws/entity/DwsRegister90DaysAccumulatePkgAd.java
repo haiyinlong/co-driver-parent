@@ -63,8 +63,8 @@ public class DwsRegister90DaysAccumulatePkgAd extends PkgAdIncome implements Ser
         return dwdUserAdRecord.getPkg() + dwdUserAdRecord.getRegisterDay();
     }
 
-    public static String getPkgAdUniqueKey(DwsRegister90DaysAccumulatePkgAd pkgAd) {
-        return pkgAd.getPkg() + pkgAd.getRegisterDay();
+    public String getPkgAdUniqueKey() {
+        return this.getPkg() + this.getRegisterDay();
     }
 
     public static DwsRegister90DaysAccumulatePkgAd of(Integer dates, String pkg, Integer registerDates,
@@ -94,10 +94,6 @@ public class DwsRegister90DaysAccumulatePkgAd extends PkgAdIncome implements Ser
         this.copyAdvertisingValue(dwsRegister90DaysAccumulatePkgAd);
         this.addAccumulate(dwsRegister90DaysAccumulatePkgAd);
         return this;
-    }
-
-    public String getPkgAdUniqueKey() {
-        return this.getPkg() + this.getRegisterDay();
     }
 
 }
