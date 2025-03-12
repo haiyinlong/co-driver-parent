@@ -77,6 +77,6 @@
         select
         <include refid="Base_Column_List"/>
         from dws_register_90_days_accumulate_pkg_ad
-        where dates = #{dates}
+        where dates = #{dates} and register_day is not null
     </select>
 </mapper>

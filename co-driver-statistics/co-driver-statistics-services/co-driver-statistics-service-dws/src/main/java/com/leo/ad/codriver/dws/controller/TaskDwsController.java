@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsRegister90DaysAccumulatePkgAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsRegister90DaysAccumulatePkgVerAdServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -109,6 +110,7 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgAdConversionEventServiceImpl;
 
     private final DwsRegister90DaysAccumulatePkgAdServiceImpl dwsRegister90DaysAccumulatePkgAdServiceImpl;
+    private final DwsRegister90DaysAccumulatePkgVerAdServiceImpl dwsRegister90DaysAccumulatePkgVerAdServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -561,7 +563,12 @@ public class TaskDwsController {
             log.error("dws包DwsRegister90DaysAccumulatePkgAdServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
         }
-
+        try {
+            dwsRegister90DaysAccumulatePkgVerAdServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsRegister90DaysAccumulatePkgVerAdServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
         return "执行完成dws包AccumulatePkgAd维度数据统计同步";
     }
 
