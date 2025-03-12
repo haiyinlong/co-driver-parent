@@ -21,5 +21,4 @@ public interface DwsRegister90DaysAccumulatePkgAdMapper extends BaseMapper<DwsRe
 
     List<DwsRegister90DaysAccumulatePkgAd> queryDbList(@Param("dates") Integer dates);
 
-    List<DwsRegister90DaysAccumulatePkgAd> queryPreviousDayList(@Param("previousDate") Integer previousDate);
 }

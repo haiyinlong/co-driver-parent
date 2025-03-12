@@ -79,11 +79,4 @@
         from dws_register_90_days_accumulate_pkg_ad
         where dates = #{dates}
     </select>
-    <select id="queryPreviousDayList"
-            resultType="com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgAd">
-        select
-        <include refid="Base_Column_List"/>
-        from dws_register_90_days_accumulate_pkg_ad
-        where dates = #{previousDate}
-    </select>
 </mapper>
