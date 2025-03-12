@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgVerUsrcAd;
+import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcAccumulateAd;
 
 /**
  * @author user
@@ -17,8 +17,7 @@ import com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgVerUsrcAd;
  */
 @Mapper
 @DS("mysql")
-public interface DwsRegister90DaysAccumulatePkgVerUsrcAdMapper
-    extends BaseMapper<DwsRegister90DaysAccumulatePkgVerUsrcAd> {
+public interface DwsDailyPkgVerUsrcAccumulateAdMapper extends BaseMapper<DwsDailyPkgVerUsrcAccumulateAd> {
 
-    List<DwsRegister90DaysAccumulatePkgVerUsrcAd> queryDbList(@Param("dates") Integer dates);
+    List<DwsDailyPkgVerUsrcAccumulateAd> queryDbList(@Param("dates") Integer dates);
 }

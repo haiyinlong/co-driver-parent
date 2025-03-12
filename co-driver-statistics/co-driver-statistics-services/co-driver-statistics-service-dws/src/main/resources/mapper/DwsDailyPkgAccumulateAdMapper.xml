@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.leo.ad.codriver.dws.dao.DwsRegister90DaysAccumulatePkgAdMapper">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgAccumulateAdMapper">
 
 
     <sql id="Base_Column_List">
@@ -73,10 +73,10 @@
         accumulate_reward_vungle_bidding_income,accumulate_reward_vungle_bidding_ecpm,accumulate_reward_not_custom_directsold_show_count,
         accumulate_reward_not_custom_directsold_income,accumulate_reward_not_custom_directsold_ecpm,create_time
     </sql>
-    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgAd">
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgAccumulateAd">
         select
         <include refid="Base_Column_List"/>
-        from dws_register_90_days_accumulate_pkg_ad
+        from dws_daily_pkg_accumulate_ad
         where dates = #{dates} and register_day is not null
     </select>
 </mapper>

@@ -13,13 +13,12 @@ import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 import lombok.Data;
 
 /**
- * dws注册日期90天广告汇总统计
+ * dws广告汇总统计，有新增的广告商就新增字段
  *
- * @TableName dws_register_90_days_accumulate_pkg_ad
  */
-@TableName(value = "dws_register_90_days_accumulate_pkg_ad")
+@TableName(value = "dws_daily_pkg_usrc_accumulate_ad")
 @Data
-public class DwsRegister90DaysAccumulatePkgAd extends PkgAdIncome implements Serializable, BaseEntity {
+public class DwsDailyPkgUsrcAccumulateAd extends PkgAdIncome implements Serializable, BaseEntity {
     /**
      * 主键ID
      */
@@ -42,6 +41,11 @@ public class DwsRegister90DaysAccumulatePkgAd extends PkgAdIncome implements Ser
     private String pkg;
 
     /**
+     * 用户来源
+     */
+    private String userSource;
+
+    /**
      * 提现时注册天（自然天）
      */
     private Integer registerDay;
@@ -54,31 +58,32 @@ public class DwsRegister90DaysAccumulatePkgAd extends PkgAdIncome implements Ser
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    public DwsRegister90DaysAccumulatePkgAd() {
+    public DwsDailyPkgUsrcAccumulateAd() {
         this.todayInit();
         this.accumulateInit();
     }
 
     public static String getPkgAdUniqueKey(DwdUserAdRecord dwdUserAdRecord) {
-        return dwdUserAdRecord.getPkg() + dwdUserAdRecord.getRegisterDay();
+        return dwdUserAdRecord.getPkg() + dwdUserAdRecord.getUserSource() + dwdUserAdRecord.getRegisterDay();
     }
 
     public String getPkgAdUniqueKey() {
-        return this.getPkg() + this.getRegisterDay();
+        return this.getPkg() + this.getUserSource() + this.getRegisterDay();
     }
 
-    public static DwsRegister90DaysAccumulatePkgAd of(Integer dates, String pkg, Integer registerDates,
+    public static DwsDailyPkgUsrcAccumulateAd of(Integer dates, String pkg, String userSource, Integer registerDates,
         Integer registerDay) {
-        DwsRegister90DaysAccumulatePkgAd dwsRegister90DaysAccumulatePkgAd = new DwsRegister90DaysAccumulatePkgAd();
+        DwsDailyPkgUsrcAccumulateAd dwsRegister90DaysAccumulatePkgAd = new DwsDailyPkgUsrcAccumulateAd();
         dwsRegister90DaysAccumulatePkgAd.setDates(dates);
         dwsRegister90DaysAccumulatePkgAd.setPkg(pkg);
+        dwsRegister90DaysAccumulatePkgAd.setUserSource(userSource);
         dwsRegister90DaysAccumulatePkgAd.setRegisterDates(registerDates);
         dwsRegister90DaysAccumulatePkgAd.setRegisterDay(registerDay);
         dwsRegister90DaysAccumulatePkgAd.setCreateTime(LocalDateTime.now());
         return dwsRegister90DaysAccumulatePkgAd;
     }
 
-    public DwsRegister90DaysAccumulatePkgAd convertToday(Integer dates) {
+    public DwsDailyPkgUsrcAccumulateAd convertToday(Integer dates) {
         this.id = null;
         this.dates = dates;
         this.todayInit();
@@ -88,12 +93,11 @@ public class DwsRegister90DaysAccumulatePkgAd extends PkgAdIncome implements Ser
         return this;
     }
 
-    public DwsRegister90DaysAccumulatePkgAd
-        calculateAccumulate(DwsRegister90DaysAccumulatePkgAd dwsRegister90DaysAccumulatePkgAd) {
+    public DwsDailyPkgUsrcAccumulateAd
+        calculateAccumulate(DwsDailyPkgUsrcAccumulateAd dwsRegister90DaysAccumulatePkgAd) {
         this.id = dwsRegister90DaysAccumulatePkgAd.getId();
         this.copyAdvertisingValue(dwsRegister90DaysAccumulatePkgAd);
         this.addAccumulate(dwsRegister90DaysAccumulatePkgAd);
         return this;
     }
-
 }

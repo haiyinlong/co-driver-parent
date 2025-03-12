@@ -17,8 +17,8 @@ import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
-import com.leo.ad.codriver.dws.dao.DwsRegister90DaysAccumulatePkgVerUsrcAdMapper;
-import com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgVerUsrcAd;
+import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcAccumulateAdMapper;
+import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcAccumulateAd;
 import com.leo.ad.codriver.dws.service.DwsTestService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -34,11 +34,10 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl implements DwsTestService {
+public class DwsDailyPkgVerUsrcAccumulateAdServiceImpl implements DwsTestService {
     private final DwdUserAdRecordMapper dwdUserAdRecordMapper;
-    private final DwsRegister90DaysAccumulatePkgVerUsrcAdMapper dwsRegister90DaysAccumulatePkgUsrcAdMapper;
-    private final DwBatchMapper<DwsRegister90DaysAccumulatePkgVerUsrcAd,
-        DwsRegister90DaysAccumulatePkgVerUsrcAdMapper> dwBatchMapper;
+    private final DwsDailyPkgVerUsrcAccumulateAdMapper dwsRegister90DaysAccumulatePkgUsrcAdMapper;
+    private final DwBatchMapper<DwsDailyPkgVerUsrcAccumulateAd, DwsDailyPkgVerUsrcAccumulateAdMapper> dwBatchMapper;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     /**
@@ -64,7 +63,7 @@ public class DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl implements DwsTe
             Long minId = dbCount.getMinId();
             Long endId;
             Long maxId = dbCount.getMaxId() + 1;
-            Map<String, DwsRegister90DaysAccumulatePkgVerUsrcAd> todayPkgVersionAdMap = new HashMap<>();
+            Map<String, DwsDailyPkgVerUsrcAccumulateAd> todayPkgVersionAdMap = new HashMap<>();
             List<DwdUserAdRecord> dbList;
             do {
                 endId = minId + BatchConst.BATCH_MAX_NUMBER;
@@ -78,10 +77,10 @@ public class DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl implements DwsTe
                 }
                 String uniqueKey;
                 for (DwdUserAdRecord dwdUserAdRecord : dbList) {
-                    uniqueKey = DwsRegister90DaysAccumulatePkgVerUsrcAd.getPkgAdUniqueKey(dwdUserAdRecord);
+                    uniqueKey = DwsDailyPkgVerUsrcAccumulateAd.getPkgAdUniqueKey(dwdUserAdRecord);
                     // 创建一个临时对象，用于存储数据. 包、版本
-                    DwsRegister90DaysAccumulatePkgVerUsrcAd ad = todayPkgVersionAdMap.getOrDefault(uniqueKey,
-                        DwsRegister90DaysAccumulatePkgVerUsrcAd.of(dwdUserAdRecord.getDates(), dwdUserAdRecord.getPkg(),
+                    DwsDailyPkgVerUsrcAccumulateAd ad = todayPkgVersionAdMap.getOrDefault(uniqueKey,
+                        DwsDailyPkgVerUsrcAccumulateAd.of(dwdUserAdRecord.getDates(), dwdUserAdRecord.getPkg(),
                             dwdUserAdRecord.getVersion(), dwdUserAdRecord.getUserSource(),
                             dwdUserAdRecord.getRegisterDates(), dwdUserAdRecord.getRegisterDay()));
                     // 缓存各个统计维度的用户数量
@@ -91,27 +90,27 @@ public class DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl implements DwsTe
             } while (minId <= maxId);
             // 获取前一天的所有数据，生成当日的数据
             Integer previousDate = DateUtils.getPreviousDate(dates, 1);
-            List<DwsRegister90DaysAccumulatePkgVerUsrcAd> previousDayList =
+            List<DwsDailyPkgVerUsrcAccumulateAd> previousDayList =
                 dwsRegister90DaysAccumulatePkgUsrcAdMapper.queryDbList(previousDate);
             // 转化为当天的数据，清空id;
-            List<DwsRegister90DaysAccumulatePkgVerUsrcAd> yesterdayToTodayList =
+            List<DwsDailyPkgVerUsrcAccumulateAd> yesterdayToTodayList =
                 previousDayList.stream().map(previousPkgAd -> previousPkgAd.convertToday(dates)).toList();
             // 转集合
-            List<DwsRegister90DaysAccumulatePkgVerUsrcAd> todayHistroyList =
+            List<DwsDailyPkgVerUsrcAccumulateAd> todayHistroyList =
                 dwsRegister90DaysAccumulatePkgUsrcAdMapper.queryDbList(dates);
-            List<DwsRegister90DaysAccumulatePkgVerUsrcAd> datesPkgAdList =
+            List<DwsDailyPkgVerUsrcAccumulateAd> datesPkgAdList =
                 this.mergeTodayList(todayHistroyList, todayPkgVersionAdMap);
             if (CollectionUtils.isEmpty(datesPkgAdList)) {
                 // 当天没有数据也要保存记录
-                dwBatchMapper.batchInsert(yesterdayToTodayList, DwsRegister90DaysAccumulatePkgVerUsrcAdMapper.class);
+                dwBatchMapper.batchInsert(yesterdayToTodayList, DwsDailyPkgVerUsrcAccumulateAdMapper.class);
                 return;
             }
-            Map<String, DwsRegister90DaysAccumulatePkgVerUsrcAd> todayMap = yesterdayToTodayList.stream().collect(
-                Collectors.toMap(DwsRegister90DaysAccumulatePkgVerUsrcAd::getPkgAdUniqueKey, Function.identity()));
+            Map<String, DwsDailyPkgVerUsrcAccumulateAd> todayMap = yesterdayToTodayList.stream()
+                .collect(Collectors.toMap(DwsDailyPkgVerUsrcAccumulateAd::getPkgAdUniqueKey, Function.identity()));
 
-            for (DwsRegister90DaysAccumulatePkgVerUsrcAd dwsRegister90DaysAccumulatePkgAd : datesPkgAdList) {
+            for (DwsDailyPkgVerUsrcAccumulateAd dwsRegister90DaysAccumulatePkgAd : datesPkgAdList) {
                 if (todayMap.containsKey(dwsRegister90DaysAccumulatePkgAd.getPkgAdUniqueKey())) {
-                    DwsRegister90DaysAccumulatePkgVerUsrcAd aDefault = todayMap.getOrDefault(
+                    DwsDailyPkgVerUsrcAccumulateAd aDefault = todayMap.getOrDefault(
                         dwsRegister90DaysAccumulatePkgAd.getPkgAdUniqueKey(), dwsRegister90DaysAccumulatePkgAd);
                     dwsRegister90DaysAccumulatePkgAd = aDefault.calculateAccumulate(dwsRegister90DaysAccumulatePkgAd);
                 } else {
@@ -119,8 +118,8 @@ public class DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl implements DwsTe
                 }
                 todayMap.put(dwsRegister90DaysAccumulatePkgAd.getPkgAdUniqueKey(), dwsRegister90DaysAccumulatePkgAd);
             }
-            List<DwsRegister90DaysAccumulatePkgVerUsrcAd> accumulatePkgAds = todayMap.values().stream().toList();
-            dwBatchMapper.batchInsert(accumulatePkgAds, DwsRegister90DaysAccumulatePkgVerUsrcAdMapper.class);
+            List<DwsDailyPkgVerUsrcAccumulateAd> accumulatePkgAds = todayMap.values().stream().toList();
+            dwBatchMapper.batchInsert(accumulatePkgAds, DwsDailyPkgVerUsrcAccumulateAdMapper.class);
             // 删除没用的数据
             List<Long> delIds = getDelIds(todayHistroyList, datesPkgAdList);
             if (!CollectionUtils.isEmpty(delIds)) {
@@ -133,15 +132,14 @@ public class DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl implements DwsTe
 
     }
 
-    private List<DwsRegister90DaysAccumulatePkgVerUsrcAd> mergeTodayList(
-        List<DwsRegister90DaysAccumulatePkgVerUsrcAd> dbActiveList,
-        Map<String, DwsRegister90DaysAccumulatePkgVerUsrcAd> pkgVerAdMap) {
+    private List<DwsDailyPkgVerUsrcAccumulateAd> mergeTodayList(List<DwsDailyPkgVerUsrcAccumulateAd> dbActiveList,
+        Map<String, DwsDailyPkgVerUsrcAccumulateAd> pkgVerAdMap) {
         if (!CollectionUtils.isEmpty(dbActiveList)) {
-            Map<String, DwsRegister90DaysAccumulatePkgVerUsrcAd> dbMap = dbActiveList.stream().collect(
-                Collectors.toMap(DwsRegister90DaysAccumulatePkgVerUsrcAd::getPkgAdUniqueKey, Function.identity()));
+            Map<String, DwsDailyPkgVerUsrcAccumulateAd> dbMap = dbActiveList.stream()
+                .collect(Collectors.toMap(DwsDailyPkgVerUsrcAccumulateAd::getPkgAdUniqueKey, Function.identity()));
             dbMap.forEach((key, value) -> {
                 if (pkgVerAdMap.containsKey(key)) {
-                    DwsRegister90DaysAccumulatePkgVerUsrcAd dwsDailyPkgVerAdvertising = pkgVerAdMap.get(key);
+                    DwsDailyPkgVerUsrcAccumulateAd dwsDailyPkgVerAdvertising = pkgVerAdMap.get(key);
                     dwsDailyPkgVerAdvertising.setId(value.getId());
                     pkgVerAdMap.put(key, dwsDailyPkgVerAdvertising);
                 }

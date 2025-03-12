@@ -2,12 +2,12 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.leo.ad.codriver.dws.dao.DwsRegister90DaysAccumulatePkgUsrcAdMapper">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerAccumulateAdMapper">
 
 
     <sql id="Base_Column_List">
         id,dates,register_dates,
-        pkg,user_source,register_day,
+        pkg,version,register_day,
         total_show_count,total_income,total_ecpm,
         total_not_custom_directsold_show_count,total_not_custom_directsold_income,total_not_custom_directsold_ecpm,
         directsold_show_count,directsold_income,directsold_ecpm,
@@ -74,11 +74,10 @@
         accumulate_reward_not_custom_directsold_show_count,accumulate_reward_not_custom_directsold_income,accumulate_reward_not_custom_directsold_ecpm,
         create_time
     </sql>
-    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgUsrcAd">
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerAccumulateAd">
         select
         <include refid="Base_Column_List"/>
-        from dws_register_90_days_accumulate_pkg_usrc_ad
-        where dates = #{dates}
-        and register_day is not null
+        from dws_daily_pkg_ver_accumulate_ad
+        where dates = #{dates} and register_day is not null
     </select>
 </mapper>

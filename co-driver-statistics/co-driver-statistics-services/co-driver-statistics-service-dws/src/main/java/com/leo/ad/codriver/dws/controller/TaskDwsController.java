@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
-import com.leo.ad.codriver.dws.service.impl.pkg.DwsRegister90DaysAccumulatePkgAdServiceImpl;
-import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsRegister90DaysAccumulatePkgUsrcAdServiceImpl;
-import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl;
-import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsRegister90DaysAccumulatePkgVerAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateAdMapperServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPkgVerAccumulateAdServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -111,10 +111,10 @@ public class TaskDwsController {
     private final DwsService dwsDailyPkgVerUsrcAdConversionEventServiceImpl;
     private final DwsService dwsDailyPkgAdConversionEventServiceImpl;
 
-    private final DwsRegister90DaysAccumulatePkgAdServiceImpl dwsRegister90DaysAccumulatePkgAdServiceImpl;
-    private final DwsRegister90DaysAccumulatePkgVerAdServiceImpl dwsRegister90DaysAccumulatePkgVerAdServiceImpl;
-    private final DwsRegister90DaysAccumulatePkgUsrcAdServiceImpl dwsRegister90DaysAccumulatePkgUsrcAdServiceImpl;
-    private final DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl dwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl;
+    private final DwsDailyPkgAccumulateAdServiceImpl dwsDailyPkgAccumulateAdServiceImpl;
+    private final DwsDailyPkgVerAccumulateAdServiceImpl dwsDailyPkgVerAccumulateAdServiceImpl;
+    private final DwsDailyPkgUsrcAccumulateAdMapperServiceImpl dwsDailyPkgUsrcAccumulateAdMapperServiceImpl;
+    private final DwsDailyPkgVerUsrcAccumulateAdServiceImpl dwsDailyPkgVerUsrcAccumulateAdServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -562,25 +562,25 @@ public class TaskDwsController {
             dates = DateUtils.getPreviousDate();
         }
         try {
-            dwsRegister90DaysAccumulatePkgAdServiceImpl.syncData(dates);
+            dwsDailyPkgAccumulateAdServiceImpl.syncData(dates);
         } catch (Exception e) {
             log.error("dws包DwsRegister90DaysAccumulatePkgAdServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
         }
         try {
-            dwsRegister90DaysAccumulatePkgVerAdServiceImpl.syncData(dates);
+            dwsDailyPkgVerAccumulateAdServiceImpl.syncData(dates);
         } catch (Exception e) {
             log.error("dws包DwsRegister90DaysAccumulatePkgVerAdServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
         }
         try {
-            dwsRegister90DaysAccumulatePkgUsrcAdServiceImpl.syncData(dates);
+            dwsDailyPkgUsrcAccumulateAdMapperServiceImpl.syncData(dates);
         } catch (Exception e) {
             log.error("dws包DwsRegister90DaysAccumulatePkgUsrcAdServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
         }
         try {
-            dwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl.syncData(dates);
+            dwsDailyPkgVerUsrcAccumulateAdServiceImpl.syncData(dates);
         } catch (Exception e) {
             log.error("dws包DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
