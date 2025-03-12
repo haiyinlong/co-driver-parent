@@ -74,4 +74,11 @@
         accumulate_reward_vungle_bidding_ecpm,accumulate_reward_not_custom_directsold_show_count,accumulate_reward_not_custom_directsold_income,
         accumulate_reward_not_custom_directsold_ecpm,create_time
     </sql>
+    <select id="queryDbList"
+            resultType="com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgVerUsrcAd">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_register_90_days_accumulate_pkg_ver_usrc_ad
+        where date = #{dates} and register_dates is not null
+    </select>
 </mapper>

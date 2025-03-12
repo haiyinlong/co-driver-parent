@@ -1,6 +1,9 @@
 package com.leo.ad.codriver.dws.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
@@ -17,4 +20,5 @@ import com.leo.ad.codriver.dws.entity.DwsRegister90DaysAccumulatePkgVerUsrcAd;
 public interface DwsRegister90DaysAccumulatePkgVerUsrcAdMapper
     extends BaseMapper<DwsRegister90DaysAccumulatePkgVerUsrcAd> {
 
+    List<DwsRegister90DaysAccumulatePkgVerUsrcAd> queryDbList(@Param("dates") Integer dates);
 }

@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsRegister90DaysAccumulatePkgAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsRegister90DaysAccumulatePkgUsrcAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsRegister90DaysAccumulatePkgVerAdServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -111,6 +113,8 @@ public class TaskDwsController {
 
     private final DwsRegister90DaysAccumulatePkgAdServiceImpl dwsRegister90DaysAccumulatePkgAdServiceImpl;
     private final DwsRegister90DaysAccumulatePkgVerAdServiceImpl dwsRegister90DaysAccumulatePkgVerAdServiceImpl;
+    private final DwsRegister90DaysAccumulatePkgUsrcAdServiceImpl dwsRegister90DaysAccumulatePkgUsrcAdServiceImpl;
+    private final DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl dwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -567,6 +571,18 @@ public class TaskDwsController {
             dwsRegister90DaysAccumulatePkgVerAdServiceImpl.syncData(dates);
         } catch (Exception e) {
             log.error("dws包DwsRegister90DaysAccumulatePkgVerAdServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsRegister90DaysAccumulatePkgUsrcAdServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsRegister90DaysAccumulatePkgUsrcAdServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsRegister90DaysAccumulatePkgVerUsrcAdServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
         }
         return "执行完成dws包AccumulatePkgAd维度数据统计同步";
