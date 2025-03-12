@@ -85,14 +85,12 @@ public class DwsDailyPkgAdConversionEventServiceImpl extends QueryAdConversionEv
                                         DwsDailyPkgAdConversionEvent.ofNewUserType(dates, pkg));
                                 String mapKey = pkg + "new" + eventId;
                                 long userCount = getUserCount(eventUserIdMap, mapKey, userIds);
-                                log.info("key :{} , count:{}", mapKey, userCount);
                                 updateEventValue(newUserAdConversionEvent, eventId, userCount, eventCount);
                                 dwsDailyPkgNewUserAdConversionEventMap.put(pkg, newUserAdConversionEvent);
                             }
 
                             String mapKey = pkg + "active" + eventId;
                             long userCount = getUserCount(eventUserIdMap, mapKey, userIds);
-                            log.info("key :{} , count:{}", mapKey, userCount);
                             DwsDailyPkgAdConversionEvent userAdConversionEvent =
                                 dwsDailyPkgActiveUserAdConversionEventMap.getOrDefault(pkg,
                                     DwsDailyPkgAdConversionEvent.ofActiveUserType(dates, pkg));

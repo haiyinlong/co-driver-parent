@@ -808,6 +808,7 @@
                IFNULL(ddpuc.user_num, 0)                                                         offer_user_num,
                IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                         offer_rate,
                IFNULL(ddpucbox.user_num, 0)                                                      offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                      offer_mystery_box_rate,
                IFNULL(ddpql.new_user_num, 0)                                                     payment_user_num,
                IFNULL(ddpql.new_user_num / ddpr.user_num, 0)                                     payment_rate,
                IFNULL(ddpqlbox.new_user_num, 0)                                                  payment_mystery_box_user_num,
