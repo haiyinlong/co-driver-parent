@@ -94,7 +94,8 @@ public class DwsDailyPkgVerAccumulateAdServiceImpl implements DwsTestService {
                 dwsDailyPkgVerAccumulateAdMapper.queryDbList(previousDate);
             // 转化为当天的数据，清空id;
             List<DwsDailyPkgVerAccumulateAd> yesterdayToTodayList =
-                previousDayList.stream().map(previousPkgAd -> previousPkgAd.convertToday(dates)).toList();
+                previousDayList.stream().filter(DwsDailyPkgVerAccumulateAd::validate180Days)
+                    .map(previousPkgAd -> previousPkgAd.convertToday(dates)).toList();
             // 转集合
             List<DwsDailyPkgVerAccumulateAd> todayHistroyList = dwsDailyPkgVerAccumulateAdMapper.queryDbList(dates);
             List<DwsDailyPkgVerAccumulateAd> datesPkgAdList =

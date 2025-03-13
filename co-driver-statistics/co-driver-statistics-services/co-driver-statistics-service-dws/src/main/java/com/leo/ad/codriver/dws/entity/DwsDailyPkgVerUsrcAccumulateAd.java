@@ -19,7 +19,7 @@ import lombok.Data;
  */
 @TableName(value = "dws_daily_pkg_ver_usrc_accumulate_ad")
 @Data
-public class DwsDailyPkgVerUsrcAccumulateAd extends PkgAdIncome implements Serializable, BaseEntity {
+public class DwsDailyPkgVerUsrcAccumulateAd extends PkgAdIncomeAccumulate implements Serializable, BaseEntity {
     /**
      * 主键ID
      */
