@@ -12,7 +12,7 @@ import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateWithdrawServiceImpl;
-import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateAdMapperServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateWithdrawServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl;
@@ -117,7 +117,7 @@ public class TaskDwsController {
 
     private final DwsDailyPkgAccumulateAdServiceImpl dwsDailyPkgAccumulateAdServiceImpl;
     private final DwsDailyPkgVerAccumulateAdServiceImpl dwsDailyPkgVerAccumulateAdServiceImpl;
-    private final DwsDailyPkgUsrcAccumulateAdMapperServiceImpl dwsDailyPkgUsrcAccumulateAdMapperServiceImpl;
+    private final DwsDailyPkgUsrcAccumulateAdServiceImpl dwsDailyPkgUsrcAccumulateAdServiceImpl;
     private final DwsDailyPkgVerUsrcAccumulateAdServiceImpl dwsDailyPkgVerUsrcAccumulateAdServiceImpl;
 
     private final DwsDailyPkgAccumulateWithdrawServiceImpl dwsDailyPkgAccumulateWithdrawServiceImpl;
@@ -583,7 +583,7 @@ public class TaskDwsController {
             throw new RuntimeException(e);
         }
         try {
-            dwsDailyPkgUsrcAccumulateAdMapperServiceImpl.syncData(dates);
+            dwsDailyPkgUsrcAccumulateAdServiceImpl.syncData(dates);
         } catch (Exception e) {
             log.error("dws包DwsRegister90DaysAccumulatePkgUsrcAdServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);

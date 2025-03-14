@@ -13,7 +13,7 @@ import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgUsrcAccumulateWithdrawMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcAccumulateWithdraw;
-import com.leo.ad.codriver.dws.service.DwsTestService;
+import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwsDailyPkgUsrcAccumulateWithdrawServiceImpl implements DwsTestService {
+public class DwsDailyPkgUsrcAccumulateWithdrawServiceImpl implements DwsService {
     private final DwsDailyPkgUsrcAccumulateWithdrawMapper dwsDailyPkgAccumulateWithdrawMapper;
     private final DwBatchMapper<DwsDailyPkgUsrcAccumulateWithdraw,
         DwsDailyPkgUsrcAccumulateWithdrawMapper> dwBatchMapper;

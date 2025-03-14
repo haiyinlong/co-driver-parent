@@ -19,7 +19,7 @@ import com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcAccumulateAdMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcAccumulateRegister;
-import com.leo.ad.codriver.dws.service.DwsTestService;
+import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwsDailyPkgVerUsrcAccumulateAdServiceImpl implements DwsTestService {
+public class DwsDailyPkgVerUsrcAccumulateAdServiceImpl implements DwsService {
     private final DwdUserAdRecordMapper dwdUserAdRecordMapper;
     private final DwsDailyPkgVerUsrcAccumulateAdMapper dwsRegister90DaysAccumulatePkgUsrcAdMapper;
     private final DwBatchMapper<DwsDailyPkgVerUsrcAccumulateRegister,
