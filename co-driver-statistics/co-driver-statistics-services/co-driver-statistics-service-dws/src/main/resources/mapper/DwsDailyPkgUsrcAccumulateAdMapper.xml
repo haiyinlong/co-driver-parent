@@ -74,7 +74,7 @@
         accumulate_reward_not_custom_directsold_show_count,accumulate_reward_not_custom_directsold_income,accumulate_reward_not_custom_directsold_ecpm,
         create_time
     </sql>
-    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcAccumulateAd">
+    <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcAccumulateRegister">
         select
         <include refid="Base_Column_List"/>
         from dws_daily_pkg_usrc_accumulate_ad

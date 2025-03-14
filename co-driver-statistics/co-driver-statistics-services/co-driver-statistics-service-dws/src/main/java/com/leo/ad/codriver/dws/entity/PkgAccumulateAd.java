@@ -9,13 +9,13 @@ import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
 import lombok.Data;
 
 /**
- * PkgAdIncome
+ * PkgAccumulateAd
  *
  * @author HaiYinLong
  * @version 2025/03/07 18:24
  **/
 @Data
-public class PkgAdIncome {
+public class PkgAccumulateAd {
     /**
      * 展示次数
      */
@@ -1552,7 +1552,7 @@ public class PkgAdIncome {
         return BigDecimalUtils.multiply(BigDecimalUtils.divide(income, showNum), BigDecimal.valueOf(1000));
     }
 
-    protected void addAccumulate(PkgAdIncome advertisingValue) {
+    protected void addAccumulate(PkgAccumulateAd advertisingValue) {
         this.accumulateTotalShowCount += advertisingValue.getTotalShowCount();
         this.accumulateTotalIncome =
             BigDecimalUtils.add(this.getAccumulateTotalIncome(), advertisingValue.getTotalIncome());
@@ -1708,7 +1708,7 @@ public class PkgAdIncome {
             advertisingValue.getRewardNotCustomDirectsoldEcpm());
     }
 
-    protected void copyAdvertisingValue(PkgAdIncome advertisingValue) {
+    protected void copyAdvertisingValue(PkgAccumulateAd advertisingValue) {
         this.totalShowCount = advertisingValue.getTotalShowCount();
         this.totalIncome = advertisingValue.getTotalIncome();
         this.totalEcpm = advertisingValue.getTotalEcpm();
@@ -1805,5 +1805,157 @@ public class PkgAdIncome {
         this.rewardNotCustomDirectsoldShowCount = advertisingValue.getRewardNotCustomDirectsoldShowCount();
         this.rewardNotCustomDirectsoldIncome = advertisingValue.getRewardNotCustomDirectsoldIncome();
         this.rewardNotCustomDirectsoldEcpm = advertisingValue.getRewardNotCustomDirectsoldEcpm();
+    }
+
+    protected void addAccumulate() {
+        this.accumulateTotalShowCount += this.getTotalShowCount();
+        this.accumulateTotalIncome = BigDecimalUtils.add(this.getAccumulateTotalIncome(), this.getTotalIncome());
+        this.accumulateTotalEcpm = BigDecimalUtils.add(this.getAccumulateTotalEcpm(), this.getTotalEcpm());
+        this.accumulateTotalNotCustomDirectsoldShowCount += this.getTotalNotCustomDirectsoldShowCount();
+        this.accumulateTotalNotCustomDirectsoldIncome = BigDecimalUtils
+            .add(this.accumulateTotalNotCustomDirectsoldIncome, this.getTotalNotCustomDirectsoldIncome());
+        this.accumulateTotalNotCustomDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateTotalNotCustomDirectsoldEcpm, this.getTotalNotCustomDirectsoldEcpm());
+        this.accumulateDirectsoldShowCount += this.getDirectsoldShowCount();
+        this.accumulateDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateDirectsoldIncome, this.getDirectsoldIncome());
+        this.accumulateDirectsoldEcpm = BigDecimalUtils.add(this.accumulateDirectsoldEcpm, this.getDirectsoldEcpm());
+        this.accumulateCustomNetworkShowCount += this.getCustomNetworkShowCount();
+        this.accumulateCustomNetworkIncome =
+            BigDecimalUtils.add(this.accumulateCustomNetworkIncome, this.getCustomNetworkIncome());
+        this.accumulateCustomNetworkEcpm =
+            BigDecimalUtils.add(this.accumulateCustomNetworkEcpm, this.getCustomNetworkEcpm());
+        this.accumulateCustomDirectsoldShowCount += this.getCustomDirectsoldShowCount();
+        this.accumulateCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateCustomDirectsoldIncome, this.getCustomDirectsoldIncome());
+        this.accumulateCustomDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateCustomDirectsoldEcpm, this.getCustomDirectsoldEcpm());
+        this.accumulateBannerShowCount += this.getBannerShowCount();
+        this.accumulateBannerIncome = BigDecimalUtils.add(this.accumulateBannerIncome, this.getBannerIncome());
+        this.accumulateBannerEcpm = BigDecimalUtils.add(this.accumulateBannerEcpm, this.getBannerEcpm());
+        this.accumulateBannerDirectsoldShowCount += this.getBannerDirectsoldShowCount();
+        this.accumulateBannerDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateBannerDirectsoldIncome, this.getBannerDirectsoldIncome());
+        this.accumulateBannerDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateBannerDirectsoldEcpm, this.getBannerDirectsoldEcpm());
+        this.accumulateBannerExchangeShowCount += this.getBannerExchangeShowCount();
+        this.accumulateBannerExchangeIncome =
+            BigDecimalUtils.add(this.accumulateBannerExchangeIncome, this.getBannerExchangeIncome());
+        this.accumulateBannerExchangeEcpm =
+            BigDecimalUtils.add(this.accumulateBannerExchangeEcpm, this.getBannerExchangeEcpm());
+        this.accumulateBannerNetworkShowCount += this.getBannerNetworkShowCount();
+        this.accumulateBannerNetworkIncome =
+            BigDecimalUtils.add(this.accumulateBannerNetworkIncome, this.getBannerNetworkIncome());
+        this.accumulateBannerNetworkEcpm =
+            BigDecimalUtils.add(this.accumulateBannerNetworkEcpm, this.getBannerNetworkEcpm());
+        this.accumulateBannerCustomNetworkShowCount += this.getBannerCustomNetworkShowCount();
+        this.accumulateBannerCustomNetworkIncome =
+            BigDecimalUtils.add(this.accumulateBannerCustomNetworkIncome, this.getBannerCustomNetworkIncome());
+        this.accumulateBannerCustomNetworkEcpm =
+            BigDecimalUtils.add(this.accumulateBannerCustomNetworkEcpm, this.getBannerCustomNetworkEcpm());
+        this.accumulateBannerMintegralBiddingShowCount += this.getBannerMintegralBiddingShowCount();
+        this.accumulateBannerMintegralBiddingIncome =
+            BigDecimalUtils.add(this.accumulateBannerMintegralBiddingIncome, this.getBannerMintegralBiddingIncome());
+        this.accumulateBannerMintegralBiddingEcpm =
+            BigDecimalUtils.add(this.accumulateBannerMintegralBiddingEcpm, this.getBannerMintegralBiddingEcpm());
+        this.accumulateBannerNotCustomDirectsoldShowCount += this.getBannerNotCustomDirectsoldShowCount();
+        this.accumulateBannerNotCustomDirectsoldIncome = BigDecimalUtils
+            .add(this.accumulateBannerNotCustomDirectsoldIncome, this.getBannerNotCustomDirectsoldIncome());
+        this.accumulateBannerNotCustomDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateBannerNotCustomDirectsoldEcpm, this.getBannerNotCustomDirectsoldEcpm());
+        this.accumulateInterShowCount += this.getInterShowCount();
+        this.accumulateInterIncome = BigDecimalUtils.add(this.accumulateInterIncome, this.getInterIncome());
+        this.accumulateInterEcpm = BigDecimalUtils.add(this.accumulateInterEcpm, this.getInterEcpm());
+        this.accumulateInterDirectsoldShowCount += this.getInterDirectsoldShowCount();
+        this.accumulateInterDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateInterDirectsoldIncome, this.getInterDirectsoldIncome());
+        this.accumulateInterDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateInterDirectsoldEcpm, this.getInterDirectsoldEcpm());
+        this.accumulateInterExchangeShowCount += this.getInterExchangeShowCount();
+        this.accumulateInterExchangeIncome =
+            BigDecimalUtils.add(this.accumulateInterExchangeIncome, this.getInterExchangeIncome());
+        this.accumulateInterExchangeEcpm =
+            BigDecimalUtils.add(this.accumulateInterExchangeEcpm, this.getInterExchangeEcpm());
+        this.accumulateInterNetworkShowCount += this.getInterNetworkShowCount();
+        this.accumulateInterNetworkIncome =
+            BigDecimalUtils.add(this.accumulateInterNetworkIncome, this.getInterNetworkIncome());
+        this.accumulateInterNetworkEcpm =
+            BigDecimalUtils.add(this.accumulateInterNetworkEcpm, this.getInterNetworkEcpm());
+        this.accumulateInterMintegralBiddingShowCount += this.getInterMintegralBiddingShowCount();
+        this.accumulateInterMintegralBiddingIncome =
+            BigDecimalUtils.add(this.accumulateInterMintegralBiddingIncome, this.getInterMintegralBiddingIncome());
+        this.accumulateInterMintegralBiddingEcpm =
+            BigDecimalUtils.add(this.accumulateInterMintegralBiddingEcpm, this.getInterMintegralBiddingEcpm());
+        this.accumulateInterVungleBiddingShowCount += this.getInterVungleBiddingShowCount();
+        this.accumulateInterVungleBiddingIncome =
+            BigDecimalUtils.add(this.accumulateInterVungleBiddingIncome, this.getInterVungleBiddingIncome());
+        this.accumulateInterVungleBiddingEcpm =
+            BigDecimalUtils.add(this.accumulateInterVungleBiddingEcpm, this.getInterVungleBiddingEcpm());
+        this.accumulateInterNotCustomDirectsoldShowCount += this.getInterNotCustomDirectsoldShowCount();
+        this.accumulateInterNotCustomDirectsoldIncome = BigDecimalUtils
+            .add(this.accumulateInterNotCustomDirectsoldIncome, this.getInterNotCustomDirectsoldIncome());
+        this.accumulateInterNotCustomDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateInterNotCustomDirectsoldEcpm, this.getInterNotCustomDirectsoldEcpm());
+        this.accumulateMrecShowCount += this.getMrecShowCount();
+        this.accumulateMrecIncome = BigDecimalUtils.add(this.accumulateMrecIncome, this.getMrecIncome());
+        this.accumulateMrecEcpm = BigDecimalUtils.add(this.accumulateMrecEcpm, this.getMrecEcpm());
+        this.accumulateMrecDirectsoldShowCount += this.getMrecDirectsoldShowCount();
+        this.accumulateMrecDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateMrecDirectsoldIncome, this.getMrecDirectsoldIncome());
+        this.accumulateMrecDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateMrecDirectsoldEcpm, this.getMrecDirectsoldEcpm());
+        this.accumulateMrecExchangeShowCount += this.getMrecExchangeShowCount();
+        this.accumulateMrecExchangeIncome =
+            BigDecimalUtils.add(this.accumulateMrecExchangeIncome, this.getMrecExchangeIncome());
+        this.accumulateMrecExchangeEcpm =
+            BigDecimalUtils.add(this.accumulateMrecExchangeEcpm, this.getMrecExchangeEcpm());
+        this.accumulateMrecCustomNetworkShowCount += this.getMrecCustomNetworkShowCount();
+        this.accumulateMrecCustomNetworkIncome =
+            BigDecimalUtils.add(this.accumulateMrecCustomNetworkIncome, this.getMrecCustomNetworkIncome());
+        this.accumulateMrecCustomNetworkEcpm =
+            BigDecimalUtils.add(this.accumulateMrecCustomNetworkEcpm, this.getMrecCustomNetworkEcpm());
+        this.accumulateMrecNotCustomDirectsoldShowCount += this.getMrecNotCustomDirectsoldShowCount();
+        this.accumulateMrecNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateMrecNotCustomDirectsoldIncome, this.getMrecNotCustomDirectsoldIncome());
+        this.accumulateMrecNotCustomDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateMrecNotCustomDirectsoldEcpm, this.getMrecNotCustomDirectsoldEcpm());
+        this.accumulateRewardShowCount += this.getRewardShowCount();
+        this.accumulateRewardIncome = BigDecimalUtils.add(this.accumulateRewardIncome, this.getRewardIncome());
+        this.accumulateRewardEcpm = BigDecimalUtils.add(this.accumulateRewardEcpm, this.getRewardEcpm());
+        this.accumulateRewardExchangeShowCount += this.getRewardExchangeShowCount();
+        this.accumulateRewardExchangeIncome =
+            BigDecimalUtils.add(this.accumulateRewardExchangeIncome, this.getRewardExchangeIncome());
+        this.accumulateRewardExchangeEcpm =
+            BigDecimalUtils.add(this.accumulateRewardExchangeEcpm, this.getRewardExchangeEcpm());
+        this.accumulateRewardNetworkShowCount += this.getRewardNetworkShowCount();
+        this.accumulateRewardNetworkIncome =
+            BigDecimalUtils.add(this.accumulateRewardNetworkIncome, this.getRewardNetworkIncome());
+        this.accumulateRewardNetworkEcpm =
+            BigDecimalUtils.add(this.accumulateRewardNetworkEcpm, this.getRewardNetworkEcpm());
+        this.accumulateRewardCustomNetworkShowCount += this.getRewardCustomNetworkShowCount();
+        this.accumulateRewardCustomNetworkIncome =
+            BigDecimalUtils.add(this.accumulateRewardCustomNetworkIncome, this.getRewardCustomNetworkIncome());
+        this.accumulateRewardCustomNetworkEcpm =
+            BigDecimalUtils.add(this.accumulateRewardCustomNetworkEcpm, this.getRewardCustomNetworkEcpm());
+        this.accumulateRewardFacebookNetworkShowCount += this.getRewardFacebookNetworkShowCount();
+        this.accumulateRewardFacebookNetworkIncome =
+            BigDecimalUtils.add(this.accumulateRewardFacebookNetworkIncome, this.getRewardFacebookNetworkIncome());
+        this.accumulateRewardFacebookNetworkEcpm =
+            BigDecimalUtils.add(this.accumulateRewardFacebookNetworkEcpm, this.getRewardFacebookNetworkEcpm());
+        this.accumulateRewardMintegralBiddingShowCount += this.getRewardMintegralBiddingShowCount();
+        this.accumulateRewardMintegralBiddingIncome =
+            BigDecimalUtils.add(this.accumulateRewardMintegralBiddingIncome, this.getRewardMintegralBiddingIncome());
+        this.accumulateRewardMintegralBiddingEcpm =
+            BigDecimalUtils.add(this.accumulateRewardMintegralBiddingEcpm, this.getRewardMintegralBiddingEcpm());
+        this.accumulateRewardVungleBiddingShowCount += this.getRewardVungleBiddingShowCount();
+        this.accumulateRewardVungleBiddingIncome =
+            BigDecimalUtils.add(this.accumulateRewardVungleBiddingIncome, this.getRewardVungleBiddingIncome());
+        this.accumulateRewardVungleBiddingEcpm =
+            BigDecimalUtils.add(this.accumulateRewardVungleBiddingEcpm, this.getRewardVungleBiddingEcpm());
+        this.accumulateRewardNotCustomDirectsoldShowCount += this.getRewardNotCustomDirectsoldShowCount();
+        this.accumulateRewardNotCustomDirectsoldIncome = BigDecimalUtils
+            .add(this.accumulateRewardNotCustomDirectsoldIncome, this.getRewardNotCustomDirectsoldIncome());
+        this.accumulateRewardNotCustomDirectsoldEcpm =
+            BigDecimalUtils.add(this.accumulateRewardNotCustomDirectsoldEcpm, this.getRewardNotCustomDirectsoldEcpm());
     }
 }

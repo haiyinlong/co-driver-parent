@@ -18,7 +18,8 @@ import lombok.Data;
  */
 @TableName(value = "dws_daily_pkg_ver_accumulate_ad")
 @Data
-public class DwsDailyPkgVerAccumulateAd extends PkgAdIncomeAccumulate implements Serializable, BaseEntity {
+public class DwsDailyPkgVerAccumulateRegister extends PkgAccumulateAd
+    implements Serializable, BaseEntity, PkgAccumulateRegister {
     /**
      * 主键ID
      */
@@ -58,7 +59,7 @@ public class DwsDailyPkgVerAccumulateAd extends PkgAdIncomeAccumulate implements
     @TableField(exist = false)
     private static final long serialVersionUID = 1L;
 
-    public DwsDailyPkgVerAccumulateAd() {
+    public DwsDailyPkgVerAccumulateRegister() {
         this.todayInit();
         this.accumulateInit();
     }
@@ -71,9 +72,9 @@ public class DwsDailyPkgVerAccumulateAd extends PkgAdIncomeAccumulate implements
         return this.getPkg() + this.getVersion() + this.getRegisterDay();
     }
 
-    public static DwsDailyPkgVerAccumulateAd of(Integer dates, String pkg, String version, Integer registerDates,
+    public static DwsDailyPkgVerAccumulateRegister of(Integer dates, String pkg, String version, Integer registerDates,
         Integer registerDay) {
-        DwsDailyPkgVerAccumulateAd dwsRegister90DaysAccumulatePkgAd = new DwsDailyPkgVerAccumulateAd();
+        DwsDailyPkgVerAccumulateRegister dwsRegister90DaysAccumulatePkgAd = new DwsDailyPkgVerAccumulateRegister();
         dwsRegister90DaysAccumulatePkgAd.setDates(dates);
         dwsRegister90DaysAccumulatePkgAd.setPkg(pkg);
         dwsRegister90DaysAccumulatePkgAd.setVersion(version);
@@ -83,7 +84,7 @@ public class DwsDailyPkgVerAccumulateAd extends PkgAdIncomeAccumulate implements
         return dwsRegister90DaysAccumulatePkgAd;
     }
 
-    public DwsDailyPkgVerAccumulateAd convertToday(Integer dates) {
+    public DwsDailyPkgVerAccumulateRegister convertToday(Integer dates) {
         this.id = null;
         this.dates = dates;
         this.todayInit();
@@ -93,11 +94,15 @@ public class DwsDailyPkgVerAccumulateAd extends PkgAdIncomeAccumulate implements
         return this;
     }
 
-    public DwsDailyPkgVerAccumulateAd calculateAccumulate(DwsDailyPkgVerAccumulateAd dwsRegister90DaysAccumulatePkgAd) {
+    public DwsDailyPkgVerAccumulateRegister
+        calculateAccumulate(DwsDailyPkgVerAccumulateRegister dwsRegister90DaysAccumulatePkgAd) {
         this.id = dwsRegister90DaysAccumulatePkgAd.getId();
         this.copyAdvertisingValue(dwsRegister90DaysAccumulatePkgAd);
         this.addAccumulate(dwsRegister90DaysAccumulatePkgAd);
         return this;
     }
 
+    public void calculateAccumulate() {
+        this.addAccumulate();
+    }
 }

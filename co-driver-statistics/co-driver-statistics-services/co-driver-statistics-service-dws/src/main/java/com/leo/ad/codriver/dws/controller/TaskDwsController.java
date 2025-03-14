@@ -11,9 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateWithdrawServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateAdMapperServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateWithdrawServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPkgVerAccumulateAdServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPkgVerAccumulateWithdrawServiceImpl;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -115,6 +119,11 @@ public class TaskDwsController {
     private final DwsDailyPkgVerAccumulateAdServiceImpl dwsDailyPkgVerAccumulateAdServiceImpl;
     private final DwsDailyPkgUsrcAccumulateAdMapperServiceImpl dwsDailyPkgUsrcAccumulateAdMapperServiceImpl;
     private final DwsDailyPkgVerUsrcAccumulateAdServiceImpl dwsDailyPkgVerUsrcAccumulateAdServiceImpl;
+
+    private final DwsDailyPkgAccumulateWithdrawServiceImpl dwsDailyPkgAccumulateWithdrawServiceImpl;
+    private final DwsDailyPkgVerAccumulateWithdrawServiceImpl dwsDailyPkgVerAccumulateWithdrawServiceImpl;
+    private final DwsDailyPkgUsrcAccumulateWithdrawServiceImpl dwsDailyPkgUsrcAccumulateWithdrawServiceImpl;
+    private final DwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl dwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -588,4 +597,41 @@ public class TaskDwsController {
         return "执行完成dws包AccumulatePkgAd维度数据统计同步";
     }
 
+    @GetMapping("/accumulateWithdraw")
+    @Operation(summary = "触发dws包AccumulateWithdraw维度数据统计", description = "触发dws数据同步")
+    public String accumulateWithdraw(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        try {
+            dwsDailyPkgAccumulateWithdrawServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsDailyPkgAccumulateWithdrawServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        try {
+            dwsDailyPkgVerAccumulateWithdrawServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsDailyPkgVerAccumulateWithdrawServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        try {
+            dwsDailyPkgUsrcAccumulateWithdrawServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsDailyPkgUsrcAccumulateWithdrawServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        try {
+            dwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        return "执行完成dws包accumulateWithdraw维度数据统计同步";
+    }
 }

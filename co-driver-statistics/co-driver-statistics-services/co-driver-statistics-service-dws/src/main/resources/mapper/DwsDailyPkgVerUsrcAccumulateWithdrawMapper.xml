@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerUsrcAccumulateWithdrawMapper">
+
+
+    <sql id="Base_Column_List">
+        id,dates,register_dates,
+        pkg,version,user_source,
+        register_day,success_amount,success_fee,
+        success_amount_fee,exchange_rate,success_change_amount,
+        success_change_amount_fee,success_change_fee,accumulate_success_amount,
+        accumulate_success_fee,accumulate_success_amount_fee,accumulate_success_change_amount,
+        accumulate_success_change_amount_fee,accumulate_success_change_fee,create_time
+    </sql>
+    <select id="queryDates" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcAccumulateWithdraw">
+        select
+        <include refid="Base_Column_List"/>
+        from dws_daily_pkg_ver_usrc_accumulate_withdraw where dates = #{dates} and register_day is not null
+    </select>
+    <select id="statisticsList"
+            resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcAccumulateWithdraw">
+        select duwr.update_dates                        dates,
+               duwr.pkg,
+               duwr.version,
+               IFNULL(dus.network, 'Unknown')           user_source,
+               duwr.register_dates,
+               duwr.register_withdraw_day               register_day,
+               max(duwr.exchange_rate)                  exchange_rate,
+               IFNULL(sum(duwr.amount), 0)              success_amount,
+               IFNULL(sum(duwr.fee), 0)                 success_fee,
+               IFNULL(sum(duwr.amount + duwr.fee), 0)   success_amount_fee,
+               IFNULL(sum(duwr.change_amount), 0)       success_change_amount,
+               IFNULL(sum(duwr.change_total_amount), 0) success_change_amount_fee,
+               IFNULL(sum(duwr.change_fee), 0)          success_change_fee,
+               now()                                    create_time
+        from dwd_user_withdraw_record duwr
+                 left join dim_user_source dus on (duwr.user_id = dus.user_id)
+        where duwr.update_dates = #{dates}
+          and duwr.status = 1
+        group by duwr.update_dates, duwr.pkg, duwr.version, IFNULL(dus.network, 'Unknown'), duwr.register_dates,
+                 duwr.register_withdraw_day
+    </select>
+</mapper>
