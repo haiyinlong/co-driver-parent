@@ -74,7 +74,29 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
      */
     @TableField("day_1_ad_avg_show_num")
     private BigDecimal day1AdAvgShowNum;
+    /**
+     * 自定义广告人均展示次数
+     */
+    @TableField("day_1_custom_ad_avg_show_num")
+    private BigDecimal day1CustomAdAvgShowNum;
 
+    /**
+     * 自定义广告展示次数
+     */
+    @TableField("day_1_custom_ad_avg_show_num")
+    private Long day1CustomAdShowNum;
+
+    /**
+     * 商业化广告人均展示次数
+     */
+    @TableField("day_1_business_ad_avg_show_num")
+    private BigDecimal day1BusinessAdAvgShowNum;
+
+    /**
+     * 商业化广告展示次数
+     */
+    @TableField("day_1_business_ad_avg_show_num")
+    private Long day1BusinessAdShowNum;
     /**
      * 提现金额
      */
@@ -122,7 +144,29 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
      */
     @TableField("day_2_ad_avg_show_num")
     private BigDecimal day2AdAvgShowNum;
+    /**
+     * 自定义广告人均展示次数
+     */
+    @TableField("day_2_custom_ad_avg_show_num")
+    private BigDecimal day2CustomAdAvgShowNum;
 
+    /**
+     * 自定义广告展示次数
+     */
+    @TableField("day_2_custom_ad_avg_show_num")
+    private Long day2CustomAdShowNum;
+
+    /**
+     * 商业化广告人均展示次数
+     */
+    @TableField("day_2_business_ad_avg_show_num")
+    private BigDecimal day2BusinessAdAvgShowNum;
+
+    /**
+     * 商业化广告展示次数
+     */
+    @TableField("day_2_business_ad_avg_show_num")
+    private Long day2BusinessAdShowNum;
     /**
      * 提现金额
      */
@@ -170,7 +214,29 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
      */
     @TableField("day_3_ad_avg_show_num")
     private BigDecimal day3AdAvgShowNum;
+    /**
+     * 自定义广告人均展示次数
+     */
+    @TableField("day_3_custom_ad_avg_show_num")
+    private BigDecimal day3CustomAdAvgShowNum;
 
+    /**
+     * 自定义广告展示次数
+     */
+    @TableField("day_3_custom_ad_avg_show_num")
+    private Long day3CustomAdShowNum;
+
+    /**
+     * 商业化广告人均展示次数
+     */
+    @TableField("day_3_business_ad_avg_show_num")
+    private BigDecimal day3BusinessAdAvgShowNum;
+
+    /**
+     * 商业化广告展示次数
+     */
+    @TableField("day_3_business_ad_avg_show_num")
+    private Long day3BusinessAdShowNum;
     /**
      * 提现金额
      */
@@ -218,7 +284,29 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
      */
     @TableField("day_4_ad_avg_show_num")
     private BigDecimal day4AdAvgShowNum;
+    /**
+     * 自定义广告人均展示次数
+     */
+    @TableField("day_4_custom_ad_avg_show_num")
+    private BigDecimal day4CustomAdAvgShowNum;
 
+    /**
+     * 自定义广告展示次数
+     */
+    @TableField("day_4_custom_ad_avg_show_num")
+    private Long day4CustomAdShowNum;
+
+    /**
+     * 商业化广告人均展示次数
+     */
+    @TableField("day_4_business_ad_avg_show_num")
+    private BigDecimal day4BusinessAdAvgShowNum;
+
+    /**
+     * 商业化广告展示次数
+     */
+    @TableField("day_4_business_ad_avg_show_num")
+    private Long day4BusinessAdShowNum;
     /**
      * 提现金额
      */
@@ -266,7 +354,29 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
      */
     @TableField("day_5_ad_avg_show_num")
     private BigDecimal day5AdAvgShowNum;
+    /**
+     * 自定义广告人均展示次数
+     */
+    @TableField("day_5_custom_ad_avg_show_num")
+    private BigDecimal day5CustomAdAvgShowNum;
 
+    /**
+     * 自定义广告展示次数
+     */
+    @TableField("day_5_custom_ad_avg_show_num")
+    private Long day5CustomAdShowNum;
+
+    /**
+     * 商业化广告人均展示次数
+     */
+    @TableField("day_5_business_ad_avg_show_num")
+    private BigDecimal day5BusinessAdAvgShowNum;
+
+    /**
+     * 商业化广告展示次数
+     */
+    @TableField("day_5_business_ad_avg_show_num")
+    private Long day5BusinessAdShowNum;
     /**
      * 提现金额
      */
@@ -301,7 +411,29 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_6_ad_avg_show_num")
     private BigDecimal day6AdAvgShowNum;
+    /**
+     * 自定义广告人均展示次数
+     */
+    @TableField("day_6_custom_ad_avg_show_num")
+    private BigDecimal day6CustomAdAvgShowNum;
 
+    /**
+     * 自定义广告展示次数
+     */
+    @TableField("day_6_custom_ad_avg_show_num")
+    private Long day6CustomAdShowNum;
+
+    /**
+     * 商业化广告人均展示次数
+     */
+    @TableField("day_6_business_ad_avg_show_num")
+    private BigDecimal day6BusinessAdAvgShowNum;
+
+    /**
+     * 商业化广告展示次数
+     */
+    @TableField("day_6_business_ad_avg_show_num")
+    private Long day6BusinessAdShowNum;
     @TableField("day_6_withdraw_amount")
     private BigDecimal day6WithdrawAmount;
 
@@ -327,7 +459,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_7_ad_avg_show_num")
     private BigDecimal day7AdAvgShowNum;
-
+    @TableField("day_7_custom_ad_avg_show_num")
+    private BigDecimal day7CustomAdAvgShowNum;
+    @TableField("day_7_custom_ad_avg_show_num")
+    private Long day7CustomAdShowNum;
+    @TableField("day_7_business_ad_avg_show_num")
+    private BigDecimal day7BusinessAdAvgShowNum;
+    @TableField("day_7_business_ad_avg_show_num")
+    private Long day7BusinessAdShowNum;
     @TableField("day_7_withdraw_amount")
     private BigDecimal day7WithdrawAmount;
 
@@ -350,7 +489,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_8_ad_avg_show_num")
     private BigDecimal day8AdAvgShowNum;
-
+    @TableField("day_8_custom_ad_avg_show_num")
+    private BigDecimal day8CustomAdAvgShowNum;
+    @TableField("day_8_custom_ad_avg_show_num")
+    private Long day8CustomAdShowNum;
+    @TableField("day_8_business_ad_avg_show_num")
+    private BigDecimal day8BusinessAdAvgShowNum;
+    @TableField("day_8_business_ad_avg_show_num")
+    private Long day8BusinessAdShowNum;
     @TableField("day_8_withdraw_amount")
     private BigDecimal day8WithdrawAmount;
 
@@ -374,7 +520,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_9_ad_avg_show_num")
     private BigDecimal day9AdAvgShowNum;
-
+    @TableField("day_9_custom_ad_avg_show_num")
+    private BigDecimal day9CustomAdAvgShowNum;
+    @TableField("day_9_custom_ad_avg_show_num")
+    private Long day9CustomAdShowNum;
+    @TableField("day_9_business_ad_avg_show_num")
+    private BigDecimal day9BusinessAdAvgShowNum;
+    @TableField("day_9_business_ad_avg_show_num")
+    private Long day9BusinessAdShowNum;
     @TableField("day_9_withdraw_amount")
     private BigDecimal day9WithdrawAmount;
 
@@ -398,7 +551,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_10_ad_avg_show_num")
     private BigDecimal day10AdAvgShowNum;
-
+    @TableField("day_10_custom_ad_avg_show_num")
+    private BigDecimal day10CustomAdAvgShowNum;
+    @TableField("day_10_custom_ad_avg_show_num")
+    private Long day10CustomAdShowNum;
+    @TableField("day_10_business_ad_avg_show_num")
+    private BigDecimal day10BusinessAdAvgShowNum;
+    @TableField("day_10_business_ad_avg_show_num")
+    private Long day10BusinessAdShowNum;
     @TableField("day_10_withdraw_amount")
     private BigDecimal day10WithdrawAmount;
 
@@ -422,7 +582,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_11_ad_avg_show_num")
     private BigDecimal day11AdAvgShowNum;
-
+    @TableField("day_11_custom_ad_avg_show_num")
+    private BigDecimal day11CustomAdAvgShowNum;
+    @TableField("day_11_custom_ad_avg_show_num")
+    private Long day11CustomAdShowNum;
+    @TableField("day_11_business_ad_avg_show_num")
+    private BigDecimal day11BusinessAdAvgShowNum;
+    @TableField("day_11_business_ad_avg_show_num")
+    private Long day11BusinessAdShowNum;
     @TableField("day_11_withdraw_amount")
     private BigDecimal day11WithdrawAmount;
 
@@ -446,7 +613,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_12_ad_avg_show_num")
     private BigDecimal day12AdAvgShowNum;
-
+    @TableField("day_12_custom_ad_avg_show_num")
+    private BigDecimal day12CustomAdAvgShowNum;
+    @TableField("day_12_custom_ad_avg_show_num")
+    private Long day12CustomAdShowNum;
+    @TableField("day_12_business_ad_avg_show_num")
+    private BigDecimal day12BusinessAdAvgShowNum;
+    @TableField("day_12_business_ad_avg_show_num")
+    private Long day12BusinessAdShowNum;
     @TableField("day_12_withdraw_amount")
     private BigDecimal day12WithdrawAmount;
 
@@ -470,7 +644,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_13_ad_avg_show_num")
     private BigDecimal day13AdAvgShowNum;
-
+    @TableField("day_13_custom_ad_avg_show_num")
+    private BigDecimal day13CustomAdAvgShowNum;
+    @TableField("day_13_custom_ad_avg_show_num")
+    private Long day13CustomAdShowNum;
+    @TableField("day_13_business_ad_avg_show_num")
+    private BigDecimal day13BusinessAdAvgShowNum;
+    @TableField("day_13_business_ad_avg_show_num")
+    private Long day13BusinessAdShowNum;
     @TableField("day_13_withdraw_amount")
     private BigDecimal day13WithdrawAmount;
 
@@ -494,7 +675,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_14_ad_avg_show_num")
     private BigDecimal day14AdAvgShowNum;
-
+    @TableField("day_14_custom_ad_avg_show_num")
+    private BigDecimal day14CustomAdAvgShowNum;
+    @TableField("day_14_custom_ad_avg_show_num")
+    private Long day14CustomAdShowNum;
+    @TableField("day_14_business_ad_avg_show_num")
+    private BigDecimal day14BusinessAdAvgShowNum;
+    @TableField("day_14_business_ad_avg_show_num")
+    private Long day14BusinessAdShowNum;
     @TableField("day_14_withdraw_amount")
     private BigDecimal day14WithdrawAmount;
 
@@ -518,7 +706,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_15_ad_avg_show_num")
     private BigDecimal day15AdAvgShowNum;
-
+    @TableField("day_15_custom_ad_avg_show_num")
+    private BigDecimal day15CustomAdAvgShowNum;
+    @TableField("day_15_custom_ad_avg_show_num")
+    private Long day15CustomAdShowNum;
+    @TableField("day_15_business_ad_avg_show_num")
+    private BigDecimal day15BusinessAdAvgShowNum;
+    @TableField("day_15_business_ad_avg_show_num")
+    private Long day15BusinessAdShowNum;
     @TableField("day_15_withdraw_amount")
     private BigDecimal day15WithdrawAmount;
 
@@ -542,7 +737,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_16_ad_avg_show_num")
     private BigDecimal day16AdAvgShowNum;
-
+    @TableField("day_16_custom_ad_avg_show_num")
+    private BigDecimal day16CustomAdAvgShowNum;
+    @TableField("day_16_custom_ad_avg_show_num")
+    private Long day16CustomAdShowNum;
+    @TableField("day_16_business_ad_avg_show_num")
+    private BigDecimal day16BusinessAdAvgShowNum;
+    @TableField("day_16_business_ad_avg_show_num")
+    private Long day16BusinessAdShowNum;
     @TableField("day_16_withdraw_amount")
     private BigDecimal day16WithdrawAmount;
 
@@ -566,7 +768,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_17_ad_avg_show_num")
     private BigDecimal day17AdAvgShowNum;
-
+    @TableField("day_17_custom_ad_avg_show_num")
+    private BigDecimal day17CustomAdAvgShowNum;
+    @TableField("day_17_custom_ad_avg_show_num")
+    private Long day17CustomAdShowNum;
+    @TableField("day_17_business_ad_avg_show_num")
+    private BigDecimal day17BusinessAdAvgShowNum;
+    @TableField("day_17_business_ad_avg_show_num")
+    private Long day17BusinessAdShowNum;
     @TableField("day_17_withdraw_amount")
     private BigDecimal day17WithdrawAmount;
 
@@ -590,7 +799,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_18_ad_avg_show_num")
     private BigDecimal day18AdAvgShowNum;
-
+    @TableField("day_18_custom_ad_avg_show_num")
+    private BigDecimal day18CustomAdAvgShowNum;
+    @TableField("day_18_custom_ad_avg_show_num")
+    private Long day18CustomAdShowNum;
+    @TableField("day_18_business_ad_avg_show_num")
+    private BigDecimal day18BusinessAdAvgShowNum;
+    @TableField("day_18_business_ad_avg_show_num")
+    private Long day18BusinessAdShowNum;
     @TableField("day_18_withdraw_amount")
     private BigDecimal day18WithdrawAmount;
 
@@ -614,7 +830,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_19_ad_avg_show_num")
     private BigDecimal day19AdAvgShowNum;
-
+    @TableField("day_19_custom_ad_avg_show_num")
+    private BigDecimal day19CustomAdAvgShowNum;
+    @TableField("day_19_custom_ad_avg_show_num")
+    private Long day19CustomAdShowNum;
+    @TableField("day_19_business_ad_avg_show_num")
+    private BigDecimal day19BusinessAdAvgShowNum;
+    @TableField("day_19_business_ad_avg_show_num")
+    private Long day19BusinessAdShowNum;
     @TableField("day_19_withdraw_amount")
     private BigDecimal day19WithdrawAmount;
 
@@ -637,7 +860,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_20_ad_avg_show_num")
     private BigDecimal day20AdAvgShowNum;
-
+    @TableField("day_20_custom_ad_avg_show_num")
+    private BigDecimal day20CustomAdAvgShowNum;
+    @TableField("day_20_custom_ad_avg_show_num")
+    private Long day20CustomAdShowNum;
+    @TableField("day_20_business_ad_avg_show_num")
+    private BigDecimal day20BusinessAdAvgShowNum;
+    @TableField("day_20_business_ad_avg_show_num")
+    private Long day20BusinessAdShowNum;
     @TableField("day_20_withdraw_amount")
     private BigDecimal day20WithdrawAmount;
 
@@ -661,7 +891,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_21_ad_avg_show_num")
     private BigDecimal day21AdAvgShowNum;
-
+    @TableField("day_21_custom_ad_avg_show_num")
+    private BigDecimal day21CustomAdAvgShowNum;
+    @TableField("day_21_custom_ad_avg_show_num")
+    private Long day21CustomAdShowNum;
+    @TableField("day_21_business_ad_avg_show_num")
+    private BigDecimal day21BusinessAdAvgShowNum;
+    @TableField("day_21_business_ad_avg_show_num")
+    private Long day21BusinessAdShowNum;
     @TableField("day_21_withdraw_amount")
     private BigDecimal day21WithdrawAmount;
 
@@ -685,7 +922,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_22_ad_avg_show_num")
     private BigDecimal day22AdAvgShowNum;
-
+    @TableField("day_22_custom_ad_avg_show_num")
+    private BigDecimal day22CustomAdAvgShowNum;
+    @TableField("day_22_custom_ad_avg_show_num")
+    private Long day22CustomAdShowNum;
+    @TableField("day_22_business_ad_avg_show_num")
+    private BigDecimal day22BusinessAdAvgShowNum;
+    @TableField("day_22_business_ad_avg_show_num")
+    private Long day22BusinessAdShowNum;
     @TableField("day_22_withdraw_amount")
     private BigDecimal day22WithdrawAmount;
 
@@ -709,7 +953,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_23_ad_avg_show_num")
     private BigDecimal day23AdAvgShowNum;
-
+    @TableField("day_23_custom_ad_avg_show_num")
+    private BigDecimal day23CustomAdAvgShowNum;
+    @TableField("day_23_custom_ad_avg_show_num")
+    private Long day23CustomAdShowNum;
+    @TableField("day_23_business_ad_avg_show_num")
+    private BigDecimal day23BusinessAdAvgShowNum;
+    @TableField("day_23_business_ad_avg_show_num")
+    private Long day23BusinessAdShowNum;
     @TableField("day_23_withdraw_amount")
     private BigDecimal day23WithdrawAmount;
 
@@ -733,7 +984,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_24_ad_avg_show_num")
     private BigDecimal day24AdAvgShowNum;
-
+    @TableField("day_24_custom_ad_avg_show_num")
+    private BigDecimal day24CustomAdAvgShowNum;
+    @TableField("day_24_custom_ad_avg_show_num")
+    private Long day24CustomAdShowNum;
+    @TableField("day_24_business_ad_avg_show_num")
+    private BigDecimal day24BusinessAdAvgShowNum;
+    @TableField("day_24_business_ad_avg_show_num")
+    private Long day24BusinessAdShowNum;
     @TableField("day_24_withdraw_amount")
     private BigDecimal day24WithdrawAmount;
 
@@ -757,7 +1015,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_25_ad_avg_show_num")
     private BigDecimal day25AdAvgShowNum;
-
+    @TableField("day_25_custom_ad_avg_show_num")
+    private BigDecimal day25CustomAdAvgShowNum;
+    @TableField("day_25_custom_ad_avg_show_num")
+    private Long day25CustomAdShowNum;
+    @TableField("day_25_business_ad_avg_show_num")
+    private BigDecimal day25BusinessAdAvgShowNum;
+    @TableField("day_25_business_ad_avg_show_num")
+    private Long day25BusinessAdShowNum;
     @TableField("day_25_withdraw_amount")
     private BigDecimal day25WithdrawAmount;
 
@@ -781,7 +1046,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_26_ad_avg_show_num")
     private BigDecimal day26AdAvgShowNum;
-
+    @TableField("day_26_custom_ad_avg_show_num")
+    private BigDecimal day26CustomAdAvgShowNum;
+    @TableField("day_26_custom_ad_avg_show_num")
+    private Long day26CustomAdShowNum;
+    @TableField("day_26_business_ad_avg_show_num")
+    private BigDecimal day26BusinessAdAvgShowNum;
+    @TableField("day_26_business_ad_avg_show_num")
+    private Long day26BusinessAdShowNum;
     @TableField("day_26_withdraw_amount")
     private BigDecimal day26WithdrawAmount;
 
@@ -805,7 +1077,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_27_ad_avg_show_num")
     private BigDecimal day27AdAvgShowNum;
-
+    @TableField("day_27_custom_ad_avg_show_num")
+    private BigDecimal day27CustomAdAvgShowNum;
+    @TableField("day_27_custom_ad_avg_show_num")
+    private Long day27CustomAdShowNum;
+    @TableField("day_27_business_ad_avg_show_num")
+    private BigDecimal day27BusinessAdAvgShowNum;
+    @TableField("day_27_business_ad_avg_show_num")
+    private Long day27BusinessAdShowNum;
     @TableField("day_27_withdraw_amount")
     private BigDecimal day27WithdrawAmount;
 
@@ -829,7 +1108,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_28_ad_avg_show_num")
     private BigDecimal day28AdAvgShowNum;
-
+    @TableField("day_28_custom_ad_avg_show_num")
+    private BigDecimal day28CustomAdAvgShowNum;
+    @TableField("day_28_custom_ad_avg_show_num")
+    private Long day28CustomAdShowNum;
+    @TableField("day_28_business_ad_avg_show_num")
+    private BigDecimal day28BusinessAdAvgShowNum;
+    @TableField("day_28_business_ad_avg_show_num")
+    private Long day28BusinessAdShowNum;
     @TableField("day_28_withdraw_amount")
     private BigDecimal day28WithdrawAmount;
 
@@ -853,7 +1139,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_29_ad_avg_show_num")
     private BigDecimal day29AdAvgShowNum;
-
+    @TableField("day_29_custom_ad_avg_show_num")
+    private BigDecimal day29CustomAdAvgShowNum;
+    @TableField("day_29_custom_ad_avg_show_num")
+    private Long day29CustomAdShowNum;
+    @TableField("day_29_business_ad_avg_show_num")
+    private BigDecimal day29BusinessAdAvgShowNum;
+    @TableField("day_29_business_ad_avg_show_num")
+    private Long day29BusinessAdShowNum;
     @TableField("day_29_withdraw_amount")
     private BigDecimal day29WithdrawAmount;
 
@@ -877,7 +1170,14 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_30_ad_avg_show_num")
     private BigDecimal day30AdAvgShowNum;
-
+    @TableField("day_30_custom_ad_avg_show_num")
+    private BigDecimal day30CustomAdAvgShowNum;
+    @TableField("day_30_custom_ad_avg_show_num")
+    private Long day30CustomAdShowNum;
+    @TableField("day_30_business_ad_avg_show_num")
+    private BigDecimal day30BusinessAdAvgShowNum;
+    @TableField("day_30_business_ad_avg_show_num")
+    private Long day30BusinessAdShowNum;
     @TableField("day_30_withdraw_amount")
     private BigDecimal day30WithdrawAmount;
 

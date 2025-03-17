@@ -1189,7 +1189,7 @@ public class PkgAccumulateAd {
         handleBannerExchange(dwdUserAdRecord);
         handleBannerNetwork(dwdUserAdRecord);
         handleBannerMintegralBidding(dwdUserAdRecord);
-        // Inter
+        // Inter 插屏
         handleInter(dwdUserAdRecord);
         handleInterNotCustomDirectsold(dwdUserAdRecord);
         handleInterDirectsold(dwdUserAdRecord);
@@ -1197,13 +1197,13 @@ public class PkgAccumulateAd {
         handleInterNetwork(dwdUserAdRecord);
         handleInterMintegralBidding(dwdUserAdRecord);
         handleInterVungleBidding(dwdUserAdRecord);
-        // Mrec
+        // Mrec 原生
         handleMrec(dwdUserAdRecord);
         handleMrecNotCustomDirectsold(dwdUserAdRecord);
         handleMrecDirectsold(dwdUserAdRecord);
         handleMrecCustomNetwork(dwdUserAdRecord);
         handleMrecExchange(dwdUserAdRecord);
-        // Reward
+        // Reward 激励
         handleReward(dwdUserAdRecord);
         handleRewardNotCustomDirectsold(dwdUserAdRecord);
         handleRewardFacebookNetwork(dwdUserAdRecord);
