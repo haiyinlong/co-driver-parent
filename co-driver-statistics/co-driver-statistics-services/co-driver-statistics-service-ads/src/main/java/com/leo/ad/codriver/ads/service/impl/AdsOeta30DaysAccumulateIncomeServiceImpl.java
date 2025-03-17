@@ -6,13 +6,16 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.ads.dao.AdsOeta30DaysAccumulateIncomeMapper;
 import com.leo.ad.codriver.ads.entity.AdsOeta30DaysAccumulateIncome;
 import com.leo.ad.codriver.ads.service.AdsService;
+import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
+import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +33,9 @@ public class AdsOeta30DaysAccumulateIncomeServiceImpl implements AdsService {
     private final AdsOeta30DaysAccumulateIncomeMapper adsOeta30DaysAccumulateIncomeMapper;
     private final DwBatchMapper<AdsOeta30DaysAccumulateIncome, AdsOeta30DaysAccumulateIncomeMapper> batchMapper;
 
+    @ShowExecuteTime(name = "AdsOeta30DaysAccumulateIncome syncData")
+    @Transactional(rollbackFor = Exception.class)
+    @Lock(paramName = "#dates")
     @Override
     public void syncData(Integer dates) {
         // 根据统计日期计算区间
