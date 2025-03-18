@@ -69,7 +69,6 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
     }
 
     private void handelOdsUserLoginRecordSyncToDwd(DwTaskRecord taskRecord) {
-        Integer delRowNum = dwdUserLoginRecordMapper.deleteByDates(taskRecord.getDates());
         try {
             long startSourceId = taskRecord.getStartId();
             long endSourceId = startSourceId + BatchConst.BATCH_MAX_NUMBER;

@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class TaskAdsController {
 
-    private final AdsService adsHemaDataAnalyseFullDailyServiceImpl;
+    // private final AdsService adsHemaDataAnalyseFullDailyServiceImpl;
     private final AdsService adsFifteenDayCohortConversionServiceImpl;
     private final AdsService adsFifteenDayCohortMissionServiceImpl;
     private final AdsService adsHemaWithdrawFullDailyServiceImpl;
@@ -59,16 +59,16 @@ public class TaskAdsController {
         return "执行完成ads数据同步";
     }
 
-    @GetMapping("/hemaDataAnalyseFullDaily")
-    @Operation(summary = "触发ads河马大盘数据同步", description = "触发ads数据同步")
-    public String adsHemaDataAnalyseFullDailyHandle(@RequestParam("dates") Integer dates) {
-        // 获取统计日期
-        if (ObjectUtils.isEmpty(dates)) {
-            dates = DateUtils.getPreviousDate();
-        }
-        adsHemaDataAnalyseFullDailyServiceImpl.syncData(dates);
-        return "执行完成ads数据同步";
-    }
+    // @GetMapping("/hemaDataAnalyseFullDaily")
+    // @Operation(summary = "触发ads河马大盘数据同步", description = "触发ads数据同步")
+    // public String adsHemaDataAnalyseFullDailyHandle(@RequestParam("dates") Integer dates) {
+    // // 获取统计日期
+    // if (ObjectUtils.isEmpty(dates)) {
+    // dates = DateUtils.getPreviousDate();
+    // }
+    // adsHemaDataAnalyseFullDailyServiceImpl.syncData(dates);
+    // return "执行完成ads数据同步";
+    // }
 
     @GetMapping("/adsFifteenDayCohortConversion")
     @Operation(summary = "触发ads15天同期群转化数据同步", description = "触发ads数据同步")

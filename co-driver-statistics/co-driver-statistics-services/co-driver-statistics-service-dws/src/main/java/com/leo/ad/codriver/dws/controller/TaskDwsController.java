@@ -82,7 +82,7 @@ public class TaskDwsController {
     // private final DwsService dwsDailyPackageAllLabGameSingleServiceImpl;
 
     // 留存
-    private final DwsService dwsDailyPackageRetentionServiceImpl;
+    // private final DwsService dwsDailyPackageRetentionServiceImpl;
     private final DwsService dwsDailyPackageCohortRetentionServiceImpl;
     private final DwsService dwsPkgRetentionFullDailyServiceImpl;
     private final DwsService dwsDailyPackageAllLabRetentionServiceImpl;
@@ -253,11 +253,11 @@ public class TaskDwsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        try {
-            dwsDailyPackageRetentionServiceImpl.syncData(dates);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // try {
+        // dwsDailyPackageRetentionServiceImpl.syncData(dates);
+        // } catch (Exception e) {
+        // throw new RuntimeException(e);
+        // }
         try {
             dwsDailyPackageCohortRetentionServiceImpl.syncData(dates);
         } catch (Exception e) {

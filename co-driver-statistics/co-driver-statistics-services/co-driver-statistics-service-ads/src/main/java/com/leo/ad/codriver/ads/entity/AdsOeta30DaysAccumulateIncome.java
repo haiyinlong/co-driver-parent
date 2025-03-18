@@ -1189,7 +1189,66 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
 
     @TableField("day_30_total_income")
     private BigDecimal day30TotalIncome;
-
+    @TableField("day_1_avg_total_income")
+    private BigDecimal day1AvgTotalIncome;
+    @TableField("day_2_avg_total_income")
+    private BigDecimal day2AvgTotalIncome;
+    @TableField("day_3_avg_total_income")
+    private BigDecimal day3AvgTotalIncome;
+    @TableField("day_4_avg_total_income")
+    private BigDecimal day4AvgTotalIncome;
+    @TableField("day_5_avg_total_income")
+    private BigDecimal day5AvgTotalIncome;
+    @TableField("day_6_avg_total_income")
+    private BigDecimal day6AvgTotalIncome;
+    @TableField("day_7_avg_total_income")
+    private BigDecimal day7AvgTotalIncome;
+    @TableField("day_8_avg_total_income")
+    private BigDecimal day8AvgTotalIncome;
+    @TableField("day_9_avg_total_income")
+    private BigDecimal day9AvgTotalIncome;
+    @TableField("day_10_avg_total_income")
+    private BigDecimal day10AvgTotalIncome;
+    @TableField("day_11_avg_total_income")
+    private BigDecimal day11AvgTotalIncome;
+    @TableField("day_12_avg_total_income")
+    private BigDecimal day12AvgTotalIncome;
+    @TableField("day_13_avg_total_income")
+    private BigDecimal day13AvgTotalIncome;
+    @TableField("day_14_avg_total_income")
+    private BigDecimal day14AvgTotalIncome;
+    @TableField("day_15_avg_total_income")
+    private BigDecimal day15AvgTotalIncome;
+    @TableField("day_16_avg_total_income")
+    private BigDecimal day16AvgTotalIncome;
+    @TableField("day_17_avg_total_income")
+    private BigDecimal day17AvgTotalIncome;
+    @TableField("day_18_avg_total_income")
+    private BigDecimal day18AvgTotalIncome;
+    @TableField("day_19_avg_total_income")
+    private BigDecimal day19AvgTotalIncome;
+    @TableField("day_20_avg_total_income")
+    private BigDecimal day20AvgTotalIncome;
+    @TableField("day_21_avg_total_income")
+    private BigDecimal day21AvgTotalIncome;
+    @TableField("day_22_avg_total_income")
+    private BigDecimal day22AvgTotalIncome;
+    @TableField("day_23_avg_total_income")
+    private BigDecimal day23AvgTotalIncome;
+    @TableField("day_24_avg_total_income")
+    private BigDecimal day24AvgTotalIncome;
+    @TableField("day_25_avg_total_income")
+    private BigDecimal day25AvgTotalIncome;
+    @TableField("day_26_avg_total_income")
+    private BigDecimal day26AvgTotalIncome;
+    @TableField("day_27_avg_total_income")
+    private BigDecimal day27AvgTotalIncome;
+    @TableField("day_28_avg_total_income")
+    private BigDecimal day28AvgTotalIncome;
+    @TableField("day_29_avg_total_income")
+    private BigDecimal day29AvgTotalIncome;
+    @TableField("day_30_avg_total_income")
+    private BigDecimal day30AvgTotalIncome;
     /**
      * 创建时间
      */

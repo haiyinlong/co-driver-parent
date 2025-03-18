@@ -1,5 +1,6 @@
 package com.leo.ad.codriver.dws.service.impl.pkg;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
  **/
 @Service
 @AllArgsConstructor
+@Order(Integer.MIN_VALUE)
 public class DwsDailyPkgLoginServiceImpl implements DwsService {
 
     private final DwsDailyPkgLoginMapper dwsDailyPkgLoginMapper;

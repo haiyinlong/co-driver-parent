@@ -23,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DwdUserLoginRecordUpdateDwEventHandler {
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final DwsService dwsDailyPackageRetentionServiceImpl;
+    // private final DwsService dwsDailyPackageRetentionServiceImpl;
     private final DwsService dwsDailyPackageCohortRetentionServiceImpl;
 
     private final DwsService dwsDailyPkgVerUsrcLoginServiceImpl;
@@ -42,11 +42,11 @@ public class DwdUserLoginRecordUpdateDwEventHandler {
     public void handleEvent(DwdUserLoginRecordUpdateDwEvent dwdUserLoginRecordUpdateDwEvent) {
         Integer dates = dwdUserLoginRecordUpdateDwEvent.getDates();
         log.info("{} 事件触发 DwdUserLoginRecordUpdateDwEvent", dates);
-        try {
-            dwsDailyPackageRetentionServiceImpl.syncData(dates);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        // try {
+        // dwsDailyPackageRetentionServiceImpl.syncData(dates);
+        // } catch (Exception e) {
+        // throw new RuntimeException(e);
+        // }
         try {
             dwsDailyPackageCohortRetentionServiceImpl.syncData(dates);
         } catch (Exception e) {
