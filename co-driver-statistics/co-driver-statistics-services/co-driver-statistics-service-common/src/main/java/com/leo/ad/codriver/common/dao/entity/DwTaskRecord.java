@@ -78,7 +78,17 @@ public class DwTaskRecord implements Serializable {
     public static DwTaskRecord ofOetaGameRecord(Integer dates, Long startId, Long endId) {
         DwTaskRecord dwTaskRecord = new DwTaskRecord();
         dwTaskRecord.setDates(dates);
-        dwTaskRecord.setType(DwTaskTypeConstant.GAME_RECORD_OETA);
+        dwTaskRecord.setType(DwTaskTypeConstant.GAME_RECORD_OETA.getType());
+        dwTaskRecord.setStartId(startId);
+        dwTaskRecord.setEndId(endId);
+        dwTaskRecord.setStatus(1);
+        return dwTaskRecord;
+    }
+
+    public static DwTaskRecord ofUserLoginRecord(Integer dates, Long startId, Long endId) {
+        DwTaskRecord dwTaskRecord = new DwTaskRecord();
+        dwTaskRecord.setDates(dates);
+        dwTaskRecord.setType(DwTaskTypeConstant.USER_LOGIN_OETA.getType());
         dwTaskRecord.setStartId(startId);
         dwTaskRecord.setEndId(endId);
         dwTaskRecord.setStatus(1);
@@ -102,5 +112,13 @@ public class DwTaskRecord implements Serializable {
 
     public void done() {
         this.status = 2;
+    }
+
+    public boolean validIsOetaGameRecord() {
+        return DwTaskTypeConstant.GAME_RECORD_OETA.getType().equalsIgnoreCase(this.type);
+    }
+
+    public boolean validIsUserLoginRecord() {
+        return DwTaskTypeConstant.USER_LOGIN_OETA.getType().equalsIgnoreCase(this.type);
     }
 }

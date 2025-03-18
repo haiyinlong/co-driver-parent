@@ -8,31 +8,37 @@
         delete
         from dwd_user_login_record
         where dates = #{dates}
+          and source_id is null
     </delete>
-    <select id="getStatisticsCount" resultType="java.lang.Long">
-        select count(1)
+    <select id="getStatisticsCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        select count(1) count, min(ll.id) min_id, max(ll.id) max_id
         FROM ods_login_log ll
         WHERE ll.dates = #{dates}
+        <if test="startId != null and startId > 0">
+            and ll.id > #{startId}
+        </if>
     </select>
-    <select id="statistics" resultType="com.leo.ad.codriver.dwd.entity.DwdUserLoginRecord">
-        SELECT ll.user_id,
-               ll.dates,
-               ll.create_time,
-               u.dates                                           register_dates,
-               u.create_time                                     register_date,
-               u.pkg,
-               IFNULL(uh.address, 'IN')                          country,
-               TIMESTAMPDIFF(DAY, u.create_time, ll.create_time) register_cohort_day,
-               TIMESTAMPDIFF(DAY, u.dates, ll.dates)             register_day,
-               uvm.pvn                                           register_version,
-               ll.pvn                                            version
-        FROM ods_login_log ll
-                 INNER JOIN ods_user u on (ll.user_id = u.id)
-                 LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
-                 LEFT JOIN (SELECT user_id, min(pvn) pvn FROM ods_user_version group by user_id) uvm
-                           on (uvm.user_id = ll.user_id)
-        WHERE ll.dates = #{dates}
-        limit #{rows} offset #{startRows}
+    <select id="queryStatisticsByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserLoginRecord">
+        select dulr2.id, t.*
+        from (SELECT ll.user_id,
+                     ll.id                                             source_id,
+                     ll.dates,
+                     ll.create_time,
+                     u.dates                                           register_dates,
+                     u.create_time                                     register_date,
+                     u.pkg,
+                     IFNULL(uh.address, 'IN')                          country,
+                     TIMESTAMPDIFF(DAY, u.create_time, ll.create_time) register_cohort_day,
+                     TIMESTAMPDIFF(DAY, u.dates, ll.dates)             register_day,
+                     ll.pvn                                            version
+              FROM ods_login_log ll
+                       INNER JOIN ods_user u on (ll.user_id = u.id)
+                       LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
+              WHERE ll.dates = #{dates}
+                and ll.id >= #{startSourceId}
+                and ll.id  <![CDATA[<= ]]> #{endSourceId}) t
+                 left join dwd_user_login_record dulr2 on (t.source_id = dulr2.source_id)
+
     </select>
 
 

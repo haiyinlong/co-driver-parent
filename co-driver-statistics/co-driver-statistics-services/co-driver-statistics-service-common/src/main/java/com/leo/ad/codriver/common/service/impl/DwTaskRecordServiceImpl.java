@@ -24,19 +24,18 @@ public class DwTaskRecordServiceImpl implements DwTaskRecordService {
     private final DwTaskRecordMapper dwTaskRecordMapper;
 
     @Override
-    public DwTaskRecord getOetaGameRecordLastTaskRecord(Integer dates) {
-        // 获取所有数据，获取最大endId的记录返回
-        return dwTaskRecordMapper.getLastTaskRecord(dates, DwTaskTypeConstant.GAME_RECORD_OETA);
+    public DwTaskRecord getLastTaskRecord(Integer dates, DwTaskTypeConstant type) {
+        return dwTaskRecordMapper.getLastTaskRecord(dates, type.getType());
     }
 
     @Override
-    public List<DwTaskRecord> queryOetaGameRecordTaskRecordOfProcess(Integer dates) {
-        return dwTaskRecordMapper.queryTaskRecord(dates, DwTaskTypeConstant.GAME_RECORD_OETA, 1);
+    public List<DwTaskRecord> queryProcessTaskRecord(Integer dates, DwTaskTypeConstant type) {
+        return dwTaskRecordMapper.queryTaskRecord(dates, type.getType(), 1);
     }
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public DwTaskRecord add(DwTaskRecord taskRecord) {
+    public DwTaskRecord save(DwTaskRecord taskRecord) {
         dwTaskRecordMapper.insert(taskRecord);
         return taskRecord;
     }

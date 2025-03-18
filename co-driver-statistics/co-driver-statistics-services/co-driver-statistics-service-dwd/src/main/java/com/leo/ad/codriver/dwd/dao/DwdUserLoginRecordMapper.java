@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserLoginRecord;
 
 /**
@@ -20,8 +21,8 @@ import com.leo.ad.codriver.dwd.entity.DwdUserLoginRecord;
 public interface DwdUserLoginRecordMapper extends BaseMapper<DwdUserLoginRecord> {
     Integer deleteByDates(@Param("dates") Integer dates);
 
-    Long getStatisticsCount(@Param("dates") Integer dates);
+    DwCountDTO getStatisticsCount(@Param("dates") Integer dates, @Param("startId") Long startId);
 
-    List<DwdUserLoginRecord> statistics(@Param("dates") Integer dates, @Param("rows") Integer rows,
-        @Param("startRows") Integer startRows);
+    List<DwdUserLoginRecord> queryStatisticsByDate(@Param("dates") Integer dates,
+        @Param("startSourceId") long startSourceId, @Param("endSourceId") long endSourceId);
 }

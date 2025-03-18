@@ -12,6 +12,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.DwCountDTO;
+import com.leo.ad.codriver.common.DwTaskTypeConstant;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
@@ -49,7 +50,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, Application
     @AutoPushEventWithTrue(events = {DwdUserGameRecordOetaUpdateDwEvent.class})
     public boolean syncData(Integer dates) {
         restartTerminatedTask(dates);
-        DwTaskRecord taskRecord = dwTaskRecordService.getOetaGameRecordLastTaskRecord(dates);
+        DwTaskRecord taskRecord = dwTaskRecordService.getLastTaskRecord(dates, DwTaskTypeConstant.GAME_RECORD_OETA);
         // 如果taskRecord 是空就从数据库获取最新的区间
         DwCountDTO statisticsCount = getStatisticsCount(dates, taskRecord);
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
@@ -57,7 +58,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, Application
         }
         // 插入或更新执行记录
         taskRecord = DwTaskRecord.ofOetaGameRecord(dates, statisticsCount.getMinId(), statisticsCount.getMaxId());
-        taskRecord = dwTaskRecordService.add(taskRecord);
+        taskRecord = dwTaskRecordService.save(taskRecord);
         // 同步数据
         handelOdsGameRecordSyncToDwd(dates, taskRecord);
         return true;
@@ -77,7 +78,7 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, Application
         if (!isRestart) {
             this.isRestart = true;
             List<DwTaskRecord> taskTerminateRecordList =
-                dwTaskRecordService.queryOetaGameRecordTaskRecordOfProcess(dates);
+                dwTaskRecordService.queryProcessTaskRecord(dates, DwTaskTypeConstant.GAME_RECORD_OETA);
             if (!CollectionUtils.isEmpty(taskTerminateRecordList)) {
                 // 异步开启这个任务 taskTerminateRecord
                 taskTerminateRecordList.forEach(taskTerminateRecord -> applicationEventPublisher
@@ -123,6 +124,9 @@ public class DwdUserGameRecordOetaServiceImpl implements DwdService, Application
     @Async
     public void onApplicationEvent(DwRestartTaskEvent event) {
         DwTaskRecord taskRecord = event.getTask();
+        if (!taskRecord.validIsOetaGameRecord()) {
+            return;
+        }
         RLock rLock = redissonClient.getLock("coDriver:lock:userGameRecord" + taskRecord.getId());
         if (!rLock.tryLock()) {
             return;

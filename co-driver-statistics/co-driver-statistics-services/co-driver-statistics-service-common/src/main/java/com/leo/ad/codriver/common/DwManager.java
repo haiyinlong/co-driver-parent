@@ -25,7 +25,7 @@ public class DwManager implements Manager {
         Long startId = getStartId(dates, tableName);
         DwCountDTO dbCount = dynamicTableMapper.getDbCount(dates, tableName, startId);
         DwTaskRecord taskRecord = DwTaskRecord.ofOetaGameRecord(dates, dbCount.getMinId(), dbCount.getMaxId());
-        dwTaskRecordService.add(taskRecord);
+        dwTaskRecordService.save(taskRecord);
     }
 
     private Long getStartId(Integer dates, String tableName) {

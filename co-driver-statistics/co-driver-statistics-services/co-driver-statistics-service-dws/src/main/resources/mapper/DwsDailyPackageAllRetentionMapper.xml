@@ -13,12 +13,13 @@
                                                     register_dates, register_day, retention_user_num)
         select lr.dates,
                lr.pkg,
-               lr.register_version                             version,
+               dui.version,
                lr.register_dates,
                TIMESTAMPDIFF(DAY, lr.register_dates, lr.dates) register_day,
                count(DISTINCT lr.user_id)                      retention_user_num
         from dwd_user_login_record lr
+                 left join dim_user_info dui on dui.user_id = lr.user_id
         where lr.dates = #{dates}
-        group by lr.dates, lr.pkg, lr.register_version, lr.register_dates
+        group by lr.dates, lr.pkg, dui.version, lr.register_dates
     </insert>
 </mapper>

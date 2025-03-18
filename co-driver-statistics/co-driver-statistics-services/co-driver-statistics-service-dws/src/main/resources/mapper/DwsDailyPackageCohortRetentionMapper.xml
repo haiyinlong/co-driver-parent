@@ -25,14 +25,15 @@
                      cohort_q.register_cohort_day,
                      COUNT(DISTINCT ulr.user_id) cohort_user_num
               FROM (SELECT dulr.`pkg`,
-                           dulr.register_version,
+                           dui.version register_version,
                            dulr.`country`,
                            dulr.`register_dates`,
                            dulr.`register_cohort_day`
                     FROM dwd_user_login_record dulr
+                             left join dim_user_info dui on dui.user_id = dulr.user_id
                     WHERE dulr.dates = #{dates}
                     GROUP BY dulr.`pkg`,
-                             dulr.`register_version`,
+                             dui.version,
                              dulr.`country`,
                              dulr.`register_dates`,
                              dulr.`register_cohort_day`) cohort_q
