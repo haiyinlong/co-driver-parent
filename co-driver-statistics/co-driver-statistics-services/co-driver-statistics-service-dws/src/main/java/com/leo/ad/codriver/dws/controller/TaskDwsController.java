@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.dws.service.impl.DwsDailyPackageUserConversionServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateWithdrawServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgConversionServiceImpl;
@@ -17,6 +18,7 @@ import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateAd
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateWithdrawServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPackageAllConversionServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPkgVerAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPkgVerAccumulateWithdrawServiceImpl;
 
@@ -41,7 +43,6 @@ public class TaskDwsController {
     private final List<DwsService> dwsServices;
     private final DwsService dwsHemaAccountFullDailyServiceImpl;
     private final DwsService dwsWithdrawFullDailyServiceImpl;
-    private final DwsService dwsDailyPackageUserConversionServiceImpl;
     private final DwsService dwsDailyPackageRegisterServiceImpl;
     private final DwsService dwsUserRegisterPkgFullDailyServiceImpl;
     private final DwsService dwsDailyPackageCohortConversionServiceImpl;
@@ -126,6 +127,8 @@ public class TaskDwsController {
     private final DwsDailyPkgUsrcAccumulateWithdrawServiceImpl dwsDailyPkgUsrcAccumulateWithdrawServiceImpl;
     private final DwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl dwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl;
     private final DwsDailyPkgConversionServiceImpl dwsDailyPkgConversionServiceImpl;
+    private final DwsDailyPackageAllConversionServiceImpl dwsDailyPackageAllConversionServiceImpl;
+    private final DwsDailyPackageUserConversionServiceImpl dwsDailyPackageUserConversionServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -134,13 +137,15 @@ public class TaskDwsController {
         if (ObjectUtils.isEmpty(dates)) {
             dates = DateUtils.getPreviousDate();
         }
-        log.info("{}  dws数据同步开始", dates);
+        log.info("{} dws数据同步开始, 总个数: {} ", dates, dwsServices.size());
         long dwdStartTime;
+        int index = 1;
         for (DwsService service : dwsServices) {
             dwdStartTime = System.currentTimeMillis();
             service.syncData(dates);
-            log.info("{} dws {} 同步结束, 耗时：{}", dates, service.getClass().getSimpleName(),
+            log.info("{} 第{}个 dws {} 同步结束, 耗时：{}", dates, index, service.getClass().getSimpleName(),
                 (System.currentTimeMillis() - dwdStartTime) / 1000);
+            index++;
         }
         log.info("{} dws数据同步结束", dates);
         return "执行完成dws数据同步";
@@ -176,17 +181,6 @@ public class TaskDwsController {
             dates = DateUtils.getPreviousDate();
         }
         dwsDailyPackageAllLabGameServiceImpl.syncData(dates);
-        return "执行完成dws数据同步";
-    }
-
-    @GetMapping("/packageUserConversion")
-    @Operation(summary = "触发dws用户转化task", description = "触发dws数据同步")
-    public String dwsPackageOfferHandle(@RequestParam("dates") Integer dates) {
-        // 获取统计日期
-        if (ObjectUtils.isEmpty(dates)) {
-            dates = DateUtils.getPreviousDate();
-        }
-        dwsDailyPackageUserConversionServiceImpl.syncData(dates);
         return "执行完成dws数据同步";
     }
 
@@ -650,7 +644,25 @@ public class TaskDwsController {
             log.error("dws包DwsDailyPkgConversionServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
         }
+        try {
+            dwsDailyPackageAllConversionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsDailyPackageAllConversionServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPackageAllLabConversionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsDailyPackageAllLabConversionServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPackageUserConversionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsDailyPackageUserConversionServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
 
-        return "执行完成dws包accumulateWithdraw维度数据统计同步";
+        return "执行完成dws包pkgConversion维度数据统计同步";
     }
 }

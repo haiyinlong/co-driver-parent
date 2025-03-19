@@ -21,9 +21,9 @@
           and c.project_id = #{productId}
     </select>
     <select id="statisticsPackageLogin" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageLogin">
-        select dates, pkg, country, version, count(DISTINCT user_id) user_num
+        select dates, pkg, 'IN' country, version, count(DISTINCT user_id) user_num
         from dwd_user_login_record
         where dates = #{dates}
-        group by dates, pkg, country, version
+        group by dates, pkg, version
     </select>
 </mapper>

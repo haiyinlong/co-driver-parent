@@ -3,6 +3,7 @@ package com.leo.ad.codriver.dws.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+
 import lombok.Data;
 
 @Data
@@ -17,5 +18,5 @@ public class DwsDailyPackageUserConversion {
     private Integer userType;
     private String country;
     private Long userNum;
-
+    private Integer sourceType;
 }

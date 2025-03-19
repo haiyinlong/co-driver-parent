@@ -21,13 +21,13 @@ public interface DwdUserRegisterMapper extends BaseMapper<DwdUserRegister> {
 
     Integer deleteByDates(@Param("dates") Integer dates);
 
-    List<DwdUserRegister> statistics(@Param("dates") Integer dates, @Param("rows") Integer rows,
-        @Param("startRows") Integer startRows);
-
-    Long getStatisticsCount(@Param("dates") Integer dates);
+    DwCountDTO getStatisticsCount(@Param("dates") Integer dates);
 
     DwCountDTO getDbCountOfId(@Param("dates") Integer dates);
 
     List<DwdUserRegister> queryUsrcListWithAndId(@Param("dates") Integer dates, @Param("startId") long startId,
+        @Param("endId") long endId);
+
+    List<DwdUserRegister> statisticsPage(@Param("dates") Integer dates, @Param("startId") long startId,
         @Param("endId") long endId);
 }

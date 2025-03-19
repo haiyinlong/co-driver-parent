@@ -17,5 +17,5 @@ public class DwsDailyPackageAllLabConversion implements BaseEntity {
     private String configGroupType;
     private Long userType;
     private Long userNum;
-
+    private Integer sourceType;
 }

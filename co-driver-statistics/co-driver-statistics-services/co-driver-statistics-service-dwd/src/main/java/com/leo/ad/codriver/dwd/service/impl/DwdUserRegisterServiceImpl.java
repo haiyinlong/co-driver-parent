@@ -5,15 +5,16 @@ import java.util.List;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
 
+import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.dao.DwdUserRegisterMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserRegister;
 import com.leo.ad.codriver.dwd.event.DwdUserRegisterRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
-import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
@@ -38,16 +39,26 @@ public class DwdUserRegisterServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdUserRegisterRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        Integer delRowNum = dwdUserRegisterMapper.deleteByDates(dates);
-        Long totalRecord = dwdUserRegisterMapper.getStatisticsCount(dates);
-        if (totalRecord <= 0) {
-            return delRowNum > 0;
+        DwCountDTO statisticsCount = dwdUserRegisterMapper.getStatisticsCount(dates);
+        if (ObjectUtils.isEmpty(statisticsCount) || statisticsCount.getCount() == 0) {
+            log.info("DwsDailyRegister {} 统计数据为空，跳过处理", dates);
+            return false;
         }
-        long totalPageNum = LongUtils.divide(totalRecord, BatchConst.BATCH_NUMBER.longValue());
-        for (int i = 0; i < totalPageNum; i++) {
-            List<DwdUserRegister> statistics = dwdUserRegisterMapper.statistics(dates,
-                BatchConst.BATCH_NUMBER.intValue(), i * BatchConst.BATCH_NUMBER.intValue());
-            batchMapper.batchInsert(statistics, DwdUserRegisterMapper.class);
+        int loopNum = statisticsCount.loopNum();
+        long startId;
+        long endId;
+        List<DwdUserRegister> registerList;
+        for (int i = 1; i <= loopNum; i++) {
+            startId = statisticsCount.loopStartId(i);
+            endId = statisticsCount.loopEndId(i);
+            registerList = dwdUserRegisterMapper.statisticsPage(dates, startId, endId);
+            if (CollectionUtils.isEmpty(registerList)) {
+                continue;
+            }
+            // 转化数据，入库
+            registerList =
+                registerList.stream().filter(registerItem -> !ObjectUtils.isEmpty(registerItem.getId())).toList();
+            batchMapper.batchInsert(registerList, DwdUserRegisterMapper.class);
         }
         return true;
     }

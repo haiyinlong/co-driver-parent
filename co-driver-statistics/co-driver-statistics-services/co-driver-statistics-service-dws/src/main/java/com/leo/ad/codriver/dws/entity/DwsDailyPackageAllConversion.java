@@ -15,5 +15,5 @@ public class DwsDailyPackageAllConversion implements BaseEntity {
     private String version;
     private Long userType;
     private Long userNum;
-
+    private Integer sourceType;
 }

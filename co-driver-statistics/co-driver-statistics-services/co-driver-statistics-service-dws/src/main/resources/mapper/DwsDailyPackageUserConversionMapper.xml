@@ -9,13 +9,13 @@
     </delete>
     <select id="statisticsActiveList"
             resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageUserConversion">
-        select dates, pkg, country, 0, version, count(DISTINCT user_id), extra_type
+        select dates, pkg, country, 0 user_type, version, count(DISTINCT user_id) user_num, extra_type source_type
         from dwd_user_conversion
         where dates = #{dates}
         group by dates, pkg, country, version, extra_type
     </select>
     <select id="statisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageUserConversion">
-        select dates, pkg, country, 1, version, count(DISTINCT user_id), extra_type
+        select dates, pkg, country, 1 user_type, version, count(DISTINCT user_id) user_num, extra_type source_type
         from dwd_user_conversion
         where dates = #{dates}
           and dates = register_dates

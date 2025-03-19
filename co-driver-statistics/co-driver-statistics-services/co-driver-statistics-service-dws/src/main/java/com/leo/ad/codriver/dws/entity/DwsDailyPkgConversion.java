@@ -14,5 +14,5 @@ public class DwsDailyPkgConversion implements BaseEntity {
     private String pkg;
     private Long userType;
     private Long userNum;
-
+    private Integer sourceType;
 }
