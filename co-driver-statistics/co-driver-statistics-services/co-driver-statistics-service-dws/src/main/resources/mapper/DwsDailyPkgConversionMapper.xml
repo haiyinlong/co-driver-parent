@@ -8,13 +8,13 @@
         where dates = #{dates}
     </delete>
     <select id="statisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgConversion">
-        select dates, pkg, 0, extra_type, count(DISTINCT user_id)
+        select dates, pkg, 0 user_type, extra_type, count(DISTINCT user_id)
         from dwd_user_conversion
         where dates = #{dates}
         group by dates, pkg, extra_type
     </select>
     <select id="statisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgConversion">
-        select dates, pkg, 1, extra_type, count(DISTINCT user_id)
+        select dates, pkg, 1 user_type, extra_type, count(DISTINCT user_id)
         from dwd_user_conversion
         where dates = #{dates}
           and dates = register_dates

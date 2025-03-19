@@ -1,11 +1,7 @@
 package com.leo.ad.codriver.starter.mysql;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
-import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -13,7 +9,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import java.util.List;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * DwBatchMapper
@@ -41,20 +43,27 @@ public class DwBatchMapper<T, U> {
             return;
         }
         try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false)) {
-            BaseMapper mapper = (BaseMapper) sqlSession.getMapper(uClass);
-            for (int i = 0; i < data.size(); i++) {
-                if (data.get(i) instanceof BaseEntity entity && !ObjectUtils.isEmpty(entity.getId())) {
+            BaseMapper mapper = (BaseMapper)sqlSession.getMapper(uClass);
+            int batchSize = 2000;
+            int count = 0;
+
+            for (T item : data) {
+                if (item instanceof BaseEntity entity && !ObjectUtils.isEmpty(entity.getId())) {
                     mapper.updateById(entity);
                 } else {
-                    mapper.insert(data.get(i));
+                    mapper.insert(item);
                 }
-                if (i != 0 && i % 1000 == 0) {
+                count++;
+
+                if (count % batchSize == 0) {
                     sqlSession.commit();
                     sqlSession.clearCache();
                 }
             }
-            sqlSession.commit();
-            sqlSession.clearCache();
+            // 提交剩余的数据
+            if (count % batchSize != 0) {
+                sqlSession.commit();
+            }
         } catch (Exception e) {
             log.error(uClass.getSimpleName() + "批量插入数据失败", e);
             throw e;

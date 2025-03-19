@@ -12,6 +12,7 @@ import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateWithdrawServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgConversionServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateWithdrawServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateAdServiceImpl;
@@ -124,6 +125,7 @@ public class TaskDwsController {
     private final DwsDailyPkgVerAccumulateWithdrawServiceImpl dwsDailyPkgVerAccumulateWithdrawServiceImpl;
     private final DwsDailyPkgUsrcAccumulateWithdrawServiceImpl dwsDailyPkgUsrcAccumulateWithdrawServiceImpl;
     private final DwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl dwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl;
+    private final DwsDailyPkgConversionServiceImpl dwsDailyPkgConversionServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -629,6 +631,23 @@ public class TaskDwsController {
             dwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl.syncData(dates);
         } catch (Exception e) {
             log.error("dws包DwsDailyPkgVerUsrcAccumulateWithdrawServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        return "执行完成dws包accumulateWithdraw维度数据统计同步";
+    }
+
+    @GetMapping("/pkgConversion")
+    @Operation(summary = "触发dws包PkgConversion维度数据统计", description = "触发dws数据同步")
+    public String pkgConversion(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        try {
+            dwsDailyPkgConversionServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包DwsDailyPkgConversionServiceImpl维度数据统计同步异常", e);
             throw new RuntimeException(e);
         }
 
