@@ -7,9 +7,8 @@
         from dws_daily_package_all_lab_conversion
         where dates = #{dates}
     </delete>
-    <insert id="syncActiveList">
-        insert into dws_daily_package_all_lab_conversion(dates, pkg, `user_type`, `version`, config_group_type,
-                                                         config_group_name, user_num, source_type)
+    <select id="statisticsActiveList"
+            resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabConversion">
         select duc.dates,
                duc.pkg,
                0,
@@ -23,10 +22,8 @@
         where duc.dates = #{dates}
         group by duc.dates, duc.pkg, duc.version, duc.extra_type, dul.config_group_type,
                  dul.name
-    </insert>
-    <insert id="syncNewList">
-        insert into dws_daily_package_all_lab_conversion(dates, pkg, `user_type`, `version`, config_group_type,
-                                                         config_group_name, user_num, source_type)
+    </select>
+    <select id="statisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabConversion">
         select duc.dates,
                duc.pkg,
                1,
@@ -41,7 +38,6 @@
           and duc.dates = duc.register_dates
         group by duc.dates, duc.pkg, duc.version, duc.extra_type, dul.config_group_type,
                  dul.name
-    </insert>
-
+    </select>
 
 </mapper>

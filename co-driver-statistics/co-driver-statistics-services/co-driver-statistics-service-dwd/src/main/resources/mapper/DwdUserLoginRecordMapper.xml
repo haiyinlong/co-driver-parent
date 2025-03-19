@@ -27,13 +27,12 @@
                      u.dates                                           register_dates,
                      u.create_time                                     register_date,
                      u.pkg,
-                     IFNULL(uh.address, 'IN')                          country,
+                     'IN'                                              country,
                      TIMESTAMPDIFF(DAY, u.create_time, ll.create_time) register_cohort_day,
                      TIMESTAMPDIFF(DAY, u.dates, ll.dates)             register_day,
                      ll.pvn                                            version
               FROM ods_login_log ll
                        INNER JOIN ods_user u on (ll.user_id = u.id)
-                       LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
               WHERE ll.dates = #{dates}
                 and ll.id >= #{startSourceId}
                 and ll.id  <![CDATA[<= ]]> #{endSourceId}) t

@@ -7,19 +7,17 @@
         from dws_daily_pkg_conversion
         where dates = #{dates}
     </delete>
-    <insert id="syncActiveList">
-        insert into dws_daily_pkg_conversion(dates, pkg, `user_type`, source_type, user_num)
+    <select id="statisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgConversion">
         select dates, pkg, 0, extra_type, count(DISTINCT user_id)
         from dwd_user_conversion
         where dates = #{dates}
         group by dates, pkg, extra_type
-    </insert>
-    <insert id="syncNewList">
-        insert into dws_daily_pkg_conversion(dates, pkg, `user_type`, source_type, user_num)
+    </select>
+    <select id="statisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgConversion">
         select dates, pkg, 1, extra_type, count(DISTINCT user_id)
         from dwd_user_conversion
         where dates = #{dates}
           and dates = register_dates
         group by dates, pkg, extra_type
-    </insert>
+    </select>
 </mapper>

@@ -8,9 +8,7 @@
         from dws_daily_package_all_lab_retention
         where dates = #{dates}
     </delete>
-    <insert id="syncData">
-        insert into dws_daily_package_all_lab_retention(dates, pkg, `version`, config_group_type, config_group_name,
-                                                        register_dates, register_day, retention_user_num)
+    <select id="statisticsData" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabRetention">
         select lr.dates,
                lr.pkg,
                dui.version,
@@ -24,5 +22,5 @@
                  INNER JOIN dim_user_lab dul on (dul.user_id = lr.user_id)
         where lr.dates = #{dates}
         group by lr.dates, lr.pkg, dui.version, lr.register_dates, dul.config_group_type, dul.name
-    </insert>
+    </select>
 </mapper>

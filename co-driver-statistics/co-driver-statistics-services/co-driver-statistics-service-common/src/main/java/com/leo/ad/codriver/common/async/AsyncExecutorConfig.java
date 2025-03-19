@@ -30,6 +30,8 @@ public class AsyncExecutorConfig {
     private int queueCapacity;
     @Value("${async.executor.thread.name.prefix}")
     private String namePrefix;
+    @Value("${async.executor.thread.keep_alive_seconds}")
+    private int keepAliveSeconds;
 
     @Bean(name = "asyncServiceExecutor")
     @Primary
@@ -43,6 +45,8 @@ public class AsyncExecutorConfig {
         executor.setQueueCapacity(queueCapacity);
         // 配置线程池中的线程的名称前缀
         executor.setThreadNamePrefix(namePrefix);
+        // 配置线程空闲时间
+        executor.setKeepAliveSeconds(keepAliveSeconds);
 
         // rejection-policy：当pool已经达到max size的时候，如何处理新任务
         // CALLER_RUNS：不在新线程中执行任务，而是有调用者所在的线程来执行

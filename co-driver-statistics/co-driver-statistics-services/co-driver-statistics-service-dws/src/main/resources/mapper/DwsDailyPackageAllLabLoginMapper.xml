@@ -8,8 +8,8 @@
         from dws_daily_package_all_lab_login
         where dates = #{dates}
     </delete>
-    <insert id="syncDailyPackageAllLabLogin">
-        insert into dws_daily_package_all_lab_login (dates, pkg, version, config_group_type, config_group_name, user_num)
+    <select id="statisticsPackageAllLabLogin"
+            resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabLogin">
         select dulr.dates,
                dulr.pkg,
                dulr.version,
@@ -21,5 +21,5 @@
         where dulr.dates = #{dates}
         group by dulr.dates, dulr.pkg, dulr.version, dul.config_group_type,
                  dul.name
-    </insert>
+    </select>
 </mapper>

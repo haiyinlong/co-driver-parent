@@ -17,6 +17,7 @@
         from dw_task_record
         where dates = #{dates}
           and type = #{type}
+          and status in (1, 2)
         order by id desc
         limit 1
     </select>

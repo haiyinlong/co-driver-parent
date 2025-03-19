@@ -1,5 +1,7 @@
 package com.leo.ad.codriver.dws.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,8 +18,7 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgConversion;
 public interface DwsDailyPkgConversionMapper extends BaseMapper<DwsDailyPkgConversion> {
     void deleteByDates(@Param("dates") Integer dates);
 
-    void syncActiveList(@Param("dates") Integer dates);
+    List<DwsDailyPkgConversion> statisticsActiveList(@Param("dates") Integer dates);
 
-    void syncNewList(@Param("dates") Integer dates);
-
+    List<DwsDailyPkgConversion> statisticsNewList(@Param("dates") Integer dates);
 }

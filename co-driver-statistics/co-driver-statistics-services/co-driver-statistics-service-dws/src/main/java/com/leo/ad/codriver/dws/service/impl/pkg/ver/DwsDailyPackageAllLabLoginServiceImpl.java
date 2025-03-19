@@ -1,11 +1,15 @@
 package com.leo.ad.codriver.dws.service.impl.pkg.ver;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAllLabLoginMapper;
+import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabLogin;
 import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +25,7 @@ import lombok.AllArgsConstructor;
 public class DwsDailyPackageAllLabLoginServiceImpl implements DwsService {
 
     private final DwsDailyPackageAllLabLoginMapper dwsDailyPackageAllLabLoginMapper;
+    private final DwBatchMapper<DwsDailyPackageAllLabLogin, DwsDailyPackageAllLabLoginMapper> dwBatchMapper;
 
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllLabLogin")
@@ -28,6 +33,8 @@ public class DwsDailyPackageAllLabLoginServiceImpl implements DwsService {
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllLabLoginMapper.deleteByDates(dates);
-        dwsDailyPackageAllLabLoginMapper.syncDailyPackageAllLabLogin(dates);
+        List<DwsDailyPackageAllLabLogin> labLoginList =
+            dwsDailyPackageAllLabLoginMapper.statisticsPackageAllLabLogin(dates);
+        dwBatchMapper.batchInsert(labLoginList, DwsDailyPackageAllLabLoginMapper.class);
     }
 }

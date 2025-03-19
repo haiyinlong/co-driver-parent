@@ -8,14 +8,6 @@
         from dws_daily_package_login
         where dates = #{dates}
     </delete>
-    <insert id="syncDailyPackageLogin">
-        insert into dws_daily_package_login (dates, pkg, country, version, user_num)
-        select dates, pkg, country, version, count(DISTINCT user_id) user_num
-        from dwd_user_login_record
-        where dates = #{dates}
-        group by dates, pkg, country, version
-
-    </insert>
     <select id="list" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageLogin">
         select pl.id,
                pl.dates,
@@ -27,5 +19,11 @@
                  inner join dim_channel c on (c.pkg = pl.pkg)
         where pl.dates = #{dates}
           and c.project_id = #{productId}
+    </select>
+    <select id="statisticsPackageLogin" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageLogin">
+        select dates, pkg, country, version, count(DISTINCT user_id) user_num
+        from dwd_user_login_record
+        where dates = #{dates}
+        group by dates, pkg, country, version
     </select>
 </mapper>

@@ -41,9 +41,14 @@ public class DwScheduleTask {
     @Scheduled(cron = "0 0 0 * * ?")
     @Async("asyncServiceExecutor")
     public void syncAllTask() {
+        Integer dates = DateUtils.getPreviousDate();
         // 更新汇率
         exchangeRate.updateFeeUSDToINR();
 
+        syncAllTask(dates);
+    }
+
+    public void syncAllTask(Integer dates) {
         log.info("dim 开始全量同步所有数据");
         for (DimService service : dimServices) {
             try {
@@ -53,9 +58,7 @@ public class DwScheduleTask {
             }
         }
         log.info("dim 全量数据同步结束");
-        // 获取统计日期
-        Integer dates = DateUtils.getPreviousDate();
-        log.info("{} dwd 开始同步所有数据", dates);
+        log.info("{} dwd 开始同步所有数据, 共{} 个", dates, dwdServices.size());
         for (DwdService service : dwdServices) {
             try {
                 service.syncData(dates);
@@ -64,7 +67,7 @@ public class DwScheduleTask {
             }
         }
         log.info("{} dwd 所有数据同步结束", dates);
-        log.info("{} dws 开始同步所有数据", dates);
+        log.info("{} dws 开始同步所有数据, 共{} 个", dates, dwsServices.size());
         for (DwsService service : dwsServices) {
             try {
                 service.syncData(dates);
@@ -73,7 +76,7 @@ public class DwScheduleTask {
             }
         }
         log.info("{} dws 所有数据同步结束", dates);
-        log.info("{} ads 开始同步所有数据", dates);
+        log.info("{} ads 开始同步所有数据, 共{} 个", dates, adsServices.size());
         for (AdsService service : adsServices) {
             try {
                 service.syncData(dates);
@@ -87,22 +90,11 @@ public class DwScheduleTask {
     /**
      * 实时更新当天数据，每小时更新一次当天的历史数据，每天晚上同一再处理一次保证数据的真确性<br/>
      */
-    @Scheduled(cron = "0 0 1-22 * * ?")
+    @Scheduled(cron = "0 0 1-22/2 * * ?")
     @Async("asyncServiceExecutor")
     public void updateCurrentDate() {
         // 获取统计日期
         Integer dates = DateUtils.getNowDates();
-        log.info("{} 实时同步当天数据", dates);
-        log.info("dim 开始实时同步所有数据");
-        // DIM
-        for (DimService service : dimServices) {
-            try {
-                service.syncData();
-            } catch (Exception e) {
-                log.error(dates + "当天" + service.getClass().getSimpleName() + " 数据同步异常", e);
-            }
-        }
-        log.info("dim 实时同步所有数据同步结束");
         log.info("{} dwd 开始实时同步所有数据", dates);
         for (DwdService service : dwdServices) {
             try {
@@ -112,24 +104,6 @@ public class DwScheduleTask {
             }
         }
         log.info("{} dwd 实时同步所有数据同步结束", dates);
-        log.info("{} dws 开始实时同步所有数据", dates);
-        for (DwsService service : dwsServices) {
-            try {
-                service.syncData(dates);
-            } catch (Exception e) {
-                log.error(dates + "当天" + service.getClass().getSimpleName() + " 数据同步异常", e);
-            }
-        }
-        log.info("{} dws 实时同步所有数据同步结束", dates);
-        log.info("{} ads 开始实时同步所有数据", dates);
-        for (AdsService service : adsServices) {
-            try {
-                service.syncData(dates);
-            } catch (Exception e) {
-                log.error(dates + "当天" + service.getClass().getSimpleName() + " 数据同步异常", e);
-            }
-        }
-        log.info("{} ads 实时同步所有数据同步结束", dates);
     }
 
 }

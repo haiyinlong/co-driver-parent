@@ -1,12 +1,14 @@
 package com.leo.ad.codriver.dws.dao;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dws.entity.DwsDailyPackagePayment;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.math.BigDecimal;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dws.entity.DwsDailyPackagePayment;
 
 /**
  * @author HaiYinLong
@@ -17,8 +19,9 @@ import java.math.BigDecimal;
 public interface DwsDailyPackagePaymentMapper extends BaseMapper<DwsDailyPackagePayment> {
     void deleteByDates(@Param("dates") Integer dates);
 
-    void syncDailyPackagePayment(@Param("dates") Integer dates, @Param("singleFee") BigDecimal singleFee);
-
     DwsDailyPackagePayment query(@Param("dates") Integer dates, @Param("country") String country,
-                                 @Param("pkg") String pkg, @Param("version") String version);
+        @Param("pkg") String pkg, @Param("version") String version);
+
+    List<DwsDailyPackagePayment> statisticsPackagePayment(@Param("dates") Integer dates,
+        @Param("singleFee") BigDecimal singleFee);
 }

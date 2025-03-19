@@ -1,12 +1,13 @@
 package com.leo.ad.codriver.dws.dao;
 
-import com.baomidou.dynamic.datasource.annotation.DS;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.leo.ad.codriver.dws.entity.DwsDailyPackageLogin;
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.leo.ad.codriver.dws.entity.DwsDailyPackageLogin;
 
 /**
  * @author HaiYinLong
@@ -18,7 +19,7 @@ public interface DwsDailyPackageLoginMapper extends BaseMapper<DwsDailyPackageLo
 
     void deleteByDates(@Param("dates") Integer dates);
 
-    void syncDailyPackageLogin(@Param("dates") Integer dates);
-
     List<DwsDailyPackageLogin> list(@Param("dates") Integer dates, @Param("productId") Long productId);
+
+    List<DwsDailyPackageLogin> statisticsPackageLogin(@Param("dates") Integer dates);
 }

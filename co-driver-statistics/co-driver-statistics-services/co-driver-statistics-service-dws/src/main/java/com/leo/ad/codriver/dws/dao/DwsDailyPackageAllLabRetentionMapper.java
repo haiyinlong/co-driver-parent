@@ -1,5 +1,7 @@
 package com.leo.ad.codriver.dws.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -16,6 +18,5 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllLabRetention;
 public interface DwsDailyPackageAllLabRetentionMapper extends BaseMapper<DwsDailyPackageAllLabRetention> {
     void deleteByDates(@Param("dates") Integer dates);
 
-    void syncData(@Param("dates") Integer dates);
-
+    List<DwsDailyPackageAllLabRetention> statisticsData(@Param("dates") Integer dates);
 }

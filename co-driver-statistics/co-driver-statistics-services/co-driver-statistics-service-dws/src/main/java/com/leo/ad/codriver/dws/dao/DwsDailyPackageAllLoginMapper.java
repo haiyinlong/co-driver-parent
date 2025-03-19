@@ -1,5 +1,7 @@
 package com.leo.ad.codriver.dws.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,6 +19,5 @@ public interface DwsDailyPackageAllLoginMapper extends BaseMapper<DwsDailyPackag
 
     void deleteByDates(@Param("dates") Integer dates);
 
-    void syncDailyPackageAllLogin(@Param("dates") Integer dates);
-
+    List<DwsDailyPackageAllLogin> statisticsPackageAllLogin(@Param("dates") Integer dates);
 }

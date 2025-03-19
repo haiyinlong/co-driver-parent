@@ -44,7 +44,6 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
     private final DwTaskRecordService dwTaskRecordService;
     private final DwdUserLoginRecordMapper dwdUserLoginRecordMapper;
     private final DwBatchMapper<DwdUserLoginRecord, DwdUserLoginRecordMapper> dwBatchMapper;
-    private volatile boolean isRestart = false;
     private final RedissonClient redissonClient;
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -107,15 +106,12 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
     }
 
     private void restartTerminatedTask(Integer dates) {
-        if (!isRestart) {
-            this.isRestart = true;
-            List<DwTaskRecord> taskTerminateRecordList =
-                dwTaskRecordService.queryProcessTaskRecord(dates, DwTaskTypeConstant.USER_LOGIN_OETA);
-            if (!CollectionUtils.isEmpty(taskTerminateRecordList)) {
-                // 异步开启这个任务 taskTerminateRecord
-                taskTerminateRecordList.forEach(taskTerminateRecord -> applicationEventPublisher
-                    .publishEvent(new DwRestartTaskEvent(this, dates, taskTerminateRecord)));
-            }
+        List<DwTaskRecord> taskTerminateRecordList =
+            dwTaskRecordService.queryProcessTaskRecord(dates, DwTaskTypeConstant.USER_LOGIN_OETA);
+        if (!CollectionUtils.isEmpty(taskTerminateRecordList)) {
+            // 异步开启这个任务 taskTerminateRecord
+            taskTerminateRecordList.forEach(taskTerminateRecord -> applicationEventPublisher
+                .publishEvent(new DwRestartTaskEvent(this, dates, taskTerminateRecord)));
         }
     }
 

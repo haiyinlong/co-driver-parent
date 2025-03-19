@@ -1,11 +1,15 @@
 package com.leo.ad.codriver.dws.service.impl.pkg.ver;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPackageAllConversionMapper;
+import com.leo.ad.codriver.dws.entity.DwsDailyPackageAllConversion;
 import com.leo.ad.codriver.dws.service.DwsService;
+import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.AllArgsConstructor;
@@ -19,6 +23,7 @@ import lombok.AllArgsConstructor;
 public class DwsDailyPackageAllConversionServiceImpl implements DwsService {
 
     private final DwsDailyPackageAllConversionMapper dwsDailyPackageAllConversionMapper;
+    private final DwBatchMapper<DwsDailyPackageAllConversion, DwsDailyPackageAllConversionMapper> dwBatchMapper;
 
     @Override
     @ShowExecuteTime(name = "DwsDailyPackageAllConversion")
@@ -26,7 +31,11 @@ public class DwsDailyPackageAllConversionServiceImpl implements DwsService {
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPackageAllConversionMapper.deleteByDates(dates);
-        dwsDailyPackageAllConversionMapper.syncActiveList(dates);
-        dwsDailyPackageAllConversionMapper.syncNewList(dates);
+        List<DwsDailyPackageAllConversion> allConversionActiveList =
+            dwsDailyPackageAllConversionMapper.statisticsActiveList(dates);
+        dwBatchMapper.batchInsert(allConversionActiveList, DwsDailyPackageAllConversionMapper.class);
+        List<DwsDailyPackageAllConversion> allConversionNewList =
+            dwsDailyPackageAllConversionMapper.statisticsNewList(dates);
+        dwBatchMapper.batchInsert(allConversionNewList, DwsDailyPackageAllConversionMapper.class);
     }
 }

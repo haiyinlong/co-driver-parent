@@ -8,9 +8,7 @@
         from dws_daily_pkg_retention
         where dates = #{dates}
     </delete>
-    <insert id="syncData">
-        insert into dws_daily_pkg_retention(dates, pkg,
-                                            register_dates, register_day, retention_user_num)
+    <select id="statisticsPkgRetention" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgRetention">
         select lr.dates,
                lr.pkg,
                lr.register_dates,
@@ -19,5 +17,6 @@
         from dwd_user_login_record lr
         where lr.dates = #{dates}
         group by lr.dates, lr.pkg, lr.register_dates
-    </insert>
+    </select>
+
 </mapper>

@@ -7,9 +7,20 @@
         from dws_daily_package_payment
         where dates = #{dates}
     </delete>
-    <insert id="syncDailyPackagePayment">
-        insert into dws_daily_package_payment(dates, pkg, country, `version`, user_num, pay_amount, exchange_rate,
-                                              change_amount)
+    <select id="query" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackagePayment">
+        select id,
+               dates,
+               pkg,
+               country,
+               version,
+               user_num
+        from dws_daily_package_payment
+        where dates = #{dates}
+          and pkg = #{pkg}
+          and version = #{version}
+          and country = #{country}
+    </select>
+    <select id="statisticsPackagePayment" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackagePayment">
         select pay_t.dates,
                c.pkg,
                'IN'                                      country,
@@ -30,21 +41,6 @@
               GROUP BY t.dates, SUBSTRING_INDEX(t.campaign_name, '_', 1),
                        SUBSTRING_INDEX(SUBSTRING_INDEX(t.campaign_name, '_', 2), '_', -1)) pay_t
                  LEFT JOIN dim_channel c on (c.channel_id = pay_t.channel)
-
-    </insert>
-
-    <select id="query" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackagePayment">
-        select id,
-               dates,
-               pkg,
-               country,
-               version,
-               user_num
-        from dws_daily_package_payment
-        where dates = #{dates}
-          and pkg = #{pkg}
-          and version = #{version}
-          and country = #{country}
     </select>
 
 </mapper>

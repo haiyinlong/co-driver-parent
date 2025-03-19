@@ -1,10 +1,12 @@
 package com.leo.ad.codriver.controller;
 
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.scheduler.DwScheduleTask;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +31,10 @@ public class DwController {
     @GetMapping("/")
     @Operation(summary = "dw数据同步", description = "触发dw数据同步")
     public String adsHandle(@RequestParam("dates") Integer dates) {
-        dwScheduleTask.syncAllTask();
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwScheduleTask.syncAllTask(dates);
         return "执行完成ads数据同步";
     }
 }

@@ -28,12 +28,13 @@ mybatis-plus:
 async:
   executor:
     thread:
+      keep_alive_seconds: 60
       # 配置核心线程数
       core_pool_size: 8
       # 配置最大线程数
       max_pool_size: 16
       # 配置队列大小
-      queue_capacity: 99999
+      queue_capacity: 50
       # 配置线程池中的线程的名称前缀
       name:
         prefix: co-driver-async-

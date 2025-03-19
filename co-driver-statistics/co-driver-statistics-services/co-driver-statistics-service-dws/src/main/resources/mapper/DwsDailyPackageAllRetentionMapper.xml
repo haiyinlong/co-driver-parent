@@ -8,9 +8,7 @@
         from dws_daily_package_all_retention
         where dates = #{dates}
     </delete>
-    <insert id="syncData">
-        insert into dws_daily_package_all_retention(dates, pkg, `version`,
-                                                    register_dates, register_day, retention_user_num)
+    <select id="statisticsPkgLogin" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPackageAllRetention">
         select lr.dates,
                lr.pkg,
                dui.version,
@@ -21,5 +19,5 @@
                  left join dim_user_info dui on dui.user_id = lr.user_id
         where lr.dates = #{dates}
         group by lr.dates, lr.pkg, dui.version, lr.register_dates
-    </insert>
+    </select>
 </mapper>

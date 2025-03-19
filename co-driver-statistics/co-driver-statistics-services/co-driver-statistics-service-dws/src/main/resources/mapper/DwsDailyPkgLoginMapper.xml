@@ -8,11 +8,10 @@
         from dws_daily_pkg_login
         where dates = #{dates}
     </delete>
-    <insert id="syncDailyPackageAllLogin">
-        insert into dws_daily_pkg_login (dates, pkg, user_num)
+    <select id="statisticsPkgLogin" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgLogin">
         select dates, pkg, count(DISTINCT user_id) user_num
         from dwd_user_login_record
         where dates = #{dates}
         group by dates, pkg
-    </insert>
+    </select>
 </mapper>
