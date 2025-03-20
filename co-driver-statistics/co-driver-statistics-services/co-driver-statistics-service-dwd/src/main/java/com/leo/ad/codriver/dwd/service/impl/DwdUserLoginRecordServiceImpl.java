@@ -1,6 +1,9 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -26,6 +29,7 @@ import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
+import com.leo.ad.codriver.starter.redis.util.RedisUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +50,7 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
     private final DwBatchMapper<DwdUserLoginRecord, DwdUserLoginRecordMapper> dwBatchMapper;
     private final RedissonClient redissonClient;
     private final ApplicationEventPublisher applicationEventPublisher;
+    private final RedisUtils redisUtils;
 
     @Override
     @ShowExecuteTime(name = "dwdUserLoginRecord  syncData")
@@ -67,8 +72,15 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
         return true;
     }
 
+    /**
+     * 只统计当日用户的一条记录，避免重复同步数据<br>
+     * 通过set 记录数据如果不存在就插入，存在就不插入
+     *
+     * @param taskRecord
+     */
     private void handelOdsUserLoginRecordSyncToDwd(DwTaskRecord taskRecord) {
         try {
+            String key = "coDriver:dwdUserLoginRecord:" + taskRecord.getDates();
             long startSourceId = taskRecord.getStartId();
             long endSourceId = startSourceId + BatchConst.BATCH_MAX_NUMBER;
             List<DwdUserLoginRecord> userLoginRecordList;
@@ -83,9 +95,14 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
                 if (CollectionUtils.isEmpty(userLoginRecordList)) {
                     continue;
                 }
-                userLoginRecordList = userLoginRecordList.stream()
-                    .filter(userLoginRecord -> ObjectUtils.isEmpty(userLoginRecord.getId())).toList();
+                userLoginRecordList =
+                    userLoginRecordList.stream().filter(userLoginRecord -> ObjectUtils.isEmpty(userLoginRecord.getId()))
+                        .filter(userLoginRecord -> !isHasUserLoginRecord(key, userLoginRecord.getUserId())).toList();
                 if (!CollectionUtils.isEmpty(userLoginRecordList)) {
+                    userLoginRecordList = userLoginRecordList.stream()
+                        .collect(Collectors.toMap(DwdUserLoginRecord::getUserId, Function.identity(), (v1, v2) -> v1))
+                        .values().stream().toList();
+                    this.updateUserLoginRecordSet(key, userLoginRecordList);
                     dwBatchMapper.batchInsert(userLoginRecordList, DwdUserLoginRecordMapper.class);
                 }
                 taskRecord.process(endSourceId);
@@ -95,6 +112,17 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
             log.error("dwdUserLoginRecord  syncData error", e);
             throw e;
         }
+    }
+
+    private void updateUserLoginRecordSet(String key, List<DwdUserLoginRecord> userLoginRecordList) {
+        for (DwdUserLoginRecord dwdUserLoginRecord : userLoginRecordList) {
+            redisUtils.getRedisTemplate().opsForValue().setBit(key, dwdUserLoginRecord.getUserId(), true);
+        }
+        redisUtils.getRedisTemplate().expire(key, 1, TimeUnit.DAYS);
+    }
+
+    private boolean isHasUserLoginRecord(String key, Long userId) {
+        return Boolean.TRUE.equals(redisUtils.getRedisTemplate().opsForValue().getBit(key, userId));
     }
 
     private DwCountDTO getStatisticsCount(Integer dates) {

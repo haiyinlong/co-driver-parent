@@ -2,8 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserLoginRecordMapper">
-
-
+    
     <delete id="deleteByDates">
         delete
         from dwd_user_login_record
@@ -36,7 +35,10 @@
               WHERE ll.dates = #{dates}
                 and ll.id >= #{startSourceId}
                 and ll.id  <![CDATA[<= ]]> #{endSourceId}) t
-                 left join dwd_user_login_record dulr2 on (t.source_id = dulr2.source_id)
+                 left join dwd_user_login_record dulr2 on (dulr2.dates = t.dates and dulr2.pkg = t.pkg
+            and dulr2.version = t.version and dulr2.user_id = t.user_id and dulr2.register_day = t.register_day and
+                                                           dulr2.register_day = t.register_day and
+                                                           dulr2.user_id = t.user_id and dulr2.version = t.version)
 
     </select>
 
