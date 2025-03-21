@@ -27,5 +27,9 @@
             <groupId>com.leo.ad</groupId>
             <artifactId>co-driver-statistics-service-dwd</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>mysql-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>

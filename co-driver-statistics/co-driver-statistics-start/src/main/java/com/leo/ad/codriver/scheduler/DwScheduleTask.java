@@ -38,7 +38,7 @@ public class DwScheduleTask {
     /**
      * 全量同步数据，每日凌晨全量同步前一天数据
      */
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "10 0 0 * * ?")
     @Async("asyncServiceExecutor")
     public void syncAllTask() {
         Integer dates = DateUtils.getPreviousDate();
