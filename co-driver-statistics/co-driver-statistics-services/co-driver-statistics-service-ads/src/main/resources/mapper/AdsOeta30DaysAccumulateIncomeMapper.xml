@@ -554,7 +554,13 @@
                t.user_num                                                                          new_user_num,
                ddpaa1.accumulate_total_not_custom_directsold_show_count                            day_1_ad_show_num,
                ddpaa1.accumulate_total_not_custom_directsold_income                                day_1_ad_income,
-               ddpaa1.accumulate_total_not_custom_directsold_ecpm                                  day_1_ad_reward_ecpm,
+               ((ddpaa1.accumulate_total_not_custom_directsold_income -
+                 ddpaa1.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa1.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa1.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa1.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa1.accumulate_banner_not_custom_directsold_show_count) * 1000)
+                                                                                                   day_1_ad_reward_ecpm,
                ddpaa1.accumulate_total_not_custom_directsold_show_count / t.user_num               day_1_ad_avg_show_num,
                ddpaa1.accumulate_custom_directsold_show_count / t.user_num                         day_1_custom_ad_avg_show_num,
                ddpaa1.accumulate_custom_directsold_show_count                                      day_1_custom_ad_show_num,
@@ -572,7 +578,12 @@
                                            t.user_num)                                             day_1_total_income,
                ddpaa2.accumulate_total_not_custom_directsold_show_count                            day_2_ad_show_num,
                ddpaa2.accumulate_total_not_custom_directsold_income                                day_2_ad_income,
-               ddpaa2.accumulate_total_not_custom_directsold_ecpm                                  day_2_ad_reward_ecpm,
+               ((ddpaa2.accumulate_total_not_custom_directsold_income -
+                 ddpaa2.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa2.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa2.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa2.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa2.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_2_ad_reward_ecpm,
                ddpaa2.accumulate_total_not_custom_directsold_show_count / t.user_num               day_2_ad_avg_show_num,
                ddpaa2.accumulate_custom_directsold_show_count / t.user_num                         day_2_custom_ad_avg_show_num,
                ddpaa2.accumulate_custom_directsold_show_count                                      day_2_custom_ad_show_num,
@@ -591,7 +602,12 @@
                                            t.user_num)                                             day_2_total_income,
                ddpaa3.accumulate_total_not_custom_directsold_show_count                            day_3_ad_show_num,
                ddpaa3.accumulate_total_not_custom_directsold_income                                day_3_ad_income,
-               ddpaa3.accumulate_total_not_custom_directsold_ecpm                                  day_3_ad_reward_ecpm,
+               ((ddpaa3.accumulate_total_not_custom_directsold_income -
+                 ddpaa3.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa3.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa3.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa3.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa3.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_3_ad_reward_ecpm,
                ddpaa3.accumulate_total_not_custom_directsold_show_count / t.user_num               day_3_ad_avg_show_num,
                ddpaa3.accumulate_custom_directsold_show_count / t.user_num                         day_3_custom_ad_avg_show_num,
                ddpaa3.accumulate_custom_directsold_show_count                                      day_3_custom_ad_show_num,
@@ -610,7 +626,12 @@
                                            t.user_num)                                             day_3_total_income,
                ddpaa4.accumulate_total_not_custom_directsold_show_count                            day_4_ad_show_num,
                ddpaa4.accumulate_total_not_custom_directsold_income                                day_4_ad_income,
-               ddpaa4.accumulate_total_not_custom_directsold_ecpm                                  day_4_ad_reward_ecpm,
+               ((ddpaa4.accumulate_total_not_custom_directsold_income -
+                 ddpaa4.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa4.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa4.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa4.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa4.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_4_ad_reward_ecpm,
                ddpaa4.accumulate_total_not_custom_directsold_show_count / t.user_num               day_4_ad_avg_show_num,
                ddpaa4.accumulate_custom_directsold_show_count / t.user_num                         day_4_custom_ad_avg_show_num,
                ddpaa4.accumulate_custom_directsold_show_count                                      day_4_custom_ad_show_num,
@@ -629,7 +650,12 @@
                                            t.user_num)                                             day_4_total_income,
                ddpaa5.accumulate_total_not_custom_directsold_show_count                            day_5_ad_show_num,
                ddpaa5.accumulate_total_not_custom_directsold_income                                day_5_ad_income,
-               ddpaa5.accumulate_total_not_custom_directsold_ecpm                                  day_5_ad_reward_ecpm,
+               ((ddpaa5.accumulate_total_not_custom_directsold_income -
+                 ddpaa5.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa5.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa5.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa5.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa5.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_5_ad_reward_ecpm,
                ddpaa5.accumulate_total_not_custom_directsold_show_count / t.user_num               day_5_ad_avg_show_num,
                ddpaa5.accumulate_custom_directsold_show_count / t.user_num                         day_5_custom_ad_avg_show_num,
                ddpaa5.accumulate_custom_directsold_show_count                                      day_5_custom_ad_show_num,
@@ -648,7 +674,12 @@
                                            t.user_num)                                             day_5_total_income,
                ddpaa6.accumulate_total_not_custom_directsold_show_count                            day_6_ad_show_num,
                ddpaa6.accumulate_total_not_custom_directsold_income                                day_6_ad_income,
-               ddpaa6.accumulate_total_not_custom_directsold_ecpm                                  day_6_ad_reward_ecpm,
+               ((ddpaa6.accumulate_total_not_custom_directsold_income -
+                 ddpaa6.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa6.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa6.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa6.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa6.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_6_ad_reward_ecpm,
                ddpaa6.accumulate_total_not_custom_directsold_show_count / t.user_num               day_6_ad_avg_show_num,
                ddpaa6.accumulate_custom_directsold_show_count / t.user_num                         day_6_custom_ad_avg_show_num,
                ddpaa6.accumulate_custom_directsold_show_count                                      day_6_custom_ad_show_num,
@@ -667,7 +698,12 @@
                                            t.user_num)                                             day_6_total_income,
                ddpaa7.accumulate_total_not_custom_directsold_show_count                            day_7_ad_show_num,
                ddpaa7.accumulate_total_not_custom_directsold_income                                day_7_ad_income,
-               ddpaa7.accumulate_total_not_custom_directsold_ecpm                                  day_7_ad_reward_ecpm,
+               ((ddpaa7.accumulate_total_not_custom_directsold_income -
+                 ddpaa7.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa7.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa7.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa7.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa7.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_7_ad_reward_ecpm,
                ddpaa7.accumulate_total_not_custom_directsold_show_count / t.user_num               day_7_ad_avg_show_num,
                ddpaa7.accumulate_custom_directsold_show_count / t.user_num                         day_7_custom_ad_avg_show_num,
                ddpaa7.accumulate_custom_directsold_show_count                                      day_7_custom_ad_show_num,
@@ -686,7 +722,12 @@
                                            t.user_num)                                             day_7_total_income,
                ddpaa8.accumulate_total_not_custom_directsold_show_count                            day_8_ad_show_num,
                ddpaa8.accumulate_total_not_custom_directsold_income                                day_8_ad_income,
-               ddpaa8.accumulate_total_not_custom_directsold_ecpm                                  day_8_ad_reward_ecpm,
+               ((ddpaa8.accumulate_total_not_custom_directsold_income -
+                 ddpaa8.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa8.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa8.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa8.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa8.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_8_ad_reward_ecpm,
                ddpaa8.accumulate_total_not_custom_directsold_show_count / t.user_num               day_8_ad_avg_show_num,
                ddpaa8.accumulate_custom_directsold_show_count / t.user_num                         day_8_custom_ad_avg_show_num,
                ddpaa8.accumulate_custom_directsold_show_count                                      day_8_custom_ad_show_num,
@@ -705,7 +746,12 @@
                                            t.user_num)                                             day_8_total_income,
                ddpaa9.accumulate_total_not_custom_directsold_show_count                            day_9_ad_show_num,
                ddpaa9.accumulate_total_not_custom_directsold_income                                day_9_ad_income,
-               ddpaa9.accumulate_total_not_custom_directsold_ecpm                                  day_9_ad_reward_ecpm,
+               ((ddpaa9.accumulate_total_not_custom_directsold_income -
+                 ddpaa9.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa9.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa9.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa9.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa9.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_9_ad_reward_ecpm,
                ddpaa9.accumulate_total_not_custom_directsold_show_count / t.user_num               day_9_ad_avg_show_num,
                ddpaa9.accumulate_custom_directsold_show_count / t.user_num                         day_9_custom_ad_avg_show_num,
                ddpaa9.accumulate_custom_directsold_show_count                                      day_9_custom_ad_show_num,
@@ -724,7 +770,13 @@
                                            t.user_num)                                             day_9_total_income,
                ddpaa10.accumulate_total_not_custom_directsold_show_count                           day_10_ad_show_num,
                ddpaa10.accumulate_total_not_custom_directsold_income                               day_10_ad_income,
-               ddpaa10.accumulate_total_not_custom_directsold_ecpm                                 day_10_ad_reward_ecpm,
+               ((ddpaa10.accumulate_total_not_custom_directsold_income -
+                 ddpaa10.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa10.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa10.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa10.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa10.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_10_ad_reward_ecpm,
                ddpaa10.accumulate_total_not_custom_directsold_show_count / t.user_num              day_10_ad_avg_show_num,
                ddpaa10.accumulate_custom_directsold_show_count / t.user_num                        day_10_custom_ad_avg_show_num,
                ddpaa10.accumulate_custom_directsold_show_count                                     day_10_custom_ad_show_num,
@@ -743,7 +795,13 @@
                                             t.user_num)                                            day_10_total_income,
                ddpaa11.accumulate_total_not_custom_directsold_show_count                           day_11_ad_show_num,
                ddpaa11.accumulate_total_not_custom_directsold_income                               day_11_ad_income,
-               ddpaa11.accumulate_total_not_custom_directsold_ecpm                                 day_11_ad_reward_ecpm,
+               ((ddpaa11.accumulate_total_not_custom_directsold_income -
+                 ddpaa11.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa11.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa11.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa11.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa11.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_11_ad_reward_ecpm,
                ddpaa11.accumulate_total_not_custom_directsold_show_count / t.user_num              day_11_ad_avg_show_num,
                ddpaa11.accumulate_custom_directsold_show_count / t.user_num                        day_11_custom_ad_avg_show_num,
                ddpaa11.accumulate_custom_directsold_show_count                                     day_11_custom_ad_show_num,
@@ -762,7 +820,13 @@
                                             t.user_num)                                            day_11_total_income,
                ddpaa12.accumulate_total_not_custom_directsold_show_count                           day_12_ad_show_num,
                ddpaa12.accumulate_total_not_custom_directsold_income                               day_12_ad_income,
-               ddpaa12.accumulate_total_not_custom_directsold_ecpm                                 day_12_ad_reward_ecpm,
+               ((ddpaa12.accumulate_total_not_custom_directsold_income -
+                 ddpaa12.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa12.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa12.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa12.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa12.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_12_ad_reward_ecpm,
                ddpaa12.accumulate_total_not_custom_directsold_show_count / t.user_num              day_12_ad_avg_show_num,
                ddpaa12.accumulate_custom_directsold_show_count / t.user_num                        day_12_custom_ad_avg_show_num,
                ddpaa12.accumulate_custom_directsold_show_count                                     day_12_custom_ad_show_num,
@@ -781,7 +845,13 @@
                                             t.user_num)                                            day_12_total_income,
                ddpaa13.accumulate_total_not_custom_directsold_show_count                           day_13_ad_show_num,
                ddpaa13.accumulate_total_not_custom_directsold_income                               day_13_ad_income,
-               ddpaa13.accumulate_total_not_custom_directsold_ecpm                                 day_13_ad_reward_ecpm,
+               ((ddpaa13.accumulate_total_not_custom_directsold_income -
+                 ddpaa13.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa13.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa13.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa13.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa13.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_13_ad_reward_ecpm,
                ddpaa13.accumulate_total_not_custom_directsold_show_count / t.user_num              day_13_ad_avg_show_num,
                ddpaa13.accumulate_custom_directsold_show_count / t.user_num                        day_13_custom_ad_avg_show_num,
                ddpaa13.accumulate_custom_directsold_show_count                                     day_13_custom_ad_show_num,
@@ -800,7 +870,13 @@
                                             t.user_num)                                            day_13_total_income,
                ddpaa14.accumulate_total_not_custom_directsold_show_count                           day_14_ad_show_num,
                ddpaa14.accumulate_total_not_custom_directsold_income                               day_14_ad_income,
-               ddpaa14.accumulate_total_not_custom_directsold_ecpm                                 day_14_ad_reward_ecpm,
+               ((ddpaa14.accumulate_total_not_custom_directsold_income -
+                 ddpaa14.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa14.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa14.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa14.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa14.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_14_ad_reward_ecpm,
                ddpaa14.accumulate_total_not_custom_directsold_show_count / t.user_num              day_14_ad_avg_show_num,
                ddpaa14.accumulate_custom_directsold_show_count / t.user_num                        day_14_custom_ad_avg_show_num,
                ddpaa14.accumulate_custom_directsold_show_count                                     day_14_custom_ad_show_num,
@@ -819,7 +895,13 @@
                                             t.user_num)                                            day_14_total_income,
                ddpaa15.accumulate_total_not_custom_directsold_show_count                           day_15_ad_show_num,
                ddpaa15.accumulate_total_not_custom_directsold_income                               day_15_ad_income,
-               ddpaa15.accumulate_total_not_custom_directsold_ecpm                                 day_15_ad_reward_ecpm,
+               ((ddpaa15.accumulate_total_not_custom_directsold_income -
+                 ddpaa15.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa15.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa15.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa15.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa15.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_15_ad_reward_ecpm,
                ddpaa15.accumulate_total_not_custom_directsold_show_count / t.user_num              day_15_ad_avg_show_num,
                ddpaa15.accumulate_custom_directsold_show_count / t.user_num                        day_15_custom_ad_avg_show_num,
                ddpaa15.accumulate_custom_directsold_show_count                                     day_15_custom_ad_show_num,
@@ -838,7 +920,13 @@
                                             t.user_num)                                            day_15_total_income,
                ddpaa16.accumulate_total_not_custom_directsold_show_count                           day_16_ad_show_num,
                ddpaa16.accumulate_total_not_custom_directsold_income                               day_16_ad_income,
-               ddpaa16.accumulate_total_not_custom_directsold_ecpm                                 day_16_ad_reward_ecpm,
+               ((ddpaa16.accumulate_total_not_custom_directsold_income -
+                 ddpaa16.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa16.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa16.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa16.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa16.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_16_ad_reward_ecpm,
                ddpaa16.accumulate_total_not_custom_directsold_show_count / t.user_num              day_16_ad_avg_show_num,
                ddpaa16.accumulate_custom_directsold_show_count / t.user_num                        day_16_custom_ad_avg_show_num,
                ddpaa16.accumulate_custom_directsold_show_count                                     day_16_custom_ad_show_num,
@@ -857,7 +945,13 @@
                                             t.user_num)                                            day_16_total_income,
                ddpaa17.accumulate_total_not_custom_directsold_show_count                           day_17_ad_show_num,
                ddpaa17.accumulate_total_not_custom_directsold_income                               day_17_ad_income,
-               ddpaa17.accumulate_total_not_custom_directsold_ecpm                                 day_17_ad_reward_ecpm,
+               ((ddpaa17.accumulate_total_not_custom_directsold_income -
+                 ddpaa17.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa17.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa17.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa17.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa17.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_17_ad_reward_ecpm,
                ddpaa17.accumulate_total_not_custom_directsold_show_count / t.user_num              day_17_ad_avg_show_num,
                ddpaa17.accumulate_custom_directsold_show_count / t.user_num                        day_17_custom_ad_avg_show_num,
                ddpaa17.accumulate_custom_directsold_show_count                                     day_17_custom_ad_show_num,
@@ -876,7 +970,13 @@
                                             t.user_num)                                            day_17_total_income,
                ddpaa18.accumulate_total_not_custom_directsold_show_count                           day_18_ad_show_num,
                ddpaa18.accumulate_total_not_custom_directsold_income                               day_18_ad_income,
-               ddpaa18.accumulate_total_not_custom_directsold_ecpm                                 day_18_ad_reward_ecpm,
+               ((ddpaa18.accumulate_total_not_custom_directsold_income -
+                 ddpaa18.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa18.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa18.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa18.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa18.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_18_ad_reward_ecpm,
                ddpaa18.accumulate_total_not_custom_directsold_show_count / t.user_num              day_18_ad_avg_show_num,
                ddpaa18.accumulate_custom_directsold_show_count / t.user_num                        day_18_custom_ad_avg_show_num,
                ddpaa18.accumulate_custom_directsold_show_count                                     day_18_custom_ad_show_num,
@@ -895,7 +995,13 @@
                                             t.user_num)                                            day_18_total_income,
                ddpaa19.accumulate_total_not_custom_directsold_show_count                           day_19_ad_show_num,
                ddpaa19.accumulate_total_not_custom_directsold_income                               day_19_ad_income,
-               ddpaa19.accumulate_total_not_custom_directsold_ecpm                                 day_19_ad_reward_ecpm,
+               ((ddpaa19.accumulate_total_not_custom_directsold_income -
+                 ddpaa19.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa19.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa19.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa19.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa19.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_19_ad_reward_ecpm,
                ddpaa19.accumulate_total_not_custom_directsold_show_count / t.user_num              day_19_ad_avg_show_num,
                ddpaa19.accumulate_custom_directsold_show_count / t.user_num                        day_19_custom_ad_avg_show_num,
                ddpaa19.accumulate_custom_directsold_show_count                                     day_19_custom_ad_show_num,
@@ -914,7 +1020,13 @@
                                             t.user_num)                                            day_19_total_income,
                ddpaa20.accumulate_total_not_custom_directsold_show_count                           day_20_ad_show_num,
                ddpaa20.accumulate_total_not_custom_directsold_income                               day_20_ad_income,
-               ddpaa20.accumulate_total_not_custom_directsold_ecpm                                 day_20_ad_reward_ecpm,
+               ((ddpaa20.accumulate_total_not_custom_directsold_income -
+                 ddpaa20.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa20.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa20.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa20.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa20.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_20_ad_reward_ecpm,
                ddpaa20.accumulate_total_not_custom_directsold_show_count / t.user_num              day_20_ad_avg_show_num,
                ddpaa20.accumulate_custom_directsold_show_count / t.user_num                        day_20_custom_ad_avg_show_num,
                ddpaa20.accumulate_custom_directsold_show_count                                     day_20_custom_ad_show_num,
@@ -933,7 +1045,13 @@
                                             t.user_num)                                            day_20_total_income,
                ddpaa21.accumulate_total_not_custom_directsold_show_count                           day_21_ad_show_num,
                ddpaa21.accumulate_total_not_custom_directsold_income                               day_21_ad_income,
-               ddpaa21.accumulate_total_not_custom_directsold_ecpm                                 day_21_ad_reward_ecpm,
+               ((ddpaa21.accumulate_total_not_custom_directsold_income -
+                 ddpaa21.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa21.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa21.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa21.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa21.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_21_ad_reward_ecpm,
                ddpaa21.accumulate_total_not_custom_directsold_show_count / t.user_num              day_21_ad_avg_show_num,
                ddpaa21.accumulate_custom_directsold_show_count / t.user_num                        day_21_custom_ad_avg_show_num,
                ddpaa21.accumulate_custom_directsold_show_count                                     day_21_custom_ad_show_num,
@@ -952,7 +1070,13 @@
                                             t.user_num)                                            day_21_total_income,
                ddpaa22.accumulate_total_not_custom_directsold_show_count                           day_22_ad_show_num,
                ddpaa22.accumulate_total_not_custom_directsold_income                               day_22_ad_income,
-               ddpaa22.accumulate_total_not_custom_directsold_ecpm                                 day_22_ad_reward_ecpm,
+               ((ddpaa22.accumulate_total_not_custom_directsold_income -
+                 ddpaa22.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa22.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa22.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa22.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa22.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_22_ad_reward_ecpm,
                ddpaa22.accumulate_total_not_custom_directsold_show_count / t.user_num              day_22_ad_avg_show_num,
                ddpaa22.accumulate_custom_directsold_show_count / t.user_num                        day_22_custom_ad_avg_show_num,
                ddpaa22.accumulate_custom_directsold_show_count                                     day_22_custom_ad_show_num,
@@ -971,7 +1095,13 @@
                                             t.user_num)                                            day_22_total_income,
                ddpaa23.accumulate_total_not_custom_directsold_show_count                           day_23_ad_show_num,
                ddpaa23.accumulate_total_not_custom_directsold_income                               day_23_ad_income,
-               ddpaa23.accumulate_total_not_custom_directsold_ecpm                                 day_23_ad_reward_ecpm,
+               ((ddpaa23.accumulate_total_not_custom_directsold_income -
+                 ddpaa23.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa23.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa23.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa23.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa23.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_23_ad_reward_ecpm,
                ddpaa23.accumulate_total_not_custom_directsold_show_count / t.user_num              day_23_ad_avg_show_num,
                ddpaa23.accumulate_custom_directsold_show_count / t.user_num                        day_23_custom_ad_avg_show_num,
                ddpaa23.accumulate_custom_directsold_show_count                                     day_23_custom_ad_show_num,
@@ -990,7 +1120,13 @@
                                             t.user_num)                                            day_23_total_income,
                ddpaa24.accumulate_total_not_custom_directsold_show_count                           day_24_ad_show_num,
                ddpaa24.accumulate_total_not_custom_directsold_income                               day_24_ad_income,
-               ddpaa24.accumulate_total_not_custom_directsold_ecpm                                 day_24_ad_reward_ecpm,
+               ((ddpaa24.accumulate_total_not_custom_directsold_income -
+                 ddpaa24.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa24.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa24.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa24.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa24.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_24_ad_reward_ecpm,
                ddpaa24.accumulate_total_not_custom_directsold_show_count / t.user_num              day_24_ad_avg_show_num,
                ddpaa24.accumulate_custom_directsold_show_count / t.user_num                        day_24_custom_ad_avg_show_num,
                ddpaa24.accumulate_custom_directsold_show_count                                     day_24_custom_ad_show_num,
@@ -1009,7 +1145,13 @@
                                             t.user_num)                                            day_24_total_income,
                ddpaa25.accumulate_total_not_custom_directsold_show_count                           day_25_ad_show_num,
                ddpaa25.accumulate_total_not_custom_directsold_income                               day_25_ad_income,
-               ddpaa25.accumulate_total_not_custom_directsold_ecpm                                 day_25_ad_reward_ecpm,
+               ((ddpaa25.accumulate_total_not_custom_directsold_income -
+                 ddpaa25.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa25.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa25.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa25.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa25.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_25_ad_reward_ecpm,
                ddpaa25.accumulate_total_not_custom_directsold_show_count / t.user_num              day_25_ad_avg_show_num,
                ddpaa25.accumulate_custom_directsold_show_count / t.user_num                        day_25_custom_ad_avg_show_num,
                ddpaa25.accumulate_custom_directsold_show_count                                     day_25_custom_ad_show_num,
@@ -1028,7 +1170,13 @@
                                             t.user_num)                                            day_25_total_income,
                ddpaa26.accumulate_total_not_custom_directsold_show_count                           day_26_ad_show_num,
                ddpaa26.accumulate_total_not_custom_directsold_income                               day_26_ad_income,
-               ddpaa26.accumulate_total_not_custom_directsold_ecpm                                 day_26_ad_reward_ecpm,
+               ((ddpaa26.accumulate_total_not_custom_directsold_income -
+                 ddpaa26.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa26.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa26.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa26.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa26.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_26_ad_reward_ecpm,
                ddpaa26.accumulate_total_not_custom_directsold_show_count / t.user_num              day_26_ad_avg_show_num,
                ddpaa26.accumulate_custom_directsold_show_count / t.user_num                        day_26_custom_ad_avg_show_num,
                ddpaa26.accumulate_custom_directsold_show_count                                     day_26_custom_ad_show_num,
@@ -1047,7 +1195,13 @@
                                             t.user_num)                                            day_26_total_income,
                ddpaa27.accumulate_total_not_custom_directsold_show_count                           day_27_ad_show_num,
                ddpaa27.accumulate_total_not_custom_directsold_income                               day_27_ad_income,
-               ddpaa27.accumulate_total_not_custom_directsold_ecpm                                 day_27_ad_reward_ecpm,
+               ((ddpaa27.accumulate_total_not_custom_directsold_income -
+                 ddpaa27.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa27.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa27.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa27.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa27.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_27_ad_reward_ecpm,
                ddpaa27.accumulate_total_not_custom_directsold_show_count / t.user_num              day_27_ad_avg_show_num,
                ddpaa27.accumulate_custom_directsold_show_count / t.user_num                        day_27_custom_ad_avg_show_num,
                ddpaa27.accumulate_custom_directsold_show_count                                     day_27_custom_ad_show_num,
@@ -1066,7 +1220,13 @@
                                             t.user_num)                                            day_27_total_income,
                ddpaa28.accumulate_total_not_custom_directsold_show_count                           day_28_ad_show_num,
                ddpaa28.accumulate_total_not_custom_directsold_income                               day_28_ad_income,
-               ddpaa28.accumulate_total_not_custom_directsold_ecpm                                 day_28_ad_reward_ecpm,
+               ((ddpaa28.accumulate_total_not_custom_directsold_income -
+                 ddpaa28.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa28.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa28.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa28.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa28.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_28_ad_reward_ecpm,
                ddpaa28.accumulate_total_not_custom_directsold_show_count / t.user_num              day_28_ad_avg_show_num,
                ddpaa28.accumulate_custom_directsold_show_count / t.user_num                        day_28_custom_ad_avg_show_num,
                ddpaa28.accumulate_custom_directsold_show_count                                     day_28_custom_ad_show_num,
@@ -1085,7 +1245,13 @@
                                             t.user_num)                                            day_28_total_income,
                ddpaa29.accumulate_total_not_custom_directsold_show_count                           day_29_ad_show_num,
                ddpaa29.accumulate_total_not_custom_directsold_income                               day_29_ad_income,
-               ddpaa29.accumulate_total_not_custom_directsold_ecpm                                 day_29_ad_reward_ecpm,
+               ((ddpaa29.accumulate_total_not_custom_directsold_income -
+                 ddpaa29.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa29.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa29.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa29.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa29.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_29_ad_reward_ecpm,
                ddpaa29.accumulate_total_not_custom_directsold_show_count / t.user_num              day_29_ad_avg_show_num,
                ddpaa29.accumulate_custom_directsold_show_count / t.user_num                        day_29_custom_ad_avg_show_num,
                ddpaa29.accumulate_custom_directsold_show_count                                     day_29_custom_ad_show_num,
@@ -1104,7 +1270,13 @@
                                             t.user_num)                                            day_29_total_income,
                ddpaa30.accumulate_total_not_custom_directsold_show_count                           day_30_ad_show_num,
                ddpaa30.accumulate_total_not_custom_directsold_income                               day_30_ad_income,
-               ddpaa30.accumulate_total_not_custom_directsold_ecpm                                 day_30_ad_reward_ecpm,
+               ((ddpaa30.accumulate_total_not_custom_directsold_income -
+                 ddpaa30.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa30.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa30.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa30.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa30.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_30_ad_reward_ecpm,
                ddpaa30.accumulate_total_not_custom_directsold_show_count / t.user_num              day_30_ad_avg_show_num,
                ddpaa30.accumulate_custom_directsold_show_count / t.user_num                        day_30_custom_ad_avg_show_num,
                ddpaa30.accumulate_custom_directsold_show_count                                     day_30_custom_ad_show_num,
@@ -1317,7 +1489,13 @@
                t.user_num                                                                          new_user_num,
                ddpaa1.accumulate_total_not_custom_directsold_show_count                            day_1_ad_show_num,
                ddpaa1.accumulate_total_not_custom_directsold_income                                day_1_ad_income,
-               ddpaa1.accumulate_total_not_custom_directsold_ecpm                                  day_1_ad_reward_ecpm,
+               ((ddpaa1.accumulate_total_not_custom_directsold_income -
+                 ddpaa1.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa1.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa1.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa1.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa1.accumulate_banner_not_custom_directsold_show_count) * 1000)
+                                                                                                   day_1_ad_reward_ecpm,
                ddpaa1.accumulate_total_not_custom_directsold_show_count / t.user_num               day_1_ad_avg_show_num,
                ddpaa1.accumulate_custom_directsold_show_count / t.user_num                         day_1_custom_ad_avg_show_num,
                ddpaa1.accumulate_custom_directsold_show_count                                      day_1_custom_ad_show_num,
@@ -1335,7 +1513,12 @@
                                            t.user_num)                                             day_1_total_income,
                ddpaa2.accumulate_total_not_custom_directsold_show_count                            day_2_ad_show_num,
                ddpaa2.accumulate_total_not_custom_directsold_income                                day_2_ad_income,
-               ddpaa2.accumulate_total_not_custom_directsold_ecpm                                  day_2_ad_reward_ecpm,
+               ((ddpaa2.accumulate_total_not_custom_directsold_income -
+                 ddpaa2.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa2.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa2.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa2.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa2.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_2_ad_reward_ecpm,
                ddpaa2.accumulate_total_not_custom_directsold_show_count / t.user_num               day_2_ad_avg_show_num,
                ddpaa2.accumulate_custom_directsold_show_count / t.user_num                         day_2_custom_ad_avg_show_num,
                ddpaa2.accumulate_custom_directsold_show_count                                      day_2_custom_ad_show_num,
@@ -1354,7 +1537,12 @@
                                            t.user_num)                                             day_2_total_income,
                ddpaa3.accumulate_total_not_custom_directsold_show_count                            day_3_ad_show_num,
                ddpaa3.accumulate_total_not_custom_directsold_income                                day_3_ad_income,
-               ddpaa3.accumulate_total_not_custom_directsold_ecpm                                  day_3_ad_reward_ecpm,
+               ((ddpaa3.accumulate_total_not_custom_directsold_income -
+                 ddpaa3.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa3.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa3.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa3.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa3.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_3_ad_reward_ecpm,
                ddpaa3.accumulate_total_not_custom_directsold_show_count / t.user_num               day_3_ad_avg_show_num,
                ddpaa3.accumulate_custom_directsold_show_count / t.user_num                         day_3_custom_ad_avg_show_num,
                ddpaa3.accumulate_custom_directsold_show_count                                      day_3_custom_ad_show_num,
@@ -1373,7 +1561,12 @@
                                            t.user_num)                                             day_3_total_income,
                ddpaa4.accumulate_total_not_custom_directsold_show_count                            day_4_ad_show_num,
                ddpaa4.accumulate_total_not_custom_directsold_income                                day_4_ad_income,
-               ddpaa4.accumulate_total_not_custom_directsold_ecpm                                  day_4_ad_reward_ecpm,
+               ((ddpaa4.accumulate_total_not_custom_directsold_income -
+                 ddpaa4.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa4.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa4.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa4.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa4.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_4_ad_reward_ecpm,
                ddpaa4.accumulate_total_not_custom_directsold_show_count / t.user_num               day_4_ad_avg_show_num,
                ddpaa4.accumulate_custom_directsold_show_count / t.user_num                         day_4_custom_ad_avg_show_num,
                ddpaa4.accumulate_custom_directsold_show_count                                      day_4_custom_ad_show_num,
@@ -1392,7 +1585,12 @@
                                            t.user_num)                                             day_4_total_income,
                ddpaa5.accumulate_total_not_custom_directsold_show_count                            day_5_ad_show_num,
                ddpaa5.accumulate_total_not_custom_directsold_income                                day_5_ad_income,
-               ddpaa5.accumulate_total_not_custom_directsold_ecpm                                  day_5_ad_reward_ecpm,
+               ((ddpaa5.accumulate_total_not_custom_directsold_income -
+                 ddpaa5.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa5.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa5.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa5.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa5.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_5_ad_reward_ecpm,
                ddpaa5.accumulate_total_not_custom_directsold_show_count / t.user_num               day_5_ad_avg_show_num,
                ddpaa5.accumulate_custom_directsold_show_count / t.user_num                         day_5_custom_ad_avg_show_num,
                ddpaa5.accumulate_custom_directsold_show_count                                      day_5_custom_ad_show_num,
@@ -1411,7 +1609,12 @@
                                            t.user_num)                                             day_5_total_income,
                ddpaa6.accumulate_total_not_custom_directsold_show_count                            day_6_ad_show_num,
                ddpaa6.accumulate_total_not_custom_directsold_income                                day_6_ad_income,
-               ddpaa6.accumulate_total_not_custom_directsold_ecpm                                  day_6_ad_reward_ecpm,
+               ((ddpaa6.accumulate_total_not_custom_directsold_income -
+                 ddpaa6.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa6.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa6.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa6.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa6.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_6_ad_reward_ecpm,
                ddpaa6.accumulate_total_not_custom_directsold_show_count / t.user_num               day_6_ad_avg_show_num,
                ddpaa6.accumulate_custom_directsold_show_count / t.user_num                         day_6_custom_ad_avg_show_num,
                ddpaa6.accumulate_custom_directsold_show_count                                      day_6_custom_ad_show_num,
@@ -1430,7 +1633,12 @@
                                            t.user_num)                                             day_6_total_income,
                ddpaa7.accumulate_total_not_custom_directsold_show_count                            day_7_ad_show_num,
                ddpaa7.accumulate_total_not_custom_directsold_income                                day_7_ad_income,
-               ddpaa7.accumulate_total_not_custom_directsold_ecpm                                  day_7_ad_reward_ecpm,
+               ((ddpaa7.accumulate_total_not_custom_directsold_income -
+                 ddpaa7.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa7.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa7.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa7.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa7.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_7_ad_reward_ecpm,
                ddpaa7.accumulate_total_not_custom_directsold_show_count / t.user_num               day_7_ad_avg_show_num,
                ddpaa7.accumulate_custom_directsold_show_count / t.user_num                         day_7_custom_ad_avg_show_num,
                ddpaa7.accumulate_custom_directsold_show_count                                      day_7_custom_ad_show_num,
@@ -1449,7 +1657,12 @@
                                            t.user_num)                                             day_7_total_income,
                ddpaa8.accumulate_total_not_custom_directsold_show_count                            day_8_ad_show_num,
                ddpaa8.accumulate_total_not_custom_directsold_income                                day_8_ad_income,
-               ddpaa8.accumulate_total_not_custom_directsold_ecpm                                  day_8_ad_reward_ecpm,
+               ((ddpaa8.accumulate_total_not_custom_directsold_income -
+                 ddpaa8.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa8.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa8.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa8.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa8.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_8_ad_reward_ecpm,
                ddpaa8.accumulate_total_not_custom_directsold_show_count / t.user_num               day_8_ad_avg_show_num,
                ddpaa8.accumulate_custom_directsold_show_count / t.user_num                         day_8_custom_ad_avg_show_num,
                ddpaa8.accumulate_custom_directsold_show_count                                      day_8_custom_ad_show_num,
@@ -1468,7 +1681,12 @@
                                            t.user_num)                                             day_8_total_income,
                ddpaa9.accumulate_total_not_custom_directsold_show_count                            day_9_ad_show_num,
                ddpaa9.accumulate_total_not_custom_directsold_income                                day_9_ad_income,
-               ddpaa9.accumulate_total_not_custom_directsold_ecpm                                  day_9_ad_reward_ecpm,
+               ((ddpaa9.accumulate_total_not_custom_directsold_income -
+                 ddpaa9.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa9.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa9.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa9.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa9.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_9_ad_reward_ecpm,
                ddpaa9.accumulate_total_not_custom_directsold_show_count / t.user_num               day_9_ad_avg_show_num,
                ddpaa9.accumulate_custom_directsold_show_count / t.user_num                         day_9_custom_ad_avg_show_num,
                ddpaa9.accumulate_custom_directsold_show_count                                      day_9_custom_ad_show_num,
@@ -1487,7 +1705,13 @@
                                            t.user_num)                                             day_9_total_income,
                ddpaa10.accumulate_total_not_custom_directsold_show_count                           day_10_ad_show_num,
                ddpaa10.accumulate_total_not_custom_directsold_income                               day_10_ad_income,
-               ddpaa10.accumulate_total_not_custom_directsold_ecpm                                 day_10_ad_reward_ecpm,
+               ((ddpaa10.accumulate_total_not_custom_directsold_income -
+                 ddpaa10.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa10.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa10.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa10.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa10.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_10_ad_reward_ecpm,
                ddpaa10.accumulate_total_not_custom_directsold_show_count / t.user_num              day_10_ad_avg_show_num,
                ddpaa10.accumulate_custom_directsold_show_count / t.user_num                        day_10_custom_ad_avg_show_num,
                ddpaa10.accumulate_custom_directsold_show_count                                     day_10_custom_ad_show_num,
@@ -1506,7 +1730,13 @@
                                             t.user_num)                                            day_10_total_income,
                ddpaa11.accumulate_total_not_custom_directsold_show_count                           day_11_ad_show_num,
                ddpaa11.accumulate_total_not_custom_directsold_income                               day_11_ad_income,
-               ddpaa11.accumulate_total_not_custom_directsold_ecpm                                 day_11_ad_reward_ecpm,
+               ((ddpaa11.accumulate_total_not_custom_directsold_income -
+                 ddpaa11.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa11.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa11.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa11.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa11.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_11_ad_reward_ecpm,
                ddpaa11.accumulate_total_not_custom_directsold_show_count / t.user_num              day_11_ad_avg_show_num,
                ddpaa11.accumulate_custom_directsold_show_count / t.user_num                        day_11_custom_ad_avg_show_num,
                ddpaa11.accumulate_custom_directsold_show_count                                     day_11_custom_ad_show_num,
@@ -1525,7 +1755,13 @@
                                             t.user_num)                                            day_11_total_income,
                ddpaa12.accumulate_total_not_custom_directsold_show_count                           day_12_ad_show_num,
                ddpaa12.accumulate_total_not_custom_directsold_income                               day_12_ad_income,
-               ddpaa12.accumulate_total_not_custom_directsold_ecpm                                 day_12_ad_reward_ecpm,
+               ((ddpaa12.accumulate_total_not_custom_directsold_income -
+                 ddpaa12.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa12.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa12.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa12.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa12.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_12_ad_reward_ecpm,
                ddpaa12.accumulate_total_not_custom_directsold_show_count / t.user_num              day_12_ad_avg_show_num,
                ddpaa12.accumulate_custom_directsold_show_count / t.user_num                        day_12_custom_ad_avg_show_num,
                ddpaa12.accumulate_custom_directsold_show_count                                     day_12_custom_ad_show_num,
@@ -1544,7 +1780,13 @@
                                             t.user_num)                                            day_12_total_income,
                ddpaa13.accumulate_total_not_custom_directsold_show_count                           day_13_ad_show_num,
                ddpaa13.accumulate_total_not_custom_directsold_income                               day_13_ad_income,
-               ddpaa13.accumulate_total_not_custom_directsold_ecpm                                 day_13_ad_reward_ecpm,
+               ((ddpaa13.accumulate_total_not_custom_directsold_income -
+                 ddpaa13.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa13.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa13.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa13.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa13.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_13_ad_reward_ecpm,
                ddpaa13.accumulate_total_not_custom_directsold_show_count / t.user_num              day_13_ad_avg_show_num,
                ddpaa13.accumulate_custom_directsold_show_count / t.user_num                        day_13_custom_ad_avg_show_num,
                ddpaa13.accumulate_custom_directsold_show_count                                     day_13_custom_ad_show_num,
@@ -1563,7 +1805,13 @@
                                             t.user_num)                                            day_13_total_income,
                ddpaa14.accumulate_total_not_custom_directsold_show_count                           day_14_ad_show_num,
                ddpaa14.accumulate_total_not_custom_directsold_income                               day_14_ad_income,
-               ddpaa14.accumulate_total_not_custom_directsold_ecpm                                 day_14_ad_reward_ecpm,
+               ((ddpaa14.accumulate_total_not_custom_directsold_income -
+                 ddpaa14.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa14.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa14.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa14.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa14.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_14_ad_reward_ecpm,
                ddpaa14.accumulate_total_not_custom_directsold_show_count / t.user_num              day_14_ad_avg_show_num,
                ddpaa14.accumulate_custom_directsold_show_count / t.user_num                        day_14_custom_ad_avg_show_num,
                ddpaa14.accumulate_custom_directsold_show_count                                     day_14_custom_ad_show_num,
@@ -1582,7 +1830,13 @@
                                             t.user_num)                                            day_14_total_income,
                ddpaa15.accumulate_total_not_custom_directsold_show_count                           day_15_ad_show_num,
                ddpaa15.accumulate_total_not_custom_directsold_income                               day_15_ad_income,
-               ddpaa15.accumulate_total_not_custom_directsold_ecpm                                 day_15_ad_reward_ecpm,
+               ((ddpaa15.accumulate_total_not_custom_directsold_income -
+                 ddpaa15.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa15.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa15.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa15.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa15.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_15_ad_reward_ecpm,
                ddpaa15.accumulate_total_not_custom_directsold_show_count / t.user_num              day_15_ad_avg_show_num,
                ddpaa15.accumulate_custom_directsold_show_count / t.user_num                        day_15_custom_ad_avg_show_num,
                ddpaa15.accumulate_custom_directsold_show_count                                     day_15_custom_ad_show_num,
@@ -1601,7 +1855,13 @@
                                             t.user_num)                                            day_15_total_income,
                ddpaa16.accumulate_total_not_custom_directsold_show_count                           day_16_ad_show_num,
                ddpaa16.accumulate_total_not_custom_directsold_income                               day_16_ad_income,
-               ddpaa16.accumulate_total_not_custom_directsold_ecpm                                 day_16_ad_reward_ecpm,
+               ((ddpaa16.accumulate_total_not_custom_directsold_income -
+                 ddpaa16.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa16.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa16.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa16.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa16.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_16_ad_reward_ecpm,
                ddpaa16.accumulate_total_not_custom_directsold_show_count / t.user_num              day_16_ad_avg_show_num,
                ddpaa16.accumulate_custom_directsold_show_count / t.user_num                        day_16_custom_ad_avg_show_num,
                ddpaa16.accumulate_custom_directsold_show_count                                     day_16_custom_ad_show_num,
@@ -1620,7 +1880,13 @@
                                             t.user_num)                                            day_16_total_income,
                ddpaa17.accumulate_total_not_custom_directsold_show_count                           day_17_ad_show_num,
                ddpaa17.accumulate_total_not_custom_directsold_income                               day_17_ad_income,
-               ddpaa17.accumulate_total_not_custom_directsold_ecpm                                 day_17_ad_reward_ecpm,
+               ((ddpaa17.accumulate_total_not_custom_directsold_income -
+                 ddpaa17.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa17.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa17.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa17.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa17.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_17_ad_reward_ecpm,
                ddpaa17.accumulate_total_not_custom_directsold_show_count / t.user_num              day_17_ad_avg_show_num,
                ddpaa17.accumulate_custom_directsold_show_count / t.user_num                        day_17_custom_ad_avg_show_num,
                ddpaa17.accumulate_custom_directsold_show_count                                     day_17_custom_ad_show_num,
@@ -1639,7 +1905,13 @@
                                             t.user_num)                                            day_17_total_income,
                ddpaa18.accumulate_total_not_custom_directsold_show_count                           day_18_ad_show_num,
                ddpaa18.accumulate_total_not_custom_directsold_income                               day_18_ad_income,
-               ddpaa18.accumulate_total_not_custom_directsold_ecpm                                 day_18_ad_reward_ecpm,
+               ((ddpaa18.accumulate_total_not_custom_directsold_income -
+                 ddpaa18.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa18.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa18.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa18.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa18.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_18_ad_reward_ecpm,
                ddpaa18.accumulate_total_not_custom_directsold_show_count / t.user_num              day_18_ad_avg_show_num,
                ddpaa18.accumulate_custom_directsold_show_count / t.user_num                        day_18_custom_ad_avg_show_num,
                ddpaa18.accumulate_custom_directsold_show_count                                     day_18_custom_ad_show_num,
@@ -1658,7 +1930,13 @@
                                             t.user_num)                                            day_18_total_income,
                ddpaa19.accumulate_total_not_custom_directsold_show_count                           day_19_ad_show_num,
                ddpaa19.accumulate_total_not_custom_directsold_income                               day_19_ad_income,
-               ddpaa19.accumulate_total_not_custom_directsold_ecpm                                 day_19_ad_reward_ecpm,
+               ((ddpaa19.accumulate_total_not_custom_directsold_income -
+                 ddpaa19.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa19.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa19.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa19.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa19.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_19_ad_reward_ecpm,
                ddpaa19.accumulate_total_not_custom_directsold_show_count / t.user_num              day_19_ad_avg_show_num,
                ddpaa19.accumulate_custom_directsold_show_count / t.user_num                        day_19_custom_ad_avg_show_num,
                ddpaa19.accumulate_custom_directsold_show_count                                     day_19_custom_ad_show_num,
@@ -1677,7 +1955,13 @@
                                             t.user_num)                                            day_19_total_income,
                ddpaa20.accumulate_total_not_custom_directsold_show_count                           day_20_ad_show_num,
                ddpaa20.accumulate_total_not_custom_directsold_income                               day_20_ad_income,
-               ddpaa20.accumulate_total_not_custom_directsold_ecpm                                 day_20_ad_reward_ecpm,
+               ((ddpaa20.accumulate_total_not_custom_directsold_income -
+                 ddpaa20.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa20.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa20.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa20.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa20.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_20_ad_reward_ecpm,
                ddpaa20.accumulate_total_not_custom_directsold_show_count / t.user_num              day_20_ad_avg_show_num,
                ddpaa20.accumulate_custom_directsold_show_count / t.user_num                        day_20_custom_ad_avg_show_num,
                ddpaa20.accumulate_custom_directsold_show_count                                     day_20_custom_ad_show_num,
@@ -1696,7 +1980,13 @@
                                             t.user_num)                                            day_20_total_income,
                ddpaa21.accumulate_total_not_custom_directsold_show_count                           day_21_ad_show_num,
                ddpaa21.accumulate_total_not_custom_directsold_income                               day_21_ad_income,
-               ddpaa21.accumulate_total_not_custom_directsold_ecpm                                 day_21_ad_reward_ecpm,
+               ((ddpaa21.accumulate_total_not_custom_directsold_income -
+                 ddpaa21.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa21.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa21.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa21.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa21.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_21_ad_reward_ecpm,
                ddpaa21.accumulate_total_not_custom_directsold_show_count / t.user_num              day_21_ad_avg_show_num,
                ddpaa21.accumulate_custom_directsold_show_count / t.user_num                        day_21_custom_ad_avg_show_num,
                ddpaa21.accumulate_custom_directsold_show_count                                     day_21_custom_ad_show_num,
@@ -1715,7 +2005,13 @@
                                             t.user_num)                                            day_21_total_income,
                ddpaa22.accumulate_total_not_custom_directsold_show_count                           day_22_ad_show_num,
                ddpaa22.accumulate_total_not_custom_directsold_income                               day_22_ad_income,
-               ddpaa22.accumulate_total_not_custom_directsold_ecpm                                 day_22_ad_reward_ecpm,
+               ((ddpaa22.accumulate_total_not_custom_directsold_income -
+                 ddpaa22.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa22.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa22.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa22.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa22.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_22_ad_reward_ecpm,
                ddpaa22.accumulate_total_not_custom_directsold_show_count / t.user_num              day_22_ad_avg_show_num,
                ddpaa22.accumulate_custom_directsold_show_count / t.user_num                        day_22_custom_ad_avg_show_num,
                ddpaa22.accumulate_custom_directsold_show_count                                     day_22_custom_ad_show_num,
@@ -1734,7 +2030,13 @@
                                             t.user_num)                                            day_22_total_income,
                ddpaa23.accumulate_total_not_custom_directsold_show_count                           day_23_ad_show_num,
                ddpaa23.accumulate_total_not_custom_directsold_income                               day_23_ad_income,
-               ddpaa23.accumulate_total_not_custom_directsold_ecpm                                 day_23_ad_reward_ecpm,
+               ((ddpaa23.accumulate_total_not_custom_directsold_income -
+                 ddpaa23.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa23.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa23.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa23.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa23.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_23_ad_reward_ecpm,
                ddpaa23.accumulate_total_not_custom_directsold_show_count / t.user_num              day_23_ad_avg_show_num,
                ddpaa23.accumulate_custom_directsold_show_count / t.user_num                        day_23_custom_ad_avg_show_num,
                ddpaa23.accumulate_custom_directsold_show_count                                     day_23_custom_ad_show_num,
@@ -1753,7 +2055,13 @@
                                             t.user_num)                                            day_23_total_income,
                ddpaa24.accumulate_total_not_custom_directsold_show_count                           day_24_ad_show_num,
                ddpaa24.accumulate_total_not_custom_directsold_income                               day_24_ad_income,
-               ddpaa24.accumulate_total_not_custom_directsold_ecpm                                 day_24_ad_reward_ecpm,
+               ((ddpaa24.accumulate_total_not_custom_directsold_income -
+                 ddpaa24.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa24.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa24.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa24.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa24.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_24_ad_reward_ecpm,
                ddpaa24.accumulate_total_not_custom_directsold_show_count / t.user_num              day_24_ad_avg_show_num,
                ddpaa24.accumulate_custom_directsold_show_count / t.user_num                        day_24_custom_ad_avg_show_num,
                ddpaa24.accumulate_custom_directsold_show_count                                     day_24_custom_ad_show_num,
@@ -1772,7 +2080,13 @@
                                             t.user_num)                                            day_24_total_income,
                ddpaa25.accumulate_total_not_custom_directsold_show_count                           day_25_ad_show_num,
                ddpaa25.accumulate_total_not_custom_directsold_income                               day_25_ad_income,
-               ddpaa25.accumulate_total_not_custom_directsold_ecpm                                 day_25_ad_reward_ecpm,
+               ((ddpaa25.accumulate_total_not_custom_directsold_income -
+                 ddpaa25.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa25.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa25.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa25.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa25.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_25_ad_reward_ecpm,
                ddpaa25.accumulate_total_not_custom_directsold_show_count / t.user_num              day_25_ad_avg_show_num,
                ddpaa25.accumulate_custom_directsold_show_count / t.user_num                        day_25_custom_ad_avg_show_num,
                ddpaa25.accumulate_custom_directsold_show_count                                     day_25_custom_ad_show_num,
@@ -1791,7 +2105,13 @@
                                             t.user_num)                                            day_25_total_income,
                ddpaa26.accumulate_total_not_custom_directsold_show_count                           day_26_ad_show_num,
                ddpaa26.accumulate_total_not_custom_directsold_income                               day_26_ad_income,
-               ddpaa26.accumulate_total_not_custom_directsold_ecpm                                 day_26_ad_reward_ecpm,
+               ((ddpaa26.accumulate_total_not_custom_directsold_income -
+                 ddpaa26.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa26.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa26.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa26.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa26.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_26_ad_reward_ecpm,
                ddpaa26.accumulate_total_not_custom_directsold_show_count / t.user_num              day_26_ad_avg_show_num,
                ddpaa26.accumulate_custom_directsold_show_count / t.user_num                        day_26_custom_ad_avg_show_num,
                ddpaa26.accumulate_custom_directsold_show_count                                     day_26_custom_ad_show_num,
@@ -1810,7 +2130,13 @@
                                             t.user_num)                                            day_26_total_income,
                ddpaa27.accumulate_total_not_custom_directsold_show_count                           day_27_ad_show_num,
                ddpaa27.accumulate_total_not_custom_directsold_income                               day_27_ad_income,
-               ddpaa27.accumulate_total_not_custom_directsold_ecpm                                 day_27_ad_reward_ecpm,
+               ((ddpaa27.accumulate_total_not_custom_directsold_income -
+                 ddpaa27.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa27.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa27.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa27.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa27.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_27_ad_reward_ecpm,
                ddpaa27.accumulate_total_not_custom_directsold_show_count / t.user_num              day_27_ad_avg_show_num,
                ddpaa27.accumulate_custom_directsold_show_count / t.user_num                        day_27_custom_ad_avg_show_num,
                ddpaa27.accumulate_custom_directsold_show_count                                     day_27_custom_ad_show_num,
@@ -1829,7 +2155,13 @@
                                             t.user_num)                                            day_27_total_income,
                ddpaa28.accumulate_total_not_custom_directsold_show_count                           day_28_ad_show_num,
                ddpaa28.accumulate_total_not_custom_directsold_income                               day_28_ad_income,
-               ddpaa28.accumulate_total_not_custom_directsold_ecpm                                 day_28_ad_reward_ecpm,
+               ((ddpaa28.accumulate_total_not_custom_directsold_income -
+                 ddpaa28.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa28.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa28.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa28.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa28.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_28_ad_reward_ecpm,
                ddpaa28.accumulate_total_not_custom_directsold_show_count / t.user_num              day_28_ad_avg_show_num,
                ddpaa28.accumulate_custom_directsold_show_count / t.user_num                        day_28_custom_ad_avg_show_num,
                ddpaa28.accumulate_custom_directsold_show_count                                     day_28_custom_ad_show_num,
@@ -1848,7 +2180,13 @@
                                             t.user_num)                                            day_28_total_income,
                ddpaa29.accumulate_total_not_custom_directsold_show_count                           day_29_ad_show_num,
                ddpaa29.accumulate_total_not_custom_directsold_income                               day_29_ad_income,
-               ddpaa29.accumulate_total_not_custom_directsold_ecpm                                 day_29_ad_reward_ecpm,
+               ((ddpaa29.accumulate_total_not_custom_directsold_income -
+                 ddpaa29.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa29.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa29.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa29.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa29.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_29_ad_reward_ecpm,
                ddpaa29.accumulate_total_not_custom_directsold_show_count / t.user_num              day_29_ad_avg_show_num,
                ddpaa29.accumulate_custom_directsold_show_count / t.user_num                        day_29_custom_ad_avg_show_num,
                ddpaa29.accumulate_custom_directsold_show_count                                     day_29_custom_ad_show_num,
@@ -1867,7 +2205,13 @@
                                             t.user_num)                                            day_29_total_income,
                ddpaa30.accumulate_total_not_custom_directsold_show_count                           day_30_ad_show_num,
                ddpaa30.accumulate_total_not_custom_directsold_income                               day_30_ad_income,
-               ddpaa30.accumulate_total_not_custom_directsold_ecpm                                 day_30_ad_reward_ecpm,
+               ((ddpaa30.accumulate_total_not_custom_directsold_income -
+                 ddpaa30.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa30.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa30.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa30.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa30.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_30_ad_reward_ecpm,
                ddpaa30.accumulate_total_not_custom_directsold_show_count / t.user_num              day_30_ad_avg_show_num,
                ddpaa30.accumulate_custom_directsold_show_count / t.user_num                        day_30_custom_ad_avg_show_num,
                ddpaa30.accumulate_custom_directsold_show_count                                     day_30_custom_ad_show_num,
@@ -2140,7 +2484,13 @@
                t.user_num                                                                          new_user_num,
                ddpaa1.accumulate_total_not_custom_directsold_show_count                            day_1_ad_show_num,
                ddpaa1.accumulate_total_not_custom_directsold_income                                day_1_ad_income,
-               ddpaa1.accumulate_total_not_custom_directsold_ecpm                                  day_1_ad_reward_ecpm,
+               ((ddpaa1.accumulate_total_not_custom_directsold_income -
+                 ddpaa1.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa1.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa1.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa1.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa1.accumulate_banner_not_custom_directsold_show_count) * 1000)
+                                                                                                   day_1_ad_reward_ecpm,
                ddpaa1.accumulate_total_not_custom_directsold_show_count / t.user_num               day_1_ad_avg_show_num,
                ddpaa1.accumulate_custom_directsold_show_count / t.user_num                         day_1_custom_ad_avg_show_num,
                ddpaa1.accumulate_custom_directsold_show_count                                      day_1_custom_ad_show_num,
@@ -2158,7 +2508,12 @@
                                            t.user_num)                                             day_1_total_income,
                ddpaa2.accumulate_total_not_custom_directsold_show_count                            day_2_ad_show_num,
                ddpaa2.accumulate_total_not_custom_directsold_income                                day_2_ad_income,
-               ddpaa2.accumulate_total_not_custom_directsold_ecpm                                  day_2_ad_reward_ecpm,
+               ((ddpaa2.accumulate_total_not_custom_directsold_income -
+                 ddpaa2.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa2.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa2.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa2.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa2.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_2_ad_reward_ecpm,
                ddpaa2.accumulate_total_not_custom_directsold_show_count / t.user_num               day_2_ad_avg_show_num,
                ddpaa2.accumulate_custom_directsold_show_count / t.user_num                         day_2_custom_ad_avg_show_num,
                ddpaa2.accumulate_custom_directsold_show_count                                      day_2_custom_ad_show_num,
@@ -2177,7 +2532,12 @@
                                            t.user_num)                                             day_2_total_income,
                ddpaa3.accumulate_total_not_custom_directsold_show_count                            day_3_ad_show_num,
                ddpaa3.accumulate_total_not_custom_directsold_income                                day_3_ad_income,
-               ddpaa3.accumulate_total_not_custom_directsold_ecpm                                  day_3_ad_reward_ecpm,
+               ((ddpaa3.accumulate_total_not_custom_directsold_income -
+                 ddpaa3.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa3.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa3.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa3.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa3.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_3_ad_reward_ecpm,
                ddpaa3.accumulate_total_not_custom_directsold_show_count / t.user_num               day_3_ad_avg_show_num,
                ddpaa3.accumulate_custom_directsold_show_count / t.user_num                         day_3_custom_ad_avg_show_num,
                ddpaa3.accumulate_custom_directsold_show_count                                      day_3_custom_ad_show_num,
@@ -2196,7 +2556,12 @@
                                            t.user_num)                                             day_3_total_income,
                ddpaa4.accumulate_total_not_custom_directsold_show_count                            day_4_ad_show_num,
                ddpaa4.accumulate_total_not_custom_directsold_income                                day_4_ad_income,
-               ddpaa4.accumulate_total_not_custom_directsold_ecpm                                  day_4_ad_reward_ecpm,
+               ((ddpaa4.accumulate_total_not_custom_directsold_income -
+                 ddpaa4.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa4.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa4.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa4.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa4.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_4_ad_reward_ecpm,
                ddpaa4.accumulate_total_not_custom_directsold_show_count / t.user_num               day_4_ad_avg_show_num,
                ddpaa4.accumulate_custom_directsold_show_count / t.user_num                         day_4_custom_ad_avg_show_num,
                ddpaa4.accumulate_custom_directsold_show_count                                      day_4_custom_ad_show_num,
@@ -2215,7 +2580,12 @@
                                            t.user_num)                                             day_4_total_income,
                ddpaa5.accumulate_total_not_custom_directsold_show_count                            day_5_ad_show_num,
                ddpaa5.accumulate_total_not_custom_directsold_income                                day_5_ad_income,
-               ddpaa5.accumulate_total_not_custom_directsold_ecpm                                  day_5_ad_reward_ecpm,
+               ((ddpaa5.accumulate_total_not_custom_directsold_income -
+                 ddpaa5.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa5.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa5.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa5.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa5.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_5_ad_reward_ecpm,
                ddpaa5.accumulate_total_not_custom_directsold_show_count / t.user_num               day_5_ad_avg_show_num,
                ddpaa5.accumulate_custom_directsold_show_count / t.user_num                         day_5_custom_ad_avg_show_num,
                ddpaa5.accumulate_custom_directsold_show_count                                      day_5_custom_ad_show_num,
@@ -2234,7 +2604,12 @@
                                            t.user_num)                                             day_5_total_income,
                ddpaa6.accumulate_total_not_custom_directsold_show_count                            day_6_ad_show_num,
                ddpaa6.accumulate_total_not_custom_directsold_income                                day_6_ad_income,
-               ddpaa6.accumulate_total_not_custom_directsold_ecpm                                  day_6_ad_reward_ecpm,
+               ((ddpaa6.accumulate_total_not_custom_directsold_income -
+                 ddpaa6.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa6.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa6.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa6.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa6.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_6_ad_reward_ecpm,
                ddpaa6.accumulate_total_not_custom_directsold_show_count / t.user_num               day_6_ad_avg_show_num,
                ddpaa6.accumulate_custom_directsold_show_count / t.user_num                         day_6_custom_ad_avg_show_num,
                ddpaa6.accumulate_custom_directsold_show_count                                      day_6_custom_ad_show_num,
@@ -2253,7 +2628,12 @@
                                            t.user_num)                                             day_6_total_income,
                ddpaa7.accumulate_total_not_custom_directsold_show_count                            day_7_ad_show_num,
                ddpaa7.accumulate_total_not_custom_directsold_income                                day_7_ad_income,
-               ddpaa7.accumulate_total_not_custom_directsold_ecpm                                  day_7_ad_reward_ecpm,
+               ((ddpaa7.accumulate_total_not_custom_directsold_income -
+                 ddpaa7.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa7.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa7.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa7.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa7.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_7_ad_reward_ecpm,
                ddpaa7.accumulate_total_not_custom_directsold_show_count / t.user_num               day_7_ad_avg_show_num,
                ddpaa7.accumulate_custom_directsold_show_count / t.user_num                         day_7_custom_ad_avg_show_num,
                ddpaa7.accumulate_custom_directsold_show_count                                      day_7_custom_ad_show_num,
@@ -2272,7 +2652,12 @@
                                            t.user_num)                                             day_7_total_income,
                ddpaa8.accumulate_total_not_custom_directsold_show_count                            day_8_ad_show_num,
                ddpaa8.accumulate_total_not_custom_directsold_income                                day_8_ad_income,
-               ddpaa8.accumulate_total_not_custom_directsold_ecpm                                  day_8_ad_reward_ecpm,
+               ((ddpaa8.accumulate_total_not_custom_directsold_income -
+                 ddpaa8.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa8.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa8.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa8.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa8.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_8_ad_reward_ecpm,
                ddpaa8.accumulate_total_not_custom_directsold_show_count / t.user_num               day_8_ad_avg_show_num,
                ddpaa8.accumulate_custom_directsold_show_count / t.user_num                         day_8_custom_ad_avg_show_num,
                ddpaa8.accumulate_custom_directsold_show_count                                      day_8_custom_ad_show_num,
@@ -2291,7 +2676,12 @@
                                            t.user_num)                                             day_8_total_income,
                ddpaa9.accumulate_total_not_custom_directsold_show_count                            day_9_ad_show_num,
                ddpaa9.accumulate_total_not_custom_directsold_income                                day_9_ad_income,
-               ddpaa9.accumulate_total_not_custom_directsold_ecpm                                  day_9_ad_reward_ecpm,
+               ((ddpaa9.accumulate_total_not_custom_directsold_income -
+                 ddpaa9.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa9.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa9.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa9.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa9.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_9_ad_reward_ecpm,
                ddpaa9.accumulate_total_not_custom_directsold_show_count / t.user_num               day_9_ad_avg_show_num,
                ddpaa9.accumulate_custom_directsold_show_count / t.user_num                         day_9_custom_ad_avg_show_num,
                ddpaa9.accumulate_custom_directsold_show_count                                      day_9_custom_ad_show_num,
@@ -2310,7 +2700,13 @@
                                            t.user_num)                                             day_9_total_income,
                ddpaa10.accumulate_total_not_custom_directsold_show_count                           day_10_ad_show_num,
                ddpaa10.accumulate_total_not_custom_directsold_income                               day_10_ad_income,
-               ddpaa10.accumulate_total_not_custom_directsold_ecpm                                 day_10_ad_reward_ecpm,
+               ((ddpaa10.accumulate_total_not_custom_directsold_income -
+                 ddpaa10.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa10.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa10.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa10.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa10.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_10_ad_reward_ecpm,
                ddpaa10.accumulate_total_not_custom_directsold_show_count / t.user_num              day_10_ad_avg_show_num,
                ddpaa10.accumulate_custom_directsold_show_count / t.user_num                        day_10_custom_ad_avg_show_num,
                ddpaa10.accumulate_custom_directsold_show_count                                     day_10_custom_ad_show_num,
@@ -2329,7 +2725,13 @@
                                             t.user_num)                                            day_10_total_income,
                ddpaa11.accumulate_total_not_custom_directsold_show_count                           day_11_ad_show_num,
                ddpaa11.accumulate_total_not_custom_directsold_income                               day_11_ad_income,
-               ddpaa11.accumulate_total_not_custom_directsold_ecpm                                 day_11_ad_reward_ecpm,
+               ((ddpaa11.accumulate_total_not_custom_directsold_income -
+                 ddpaa11.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa11.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa11.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa11.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa11.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_11_ad_reward_ecpm,
                ddpaa11.accumulate_total_not_custom_directsold_show_count / t.user_num              day_11_ad_avg_show_num,
                ddpaa11.accumulate_custom_directsold_show_count / t.user_num                        day_11_custom_ad_avg_show_num,
                ddpaa11.accumulate_custom_directsold_show_count                                     day_11_custom_ad_show_num,
@@ -2348,7 +2750,13 @@
                                             t.user_num)                                            day_11_total_income,
                ddpaa12.accumulate_total_not_custom_directsold_show_count                           day_12_ad_show_num,
                ddpaa12.accumulate_total_not_custom_directsold_income                               day_12_ad_income,
-               ddpaa12.accumulate_total_not_custom_directsold_ecpm                                 day_12_ad_reward_ecpm,
+               ((ddpaa12.accumulate_total_not_custom_directsold_income -
+                 ddpaa12.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa12.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa12.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa12.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa12.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_12_ad_reward_ecpm,
                ddpaa12.accumulate_total_not_custom_directsold_show_count / t.user_num              day_12_ad_avg_show_num,
                ddpaa12.accumulate_custom_directsold_show_count / t.user_num                        day_12_custom_ad_avg_show_num,
                ddpaa12.accumulate_custom_directsold_show_count                                     day_12_custom_ad_show_num,
@@ -2367,7 +2775,13 @@
                                             t.user_num)                                            day_12_total_income,
                ddpaa13.accumulate_total_not_custom_directsold_show_count                           day_13_ad_show_num,
                ddpaa13.accumulate_total_not_custom_directsold_income                               day_13_ad_income,
-               ddpaa13.accumulate_total_not_custom_directsold_ecpm                                 day_13_ad_reward_ecpm,
+               ((ddpaa13.accumulate_total_not_custom_directsold_income -
+                 ddpaa13.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa13.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa13.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa13.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa13.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_13_ad_reward_ecpm,
                ddpaa13.accumulate_total_not_custom_directsold_show_count / t.user_num              day_13_ad_avg_show_num,
                ddpaa13.accumulate_custom_directsold_show_count / t.user_num                        day_13_custom_ad_avg_show_num,
                ddpaa13.accumulate_custom_directsold_show_count                                     day_13_custom_ad_show_num,
@@ -2386,7 +2800,13 @@
                                             t.user_num)                                            day_13_total_income,
                ddpaa14.accumulate_total_not_custom_directsold_show_count                           day_14_ad_show_num,
                ddpaa14.accumulate_total_not_custom_directsold_income                               day_14_ad_income,
-               ddpaa14.accumulate_total_not_custom_directsold_ecpm                                 day_14_ad_reward_ecpm,
+               ((ddpaa14.accumulate_total_not_custom_directsold_income -
+                 ddpaa14.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa14.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa14.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa14.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa14.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_14_ad_reward_ecpm,
                ddpaa14.accumulate_total_not_custom_directsold_show_count / t.user_num              day_14_ad_avg_show_num,
                ddpaa14.accumulate_custom_directsold_show_count / t.user_num                        day_14_custom_ad_avg_show_num,
                ddpaa14.accumulate_custom_directsold_show_count                                     day_14_custom_ad_show_num,
@@ -2405,7 +2825,13 @@
                                             t.user_num)                                            day_14_total_income,
                ddpaa15.accumulate_total_not_custom_directsold_show_count                           day_15_ad_show_num,
                ddpaa15.accumulate_total_not_custom_directsold_income                               day_15_ad_income,
-               ddpaa15.accumulate_total_not_custom_directsold_ecpm                                 day_15_ad_reward_ecpm,
+               ((ddpaa15.accumulate_total_not_custom_directsold_income -
+                 ddpaa15.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa15.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa15.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa15.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa15.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_15_ad_reward_ecpm,
                ddpaa15.accumulate_total_not_custom_directsold_show_count / t.user_num              day_15_ad_avg_show_num,
                ddpaa15.accumulate_custom_directsold_show_count / t.user_num                        day_15_custom_ad_avg_show_num,
                ddpaa15.accumulate_custom_directsold_show_count                                     day_15_custom_ad_show_num,
@@ -2424,7 +2850,13 @@
                                             t.user_num)                                            day_15_total_income,
                ddpaa16.accumulate_total_not_custom_directsold_show_count                           day_16_ad_show_num,
                ddpaa16.accumulate_total_not_custom_directsold_income                               day_16_ad_income,
-               ddpaa16.accumulate_total_not_custom_directsold_ecpm                                 day_16_ad_reward_ecpm,
+               ((ddpaa16.accumulate_total_not_custom_directsold_income -
+                 ddpaa16.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa16.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa16.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa16.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa16.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_16_ad_reward_ecpm,
                ddpaa16.accumulate_total_not_custom_directsold_show_count / t.user_num              day_16_ad_avg_show_num,
                ddpaa16.accumulate_custom_directsold_show_count / t.user_num                        day_16_custom_ad_avg_show_num,
                ddpaa16.accumulate_custom_directsold_show_count                                     day_16_custom_ad_show_num,
@@ -2443,7 +2875,13 @@
                                             t.user_num)                                            day_16_total_income,
                ddpaa17.accumulate_total_not_custom_directsold_show_count                           day_17_ad_show_num,
                ddpaa17.accumulate_total_not_custom_directsold_income                               day_17_ad_income,
-               ddpaa17.accumulate_total_not_custom_directsold_ecpm                                 day_17_ad_reward_ecpm,
+               ((ddpaa17.accumulate_total_not_custom_directsold_income -
+                 ddpaa17.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa17.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa17.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa17.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa17.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_17_ad_reward_ecpm,
                ddpaa17.accumulate_total_not_custom_directsold_show_count / t.user_num              day_17_ad_avg_show_num,
                ddpaa17.accumulate_custom_directsold_show_count / t.user_num                        day_17_custom_ad_avg_show_num,
                ddpaa17.accumulate_custom_directsold_show_count                                     day_17_custom_ad_show_num,
@@ -2462,7 +2900,13 @@
                                             t.user_num)                                            day_17_total_income,
                ddpaa18.accumulate_total_not_custom_directsold_show_count                           day_18_ad_show_num,
                ddpaa18.accumulate_total_not_custom_directsold_income                               day_18_ad_income,
-               ddpaa18.accumulate_total_not_custom_directsold_ecpm                                 day_18_ad_reward_ecpm,
+               ((ddpaa18.accumulate_total_not_custom_directsold_income -
+                 ddpaa18.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa18.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa18.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa18.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa18.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_18_ad_reward_ecpm,
                ddpaa18.accumulate_total_not_custom_directsold_show_count / t.user_num              day_18_ad_avg_show_num,
                ddpaa18.accumulate_custom_directsold_show_count / t.user_num                        day_18_custom_ad_avg_show_num,
                ddpaa18.accumulate_custom_directsold_show_count                                     day_18_custom_ad_show_num,
@@ -2481,7 +2925,13 @@
                                             t.user_num)                                            day_18_total_income,
                ddpaa19.accumulate_total_not_custom_directsold_show_count                           day_19_ad_show_num,
                ddpaa19.accumulate_total_not_custom_directsold_income                               day_19_ad_income,
-               ddpaa19.accumulate_total_not_custom_directsold_ecpm                                 day_19_ad_reward_ecpm,
+               ((ddpaa19.accumulate_total_not_custom_directsold_income -
+                 ddpaa19.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa19.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa19.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa19.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa19.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_19_ad_reward_ecpm,
                ddpaa19.accumulate_total_not_custom_directsold_show_count / t.user_num              day_19_ad_avg_show_num,
                ddpaa19.accumulate_custom_directsold_show_count / t.user_num                        day_19_custom_ad_avg_show_num,
                ddpaa19.accumulate_custom_directsold_show_count                                     day_19_custom_ad_show_num,
@@ -2500,7 +2950,13 @@
                                             t.user_num)                                            day_19_total_income,
                ddpaa20.accumulate_total_not_custom_directsold_show_count                           day_20_ad_show_num,
                ddpaa20.accumulate_total_not_custom_directsold_income                               day_20_ad_income,
-               ddpaa20.accumulate_total_not_custom_directsold_ecpm                                 day_20_ad_reward_ecpm,
+               ((ddpaa20.accumulate_total_not_custom_directsold_income -
+                 ddpaa20.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa20.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa20.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa20.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa20.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_20_ad_reward_ecpm,
                ddpaa20.accumulate_total_not_custom_directsold_show_count / t.user_num              day_20_ad_avg_show_num,
                ddpaa20.accumulate_custom_directsold_show_count / t.user_num                        day_20_custom_ad_avg_show_num,
                ddpaa20.accumulate_custom_directsold_show_count                                     day_20_custom_ad_show_num,
@@ -2519,7 +2975,13 @@
                                             t.user_num)                                            day_20_total_income,
                ddpaa21.accumulate_total_not_custom_directsold_show_count                           day_21_ad_show_num,
                ddpaa21.accumulate_total_not_custom_directsold_income                               day_21_ad_income,
-               ddpaa21.accumulate_total_not_custom_directsold_ecpm                                 day_21_ad_reward_ecpm,
+               ((ddpaa21.accumulate_total_not_custom_directsold_income -
+                 ddpaa21.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa21.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa21.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa21.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa21.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_21_ad_reward_ecpm,
                ddpaa21.accumulate_total_not_custom_directsold_show_count / t.user_num              day_21_ad_avg_show_num,
                ddpaa21.accumulate_custom_directsold_show_count / t.user_num                        day_21_custom_ad_avg_show_num,
                ddpaa21.accumulate_custom_directsold_show_count                                     day_21_custom_ad_show_num,
@@ -2538,7 +3000,13 @@
                                             t.user_num)                                            day_21_total_income,
                ddpaa22.accumulate_total_not_custom_directsold_show_count                           day_22_ad_show_num,
                ddpaa22.accumulate_total_not_custom_directsold_income                               day_22_ad_income,
-               ddpaa22.accumulate_total_not_custom_directsold_ecpm                                 day_22_ad_reward_ecpm,
+               ((ddpaa22.accumulate_total_not_custom_directsold_income -
+                 ddpaa22.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa22.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa22.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa22.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa22.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_22_ad_reward_ecpm,
                ddpaa22.accumulate_total_not_custom_directsold_show_count / t.user_num              day_22_ad_avg_show_num,
                ddpaa22.accumulate_custom_directsold_show_count / t.user_num                        day_22_custom_ad_avg_show_num,
                ddpaa22.accumulate_custom_directsold_show_count                                     day_22_custom_ad_show_num,
@@ -2557,7 +3025,13 @@
                                             t.user_num)                                            day_22_total_income,
                ddpaa23.accumulate_total_not_custom_directsold_show_count                           day_23_ad_show_num,
                ddpaa23.accumulate_total_not_custom_directsold_income                               day_23_ad_income,
-               ddpaa23.accumulate_total_not_custom_directsold_ecpm                                 day_23_ad_reward_ecpm,
+               ((ddpaa23.accumulate_total_not_custom_directsold_income -
+                 ddpaa23.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa23.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa23.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa23.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa23.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_23_ad_reward_ecpm,
                ddpaa23.accumulate_total_not_custom_directsold_show_count / t.user_num              day_23_ad_avg_show_num,
                ddpaa23.accumulate_custom_directsold_show_count / t.user_num                        day_23_custom_ad_avg_show_num,
                ddpaa23.accumulate_custom_directsold_show_count                                     day_23_custom_ad_show_num,
@@ -2576,7 +3050,13 @@
                                             t.user_num)                                            day_23_total_income,
                ddpaa24.accumulate_total_not_custom_directsold_show_count                           day_24_ad_show_num,
                ddpaa24.accumulate_total_not_custom_directsold_income                               day_24_ad_income,
-               ddpaa24.accumulate_total_not_custom_directsold_ecpm                                 day_24_ad_reward_ecpm,
+               ((ddpaa24.accumulate_total_not_custom_directsold_income -
+                 ddpaa24.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa24.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa24.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa24.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa24.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_24_ad_reward_ecpm,
                ddpaa24.accumulate_total_not_custom_directsold_show_count / t.user_num              day_24_ad_avg_show_num,
                ddpaa24.accumulate_custom_directsold_show_count / t.user_num                        day_24_custom_ad_avg_show_num,
                ddpaa24.accumulate_custom_directsold_show_count                                     day_24_custom_ad_show_num,
@@ -2595,7 +3075,13 @@
                                             t.user_num)                                            day_24_total_income,
                ddpaa25.accumulate_total_not_custom_directsold_show_count                           day_25_ad_show_num,
                ddpaa25.accumulate_total_not_custom_directsold_income                               day_25_ad_income,
-               ddpaa25.accumulate_total_not_custom_directsold_ecpm                                 day_25_ad_reward_ecpm,
+               ((ddpaa25.accumulate_total_not_custom_directsold_income -
+                 ddpaa25.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa25.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa25.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa25.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa25.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_25_ad_reward_ecpm,
                ddpaa25.accumulate_total_not_custom_directsold_show_count / t.user_num              day_25_ad_avg_show_num,
                ddpaa25.accumulate_custom_directsold_show_count / t.user_num                        day_25_custom_ad_avg_show_num,
                ddpaa25.accumulate_custom_directsold_show_count                                     day_25_custom_ad_show_num,
@@ -2614,7 +3100,13 @@
                                             t.user_num)                                            day_25_total_income,
                ddpaa26.accumulate_total_not_custom_directsold_show_count                           day_26_ad_show_num,
                ddpaa26.accumulate_total_not_custom_directsold_income                               day_26_ad_income,
-               ddpaa26.accumulate_total_not_custom_directsold_ecpm                                 day_26_ad_reward_ecpm,
+               ((ddpaa26.accumulate_total_not_custom_directsold_income -
+                 ddpaa26.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa26.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa26.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa26.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa26.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_26_ad_reward_ecpm,
                ddpaa26.accumulate_total_not_custom_directsold_show_count / t.user_num              day_26_ad_avg_show_num,
                ddpaa26.accumulate_custom_directsold_show_count / t.user_num                        day_26_custom_ad_avg_show_num,
                ddpaa26.accumulate_custom_directsold_show_count                                     day_26_custom_ad_show_num,
@@ -2633,7 +3125,13 @@
                                             t.user_num)                                            day_26_total_income,
                ddpaa27.accumulate_total_not_custom_directsold_show_count                           day_27_ad_show_num,
                ddpaa27.accumulate_total_not_custom_directsold_income                               day_27_ad_income,
-               ddpaa27.accumulate_total_not_custom_directsold_ecpm                                 day_27_ad_reward_ecpm,
+               ((ddpaa27.accumulate_total_not_custom_directsold_income -
+                 ddpaa27.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa27.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa27.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa27.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa27.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_27_ad_reward_ecpm,
                ddpaa27.accumulate_total_not_custom_directsold_show_count / t.user_num              day_27_ad_avg_show_num,
                ddpaa27.accumulate_custom_directsold_show_count / t.user_num                        day_27_custom_ad_avg_show_num,
                ddpaa27.accumulate_custom_directsold_show_count                                     day_27_custom_ad_show_num,
@@ -2652,7 +3150,13 @@
                                             t.user_num)                                            day_27_total_income,
                ddpaa28.accumulate_total_not_custom_directsold_show_count                           day_28_ad_show_num,
                ddpaa28.accumulate_total_not_custom_directsold_income                               day_28_ad_income,
-               ddpaa28.accumulate_total_not_custom_directsold_ecpm                                 day_28_ad_reward_ecpm,
+               ((ddpaa28.accumulate_total_not_custom_directsold_income -
+                 ddpaa28.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa28.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa28.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa28.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa28.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_28_ad_reward_ecpm,
                ddpaa28.accumulate_total_not_custom_directsold_show_count / t.user_num              day_28_ad_avg_show_num,
                ddpaa28.accumulate_custom_directsold_show_count / t.user_num                        day_28_custom_ad_avg_show_num,
                ddpaa28.accumulate_custom_directsold_show_count                                     day_28_custom_ad_show_num,
@@ -2671,7 +3175,13 @@
                                             t.user_num)                                            day_28_total_income,
                ddpaa29.accumulate_total_not_custom_directsold_show_count                           day_29_ad_show_num,
                ddpaa29.accumulate_total_not_custom_directsold_income                               day_29_ad_income,
-               ddpaa29.accumulate_total_not_custom_directsold_ecpm                                 day_29_ad_reward_ecpm,
+               ((ddpaa29.accumulate_total_not_custom_directsold_income -
+                 ddpaa29.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa29.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa29.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa29.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa29.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_29_ad_reward_ecpm,
                ddpaa29.accumulate_total_not_custom_directsold_show_count / t.user_num              day_29_ad_avg_show_num,
                ddpaa29.accumulate_custom_directsold_show_count / t.user_num                        day_29_custom_ad_avg_show_num,
                ddpaa29.accumulate_custom_directsold_show_count                                     day_29_custom_ad_show_num,
@@ -2690,7 +3200,13 @@
                                             t.user_num)                                            day_29_total_income,
                ddpaa30.accumulate_total_not_custom_directsold_show_count                           day_30_ad_show_num,
                ddpaa30.accumulate_total_not_custom_directsold_income                               day_30_ad_income,
-               ddpaa30.accumulate_total_not_custom_directsold_ecpm                                 day_30_ad_reward_ecpm,
+               ((ddpaa30.accumulate_total_not_custom_directsold_income -
+                 ddpaa30.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa30.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa30.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa30.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa30.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_30_ad_reward_ecpm,
                ddpaa30.accumulate_total_not_custom_directsold_show_count / t.user_num              day_30_ad_avg_show_num,
                ddpaa30.accumulate_custom_directsold_show_count / t.user_num                        day_30_custom_ad_avg_show_num,
                ddpaa30.accumulate_custom_directsold_show_count                                     day_30_custom_ad_show_num,
@@ -2963,7 +3479,13 @@
                t.user_num                                                                          new_user_num,
                ddpaa1.accumulate_total_not_custom_directsold_show_count                            day_1_ad_show_num,
                ddpaa1.accumulate_total_not_custom_directsold_income                                day_1_ad_income,
-               ddpaa1.accumulate_total_not_custom_directsold_ecpm                                  day_1_ad_reward_ecpm,
+               ((ddpaa1.accumulate_total_not_custom_directsold_income -
+                 ddpaa1.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa1.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa1.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa1.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa1.accumulate_banner_not_custom_directsold_show_count) * 1000)
+                                                                                                   day_1_ad_reward_ecpm,
                ddpaa1.accumulate_total_not_custom_directsold_show_count / t.user_num               day_1_ad_avg_show_num,
                ddpaa1.accumulate_custom_directsold_show_count / t.user_num                         day_1_custom_ad_avg_show_num,
                ddpaa1.accumulate_custom_directsold_show_count                                      day_1_custom_ad_show_num,
@@ -2981,7 +3503,12 @@
                                            t.user_num)                                             day_1_total_income,
                ddpaa2.accumulate_total_not_custom_directsold_show_count                            day_2_ad_show_num,
                ddpaa2.accumulate_total_not_custom_directsold_income                                day_2_ad_income,
-               ddpaa2.accumulate_total_not_custom_directsold_ecpm                                  day_2_ad_reward_ecpm,
+               ((ddpaa2.accumulate_total_not_custom_directsold_income -
+                 ddpaa2.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa2.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa2.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa2.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa2.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_2_ad_reward_ecpm,
                ddpaa2.accumulate_total_not_custom_directsold_show_count / t.user_num               day_2_ad_avg_show_num,
                ddpaa2.accumulate_custom_directsold_show_count / t.user_num                         day_2_custom_ad_avg_show_num,
                ddpaa2.accumulate_custom_directsold_show_count                                      day_2_custom_ad_show_num,
@@ -3000,7 +3527,12 @@
                                            t.user_num)                                             day_2_total_income,
                ddpaa3.accumulate_total_not_custom_directsold_show_count                            day_3_ad_show_num,
                ddpaa3.accumulate_total_not_custom_directsold_income                                day_3_ad_income,
-               ddpaa3.accumulate_total_not_custom_directsold_ecpm                                  day_3_ad_reward_ecpm,
+               ((ddpaa3.accumulate_total_not_custom_directsold_income -
+                 ddpaa3.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa3.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa3.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa3.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa3.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_3_ad_reward_ecpm,
                ddpaa3.accumulate_total_not_custom_directsold_show_count / t.user_num               day_3_ad_avg_show_num,
                ddpaa3.accumulate_custom_directsold_show_count / t.user_num                         day_3_custom_ad_avg_show_num,
                ddpaa3.accumulate_custom_directsold_show_count                                      day_3_custom_ad_show_num,
@@ -3019,7 +3551,12 @@
                                            t.user_num)                                             day_3_total_income,
                ddpaa4.accumulate_total_not_custom_directsold_show_count                            day_4_ad_show_num,
                ddpaa4.accumulate_total_not_custom_directsold_income                                day_4_ad_income,
-               ddpaa4.accumulate_total_not_custom_directsold_ecpm                                  day_4_ad_reward_ecpm,
+               ((ddpaa4.accumulate_total_not_custom_directsold_income -
+                 ddpaa4.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa4.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa4.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa4.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa4.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_4_ad_reward_ecpm,
                ddpaa4.accumulate_total_not_custom_directsold_show_count / t.user_num               day_4_ad_avg_show_num,
                ddpaa4.accumulate_custom_directsold_show_count / t.user_num                         day_4_custom_ad_avg_show_num,
                ddpaa4.accumulate_custom_directsold_show_count                                      day_4_custom_ad_show_num,
@@ -3038,7 +3575,12 @@
                                            t.user_num)                                             day_4_total_income,
                ddpaa5.accumulate_total_not_custom_directsold_show_count                            day_5_ad_show_num,
                ddpaa5.accumulate_total_not_custom_directsold_income                                day_5_ad_income,
-               ddpaa5.accumulate_total_not_custom_directsold_ecpm                                  day_5_ad_reward_ecpm,
+               ((ddpaa5.accumulate_total_not_custom_directsold_income -
+                 ddpaa5.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa5.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa5.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa5.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa5.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_5_ad_reward_ecpm,
                ddpaa5.accumulate_total_not_custom_directsold_show_count / t.user_num               day_5_ad_avg_show_num,
                ddpaa5.accumulate_custom_directsold_show_count / t.user_num                         day_5_custom_ad_avg_show_num,
                ddpaa5.accumulate_custom_directsold_show_count                                      day_5_custom_ad_show_num,
@@ -3057,7 +3599,12 @@
                                            t.user_num)                                             day_5_total_income,
                ddpaa6.accumulate_total_not_custom_directsold_show_count                            day_6_ad_show_num,
                ddpaa6.accumulate_total_not_custom_directsold_income                                day_6_ad_income,
-               ddpaa6.accumulate_total_not_custom_directsold_ecpm                                  day_6_ad_reward_ecpm,
+               ((ddpaa6.accumulate_total_not_custom_directsold_income -
+                 ddpaa6.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa6.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa6.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa6.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa6.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_6_ad_reward_ecpm,
                ddpaa6.accumulate_total_not_custom_directsold_show_count / t.user_num               day_6_ad_avg_show_num,
                ddpaa6.accumulate_custom_directsold_show_count / t.user_num                         day_6_custom_ad_avg_show_num,
                ddpaa6.accumulate_custom_directsold_show_count                                      day_6_custom_ad_show_num,
@@ -3076,7 +3623,12 @@
                                            t.user_num)                                             day_6_total_income,
                ddpaa7.accumulate_total_not_custom_directsold_show_count                            day_7_ad_show_num,
                ddpaa7.accumulate_total_not_custom_directsold_income                                day_7_ad_income,
-               ddpaa7.accumulate_total_not_custom_directsold_ecpm                                  day_7_ad_reward_ecpm,
+               ((ddpaa7.accumulate_total_not_custom_directsold_income -
+                 ddpaa7.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa7.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa7.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa7.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa7.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_7_ad_reward_ecpm,
                ddpaa7.accumulate_total_not_custom_directsold_show_count / t.user_num               day_7_ad_avg_show_num,
                ddpaa7.accumulate_custom_directsold_show_count / t.user_num                         day_7_custom_ad_avg_show_num,
                ddpaa7.accumulate_custom_directsold_show_count                                      day_7_custom_ad_show_num,
@@ -3095,7 +3647,12 @@
                                            t.user_num)                                             day_7_total_income,
                ddpaa8.accumulate_total_not_custom_directsold_show_count                            day_8_ad_show_num,
                ddpaa8.accumulate_total_not_custom_directsold_income                                day_8_ad_income,
-               ddpaa8.accumulate_total_not_custom_directsold_ecpm                                  day_8_ad_reward_ecpm,
+               ((ddpaa8.accumulate_total_not_custom_directsold_income -
+                 ddpaa8.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa8.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa8.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa8.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa8.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_8_ad_reward_ecpm,
                ddpaa8.accumulate_total_not_custom_directsold_show_count / t.user_num               day_8_ad_avg_show_num,
                ddpaa8.accumulate_custom_directsold_show_count / t.user_num                         day_8_custom_ad_avg_show_num,
                ddpaa8.accumulate_custom_directsold_show_count                                      day_8_custom_ad_show_num,
@@ -3114,7 +3671,12 @@
                                            t.user_num)                                             day_8_total_income,
                ddpaa9.accumulate_total_not_custom_directsold_show_count                            day_9_ad_show_num,
                ddpaa9.accumulate_total_not_custom_directsold_income                                day_9_ad_income,
-               ddpaa9.accumulate_total_not_custom_directsold_ecpm                                  day_9_ad_reward_ecpm,
+               ((ddpaa9.accumulate_total_not_custom_directsold_income -
+                 ddpaa9.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa9.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa9.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa9.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa9.accumulate_banner_not_custom_directsold_show_count) * 1000)        day_9_ad_reward_ecpm,
                ddpaa9.accumulate_total_not_custom_directsold_show_count / t.user_num               day_9_ad_avg_show_num,
                ddpaa9.accumulate_custom_directsold_show_count / t.user_num                         day_9_custom_ad_avg_show_num,
                ddpaa9.accumulate_custom_directsold_show_count                                      day_9_custom_ad_show_num,
@@ -3133,7 +3695,13 @@
                                            t.user_num)                                             day_9_total_income,
                ddpaa10.accumulate_total_not_custom_directsold_show_count                           day_10_ad_show_num,
                ddpaa10.accumulate_total_not_custom_directsold_income                               day_10_ad_income,
-               ddpaa10.accumulate_total_not_custom_directsold_ecpm                                 day_10_ad_reward_ecpm,
+               ((ddpaa10.accumulate_total_not_custom_directsold_income -
+                 ddpaa10.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa10.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa10.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa10.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa10.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_10_ad_reward_ecpm,
                ddpaa10.accumulate_total_not_custom_directsold_show_count / t.user_num              day_10_ad_avg_show_num,
                ddpaa10.accumulate_custom_directsold_show_count / t.user_num                        day_10_custom_ad_avg_show_num,
                ddpaa10.accumulate_custom_directsold_show_count                                     day_10_custom_ad_show_num,
@@ -3152,7 +3720,13 @@
                                             t.user_num)                                            day_10_total_income,
                ddpaa11.accumulate_total_not_custom_directsold_show_count                           day_11_ad_show_num,
                ddpaa11.accumulate_total_not_custom_directsold_income                               day_11_ad_income,
-               ddpaa11.accumulate_total_not_custom_directsold_ecpm                                 day_11_ad_reward_ecpm,
+               ((ddpaa11.accumulate_total_not_custom_directsold_income -
+                 ddpaa11.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa11.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa11.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa11.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa11.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_11_ad_reward_ecpm,
                ddpaa11.accumulate_total_not_custom_directsold_show_count / t.user_num              day_11_ad_avg_show_num,
                ddpaa11.accumulate_custom_directsold_show_count / t.user_num                        day_11_custom_ad_avg_show_num,
                ddpaa11.accumulate_custom_directsold_show_count                                     day_11_custom_ad_show_num,
@@ -3171,7 +3745,13 @@
                                             t.user_num)                                            day_11_total_income,
                ddpaa12.accumulate_total_not_custom_directsold_show_count                           day_12_ad_show_num,
                ddpaa12.accumulate_total_not_custom_directsold_income                               day_12_ad_income,
-               ddpaa12.accumulate_total_not_custom_directsold_ecpm                                 day_12_ad_reward_ecpm,
+               ((ddpaa12.accumulate_total_not_custom_directsold_income -
+                 ddpaa12.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa12.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa12.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa12.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa12.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_12_ad_reward_ecpm,
                ddpaa12.accumulate_total_not_custom_directsold_show_count / t.user_num              day_12_ad_avg_show_num,
                ddpaa12.accumulate_custom_directsold_show_count / t.user_num                        day_12_custom_ad_avg_show_num,
                ddpaa12.accumulate_custom_directsold_show_count                                     day_12_custom_ad_show_num,
@@ -3190,7 +3770,13 @@
                                             t.user_num)                                            day_12_total_income,
                ddpaa13.accumulate_total_not_custom_directsold_show_count                           day_13_ad_show_num,
                ddpaa13.accumulate_total_not_custom_directsold_income                               day_13_ad_income,
-               ddpaa13.accumulate_total_not_custom_directsold_ecpm                                 day_13_ad_reward_ecpm,
+               ((ddpaa13.accumulate_total_not_custom_directsold_income -
+                 ddpaa13.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa13.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa13.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa13.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa13.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_13_ad_reward_ecpm,
                ddpaa13.accumulate_total_not_custom_directsold_show_count / t.user_num              day_13_ad_avg_show_num,
                ddpaa13.accumulate_custom_directsold_show_count / t.user_num                        day_13_custom_ad_avg_show_num,
                ddpaa13.accumulate_custom_directsold_show_count                                     day_13_custom_ad_show_num,
@@ -3209,7 +3795,13 @@
                                             t.user_num)                                            day_13_total_income,
                ddpaa14.accumulate_total_not_custom_directsold_show_count                           day_14_ad_show_num,
                ddpaa14.accumulate_total_not_custom_directsold_income                               day_14_ad_income,
-               ddpaa14.accumulate_total_not_custom_directsold_ecpm                                 day_14_ad_reward_ecpm,
+               ((ddpaa14.accumulate_total_not_custom_directsold_income -
+                 ddpaa14.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa14.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa14.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa14.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa14.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_14_ad_reward_ecpm,
                ddpaa14.accumulate_total_not_custom_directsold_show_count / t.user_num              day_14_ad_avg_show_num,
                ddpaa14.accumulate_custom_directsold_show_count / t.user_num                        day_14_custom_ad_avg_show_num,
                ddpaa14.accumulate_custom_directsold_show_count                                     day_14_custom_ad_show_num,
@@ -3228,7 +3820,13 @@
                                             t.user_num)                                            day_14_total_income,
                ddpaa15.accumulate_total_not_custom_directsold_show_count                           day_15_ad_show_num,
                ddpaa15.accumulate_total_not_custom_directsold_income                               day_15_ad_income,
-               ddpaa15.accumulate_total_not_custom_directsold_ecpm                                 day_15_ad_reward_ecpm,
+               ((ddpaa15.accumulate_total_not_custom_directsold_income -
+                 ddpaa15.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa15.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa15.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa15.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa15.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_15_ad_reward_ecpm,
                ddpaa15.accumulate_total_not_custom_directsold_show_count / t.user_num              day_15_ad_avg_show_num,
                ddpaa15.accumulate_custom_directsold_show_count / t.user_num                        day_15_custom_ad_avg_show_num,
                ddpaa15.accumulate_custom_directsold_show_count                                     day_15_custom_ad_show_num,
@@ -3247,7 +3845,13 @@
                                             t.user_num)                                            day_15_total_income,
                ddpaa16.accumulate_total_not_custom_directsold_show_count                           day_16_ad_show_num,
                ddpaa16.accumulate_total_not_custom_directsold_income                               day_16_ad_income,
-               ddpaa16.accumulate_total_not_custom_directsold_ecpm                                 day_16_ad_reward_ecpm,
+               ((ddpaa16.accumulate_total_not_custom_directsold_income -
+                 ddpaa16.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa16.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa16.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa16.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa16.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_16_ad_reward_ecpm,
                ddpaa16.accumulate_total_not_custom_directsold_show_count / t.user_num              day_16_ad_avg_show_num,
                ddpaa16.accumulate_custom_directsold_show_count / t.user_num                        day_16_custom_ad_avg_show_num,
                ddpaa16.accumulate_custom_directsold_show_count                                     day_16_custom_ad_show_num,
@@ -3266,7 +3870,13 @@
                                             t.user_num)                                            day_16_total_income,
                ddpaa17.accumulate_total_not_custom_directsold_show_count                           day_17_ad_show_num,
                ddpaa17.accumulate_total_not_custom_directsold_income                               day_17_ad_income,
-               ddpaa17.accumulate_total_not_custom_directsold_ecpm                                 day_17_ad_reward_ecpm,
+               ((ddpaa17.accumulate_total_not_custom_directsold_income -
+                 ddpaa17.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa17.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa17.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa17.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa17.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_17_ad_reward_ecpm,
                ddpaa17.accumulate_total_not_custom_directsold_show_count / t.user_num              day_17_ad_avg_show_num,
                ddpaa17.accumulate_custom_directsold_show_count / t.user_num                        day_17_custom_ad_avg_show_num,
                ddpaa17.accumulate_custom_directsold_show_count                                     day_17_custom_ad_show_num,
@@ -3285,7 +3895,13 @@
                                             t.user_num)                                            day_17_total_income,
                ddpaa18.accumulate_total_not_custom_directsold_show_count                           day_18_ad_show_num,
                ddpaa18.accumulate_total_not_custom_directsold_income                               day_18_ad_income,
-               ddpaa18.accumulate_total_not_custom_directsold_ecpm                                 day_18_ad_reward_ecpm,
+               ((ddpaa18.accumulate_total_not_custom_directsold_income -
+                 ddpaa18.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa18.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa18.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa18.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa18.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_18_ad_reward_ecpm,
                ddpaa18.accumulate_total_not_custom_directsold_show_count / t.user_num              day_18_ad_avg_show_num,
                ddpaa18.accumulate_custom_directsold_show_count / t.user_num                        day_18_custom_ad_avg_show_num,
                ddpaa18.accumulate_custom_directsold_show_count                                     day_18_custom_ad_show_num,
@@ -3304,7 +3920,13 @@
                                             t.user_num)                                            day_18_total_income,
                ddpaa19.accumulate_total_not_custom_directsold_show_count                           day_19_ad_show_num,
                ddpaa19.accumulate_total_not_custom_directsold_income                               day_19_ad_income,
-               ddpaa19.accumulate_total_not_custom_directsold_ecpm                                 day_19_ad_reward_ecpm,
+               ((ddpaa19.accumulate_total_not_custom_directsold_income -
+                 ddpaa19.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa19.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa19.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa19.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa19.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_19_ad_reward_ecpm,
                ddpaa19.accumulate_total_not_custom_directsold_show_count / t.user_num              day_19_ad_avg_show_num,
                ddpaa19.accumulate_custom_directsold_show_count / t.user_num                        day_19_custom_ad_avg_show_num,
                ddpaa19.accumulate_custom_directsold_show_count                                     day_19_custom_ad_show_num,
@@ -3323,7 +3945,13 @@
                                             t.user_num)                                            day_19_total_income,
                ddpaa20.accumulate_total_not_custom_directsold_show_count                           day_20_ad_show_num,
                ddpaa20.accumulate_total_not_custom_directsold_income                               day_20_ad_income,
-               ddpaa20.accumulate_total_not_custom_directsold_ecpm                                 day_20_ad_reward_ecpm,
+               ((ddpaa20.accumulate_total_not_custom_directsold_income -
+                 ddpaa20.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa20.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa20.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa20.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa20.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_20_ad_reward_ecpm,
                ddpaa20.accumulate_total_not_custom_directsold_show_count / t.user_num              day_20_ad_avg_show_num,
                ddpaa20.accumulate_custom_directsold_show_count / t.user_num                        day_20_custom_ad_avg_show_num,
                ddpaa20.accumulate_custom_directsold_show_count                                     day_20_custom_ad_show_num,
@@ -3342,7 +3970,13 @@
                                             t.user_num)                                            day_20_total_income,
                ddpaa21.accumulate_total_not_custom_directsold_show_count                           day_21_ad_show_num,
                ddpaa21.accumulate_total_not_custom_directsold_income                               day_21_ad_income,
-               ddpaa21.accumulate_total_not_custom_directsold_ecpm                                 day_21_ad_reward_ecpm,
+               ((ddpaa21.accumulate_total_not_custom_directsold_income -
+                 ddpaa21.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa21.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa21.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa21.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa21.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_21_ad_reward_ecpm,
                ddpaa21.accumulate_total_not_custom_directsold_show_count / t.user_num              day_21_ad_avg_show_num,
                ddpaa21.accumulate_custom_directsold_show_count / t.user_num                        day_21_custom_ad_avg_show_num,
                ddpaa21.accumulate_custom_directsold_show_count                                     day_21_custom_ad_show_num,
@@ -3361,7 +3995,13 @@
                                             t.user_num)                                            day_21_total_income,
                ddpaa22.accumulate_total_not_custom_directsold_show_count                           day_22_ad_show_num,
                ddpaa22.accumulate_total_not_custom_directsold_income                               day_22_ad_income,
-               ddpaa22.accumulate_total_not_custom_directsold_ecpm                                 day_22_ad_reward_ecpm,
+               ((ddpaa22.accumulate_total_not_custom_directsold_income -
+                 ddpaa22.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa22.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa22.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa22.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa22.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_22_ad_reward_ecpm,
                ddpaa22.accumulate_total_not_custom_directsold_show_count / t.user_num              day_22_ad_avg_show_num,
                ddpaa22.accumulate_custom_directsold_show_count / t.user_num                        day_22_custom_ad_avg_show_num,
                ddpaa22.accumulate_custom_directsold_show_count                                     day_22_custom_ad_show_num,
@@ -3380,7 +4020,13 @@
                                             t.user_num)                                            day_22_total_income,
                ddpaa23.accumulate_total_not_custom_directsold_show_count                           day_23_ad_show_num,
                ddpaa23.accumulate_total_not_custom_directsold_income                               day_23_ad_income,
-               ddpaa23.accumulate_total_not_custom_directsold_ecpm                                 day_23_ad_reward_ecpm,
+               ((ddpaa23.accumulate_total_not_custom_directsold_income -
+                 ddpaa23.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa23.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa23.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa23.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa23.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_23_ad_reward_ecpm,
                ddpaa23.accumulate_total_not_custom_directsold_show_count / t.user_num              day_23_ad_avg_show_num,
                ddpaa23.accumulate_custom_directsold_show_count / t.user_num                        day_23_custom_ad_avg_show_num,
                ddpaa23.accumulate_custom_directsold_show_count                                     day_23_custom_ad_show_num,
@@ -3399,7 +4045,13 @@
                                             t.user_num)                                            day_23_total_income,
                ddpaa24.accumulate_total_not_custom_directsold_show_count                           day_24_ad_show_num,
                ddpaa24.accumulate_total_not_custom_directsold_income                               day_24_ad_income,
-               ddpaa24.accumulate_total_not_custom_directsold_ecpm                                 day_24_ad_reward_ecpm,
+               ((ddpaa24.accumulate_total_not_custom_directsold_income -
+                 ddpaa24.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa24.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa24.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa24.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa24.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_24_ad_reward_ecpm,
                ddpaa24.accumulate_total_not_custom_directsold_show_count / t.user_num              day_24_ad_avg_show_num,
                ddpaa24.accumulate_custom_directsold_show_count / t.user_num                        day_24_custom_ad_avg_show_num,
                ddpaa24.accumulate_custom_directsold_show_count                                     day_24_custom_ad_show_num,
@@ -3418,7 +4070,13 @@
                                             t.user_num)                                            day_24_total_income,
                ddpaa25.accumulate_total_not_custom_directsold_show_count                           day_25_ad_show_num,
                ddpaa25.accumulate_total_not_custom_directsold_income                               day_25_ad_income,
-               ddpaa25.accumulate_total_not_custom_directsold_ecpm                                 day_25_ad_reward_ecpm,
+               ((ddpaa25.accumulate_total_not_custom_directsold_income -
+                 ddpaa25.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa25.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa25.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa25.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa25.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_25_ad_reward_ecpm,
                ddpaa25.accumulate_total_not_custom_directsold_show_count / t.user_num              day_25_ad_avg_show_num,
                ddpaa25.accumulate_custom_directsold_show_count / t.user_num                        day_25_custom_ad_avg_show_num,
                ddpaa25.accumulate_custom_directsold_show_count                                     day_25_custom_ad_show_num,
@@ -3437,7 +4095,13 @@
                                             t.user_num)                                            day_25_total_income,
                ddpaa26.accumulate_total_not_custom_directsold_show_count                           day_26_ad_show_num,
                ddpaa26.accumulate_total_not_custom_directsold_income                               day_26_ad_income,
-               ddpaa26.accumulate_total_not_custom_directsold_ecpm                                 day_26_ad_reward_ecpm,
+               ((ddpaa26.accumulate_total_not_custom_directsold_income -
+                 ddpaa26.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa26.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa26.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa26.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa26.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_26_ad_reward_ecpm,
                ddpaa26.accumulate_total_not_custom_directsold_show_count / t.user_num              day_26_ad_avg_show_num,
                ddpaa26.accumulate_custom_directsold_show_count / t.user_num                        day_26_custom_ad_avg_show_num,
                ddpaa26.accumulate_custom_directsold_show_count                                     day_26_custom_ad_show_num,
@@ -3456,7 +4120,13 @@
                                             t.user_num)                                            day_26_total_income,
                ddpaa27.accumulate_total_not_custom_directsold_show_count                           day_27_ad_show_num,
                ddpaa27.accumulate_total_not_custom_directsold_income                               day_27_ad_income,
-               ddpaa27.accumulate_total_not_custom_directsold_ecpm                                 day_27_ad_reward_ecpm,
+               ((ddpaa27.accumulate_total_not_custom_directsold_income -
+                 ddpaa27.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa27.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa27.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa27.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa27.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_27_ad_reward_ecpm,
                ddpaa27.accumulate_total_not_custom_directsold_show_count / t.user_num              day_27_ad_avg_show_num,
                ddpaa27.accumulate_custom_directsold_show_count / t.user_num                        day_27_custom_ad_avg_show_num,
                ddpaa27.accumulate_custom_directsold_show_count                                     day_27_custom_ad_show_num,
@@ -3475,7 +4145,13 @@
                                             t.user_num)                                            day_27_total_income,
                ddpaa28.accumulate_total_not_custom_directsold_show_count                           day_28_ad_show_num,
                ddpaa28.accumulate_total_not_custom_directsold_income                               day_28_ad_income,
-               ddpaa28.accumulate_total_not_custom_directsold_ecpm                                 day_28_ad_reward_ecpm,
+               ((ddpaa28.accumulate_total_not_custom_directsold_income -
+                 ddpaa28.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa28.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa28.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa28.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa28.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_28_ad_reward_ecpm,
                ddpaa28.accumulate_total_not_custom_directsold_show_count / t.user_num              day_28_ad_avg_show_num,
                ddpaa28.accumulate_custom_directsold_show_count / t.user_num                        day_28_custom_ad_avg_show_num,
                ddpaa28.accumulate_custom_directsold_show_count                                     day_28_custom_ad_show_num,
@@ -3494,7 +4170,13 @@
                                             t.user_num)                                            day_28_total_income,
                ddpaa29.accumulate_total_not_custom_directsold_show_count                           day_29_ad_show_num,
                ddpaa29.accumulate_total_not_custom_directsold_income                               day_29_ad_income,
-               ddpaa29.accumulate_total_not_custom_directsold_ecpm                                 day_29_ad_reward_ecpm,
+               ((ddpaa29.accumulate_total_not_custom_directsold_income -
+                 ddpaa29.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa29.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa29.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa29.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa29.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_29_ad_reward_ecpm,
                ddpaa29.accumulate_total_not_custom_directsold_show_count / t.user_num              day_29_ad_avg_show_num,
                ddpaa29.accumulate_custom_directsold_show_count / t.user_num                        day_29_custom_ad_avg_show_num,
                ddpaa29.accumulate_custom_directsold_show_count                                     day_29_custom_ad_show_num,
@@ -3513,7 +4195,13 @@
                                             t.user_num)                                            day_29_total_income,
                ddpaa30.accumulate_total_not_custom_directsold_show_count                           day_30_ad_show_num,
                ddpaa30.accumulate_total_not_custom_directsold_income                               day_30_ad_income,
-               ddpaa30.accumulate_total_not_custom_directsold_ecpm                                 day_30_ad_reward_ecpm,
+               ((ddpaa30.accumulate_total_not_custom_directsold_income -
+                 ddpaa30.accumulate_banner_not_custom_directsold_income)
+                    / IF(ddpaa30.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa30.accumulate_banner_not_custom_directsold_show_count = 0, 1,
+                         ddpaa30.accumulate_total_not_custom_directsold_show_count -
+                         ddpaa30.accumulate_banner_not_custom_directsold_show_count) *
+                1000)                                                                              day_30_ad_reward_ecpm,
                ddpaa30.accumulate_total_not_custom_directsold_show_count / t.user_num              day_30_ad_avg_show_num,
                ddpaa30.accumulate_custom_directsold_show_count / t.user_num                        day_30_custom_ad_avg_show_num,
                ddpaa30.accumulate_custom_directsold_show_count                                     day_30_custom_ad_show_num,
