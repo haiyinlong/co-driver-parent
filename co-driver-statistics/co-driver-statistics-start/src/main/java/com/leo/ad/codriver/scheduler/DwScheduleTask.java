@@ -90,7 +90,7 @@ public class DwScheduleTask {
     /**
      * 实时更新当天数据，每小时更新一次当天的历史数据，每天晚上同一再处理一次保证数据的真确性<br/>
      */
-    @Scheduled(cron = "0 0 1-22/2 * * ?")
+    @Scheduled(cron = "0 0 1-22 * * ?")
     @Async("asyncServiceExecutor")
     public void updateCurrentDate() {
         // 获取统计日期
