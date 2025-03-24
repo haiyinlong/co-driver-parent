@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
  **/
 @Component
 @RequiredArgsConstructor
-public class DwManager implements Manager {
+public class DwManager implements Creator {
     private final DynamicTableMapper dynamicTableMapper;
     private final DwTaskRecordService dwTaskRecordService;
 

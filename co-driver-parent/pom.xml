@@ -5,7 +5,7 @@
 
     <groupId>com.leo.ad</groupId>
     <artifactId>co-driver-parent</artifactId>
-    <version>1.0.10</version>
+    <version>1.0.11</version>
     <packaging>pom</packaging>
     <modules>
         <module>mysql-spring-boot-starter</module>
@@ -19,7 +19,7 @@
         <module>redis-exception-spring-boot-starter</module>
     </modules>
     <properties>
-        <co-driver.version>1.0.10</co-driver.version>
+        <co-driver.version>1.0.11</co-driver.version>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -36,6 +36,7 @@
         <redisson.version>3.32.0</redisson.version>
         <knife4j.version>4.5.0</knife4j.version>
         <fastjson2.version>2.0.50</fastjson2.version>
+        <skywalking.version>9.3.0</skywalking.version>
     </properties>
 
     <dependencyManagement>
@@ -172,6 +173,16 @@
                 <groupId>com.alibaba.fastjson2</groupId>
                 <artifactId>fastjson2-extension-spring6</artifactId>
                 <version>${fastjson2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-trace</artifactId>
+                <version>${skywalking.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.skywalking</groupId>
+                <artifactId>apm-toolkit-logback-1.x</artifactId>
+                <version>${skywalking.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

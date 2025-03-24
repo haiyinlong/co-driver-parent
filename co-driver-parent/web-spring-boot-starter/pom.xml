@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.leo.ad</groupId>
         <artifactId>co-driver-parent</artifactId>
-        <version>1.0.10</version>
+        <version>1.0.11</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -45,6 +45,20 @@
         <dependency>
             <groupId>com.leo.ad</groupId>
             <artifactId>redis-exception-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.skywalking/apm-toolkit-trace -->
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-trace</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-inline</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.skywalking</groupId>
+            <artifactId>apm-toolkit-logback-1.x</artifactId>
         </dependency>
     </dependencies>
     <build>
