@@ -43,4 +43,8 @@ public class SkywalkingTableCleanHandler extends AbstractCleanHandler {
         Integer previousDate = DateUtils.getPreviousDate(3);
         TABLES.forEach(tableName -> skywalkingTableCleanDao.deleteByTableNameAndDate(tableName, previousDate));
     }
+
+    public static void main(String[] args) {
+        System.out.println(DateUtils.getPreviousDate(3));
+    }
 }
