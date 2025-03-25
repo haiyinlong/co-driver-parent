@@ -19,9 +19,6 @@ public class DwdUserEventCleanHandler extends AbstractCleanHandler {
 
     @Override
     public void cleanHandler() {
-        Integer delRowNum = dwdUserEventCleanDao.deleteByLastMonthsAgo();
-        while (delRowNum > 0) {
-            delRowNum = dwdUserEventCleanDao.deleteByLastMonthsAgo();
-        }
+        dwdUserEventCleanDao.deleteByLastMonthsAgo();
     }
 }
