@@ -7,7 +7,7 @@ package com.leo.ad.codriver.common;
  * @author HaiYinLong
  * @version 2024/11/29 09:47
  **/
-public interface Manager {
+public interface Creator {
 
     /**
      * 创建任务，根据日期的最后任务id值进行创建新任务

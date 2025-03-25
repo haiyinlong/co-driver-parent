@@ -16,7 +16,7 @@ import lombok.RequiredArgsConstructor;
  **/
 @Component
 @RequiredArgsConstructor
-public class DwManager implements Creator {
+public class DwdTaskCreator implements Creator {
     private final DynamicTableMapper dynamicTableMapper;
     private final DwTaskRecordService dwTaskRecordService;
 
@@ -24,7 +24,7 @@ public class DwManager implements Creator {
     public void createTask(Integer dates, String tableName) {
         Long startId = getStartId(dates, tableName);
         DwCountDTO dbCount = dynamicTableMapper.getDbCount(dates, tableName, startId);
-        DwTaskRecord taskRecord = DwTaskRecord.ofOetaGameRecord(dates, dbCount.getMinId(), dbCount.getMaxId());
+        DwTaskRecord taskRecord = DwTaskRecord.of(dates, tableName, dbCount.getMinId(), dbCount.getMaxId());
         dwTaskRecordService.save(taskRecord);
     }
 

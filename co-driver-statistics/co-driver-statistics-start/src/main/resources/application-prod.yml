@@ -28,6 +28,24 @@ spring:
             validation-query: select 'x'
             max-pool-prepared-statement-per-connection-size: 20
             filters: config,stat
+        skywalking:
+          username: seatunnel
+          password: seatunnelMysql
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://172.31.36.29:3306/skywalking?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+          druid:
+            initial-size: 10
+            min-idle: 10
+            max-active: 500
+            max-wait: 60000
+            test-on-borrow: false
+            test-on-return: false
+            test-while-idle: true
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 30000
+            validation-query: select 'x'
+            max-pool-prepared-statement-per-connection-size: 20
+            filters: config,stat
   redis:
     redisson:
       file: classpath:redisson-prod.yml

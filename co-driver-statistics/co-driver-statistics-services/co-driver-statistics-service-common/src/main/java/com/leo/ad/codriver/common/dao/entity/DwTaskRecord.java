@@ -75,24 +75,22 @@ public class DwTaskRecord implements Serializable {
         this.status = 1;
     }
 
-    public static DwTaskRecord ofOetaGameRecord(Integer dates, Long startId, Long endId) {
+    public static DwTaskRecord of(Integer dates, String type, Long startId, Long endId) {
         DwTaskRecord dwTaskRecord = new DwTaskRecord();
         dwTaskRecord.setDates(dates);
-        dwTaskRecord.setType(DwTaskTypeConstant.GAME_RECORD_OETA.getType());
+        dwTaskRecord.setType(type);
         dwTaskRecord.setStartId(startId);
         dwTaskRecord.setEndId(endId);
         dwTaskRecord.setStatus(1);
         return dwTaskRecord;
     }
 
+    public static DwTaskRecord ofOetaGameRecord(Integer dates, Long startId, Long endId) {
+        return of(dates, DwTaskTypeConstant.GAME_RECORD_OETA.getType(), startId, endId);
+    }
+
     public static DwTaskRecord ofUserLoginRecord(Integer dates, Long startId, Long endId) {
-        DwTaskRecord dwTaskRecord = new DwTaskRecord();
-        dwTaskRecord.setDates(dates);
-        dwTaskRecord.setType(DwTaskTypeConstant.USER_LOGIN_OETA.getType());
-        dwTaskRecord.setStartId(startId);
-        dwTaskRecord.setEndId(endId);
-        dwTaskRecord.setStatus(1);
-        return dwTaskRecord;
+        return of(dates, DwTaskTypeConstant.USER_LOGIN_OETA.getType(), startId, endId);
     }
 
     public void process(long processId) {

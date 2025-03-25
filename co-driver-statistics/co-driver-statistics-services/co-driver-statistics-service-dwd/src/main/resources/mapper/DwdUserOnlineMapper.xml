@@ -15,15 +15,15 @@
         SELECT duoq.id,
                oubd.dates,
                dui.user_id,
-               dui.last_version                `version`,
+               IFNULL(dui.last_version, 'UNKNOWN') `version`,
                dui.pkg,
                dui.country,
-               oubd.value                      online_time,
-               IFNULL(duoq.create_time, now()) create_time
+               oubd.value                          online_time,
+               IFNULL(duoq.create_time, now())     create_time
         FROM ods_user_behavior_diversion oubd
                  INNER JOIN dim_user_info dui on (oubd.user_id = dui.user_id)
                  LEFT JOIN dwd_user_online duoq on (duoq.dates = oubd.dates and duoq.user_id = oubd.user_id
-            and duoq.pkg = dui.pkg and duoq.country = dui.country)
+            and duoq.pkg = dui.pkg)
         WHERE oubd.behavior = 2
           and oubd.dates = #{dates}
         limit #{startRows}, #{rows}

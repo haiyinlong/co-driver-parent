@@ -1,6 +1,7 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * DwdUserOnlineServiceImpl
@@ -24,6 +26,7 @@ import lombok.RequiredArgsConstructor;
  * @author HaiYinLong
  * @version 2024/08/23 19:42
  **/
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class DwdUserOnlineServiceImpl implements DwdService {
@@ -44,7 +47,16 @@ public class DwdUserOnlineServiceImpl implements DwdService {
         for (int i = 0; i < totalPageNum; i++) {
             userOnlineList =
                 dwdUserOnlineMapper.queryByDate(dates, BatchConst.BATCH_NUMBER, i * BatchConst.BATCH_NUMBER);
-            dwBatchMapper.batchInsert(userOnlineList, DwdUserOnlineMapper.class);
+            try {
+                // userOnlineList.stream().peek()
+                dwBatchMapper.batchInsert(userOnlineList, DwdUserOnlineMapper.class);
+            } catch (Exception e) {
+                String errorObj =
+                    userOnlineList.stream().map(dwdUserOnline -> dwdUserOnline.getId() + dwdUserOnline.getVersion())
+                        .collect(Collectors.joining(","));
+                log.error("dwdUserOnline  syncData error,errorObj:{}", errorObj);
+                throw new RuntimeException(e);
+            }
         }
         return true;
     }
