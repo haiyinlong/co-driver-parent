@@ -23,9 +23,6 @@ public class OdsEventReportCleanHandler extends AbstractCleanHandler {
 
     @Override
     public void cleanHandler() {
-        Integer delRowNum = odsEventReportCleanDao.deleteByLastMonthsAgo();
-        while (delRowNum > 0) {
-            delRowNum = odsEventReportCleanDao.deleteByLastMonthsAgo();
-        }
+        odsEventReportCleanDao.deleteByLastMonthsAgo();
     }
 }

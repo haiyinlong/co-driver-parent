@@ -4,8 +4,7 @@
 <mapper namespace="com.leo.ad.codriver.clean.dao.OdsEventReportCleanDao">
     <delete id="deleteByLastMonthsAgo">
         DELETE
-        FROM analysis_data.ods_event_report
+        FROM ods_event_report
         where dates <![CDATA[ <  ]]> DATE_FORMAT(NOW() - INTERVAL 20 DAY, '%Y%m%d')
-        limit 10000
     </delete>
 </mapper>

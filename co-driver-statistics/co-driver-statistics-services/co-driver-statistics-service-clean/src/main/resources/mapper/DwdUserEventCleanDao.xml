@@ -2,11 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.clean.dao.DwdUserEventCleanDao">
-
-
     <delete id="deleteByLastMonthsAgo">
         DELETE
-        FROM analysis_data.dwd_user_event
+        FROM dwd_user_event
         where dates <![CDATA[ <  ]]> DATE_FORMAT(NOW() - INTERVAL 4 MONTH, '%Y%m01')
     </delete>
 </mapper>
