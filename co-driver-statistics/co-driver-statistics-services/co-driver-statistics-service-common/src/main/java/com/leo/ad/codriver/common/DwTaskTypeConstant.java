@@ -10,7 +10,7 @@ import lombok.Getter;
  **/
 @Getter
 public enum DwTaskTypeConstant {
-    GAME_RECORD_OETA("oetaGameRecord"), USER_LOGIN_OETA("userLoginRecord");
+    GAME_RECORD_OETA("oetaGameRecord"), USER_LOGIN_OETA("userLoginRecord"), ODS_USER_LOGIN("ods_login_log");
 
     private final String type;
 

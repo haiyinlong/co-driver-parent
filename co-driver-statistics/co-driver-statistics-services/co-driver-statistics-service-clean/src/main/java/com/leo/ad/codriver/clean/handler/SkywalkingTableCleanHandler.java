@@ -40,7 +40,7 @@ public class SkywalkingTableCleanHandler extends AbstractCleanHandler {
     @Override
     public void cleanHandler() {
         // 动态删除表,清除3天之前的数据
-        Integer previousDate = DateUtils.getPreviousDate(3);
+        Integer previousDate = DateUtils.getPreviousDate(2);
         TABLES.forEach(tableName -> skywalkingTableCleanDao.deleteByTableNameAndDate(tableName, previousDate));
     }
 

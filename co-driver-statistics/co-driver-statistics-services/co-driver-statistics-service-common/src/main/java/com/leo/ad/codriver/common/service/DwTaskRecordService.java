@@ -17,5 +17,5 @@ public interface DwTaskRecordService {
 
     DwTaskRecord getLastTaskRecord(Integer dates, String tableName);
 
-    DwTaskRecord getOneTaskRecord();
+    DwTaskRecord getOneTaskRecord(long indexTaskRecordId);
 }

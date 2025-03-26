@@ -52,7 +52,7 @@ public class DwTaskRecordServiceImpl implements DwTaskRecordService {
     }
 
     @Override
-    public DwTaskRecord getOneTaskRecord() {
-        return dwTaskRecordMapper.queryFirstTaskRecordNotDone();
+    public DwTaskRecord getOneTaskRecord(long indexTaskRecordId) {
+        return dwTaskRecordMapper.queryFirstTaskRecordNotDone(indexTaskRecordId);
     }
 }

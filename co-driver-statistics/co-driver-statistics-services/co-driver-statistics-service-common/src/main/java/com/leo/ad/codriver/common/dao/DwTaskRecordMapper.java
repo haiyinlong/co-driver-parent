@@ -24,6 +24,6 @@ public interface DwTaskRecordMapper extends BaseMapper<DwTaskRecord> {
     List<DwTaskRecord> queryTaskRecord(@Param("dates") Integer dates, @Param("type") String type,
         @Param("status") int status);
 
-    DwTaskRecord queryFirstTaskRecordNotDone();
+    DwTaskRecord queryFirstTaskRecordNotDone(@Param("indexTaskRecordId") long indexTaskRecordId);
 
 }

@@ -1,10 +1,13 @@
-package com.leo.ad.codriver.common;
+package com.leo.ad.codriver.common.task;
 
 import org.springframework.stereotype.Component;
+import org.springframework.util.ObjectUtils;
 
-import com.leo.ad.codriver.common.dao.DynamicTableMapper;
+import com.leo.ad.codriver.common.DwCountDTO;
+import com.leo.ad.codriver.common.dao.DynamicTableRepository;
 import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
 import com.leo.ad.codriver.common.service.DwTaskRecordService;
+import com.leo.ad.codriver.common.util.DateUtils;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,16 +19,21 @@ import lombok.RequiredArgsConstructor;
  **/
 @Component
 @RequiredArgsConstructor
-public class DwdTaskCreator implements Creator {
-    private final DynamicTableMapper dynamicTableMapper;
+public class DwTaskCreator implements TaskCreator {
+    private final DynamicTableRepository dynamicTableRepository;
     private final DwTaskRecordService dwTaskRecordService;
 
     @Override
-    public void createTask(Integer dates, String tableName) {
+    public DwTaskRecord createTask(String tableName) {
+        Integer dates = DateUtils.getNowDates();
         Long startId = getStartId(dates, tableName);
-        DwCountDTO dbCount = dynamicTableMapper.getDbCount(dates, tableName, startId);
+        DwCountDTO dbCount = dynamicTableRepository.getDbCount(dates, tableName, startId);
+        if (ObjectUtils.isEmpty(dbCount)) {
+            return null;
+        }
         DwTaskRecord taskRecord = DwTaskRecord.of(dates, tableName, dbCount.getMinId(), dbCount.getMaxId());
         dwTaskRecordService.save(taskRecord);
+        return taskRecord;
     }
 
     private Long getStartId(Integer dates, String tableName) {

@@ -11,7 +11,7 @@ import com.leo.ad.codriver.common.DwCountDTO;
  */
 @Mapper
 @DS("mysql")
-public interface DynamicTableMapper {
+public interface DynamicTableRepository {
 
     DwCountDTO getDbCount(@Param("dates") Integer dates, @Param("tableName") String tableName,
         @Param("startId") Long startId);

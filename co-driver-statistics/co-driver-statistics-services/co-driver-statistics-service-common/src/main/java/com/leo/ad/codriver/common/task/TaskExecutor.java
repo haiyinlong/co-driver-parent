@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.common;
+package com.leo.ad.codriver.common.task;
 
 /**
  * Executor
@@ -6,6 +6,6 @@ package com.leo.ad.codriver.common;
  * @author HaiYinLong
  * @version 2024/11/29 16:19
  **/
-public interface Executor {
+public interface TaskExecutor {
 
 }

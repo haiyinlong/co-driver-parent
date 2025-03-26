@@ -50,6 +50,7 @@
         where status
         <![CDATA[  < ]]>
         2
+          and id > #{indexTaskRecordId}
         order by id asc
         limit 1
     </select>

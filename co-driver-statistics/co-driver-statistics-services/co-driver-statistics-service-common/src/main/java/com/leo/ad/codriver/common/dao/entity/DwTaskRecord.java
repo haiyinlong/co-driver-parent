@@ -89,10 +89,6 @@ public class DwTaskRecord implements Serializable {
         return of(dates, DwTaskTypeConstant.GAME_RECORD_OETA.getType(), startId, endId);
     }
 
-    public static DwTaskRecord ofUserLoginRecord(Integer dates, Long startId, Long endId) {
-        return of(dates, DwTaskTypeConstant.USER_LOGIN_OETA.getType(), startId, endId);
-    }
-
     public void process(long processId) {
         if (processId >= this.endId) {
             this.setProcessId(this.endId);
