@@ -6,6 +6,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import org.redisson.api.RedissonClient;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.ApplicationListener;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ import com.leo.ad.codriver.common.DwTaskTypeConstant;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
+import com.leo.ad.codriver.common.event.DwRestartTaskEvent;
 import com.leo.ad.codriver.common.service.DwTaskRecordService;
 import com.leo.ad.codriver.common.task.event.DwTaskRecordExecuteEvent;
 import com.leo.ad.codriver.common.util.DateUtils;
@@ -46,6 +49,8 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
     private final DwTaskRecordService dwTaskRecordService;
     private final DwdUserLoginRecordMapper dwdUserLoginRecordMapper;
     private final DwBatchMapper<DwdUserLoginRecord, DwdUserLoginRecordMapper> dwBatchMapper;
+    private final RedissonClient redissonClient;
+    private final ApplicationEventPublisher applicationEventPublisher;
     private final RedisUtils redisUtils;
 
     @Override
@@ -53,6 +58,8 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
     @AutoPushEventWithTrue(events = {DwdUserLoginRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
+        restartTerminatedTask(dates);
+        // 修改每次创建一个同步任务，避免多次执行
         if (Objects.equals(dates, DateUtils.getNowDates())) {
             return false;
         }
@@ -65,6 +72,8 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
         DwTaskRecord newTaskRecord = DwTaskRecord.of(dates, DwTaskTypeConstant.ODS_USER_LOGIN.getType(),
             statisticsCount.getMinId(), statisticsCount.getMaxId());
         dwTaskRecordService.save(newTaskRecord);
+        // 同步数据
+        handelOdsUserLoginRecordSyncToDwd(newTaskRecord);
         return true;
     }
 
@@ -137,10 +146,21 @@ public class DwdUserLoginRecordServiceImpl implements DwdService, ApplicationLis
     }
 
     private DwCountDTO getStatisticsCount(Integer dates) {
-        DwTaskRecord lastTaskRecord = dwTaskRecordService.getLastTaskRecord(dates, DwTaskTypeConstant.USER_LOGIN_OETA);
+        DwTaskRecord lastTaskRecord = dwTaskRecordService.getLastTaskRecord(dates, DwTaskTypeConstant.ODS_USER_LOGIN);
         if (ObjectUtils.isEmpty(lastTaskRecord)) {
             return dwdUserLoginRecordMapper.getStatisticsCount(dates, null);
         }
         return dwdUserLoginRecordMapper.getStatisticsCount(dates, lastTaskRecord.getEndId());
     }
+
+    private void restartTerminatedTask(Integer dates) {
+        List<DwTaskRecord> taskTerminateRecordList =
+            dwTaskRecordService.queryProcessTaskRecord(dates, DwTaskTypeConstant.ODS_USER_LOGIN);
+        if (!CollectionUtils.isEmpty(taskTerminateRecordList)) {
+            // 异步开启这个任务 taskTerminateRecord
+            taskTerminateRecordList.forEach(taskTerminateRecord -> applicationEventPublisher
+                .publishEvent(new DwRestartTaskEvent(this, dates, taskTerminateRecord)));
+        }
+    }
+
 }

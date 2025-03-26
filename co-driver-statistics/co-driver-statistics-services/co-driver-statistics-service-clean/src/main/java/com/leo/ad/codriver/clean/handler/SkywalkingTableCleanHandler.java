@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.leo.ad.codriver.clean.dao.SkywalkingTableCleanDao;
-import com.leo.ad.codriver.common.util.DateUtils;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,11 +39,8 @@ public class SkywalkingTableCleanHandler extends AbstractCleanHandler {
     @Override
     public void cleanHandler() {
         // 动态删除表,清除3天之前的数据
-        Integer previousDate = DateUtils.getPreviousDate(2);
-        TABLES.forEach(tableName -> skywalkingTableCleanDao.deleteByTableNameAndDate(tableName, previousDate));
+        // Integer previousDate = DateUtils.getPreviousDate(2);
+        // TABLES.forEach(tableName -> skywalkingTableCleanDao.deleteByTableNameAndDate(tableName, previousDate));
     }
 
-    public static void main(String[] args) {
-        System.out.println(DateUtils.getPreviousDate(3));
-    }
 }
