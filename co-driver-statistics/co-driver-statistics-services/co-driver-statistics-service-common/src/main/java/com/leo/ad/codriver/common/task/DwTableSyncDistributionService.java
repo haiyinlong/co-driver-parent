@@ -14,9 +14,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.dao.entity.DwSync;
-import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
 import com.leo.ad.codriver.common.service.DwSyncService;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -35,7 +35,7 @@ public class DwTableSyncDistributionService {
     private final ThreadPoolTaskScheduler threadPoolTaskScheduler;
     private final DwTaskCreator dwTaskCreator;
 
-    // @PostConstruct
+    @PostConstruct
     public void distribution() {
         List<DwSync> syncConfig = dwSyncService.queryList();
         if (CollectionUtils.isEmpty(syncConfig)) {
@@ -75,12 +75,7 @@ public class DwTableSyncDistributionService {
     private Runnable getCreateTaskRunnable(DwSync dwSync) {
         return () -> {
             try {
-                DwTaskRecord task = dwTaskCreator.createTask(dwSync.getTableName());
-                if (ObjectUtils.isEmpty(task)) {
-                    log.info(dwSync.getTableName() + " 定时创建执行任务失败，数据为空");
-                } else {
-                    log.info(dwSync.getTableName() + " 定时创建执行任务完成, id:{}", task.getId());
-                }
+                dwTaskCreator.createTask(dwSync.getTableName());
             } catch (Exception e) {
                 log.error(dwSync.getTableName() + " 定时创建执行任务异常", e);
             }

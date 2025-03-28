@@ -14,6 +14,7 @@ import com.leo.ad.codriver.common.dao.entity.DwTaskRecord;
 import com.leo.ad.codriver.common.service.DwTaskRecordService;
 import com.leo.ad.codriver.common.task.event.DwTaskRecordExecuteEvent;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +38,7 @@ public class DwTaskExecutor implements TaskExecutor {
     /**
      * 通过对象或线程池获取要处理的数据，然后进行执行，有空线程时就获取数据；
      */
-    // @PostConstruct
+    @PostConstruct
     public void initialize() {
         new Thread(() -> {
             while (true) {
