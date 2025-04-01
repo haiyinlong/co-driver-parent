@@ -7,9 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
@@ -34,6 +36,7 @@ public class RedisCacheConfig {
     private RedisCacheConfigProperties redisCacheConfigProperties;
 
     @Bean
+    @Primary
     @ConditionalOnMissingBean
     public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
         GenericFastJsonRedisSerializer fastJsonRedisSerializer = new GenericFastJsonRedisSerializer();
@@ -54,5 +57,29 @@ public class RedisCacheConfig {
         }
         return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(defaultCacheConfig)
             .withInitialCacheConfigurations(specificCacheConfigurations).build();
+    }
+
+    @Bean
+    public CacheManager tenMinutesCacheManager(RedisConnectionFactory redisConnectionFactory) {
+        GenericFastJsonRedisSerializer fastJsonRedisSerializer = new GenericFastJsonRedisSerializer();
+
+        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(Duration.ofMinutes(10))
+            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer));
+
+        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();
+    }
+
+    @Bean
+    public CacheManager oneDayCacheManager(RedisConnectionFactory redisConnectionFactory) {
+        GenericFastJsonRedisSerializer fastJsonRedisSerializer = new GenericFastJsonRedisSerializer();
+
+        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(Duration.ofDays(1))
+            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(fastJsonRedisSerializer));
+
+        return RedisCacheManager.builder(redisConnectionFactory).cacheDefaults(cacheConfiguration).build();
     }
 }
