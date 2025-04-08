@@ -24,12 +24,12 @@
                t.ad_exhibit,
                t.revenue,
                t.source_create_time,
-               dui2.user_id,
-               dui2.last_version                                          `version`,
-               dui2.country,
-               dui2.dates                                                 register_dates,
-               TIMESTAMPDIFF(DAY, dui2.create_time, t.source_create_time) register_cohort_day,
-               TIMESTAMPDIFF(DAY, dui2.dates, t.dates)                    register_day
+               dui.user_id,
+               dui.last_version                                          `version`,
+               dui.country,
+               dui.dates                                                 register_dates,
+               TIMESTAMPDIFF(DAY, dui.create_time, t.source_create_time) register_cohort_day,
+               TIMESTAMPDIFF(DAY, dui.dates, t.dates)                    register_day
         from (SELECT omasda.id      source_id,
                      omasda.dates,
                      omasda.gaid,
@@ -43,12 +43,12 @@
               FROM ods_max_ad_stat_detail_ads omasda
               WHERE omasda.dates = #{dates}
                 and omasda.id >= #{startSourceId}
-                and omasda.id  <![CDATA[<= ]]> #{endSourceId}) t
+                and omasda.id  <![CDATA[<= ]]> #{endSourceId}
+                and omasda.gaid is not null
+                and omasda.gaid <![CDATA[ <>]]> '') t
                  LEFT JOIN dwd_user_ad_record duar on (duar.source_id = t.source_id and duar.dates = t.dates)
-                 INNER JOIN dim_user_info dui on (dui.gaid = t.gaid and dui.pkg = t.pkg)
-                 INNER JOIN dim_user_info dui2 on (dui2.id = dui.id)
-        where dui2.dates is not null
-          and dui2.dates <![CDATA[ <= ]]> t.dates
+                 INNER JOIN dim_user_info dui on (dui.gaid = t.gaid and dui.pkg = t.pkg and dui.dates = t.bdates)
+
     </select>
     <select id="queryDbActiveListByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdUserAdRecord">
         SELECT *
