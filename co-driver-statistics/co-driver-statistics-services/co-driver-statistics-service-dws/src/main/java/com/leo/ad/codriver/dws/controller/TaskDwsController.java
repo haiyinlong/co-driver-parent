@@ -509,6 +509,17 @@ public class TaskDwsController {
         return "执行完成dws包oetaBaseUsrc维度数据统计同步";
     }
 
+    @GetMapping("/pkgUsrcConversion")
+    @Operation(summary = "触发dws包pkgUsrcConversion维度数据统计", description = "触发dws数据同步")
+    public String dwsPkgUsrcConversionHandle(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        dwsDailyPkgUsrcConversionServiceImpl.syncData(dates);
+        return "执行完成dws包pkgUsrcConversion维度数据统计同步";
+    }
+
     @GetMapping("/packageShare")
     @Operation(summary = "触发dws包packageShare维度数据统计", description = "触发dws数据同步")
     public String dwsPackageShareHandle(@RequestParam("dates") Integer dates) {

@@ -38,7 +38,8 @@
                t.pkg,
                t.`user_type`,
                t.user_source,
-               t.user_num
+               t.user_num,
+               t.extra_type source_type
         FROM (select duc.dates,
                      duc.pkg,
                      1                              `user_type`,
