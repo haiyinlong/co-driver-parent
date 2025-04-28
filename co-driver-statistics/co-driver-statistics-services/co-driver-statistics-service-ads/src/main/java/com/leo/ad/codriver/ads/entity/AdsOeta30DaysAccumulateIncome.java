@@ -1249,6 +1249,128 @@ public class AdsOeta30DaysAccumulateIncome implements BaseEntity, Serializable {
     private BigDecimal day29AvgTotalIncome;
     @TableField("day_30_avg_total_income")
     private BigDecimal day30AvgTotalIncome;
+
+    @TableField("day_1_ad_banner_show_num")
+    private BigDecimal day1AdBannerShowNum;
+    @TableField("day_2_ad_banner_show_num")
+    private BigDecimal day2AdBannerShowNum;
+    @TableField("day_3_ad_banner_show_num")
+    private BigDecimal day3AdBannerShowNum;
+    @TableField("day_4_ad_banner_show_num")
+    private BigDecimal day4AdBannerShowNum;
+    @TableField("day_5_ad_banner_show_num")
+    private BigDecimal day5AdBannerShowNum;
+    @TableField("day_6_ad_banner_show_num")
+    private BigDecimal day6AdBannerShowNum;
+    @TableField("day_7_ad_banner_show_num")
+    private BigDecimal day7AdBannerShowNum;
+    @TableField("day_8_ad_banner_show_num")
+    private BigDecimal day8AdBannerShowNum;
+    @TableField("day_9_ad_banner_show_num")
+    private BigDecimal day9AdBannerShowNum;
+    @TableField("day_10_ad_banner_show_num")
+    private BigDecimal day10AdBannerShowNum;
+    @TableField("day_11_ad_banner_show_num")
+    private BigDecimal day11AdBannerShowNum;
+    @TableField("day_12_ad_banner_show_num")
+    private BigDecimal day12AdBannerShowNum;
+    @TableField("day_13_ad_banner_show_num")
+    private BigDecimal day13AdBannerShowNum;
+    @TableField("day_14_ad_banner_show_num")
+    private BigDecimal day14AdBannerShowNum;
+    @TableField("day_15_ad_banner_show_num")
+    private BigDecimal day15AdBannerShowNum;
+    @TableField("day_16_ad_banner_show_num")
+    private BigDecimal day16AdBannerShowNum;
+    @TableField("day_17_ad_banner_show_num")
+    private BigDecimal day17AdBannerShowNum;
+    @TableField("day_18_ad_banner_show_num")
+    private BigDecimal day18AdBannerShowNum;
+    @TableField("day_19_ad_banner_show_num")
+    private BigDecimal day19AdBannerShowNum;
+    @TableField("day_20_ad_banner_show_num")
+    private BigDecimal day20AdBannerShowNum;
+    @TableField("day_21_ad_banner_show_num")
+    private BigDecimal day21AdBannerShowNum;
+    @TableField("day_22_ad_banner_show_num")
+    private BigDecimal day22AdBannerShowNum;
+    @TableField("day_23_ad_banner_show_num")
+    private BigDecimal day23AdBannerShowNum;
+    @TableField("day_24_ad_banner_show_num")
+    private BigDecimal day24AdBannerShowNum;
+    @TableField("day_25_ad_banner_show_num")
+    private BigDecimal day25AdBannerShowNum;
+    @TableField("day_26_ad_banner_show_num")
+    private BigDecimal day26AdBannerShowNum;
+    @TableField("day_27_ad_banner_show_num")
+    private BigDecimal day27AdBannerShowNum;
+    @TableField("day_28_ad_banner_show_num")
+    private BigDecimal day28AdBannerShowNum;
+    @TableField("day_29_ad_banner_show_num")
+    private BigDecimal day29AdBannerShowNum;
+    @TableField("day_30_ad_banner_show_num")
+    private BigDecimal day30AdBannerShowNum;
+    @TableField("day_1_ad_banner_income")
+    private BigDecimal day1AdBannerIncome;
+    @TableField("day_2_ad_banner_income")
+    private BigDecimal day2AdBannerIncome;
+    @TableField("day_3_ad_banner_income")
+    private BigDecimal day3AdBannerIncome;
+    @TableField("day_4_ad_banner_income")
+    private BigDecimal day4AdBannerIncome;
+    @TableField("day_5_ad_banner_income")
+    private BigDecimal day5AdBannerIncome;
+    @TableField("day_6_ad_banner_income")
+    private BigDecimal day6AdBannerIncome;
+    @TableField("day_7_ad_banner_income")
+    private BigDecimal day7AdBannerIncome;
+    @TableField("day_8_ad_banner_income")
+    private BigDecimal day8AdBannerIncome;
+    @TableField("day_9_ad_banner_income")
+    private BigDecimal day9AdBannerIncome;
+    @TableField("day_10_ad_banner_income")
+    private BigDecimal day10AdBannerIncome;
+    @TableField("day_11_ad_banner_income")
+    private BigDecimal day11AdBannerIncome;
+    @TableField("day_12_ad_banner_income")
+    private BigDecimal day12AdBannerIncome;
+    @TableField("day_13_ad_banner_income")
+    private BigDecimal day13AdBannerIncome;
+    @TableField("day_14_ad_banner_income")
+    private BigDecimal day14AdBannerIncome;
+    @TableField("day_15_ad_banner_income")
+    private BigDecimal day15AdBannerIncome;
+    @TableField("day_16_ad_banner_income")
+    private BigDecimal day16AdBannerIncome;
+    @TableField("day_17_ad_banner_income")
+    private BigDecimal day17AdBannerIncome;
+    @TableField("day_18_ad_banner_income")
+    private BigDecimal day18AdBannerIncome;
+    @TableField("day_19_ad_banner_income")
+    private BigDecimal day19AdBannerIncome;
+    @TableField("day_20_ad_banner_income")
+    private BigDecimal day20AdBannerIncome;
+    @TableField("day_21_ad_banner_income")
+    private BigDecimal day21AdBannerIncome;
+    @TableField("day_22_ad_banner_income")
+    private BigDecimal day22AdBannerIncome;
+    @TableField("day_23_ad_banner_income")
+    private BigDecimal day23AdBannerIncome;
+    @TableField("day_24_ad_banner_income")
+    private BigDecimal day24AdBannerIncome;
+    @TableField("day_25_ad_banner_income")
+    private BigDecimal day25AdBannerIncome;
+    @TableField("day_26_ad_banner_income")
+    private BigDecimal day26AdBannerIncome;
+    @TableField("day_27_ad_banner_income")
+    private BigDecimal day27AdBannerIncome;
+    @TableField("day_28_ad_banner_income")
+    private BigDecimal day28AdBannerIncome;
+    @TableField("day_29_ad_banner_income")
+    private BigDecimal day29AdBannerIncome;
+    @TableField("day_30_ad_banner_income")
+    private BigDecimal day30AdBannerIncome;
+
     /**
      * 创建时间
      */
