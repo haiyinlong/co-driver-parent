@@ -37,10 +37,16 @@ public class DwCountDTO {
     }
 
     public long loopStartId(int currentLoopNum) {
+        if (this.loopPageRowNum == null) {
+            this.loopPageRowNum = LOOP_PAGE_ROW_NUM;
+        }
         return minId + ((currentLoopNum - 1) * loopPageRowNum);
     }
 
     public long loopEndId(int currentLoopNum) {
+        if (this.loopPageRowNum == null) {
+            this.loopPageRowNum = LOOP_PAGE_ROW_NUM;
+        }
         long endId = minId + (currentLoopNum * loopPageRowNum);
         if (endId > maxId) {
             return maxId;

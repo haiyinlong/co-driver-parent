@@ -43,14 +43,20 @@ public class DwTaskExecutor implements TaskExecutor {
         new Thread(() -> {
             while (true) {
                 DwTaskRecord dbTaskRecord = null;
-                lock.lock();
                 try {
+                    lock.lock();
                     dbTaskRecord = dwTaskRecordService.getOneTaskRecord(indexTaskRecordId);
                     if (!ObjectUtils.isEmpty(dbTaskRecord)) {
                         indexTaskRecordId = dbTaskRecord.getId();
+                        try {
+                            TASK_RECORD_QUEUE.put(dbTaskRecord);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            throw e;
+                        }
                     }
                 } catch (Exception e) {
-                    log.error("获取任务异常", e);
+                    log.error("DwTaskExecutor 获取任务异常", e);
                     throw new RuntimeException(e);
                 } finally {
                     lock.unlock();
@@ -59,18 +65,12 @@ public class DwTaskExecutor implements TaskExecutor {
                 if (ObjectUtils.isEmpty(dbTaskRecord)) {
                     try {
                         TimeUnit.SECONDS.sleep(30);
-                        continue;
                     } catch (InterruptedException e) {
+                        log.error("DwTaskExecutor 没有待执行任务休眠异常", e);
                         throw new RuntimeException(e);
                     }
                 }
-                try {
-                    TASK_RECORD_QUEUE.put(dbTaskRecord);
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    log.error("添加队列时异常", e);
-                    throw new RuntimeException(e);
-                }
+
             }
         }).start();
 
@@ -88,10 +88,8 @@ public class DwTaskExecutor implements TaskExecutor {
                 // 更新任务状态
                 dbTaskRecord.done();
                 dwTaskRecordService.update(dbTaskRecord);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                log.error("获取队列数据异常", e);
-                break;
+            } catch (Exception e) {
+                log.error("DwTaskRecord 执行同步任务异常", e);
             }
         }
     }
