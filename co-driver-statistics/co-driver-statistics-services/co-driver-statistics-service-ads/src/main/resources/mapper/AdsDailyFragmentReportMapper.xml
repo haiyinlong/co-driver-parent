@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyFragmentReportMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.ads.entity.AdsDailyFragmentReport">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="dates" column="dates" jdbcType="INTEGER"/>
+        <result property="pkg" column="pkg" jdbcType="VARCHAR"/>
+        <result property="fragment" column="fragment" jdbcType="INTEGER"/>
+        <result property="fragmentOutputNum" column="fragment_output_num" jdbcType="INTEGER"/>
+        <result property="fragmentExpendNum" column="fragment_expend_num" jdbcType="INTEGER"/>
+        <result property="fragmentEffectiveNum" column="fragment_effective_num" jdbcType="INTEGER"/>
+        <result property="fragmentUserNum" column="fragment_user_num" jdbcType="INTEGER"/>
+        <result property="fragmentPerCapitaNum" column="fragment_per_capita_num" jdbcType="DECIMAL"/>
+        <result property="fragment1To100UserNum" column="fragment1_to100_user_num" jdbcType="INTEGER"/>
+        <result property="fragment1To100UserRatio" column="fragment1_to100_user_ratio" jdbcType="DECIMAL"/>
+        <result property="fragment100To300UserNum" column="fragment100_to300_user_num" jdbcType="INTEGER"/>
+        <result property="fragment100To300UserRatio" column="fragment100_to300_user_ratio" jdbcType="DECIMAL"/>
+        <result property="fragment300To500UserNum" column="fragment300_to500_user_num" jdbcType="INTEGER"/>
+        <result property="fragment300To500UserRatio" column="fragment300_to500_user_ratio" jdbcType="DECIMAL"/>
+        <result property="fragment500To700UserNum" column="fragment500_to700_user_num" jdbcType="INTEGER"/>
+        <result property="fragment500To700UserRatio" column="fragment500_to700_user_ratio" jdbcType="DECIMAL"/>
+        <result property="fragment700To800UserNum" column="fragment700_to800_user_num" jdbcType="INTEGER"/>
+        <result property="fragment700To800UserRatio" column="fragment700_to800_user_ratio" jdbcType="DECIMAL"/>
+        <result property="fragment800To900UserNum" column="fragment800_to900_user_num" jdbcType="INTEGER"/>
+        <result property="fragment800To900UserRatio" column="fragment800_to900_user_ratio" jdbcType="DECIMAL"/>
+        <result property="fragment900To1000UserNum" column="fragment900_to1000_user_num" jdbcType="INTEGER"/>
+        <result property="fragment900To1000UserRatio" column="fragment900_to1000_user_ratio" jdbcType="DECIMAL"/>
+        <result property="fragmentMoreThan1000UserNum" column="fragment_more_than1000_user_num" jdbcType="INTEGER"/>
+        <result property="fragmentMoreThan1000UserRatio" column="fragment_more_than1000_user_ratio" jdbcType="DECIMAL"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        fragment,fragment_output_num,fragment_expend_num,
+        fragment_effective_num,fragment_user_num,fragment_per_capita_num,
+        fragment1_to100_user_num,fragment1_to100_user_ratio,fragment100_to300_user_num,
+        fragment100_to300_user_ratio,fragment300_to500_user_num,fragment300_to500_user_ratio,
+        fragment500_to700_user_num,fragment500_to700_user_ratio,fragment700_to800_user_num,
+        fragment700_to800_user_ratio,fragment800_to900_user_num,fragment800_to900_user_ratio,
+        fragment900_to1000_user_num,fragment900_to1000_user_ratio,fragment_more_than1000_user_num,
+        fragment_more_than1000_user_ratio,create_time
+    </sql>
+    <delete id="deleteByDates">
+        DELETE
+        FROM ads_daily_fragment_report
+        WHERE dates = #{dates}
+    </delete>
+    <select id="queryStatistics" resultType="com.leo.ad.codriver.ads.entity.AdsDailyFragmentReport">
+        select ddpfts.dates,
+               ddpfts.pkg,
+               ddpfts.fragment,
+               ddpfts.output_num  fragment_output_num,
+               ddpfts.expend_num  fragment_expend_num,
+               ddpfs.fragment_num fragment_effective_num,
+               ddpfs.fragment_user_num,
+               ddpfs.fragment_per_capita_num,
+               ddpfs.fragment1_to100_user_num,
+               ddpfs.fragment1_to100_user_ratio,
+               ddpfs.fragment100_to300_user_num,
+               ddpfs.fragment100_to300_user_ratio,
+               ddpfs.fragment300_to500_user_num,
+               ddpfs.fragment300_to500_user_ratio,
+               ddpfs.fragment500_to700_user_num,
+               ddpfs.fragment500_to700_user_ratio,
+               ddpfs.fragment700_to800_user_num,
+               ddpfs.fragment700_to800_user_ratio,
+               ddpfs.fragment800_to900_user_num,
+               ddpfs.fragment800_to900_user_ratio,
+               ddpfs.fragment900_to1000_user_num,
+               ddpfs.fragment900_to1000_user_ratio,
+               ddpfs.fragment_more_than1000_user_num,
+               ddpfs.fragment_more_than1000_user_ratio
+        from dws_daily_pkg_fragment_transaction_summary ddpfts
+                 left join dws_daily_pkg_fragment_summary ddpfs
+                           on ddpfts.dates = ddpfs.dates and ddpfts.pkg = ddpfs.pkg and ddpfts.fragment = ddpfs.fragment
+        where ddpfts.dates = #{dates}
+    </select>
+</mapper>
