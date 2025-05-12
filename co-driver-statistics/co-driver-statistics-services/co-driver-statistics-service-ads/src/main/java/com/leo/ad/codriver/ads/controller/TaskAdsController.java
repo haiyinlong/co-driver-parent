@@ -192,7 +192,7 @@ public class TaskAdsController {
         return "执行完成ads游戏数据同步";
     }
 
-    @GetMapping("/adsDailyFragmentReportServiceImpl")
+    @GetMapping("/adsDailyFragmentReport")
     @Operation(summary = "触发adsDailyFragmentReportServiceImpl基础报表数据同步", description = "触发ads数据同步")
     public String adsDailyFragmentReportServiceImpl(@RequestParam("dates") Integer dates) {
         // 获取统计日期
