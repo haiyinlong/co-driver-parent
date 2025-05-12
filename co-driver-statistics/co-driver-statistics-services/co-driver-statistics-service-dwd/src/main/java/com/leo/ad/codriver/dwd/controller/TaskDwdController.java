@@ -47,6 +47,9 @@ public class TaskDwdController {
     private final DwdService dwdQpLtvRecordServiceImpl;
     private final DwdService dwdEventReportServiceImpl;
 
+    private final DwdService dwdUserGameFragmentGoodsServiceImpl;
+    private final DwdService dwdUserGameFragmentGoodsRecordServiceImpl;
+
     @GetMapping("/")
     @Operation(summary = "触发所有dwd", description = "触发dwd数据同步")
     public String dwdHandle(@RequestParam("dates") Integer dates) {
@@ -222,6 +225,27 @@ public class TaskDwdController {
         }
         // 同步数据到dwd
         dwdUserShareRecordServiceImpl.syncData(dates);
+        return "执行完成dwd数据同步";
+    }
+
+    @GetMapping("/userGameFragmentGoods")
+    @Operation(summary = "触发同步用户碎片数据和记录dwd", description = "触发dwd数据同步")
+    public String syncUserGameFragmentGoodsHandle(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        try {
+            dwdUserGameFragmentGoodsServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("同步碎片 dwdUserGameFragmentGoodsServiceImpl:" + dates, e);
+        }
+
+        try {
+            dwdUserGameFragmentGoodsRecordServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("同步碎片 dwdUserGameFragmentGoodsServiceImpl:" + dates, e);
+        }
         return "执行完成dwd数据同步";
     }
 
