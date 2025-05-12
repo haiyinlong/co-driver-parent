@@ -45,4 +45,17 @@
           and ouggr.id >= #{startId}
           and ouggr.id <![CDATA[ <= ]]>#{endId}
     </select>
+    <select id="getDwdFragmentRecordStatisticsCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        select min(d.id) min_id, max(d.id) max_id, count(1) count
+        from dwd_user_game_fragment_goods_record d
+        where d.dates = #{dates}
+    </select>
+    <select id="queryDwdFragmentRecordInterval"
+            resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoodsRecord">
+        select d.*
+        from dwd_user_game_fragment_goods_record d
+        where d.dates = #{dates}
+          and d.id >= #{startId}
+          and d.id <![CDATA[ <= ]]>#{endId}
+    </select>
 </mapper>

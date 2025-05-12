@@ -59,8 +59,9 @@ public class DwsDailyPkgFragmentSummaryServiceImpl implements DwsService {
             for (DwdUserGameFragmentGoods dwdUserGameFragmentGoods : userGameGoodsList) {
                 fragmentSummaryMap =
                     pkgFragmentSummaryMap.getOrDefault(dwdUserGameFragmentGoods.getPkg(), new HashMap<>());
-                fragmentSummary = fragmentSummaryMap.getOrDefault(dwdUserGameFragmentGoods.getGoods(),
-                    DwsDailyPkgFragmentSummary.of(dates, dwdUserGameFragmentGoods.getGoods()));
+                fragmentSummary =
+                    fragmentSummaryMap.getOrDefault(dwdUserGameFragmentGoods.getGoods(), DwsDailyPkgFragmentSummary
+                        .of(dates, dwdUserGameFragmentGoods.getPkg(), dwdUserGameFragmentGoods.getGoods()));
                 fragmentSummary.updateStatistics(dwdUserGameFragmentGoods.getNum());
                 fragmentSummaryMap.put(dwdUserGameFragmentGoods.getGoods(), fragmentSummary);
                 pkgFragmentSummaryMap.put(dwdUserGameFragmentGoods.getPkg(), fragmentSummaryMap);

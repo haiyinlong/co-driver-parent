@@ -142,8 +142,9 @@ public class DwsDailyPkgFragmentSummary implements BaseEntity {
 
     public DwsDailyPkgFragmentSummary() {}
 
-    public DwsDailyPkgFragmentSummary(Integer dates, Integer fragment) {
+    public DwsDailyPkgFragmentSummary(Integer dates, String pkg, Integer fragment) {
         this.dates = dates;
+        this.pkg = pkg;
         this.fragment = fragment;
         this.fragmentNum = 0;
         this.fragmentUserNum = 0;
@@ -167,8 +168,8 @@ public class DwsDailyPkgFragmentSummary implements BaseEntity {
         this.createTime = LocalDateTime.now();
     }
 
-    public static DwsDailyPkgFragmentSummary of(Integer dates, Integer goods) {
-        return new DwsDailyPkgFragmentSummary(dates, goods);
+    public static DwsDailyPkgFragmentSummary of(Integer dates, String pkg, Integer goods) {
+        return new DwsDailyPkgFragmentSummary(dates, pkg, goods);
     }
 
     public void updateStatistics(Integer num) {
