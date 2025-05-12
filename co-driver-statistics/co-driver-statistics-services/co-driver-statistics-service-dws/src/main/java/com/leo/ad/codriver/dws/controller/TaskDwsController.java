@@ -11,9 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.dws.service.impl.DwsDailyPackageUserConversionServiceImpl;
-import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateAdServiceImpl;
-import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgAccumulateWithdrawServiceImpl;
-import com.leo.ad.codriver.dws.service.impl.pkg.DwsDailyPkgConversionServiceImpl;
+import com.leo.ad.codriver.dws.service.impl.pkg.*;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgUsrcAccumulateWithdrawServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulateAdServiceImpl;
@@ -129,6 +127,10 @@ public class TaskDwsController {
     private final DwsDailyPkgConversionServiceImpl dwsDailyPkgConversionServiceImpl;
     private final DwsDailyPackageAllConversionServiceImpl dwsDailyPackageAllConversionServiceImpl;
     private final DwsDailyPackageUserConversionServiceImpl dwsDailyPackageUserConversionServiceImpl;
+
+    // 碎片
+    private final DwsDailyPkgFragmentTransactionSummaryServiceImpl dwsDailyPkgFragmentTransactionSummaryServiceImpl;
+    private final DwsDailyPkgFragmentSummaryServiceImpl dwsDailyPkgFragmentSummaryServiceImpl;
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
@@ -675,5 +677,28 @@ public class TaskDwsController {
         }
 
         return "执行完成dws包pkgConversion维度数据统计同步";
+    }
+
+    @GetMapping("/pkgFragment")
+    @Operation(summary = "触发dws包PkgFragment维度数据统计", description = "触发dws数据同步")
+    public String pkgFragment(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        try {
+            dwsDailyPkgFragmentSummaryServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgFragmentSummaryServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgFragmentTransactionSummaryServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgFragmentTransactionSummaryServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        return "执行完成dws包pkgFragment维度数据统计同步";
     }
 }
