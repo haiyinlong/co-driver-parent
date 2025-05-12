@@ -12,8 +12,8 @@ import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.dwd.dao.DwdUserGameGoodsMapper;
-import com.leo.ad.codriver.dwd.entity.DwdUserGameGoods;
+import com.leo.ad.codriver.dwd.dao.DwdUserGameFragmentGoodsMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoods;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgFragmentSummaryMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgFragmentSummary;
 import com.leo.ad.codriver.dws.service.DwsService;
@@ -33,7 +33,7 @@ import lombok.AllArgsConstructor;
 public class DwsDailyPkgFragmentSummaryServiceImpl implements DwsService {
 
     private final DwsDailyPkgFragmentSummaryMapper dwsDailyPkgFragmentSummaryMapper;
-    private final DwdUserGameGoodsMapper dwdUserGameGoodsMapper;
+    private final DwdUserGameFragmentGoodsMapper dwdUserGameFragmentGoodsMapper;
     private final DwBatchMapper<DwsDailyPkgFragmentSummary, DwsDailyPkgFragmentSummaryMapper> dwBatchMapper;
 
     @Override
@@ -47,22 +47,23 @@ public class DwsDailyPkgFragmentSummaryServiceImpl implements DwsService {
 
         // 分页获取数据，然后进行汇总计算
         dwsDailyPkgFragmentSummaryMapper.deleteByDates(dates);
-        DwCountDTO dwdCountDTO = dwdUserGameGoodsMapper.getDwdFragmentStatisticsCount(dates);
+        DwCountDTO dwdCountDTO = dwdUserGameFragmentGoodsMapper.getDwdFragmentStatisticsCount(dates);
         int num = dwdCountDTO.loopNum();
         for (int i = 0; i < num; i++) {
-            List<DwdUserGameGoods> userGameGoodsList =
-                dwdUserGameGoodsMapper.queryDwdFragmentInterval(dwdCountDTO.loopStartId(i), dwdCountDTO.loopEndId(i));
+            List<DwdUserGameFragmentGoods> userGameGoodsList = dwdUserGameFragmentGoodsMapper
+                .queryDwdFragmentInterval(dwdCountDTO.loopStartId(i), dwdCountDTO.loopEndId(i));
             if (ObjectUtils.isEmpty(userGameGoodsList)) {
                 continue;
             }
             // 汇总计算
-            for (DwdUserGameGoods dwdUserGameGoods : userGameGoodsList) {
-                fragmentSummaryMap = pkgFragmentSummaryMap.getOrDefault(dwdUserGameGoods.getPkg(), new HashMap<>());
-                fragmentSummary = fragmentSummaryMap.getOrDefault(dwdUserGameGoods.getGoods(),
-                    DwsDailyPkgFragmentSummary.of(dates, dwdUserGameGoods.getGoods()));
-                fragmentSummary.updateStatistics(dwdUserGameGoods.getNum());
-                fragmentSummaryMap.put(dwdUserGameGoods.getGoods(), fragmentSummary);
-                pkgFragmentSummaryMap.put(dwdUserGameGoods.getPkg(), fragmentSummaryMap);
+            for (DwdUserGameFragmentGoods dwdUserGameFragmentGoods : userGameGoodsList) {
+                fragmentSummaryMap =
+                    pkgFragmentSummaryMap.getOrDefault(dwdUserGameFragmentGoods.getPkg(), new HashMap<>());
+                fragmentSummary = fragmentSummaryMap.getOrDefault(dwdUserGameFragmentGoods.getGoods(),
+                    DwsDailyPkgFragmentSummary.of(dates, dwdUserGameFragmentGoods.getGoods()));
+                fragmentSummary.updateStatistics(dwdUserGameFragmentGoods.getNum());
+                fragmentSummaryMap.put(dwdUserGameFragmentGoods.getGoods(), fragmentSummary);
+                pkgFragmentSummaryMap.put(dwdUserGameFragmentGoods.getPkg(), fragmentSummaryMap);
             }
         }
         if (CollectionUtils.isEmpty(pkgFragmentSummaryMap)) {

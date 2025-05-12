@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leo.ad.codriver.common.DwCountDTO;
-import com.leo.ad.codriver.dwd.entity.DwdUserGameGoods;
+import com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoods;
 
 /**
  * @author user
@@ -18,13 +18,13 @@ import com.leo.ad.codriver.dwd.entity.DwdUserGameGoods;
  */
 @Mapper
 @DS("mysql")
-public interface DwdUserGameGoodsMapper extends BaseMapper<DwdUserGameGoods> {
+public interface DwdUserGameFragmentGoodsMapper extends BaseMapper<DwdUserGameFragmentGoods> {
     DwCountDTO getOdsStatisticsCount();
 
-    List<DwdUserGameGoods> queryOdsStatisticsInterval(@Param("dates") int dates, @Param("startId") long startId,
+    List<DwdUserGameFragmentGoods> queryOdsStatisticsInterval(@Param("dates") int dates, @Param("startId") long startId,
         @Param("endId") long endId);
 
     DwCountDTO getDwdFragmentStatisticsCount(@Param("dates") int dates);
 
-    List<DwdUserGameGoods> queryDwdFragmentInterval(@Param("startId") long startId, @Param("endId") long endId);
+    List<DwdUserGameFragmentGoods> queryDwdFragmentInterval(@Param("startId") long startId, @Param("endId") long endId);
 }

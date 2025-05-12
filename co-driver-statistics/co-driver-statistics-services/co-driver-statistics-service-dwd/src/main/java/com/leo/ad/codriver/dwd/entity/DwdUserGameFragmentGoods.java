@@ -12,11 +12,11 @@ import lombok.Data;
 /**
  * dwd用户游戏商品
  *
- * @TableName dwd_user_game_goods
+ * @TableName dwd_user_fragment_game_goods
  */
-@TableName(value = "dwd_user_game_goods")
+@TableName(value = "dwd_user_game_fragment_goods")
 @Data
-public class DwdUserGameGoods implements BaseEntity {
+public class DwdUserGameFragmentGoods implements BaseEntity {
     /**
      * 主键ID
      */

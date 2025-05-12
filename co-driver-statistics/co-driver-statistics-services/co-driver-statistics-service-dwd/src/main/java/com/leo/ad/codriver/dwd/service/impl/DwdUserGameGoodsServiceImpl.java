@@ -10,8 +10,8 @@ import org.springframework.util.ObjectUtils;
 import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.dwd.dao.DwdUserGameGoodsMapper;
-import com.leo.ad.codriver.dwd.entity.DwdUserGameGoods;
+import com.leo.ad.codriver.dwd.dao.DwdUserGameFragmentGoodsMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoods;
 import com.leo.ad.codriver.dwd.event.DwdUserGameGoodsInstallDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
@@ -25,8 +25,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DwdUserGameGoodsServiceImpl implements DwdService {
 
-    private final DwdUserGameGoodsMapper dwdUserGameGoodsMapper;
-    private final DwBatchMapper<DwdUserGameGoods, DwdUserGameGoodsMapper> dwBatchMapper;
+    private final DwdUserGameFragmentGoodsMapper dwdUserGameFragmentGoodsMapper;
+    private final DwBatchMapper<DwdUserGameFragmentGoods, DwdUserGameFragmentGoodsMapper> dwBatchMapper;
 
     @Override
     @ShowExecuteTime(name = "dwdUserGameGoods syncData")
@@ -34,18 +34,18 @@ public class DwdUserGameGoodsServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdUserGameGoodsInstallDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        DwCountDTO statisticsCount = dwdUserGameGoodsMapper.getOdsStatisticsCount();
+        DwCountDTO statisticsCount = dwdUserGameFragmentGoodsMapper.getOdsStatisticsCount();
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;
         }
         int loopNum = statisticsCount.loopNum();
         long startId;
         long endId;
-        List<DwdUserGameGoods> userGameGoodsList;
+        List<DwdUserGameFragmentGoods> userGameGoodsList;
         for (int i = 1; i <= loopNum; i++) {
             startId = statisticsCount.loopStartId(i);
             endId = statisticsCount.loopEndId(i);
-            userGameGoodsList = dwdUserGameGoodsMapper.queryOdsStatisticsInterval(dates, startId, endId);
+            userGameGoodsList = dwdUserGameFragmentGoodsMapper.queryOdsStatisticsInterval(dates, startId, endId);
             if (CollectionUtils.isEmpty(userGameGoodsList)) {
                 continue;
             }
@@ -53,7 +53,7 @@ public class DwdUserGameGoodsServiceImpl implements DwdService {
                 userGameGoods.updateDates(dates);
             });
             // 转化数据，入库
-            dwBatchMapper.batchInsert(userGameGoodsList, DwdUserGameGoodsMapper.class);
+            dwBatchMapper.batchInsert(userGameGoodsList, DwdUserGameFragmentGoodsMapper.class);
         }
         return true;
     }
