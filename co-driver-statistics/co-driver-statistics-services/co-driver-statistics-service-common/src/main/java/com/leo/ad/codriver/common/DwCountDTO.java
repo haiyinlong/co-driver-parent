@@ -31,6 +31,9 @@ public class DwCountDTO {
         if (Objects.equals(maxId, minId)) {
             return 1;
         }
+        if (count < pageRowNum) {
+            return 1;
+        }
         this.loopPageRowNum = pageRowNum;
         return BigDecimalUtils.divide(BigDecimal.valueOf((maxId - minId)), BigDecimal.valueOf(loopPageRowNum))
             .setScale(0, RoundingMode.UP).intValue();
@@ -40,6 +43,9 @@ public class DwCountDTO {
         if (this.loopPageRowNum == null) {
             this.loopPageRowNum = LOOP_PAGE_ROW_NUM;
         }
+        if (count < this.loopPageRowNum) {
+            return minId;
+        }
         return minId + ((currentLoopNum - 1) * loopPageRowNum);
     }
 
@@ -47,6 +53,10 @@ public class DwCountDTO {
         if (this.loopPageRowNum == null) {
             this.loopPageRowNum = LOOP_PAGE_ROW_NUM;
         }
+        if (count < this.loopPageRowNum) {
+            return maxId;
+        }
+
         long endId = minId + (currentLoopNum * loopPageRowNum);
         if (endId > maxId) {
             return maxId;

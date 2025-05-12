@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserGameGoodsMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dwd.entity.DwdUserGameGoods">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="dates" column="dates" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="BIGINT"/>
+        <result property="pkg" column="pkg" jdbcType="VARCHAR"/>
+        <result property="goods" column="goods" jdbcType="INTEGER"/>
+        <result property="num" column="num" jdbcType="INTEGER"/>
+        <result property="totalNum" column="total_num" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,user_id,
+        pkg,goods,num,
+        total_num,create_time
+    </sql>
+    <select id="getStatisticsCount" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        SELECT min(ougg.id) min_id, max(ougg.id) max_id, count(1) count
+        FROM ods_user_game_goods ougg
+        where ougg.goods in (2001, 2002, 2003, 2004, 2005, 2009)
+          and ougg.num > 0
+    </select>
+    <select id="queryStatisticsInterval" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameGoods">
+
+        SELECT dugg.id, dui.pkg, ougg.user_id, ougg.goods, ougg.num, ougg.total_num
+        FROM ods_user_game_goods ougg
+                 left join dim_user_info dui on dui.user_id = ougg.user_id
+                 left join dwd_user_game_goods dugg on dugg.user_id = ougg.user_id and dugg.dates = #{dates}
+        where ougg.goods in (2001, 2002, 2003, 2004, 2005, 2009)
+          and ougg.num > 0
+          and ougg.id >= #{startId}
+          and ougg.id <![CDATA[ <= ]]>#{endId}
+    </select>
+</mapper>
