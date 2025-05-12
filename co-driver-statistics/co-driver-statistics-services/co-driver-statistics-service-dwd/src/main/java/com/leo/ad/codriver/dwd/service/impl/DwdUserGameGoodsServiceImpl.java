@@ -34,7 +34,7 @@ public class DwdUserGameGoodsServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdUserGameGoodsInstallDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        DwCountDTO statisticsCount = dwdUserGameGoodsMapper.getStatisticsCount();
+        DwCountDTO statisticsCount = dwdUserGameGoodsMapper.getOdsStatisticsCount();
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;
         }
@@ -45,7 +45,7 @@ public class DwdUserGameGoodsServiceImpl implements DwdService {
         for (int i = 1; i <= loopNum; i++) {
             startId = statisticsCount.loopStartId(i);
             endId = statisticsCount.loopEndId(i);
-            userGameGoodsList = dwdUserGameGoodsMapper.queryStatisticsInterval(dates, startId, endId);
+            userGameGoodsList = dwdUserGameGoodsMapper.queryOdsStatisticsInterval(dates, startId, endId);
             if (CollectionUtils.isEmpty(userGameGoodsList)) {
                 continue;
             }

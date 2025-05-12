@@ -19,8 +19,12 @@ import com.leo.ad.codriver.dwd.entity.DwdUserGameGoods;
 @Mapper
 @DS("mysql")
 public interface DwdUserGameGoodsMapper extends BaseMapper<DwdUserGameGoods> {
-    DwCountDTO getStatisticsCount();
+    DwCountDTO getOdsStatisticsCount();
 
-    List<DwdUserGameGoods> queryStatisticsInterval(@Param("dates") int dates, @Param("startId") long startId,
+    List<DwdUserGameGoods> queryOdsStatisticsInterval(@Param("dates") int dates, @Param("startId") long startId,
         @Param("endId") long endId);
+
+    DwCountDTO getDwdFragmentStatisticsCount(@Param("dates") int dates);
+
+    List<DwdUserGameGoods> queryDwdFragmentInterval(@Param("startId") long startId, @Param("endId") long endId);
 }
