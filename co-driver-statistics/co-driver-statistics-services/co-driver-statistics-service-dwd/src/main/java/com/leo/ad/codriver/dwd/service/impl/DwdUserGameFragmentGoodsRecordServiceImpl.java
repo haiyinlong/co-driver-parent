@@ -10,9 +10,9 @@ import org.springframework.util.ObjectUtils;
 import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
-import com.leo.ad.codriver.dwd.dao.DwdUserGameFragmentGoodsMapper;
-import com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoods;
-import com.leo.ad.codriver.dwd.event.DwdUserGameFragmentGoodsInstallDwEvent;
+import com.leo.ad.codriver.dwd.dao.DwdUserGameFragmentGoodsRecordMapper;
+import com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoodsRecord;
+import com.leo.ad.codriver.dwd.event.DwdUserGameFragmentGoodsRecordUpdateDwEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
@@ -20,39 +20,44 @@ import com.leo.ad.codriver.starter.redis.annotation.Lock;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * DwdUserGameFragmentGoodsRecordServiceImpl
+ *
+ * @author HaiYinLong
+ * @version 2025/05/12 16:44
+ **/
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwdUserGameFragmentGoodsServiceImpl implements DwdService {
-
-    private final DwdUserGameFragmentGoodsMapper dwdUserGameFragmentGoodsMapper;
-    private final DwBatchMapper<DwdUserGameFragmentGoods, DwdUserGameFragmentGoodsMapper> dwBatchMapper;
+public class DwdUserGameFragmentGoodsRecordServiceImpl implements DwdService {
+    private final DwdUserGameFragmentGoodsRecordMapper dwdUserGameFragmentGoodsRecordMapper;
+    private final DwBatchMapper<DwdUserGameFragmentGoodsRecord, DwdUserGameFragmentGoodsRecordMapper> dwBatchMapper;
 
     @Override
-    @ShowExecuteTime(name = "dwdUserGameFragmentGoods syncData")
+    @ShowExecuteTime(name = "dwdUserGameFragmentGoodsRecord syncData")
     @Transactional(rollbackFor = Exception.class)
-    @AutoPushEventWithTrue(events = {DwdUserGameFragmentGoodsInstallDwEvent.class})
+    @AutoPushEventWithTrue(events = {DwdUserGameFragmentGoodsRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        dwdUserGameFragmentGoodsMapper.deleteByDates(dates);
-        DwCountDTO statisticsCount = dwdUserGameFragmentGoodsMapper.getOdsStatisticsCount();
+        dwdUserGameFragmentGoodsRecordMapper.deleteByDates(dates);
+        DwCountDTO statisticsCount = dwdUserGameFragmentGoodsRecordMapper.getOdsStatisticsCount(dates);
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;
         }
         int loopNum = statisticsCount.loopNum();
         long startId;
         long endId;
-        List<DwdUserGameFragmentGoods> userGameGoodsList;
+        List<DwdUserGameFragmentGoodsRecord> gameFragmentGoodsRecords;
         for (int i = 1; i <= loopNum; i++) {
             startId = statisticsCount.loopStartId(i);
             endId = statisticsCount.loopEndId(i);
-            userGameGoodsList = dwdUserGameFragmentGoodsMapper.queryOdsStatisticsInterval(dates, startId, endId);
-            if (CollectionUtils.isEmpty(userGameGoodsList)) {
+            gameFragmentGoodsRecords =
+                dwdUserGameFragmentGoodsRecordMapper.queryOdsStatisticsInterval(dates, startId, endId);
+            if (CollectionUtils.isEmpty(gameFragmentGoodsRecords)) {
                 continue;
             }
-            userGameGoodsList.forEach(userGameGoods -> userGameGoods.updateDates(dates));
             // 转化数据，入库
-            dwBatchMapper.batchInsert(userGameGoodsList, DwdUserGameFragmentGoodsMapper.class);
+            dwBatchMapper.batchInsert(gameFragmentGoodsRecords, DwdUserGameFragmentGoodsRecordMapper.class);
         }
         return true;
     }
