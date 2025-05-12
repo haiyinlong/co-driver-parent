@@ -27,4 +27,6 @@ public interface DwdUserGameFragmentGoodsMapper extends BaseMapper<DwdUserGameFr
     DwCountDTO getDwdFragmentStatisticsCount(@Param("dates") int dates);
 
     List<DwdUserGameFragmentGoods> queryDwdFragmentInterval(@Param("startId") long startId, @Param("endId") long endId);
+
+    void deleteByDates(@Param("dates") int dates);
 }

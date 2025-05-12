@@ -23,17 +23,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class DwdUserGameGoodsServiceImpl implements DwdService {
+public class DwdUserGameFragmentGoodsServiceImpl implements DwdService {
 
     private final DwdUserGameFragmentGoodsMapper dwdUserGameFragmentGoodsMapper;
     private final DwBatchMapper<DwdUserGameFragmentGoods, DwdUserGameFragmentGoodsMapper> dwBatchMapper;
 
     @Override
-    @ShowExecuteTime(name = "dwdUserGameGoods syncData")
+    @ShowExecuteTime(name = "dwdUserGameFragmentGoods syncData")
     @Transactional(rollbackFor = Exception.class)
     @AutoPushEventWithTrue(events = {DwdUserGameGoodsInstallDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
+        dwdUserGameFragmentGoodsMapper.deleteByDates(dates);
         DwCountDTO statisticsCount = dwdUserGameFragmentGoodsMapper.getOdsStatisticsCount();
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;
@@ -49,9 +50,7 @@ public class DwdUserGameGoodsServiceImpl implements DwdService {
             if (CollectionUtils.isEmpty(userGameGoodsList)) {
                 continue;
             }
-            userGameGoodsList.forEach(userGameGoods -> {
-                userGameGoods.updateDates(dates);
-            });
+            userGameGoodsList.forEach(userGameGoods -> userGameGoods.updateDates(dates));
             // 转化数据，入库
             dwBatchMapper.batchInsert(userGameGoodsList, DwdUserGameFragmentGoodsMapper.class);
         }
