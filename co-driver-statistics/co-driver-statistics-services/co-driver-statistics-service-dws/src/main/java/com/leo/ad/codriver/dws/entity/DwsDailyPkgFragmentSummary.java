@@ -175,19 +175,19 @@ public class DwsDailyPkgFragmentSummary implements BaseEntity {
     public void updateStatistics(Integer num) {
         this.fragmentNum += num;
         this.fragmentUserNum += 1;
-        if (this.fragmentNum <= 100) {
+        if (num <= 100) {
             this.fragment1To100UserNum += 1;
-        } else if (this.fragmentNum <= 300) {
+        } else if (num <= 300) {
             this.fragment100To300UserNum += 1;
-        } else if (this.fragmentNum <= 500) {
+        } else if (num <= 500) {
             this.fragment300To500UserNum += 1;
-        } else if (this.fragmentNum <= 700) {
+        } else if (num <= 700) {
             this.fragment500To700UserNum += 1;
-        } else if (this.fragmentNum <= 800) {
+        } else if (num <= 800) {
             this.fragment700To800UserNum += 1;
-        } else if (this.fragmentNum <= 900) {
+        } else if (num <= 900) {
             this.fragment800To900UserNum += 1;
-        } else if (this.fragmentNum <= 1000) {
+        } else if (num <= 1000) {
             this.fragment900To1000UserNum += 1;
         } else {
             this.fragmentMoreThan1000UserNum += 1;

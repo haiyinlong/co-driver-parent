@@ -51,7 +51,7 @@ public class DwsDailyPkgFragmentSummaryServiceImpl implements DwsService {
         int num = dwdCountDTO.loopNum();
         for (int i = 0; i < num; i++) {
             List<DwdUserGameFragmentGoods> userGameGoodsList = dwdUserGameFragmentGoodsMapper
-                .queryDwdFragmentInterval(dwdCountDTO.loopStartId(i), dwdCountDTO.loopEndId(i));
+                .queryDwdFragmentInterval(dates, dwdCountDTO.loopStartId(i), dwdCountDTO.loopEndId(i));
             if (ObjectUtils.isEmpty(userGameGoodsList)) {
                 continue;
             }

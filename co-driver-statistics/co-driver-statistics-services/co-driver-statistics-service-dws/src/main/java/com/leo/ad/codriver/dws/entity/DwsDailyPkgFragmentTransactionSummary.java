@@ -64,6 +64,7 @@ public class DwsDailyPkgFragmentTransactionSummary implements BaseEntity {
         this.dates = dates;
         this.pkg = pkg;
         this.fragment = fragment;
+        this.fragmentUserNum = 0;
         this.createTime = LocalDateTime.now();
         this.outputNum = 0;
         this.expendNum = 0;
