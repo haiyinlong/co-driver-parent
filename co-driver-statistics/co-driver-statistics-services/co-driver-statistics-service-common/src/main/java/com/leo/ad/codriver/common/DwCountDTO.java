@@ -39,7 +39,16 @@ public class DwCountDTO {
             .setScale(0, RoundingMode.UP).intValue();
     }
 
+    /**
+     * 获取当前循环的开始id
+     *
+     * @param currentLoopNum 次数大于0
+     * @return
+     */
     public long loopStartId(int currentLoopNum) {
+        if (currentLoopNum <= 0) {
+            throw new RuntimeException("currentLoopNum must > 0");
+        }
         if (this.loopPageRowNum == null) {
             this.loopPageRowNum = LOOP_PAGE_ROW_NUM;
         }

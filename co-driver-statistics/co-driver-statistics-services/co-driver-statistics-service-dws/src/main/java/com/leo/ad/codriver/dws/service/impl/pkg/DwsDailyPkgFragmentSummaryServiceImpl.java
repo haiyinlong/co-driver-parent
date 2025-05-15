@@ -21,6 +21,7 @@ import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * DwsDailyPkgFragmentSummaryServiceImpl
@@ -28,6 +29,7 @@ import lombok.AllArgsConstructor;
  * @author HaiYinLong
  * @version 2025/05/12 15:05
  **/
+@Slf4j
 @Service
 @AllArgsConstructor
 public class DwsDailyPkgFragmentSummaryServiceImpl implements DwsService {
@@ -44,24 +46,29 @@ public class DwsDailyPkgFragmentSummaryServiceImpl implements DwsService {
         DwsDailyPkgFragmentSummary fragmentSummary;
         Map<Integer, DwsDailyPkgFragmentSummary> fragmentSummaryMap = null;
         Map<String, Map<Integer, DwsDailyPkgFragmentSummary>> pkgFragmentSummaryMap = new HashMap<>();
-
         // 分页获取数据，然后进行汇总计算
         dwsDailyPkgFragmentSummaryMapper.deleteByDates(dates);
         DwCountDTO dwdCountDTO = dwdUserGameFragmentGoodsMapper.getDwdFragmentStatisticsCount(dates);
         int num = dwdCountDTO.loopNum();
-        for (int i = 0; i < num; i++) {
-            List<DwdUserGameFragmentGoods> userGameGoodsList = dwdUserGameFragmentGoodsMapper
-                .queryDwdFragmentInterval(dates, dwdCountDTO.loopStartId(i), dwdCountDTO.loopEndId(i));
+        for (int i = 1; i <= num; i++) {
+            long startId = dwdCountDTO.loopStartId(i);
+            long endId = dwdCountDTO.loopEndId(i);
+            List<DwdUserGameFragmentGoods> userGameGoodsList =
+                dwdUserGameFragmentGoodsMapper.queryDwdFragmentInterval(dates, startId, endId);
             if (ObjectUtils.isEmpty(userGameGoodsList)) {
                 continue;
             }
             // 汇总计算
             for (DwdUserGameFragmentGoods dwdUserGameFragmentGoods : userGameGoodsList) {
-                fragmentSummaryMap =
-                    pkgFragmentSummaryMap.getOrDefault(dwdUserGameFragmentGoods.getPkg(), new HashMap<>());
-                fragmentSummary =
-                    fragmentSummaryMap.getOrDefault(dwdUserGameFragmentGoods.getGoods(), DwsDailyPkgFragmentSummary
-                        .of(dates, dwdUserGameFragmentGoods.getPkg(), dwdUserGameFragmentGoods.getGoods()));
+                fragmentSummaryMap = pkgFragmentSummaryMap.get(dwdUserGameFragmentGoods.getPkg());
+                if (CollectionUtils.isEmpty(fragmentSummaryMap)) {
+                    fragmentSummaryMap = new HashMap<>();
+                }
+                fragmentSummary = fragmentSummaryMap.get(dwdUserGameFragmentGoods.getGoods());
+                if (ObjectUtils.isEmpty(fragmentSummary)) {
+                    fragmentSummary = DwsDailyPkgFragmentSummary.of(dates, dwdUserGameFragmentGoods.getPkg(),
+                        dwdUserGameFragmentGoods.getGoods());
+                }
                 fragmentSummary.updateStatistics(dwdUserGameFragmentGoods.getNum());
                 fragmentSummaryMap.put(dwdUserGameFragmentGoods.getGoods(), fragmentSummary);
                 pkgFragmentSummaryMap.put(dwdUserGameFragmentGoods.getPkg(), fragmentSummaryMap);
