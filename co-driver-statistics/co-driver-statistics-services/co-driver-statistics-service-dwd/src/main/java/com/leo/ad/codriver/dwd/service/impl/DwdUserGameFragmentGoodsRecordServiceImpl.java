@@ -39,7 +39,6 @@ public class DwdUserGameFragmentGoodsRecordServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdUserGameFragmentGoodsRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        dwdUserGameFragmentGoodsRecordMapper.deleteByDates(dates);
         DwCountDTO statisticsCount = dwdUserGameFragmentGoodsRecordMapper.getOdsStatisticsCount(dates);
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -16,6 +17,7 @@ import com.leo.ad.codriver.dwd.dao.DwdUserGameFragmentGoodsRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoodsRecord;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgFragmentTransactionSummaryMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgFragmentTransactionSummary;
+import com.leo.ad.codriver.dws.event.DwsDailyPkgFragmentTransactionSummaryUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
@@ -36,9 +38,10 @@ public class DwsDailyPkgFragmentTransactionSummaryServiceImpl implements DwsServ
     private final DwdUserGameFragmentGoodsRecordMapper dwdUserGameFragmentGoodsRecordMapper;
     private final DwBatchMapper<DwsDailyPkgFragmentTransactionSummary,
         DwsDailyPkgFragmentTransactionSummaryMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
-    @ShowExecuteTime(name = "DwsDailyPkgFragmentSummary")
+    @ShowExecuteTime(name = "DwsDailyPkgTransactionFragmentSummary")
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
@@ -50,7 +53,7 @@ public class DwsDailyPkgFragmentTransactionSummaryServiceImpl implements DwsServ
         dwsDailyPkgFragmentTransactionSummaryMapper.deleteByDates(dates);
         DwCountDTO dwdCountDTO = dwdUserGameFragmentGoodsRecordMapper.getDwdFragmentRecordStatisticsCount(dates);
         int num = dwdCountDTO.loopNum();
-        for (int i = 0; i < num; i++) {
+        for (int i = 1; i <= num; i++) {
             List<DwdUserGameFragmentGoodsRecord> userGameGoodsList = dwdUserGameFragmentGoodsRecordMapper
                 .queryDwdFragmentRecordInterval(dates, dwdCountDTO.loopStartId(i), dwdCountDTO.loopEndId(i));
             if (ObjectUtils.isEmpty(userGameGoodsList)) {
@@ -77,5 +80,6 @@ public class DwsDailyPkgFragmentTransactionSummaryServiceImpl implements DwsServ
             pkgFragmentSummaryMap.values().stream().flatMap(map -> map.values().stream()).collect(Collectors.toList());
         // 批量更新
         dwBatchMapper.batchInsert(fragmentSummaryList, DwsDailyPkgFragmentTransactionSummaryMapper.class);
+        applicationEventPublisher.publishEvent(new DwsDailyPkgFragmentTransactionSummaryUpdateDwEvent(this, dates));
     }
 }

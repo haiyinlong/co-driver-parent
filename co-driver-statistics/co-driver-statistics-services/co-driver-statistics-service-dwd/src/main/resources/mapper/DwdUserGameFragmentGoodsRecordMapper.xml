@@ -40,7 +40,9 @@
         select dui.pkg, ouggr.*
         from ods_user_game_goods_record ouggr
                  left join dim_user_info dui on dui.user_id = ouggr.user_id
+                 left join dwd_user_game_fragment_goods_record dugfgr on ouggr.id = dugfgr.id
         where ouggr.dates = #{dates}
+          and dugfgr.id is null
           and ouggr.goods in (2001, 2002, 2003, 2004, 2005, 2009)
           and ouggr.id >= #{startId}
           and ouggr.id <![CDATA[ <= ]]>#{endId}

@@ -34,7 +34,7 @@ public class DwdUserGameFragmentGoodsServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdUserGameFragmentGoodsInstallDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        dwdUserGameFragmentGoodsMapper.deleteByDates(dates);
+        // 当天的实时更新
         DwCountDTO statisticsCount = dwdUserGameFragmentGoodsMapper.getOdsStatisticsCount();
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             return false;

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
@@ -16,6 +17,7 @@ import com.leo.ad.codriver.dwd.dao.DwdUserGameFragmentGoodsMapper;
 import com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoods;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgFragmentSummaryMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgFragmentSummary;
+import com.leo.ad.codriver.dws.event.DwsDailyPkgFragmentSummaryUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
@@ -37,6 +39,7 @@ public class DwsDailyPkgFragmentSummaryServiceImpl implements DwsService {
     private final DwsDailyPkgFragmentSummaryMapper dwsDailyPkgFragmentSummaryMapper;
     private final DwdUserGameFragmentGoodsMapper dwdUserGameFragmentGoodsMapper;
     private final DwBatchMapper<DwsDailyPkgFragmentSummary, DwsDailyPkgFragmentSummaryMapper> dwBatchMapper;
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     @Override
     @ShowExecuteTime(name = "DwsDailyPkgFragmentSummary")
@@ -82,5 +85,7 @@ public class DwsDailyPkgFragmentSummaryServiceImpl implements DwsService {
             pkgFragmentSummaryMap.values().stream().flatMap(map -> map.values().stream()).collect(Collectors.toList());
         // 批量更新
         dwBatchMapper.batchInsert(fragmentSummaryList, DwsDailyPkgFragmentSummaryMapper.class);
+        applicationEventPublisher.publishEvent(new DwsDailyPkgFragmentSummaryUpdateDwEvent(this, dates));
+
     }
 }

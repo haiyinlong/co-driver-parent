@@ -29,16 +29,13 @@
         SELECT min(ougg.id) min_id, max(ougg.id) max_id, count(1) count
         FROM ods_user_game_goods ougg
         where ougg.goods in (2001, 2002, 2003, 2004, 2005, 2009)
-          and ougg.num > 0
     </select>
     <select id="queryOdsStatisticsInterval" resultType="com.leo.ad.codriver.dwd.entity.DwdUserGameFragmentGoods">
-
         SELECT dugg.id, dui.pkg, ougg.user_id, ougg.goods, ougg.num, ougg.total_num
         FROM ods_user_game_goods ougg
                  left join dim_user_info dui on dui.user_id = ougg.user_id
                  left join dwd_user_game_fragment_goods dugg on dugg.user_id = ougg.user_id and dugg.dates = #{dates}
         where ougg.goods in (2001, 2002, 2003, 2004, 2005, 2009)
-          and ougg.num > 0
           and ougg.id >= #{startId}
           and ougg.id <![CDATA[ <= ]]>#{endId}
     </select>
