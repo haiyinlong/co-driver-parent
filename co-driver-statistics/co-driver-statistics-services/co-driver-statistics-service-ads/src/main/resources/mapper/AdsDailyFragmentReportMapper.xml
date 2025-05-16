@@ -50,12 +50,12 @@
         WHERE dates = #{dates}
     </delete>
     <select id="queryStatistics" resultType="com.leo.ad.codriver.ads.entity.AdsDailyFragmentReport">
-        select ddpfts.dates,
-               ddpfts.pkg,
-               ddpfts.fragment,
-               ddpfts.output_num  fragment_output_num,
-               ddpfts.expend_num  fragment_expend_num,
-               ddpfs.fragment_num fragment_effective_num,
+        select ddpfs.dates,
+               ddpfs.pkg,
+               ddpfs.fragment,
+               ifnull(ddpfts.output_num, 0) fragment_output_num,
+               ifnull(ddpfts.expend_num, 0) fragment_expend_num,
+               ddpfs.fragment_num           fragment_effective_num,
                ddpfs.fragment_user_num,
                ddpfs.fragment_per_capita_num,
                ddpfs.fragment1_to100_user_num,
@@ -74,9 +74,9 @@
                ddpfs.fragment900_to1000_user_ratio,
                ddpfs.fragment_more_than1000_user_num,
                ddpfs.fragment_more_than1000_user_ratio
-        from dws_daily_pkg_fragment_transaction_summary ddpfts
-                 left join dws_daily_pkg_fragment_summary ddpfs
-                           on ddpfts.dates = ddpfs.dates and ddpfts.pkg = ddpfs.pkg and ddpfts.fragment = ddpfs.fragment
-        where ddpfts.dates = #{dates}
+        from dws_daily_pkg_fragment_summary ddpfs
+                 left join dws_daily_pkg_fragment_transaction_summary ddpfts
+                           on ddpfs.dates = ddpfts.dates and ddpfs.pkg = ddpfts.pkg and ddpfs.fragment = ddpfts.fragment
+        where ddpfs.dates = #{dates}
     </select>
 </mapper>
