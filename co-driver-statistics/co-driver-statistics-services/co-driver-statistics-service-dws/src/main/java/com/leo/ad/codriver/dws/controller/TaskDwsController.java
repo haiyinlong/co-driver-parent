@@ -1,12 +1,10 @@
 package com.leo.ad.codriver.dws.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
@@ -37,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 @AllArgsConstructor
 @Slf4j
 public class TaskDwsController {
-
+    private final Map<String, DwsService> dwsServiceMap;
     private final List<DwsService> dwsServices;
     private final DwsService dwsHemaAccountFullDailyServiceImpl;
     private final DwsService dwsWithdrawFullDailyServiceImpl;
@@ -131,6 +129,17 @@ public class TaskDwsController {
     // 碎片
     private final DwsDailyPkgFragmentTransactionSummaryServiceImpl dwsDailyPkgFragmentTransactionSummaryServiceImpl;
     private final DwsDailyPkgFragmentSummaryServiceImpl dwsDailyPkgFragmentSummaryServiceImpl;
+
+    @GetMapping("/execute/{serviceImpl}/{dates}")
+    @Operation(summary = "触发所有dws", description = "触发dws数据同步")
+    public String execute(@PathVariable("serviceImpl") String serviceImpl, @PathVariable("dates") Integer dates) {
+        if (!dwsServiceMap.containsKey(serviceImpl)) {
+            return "没有找到" + serviceImpl;
+        }
+        DwsService dwsService = dwsServiceMap.get(serviceImpl);
+        dwsService.syncData(dates);
+        return serviceImpl + "执行完成数据同步";
+    }
 
     @GetMapping("/")
     @Operation(summary = "触发dws所有task", description = "触发dws数据同步")
