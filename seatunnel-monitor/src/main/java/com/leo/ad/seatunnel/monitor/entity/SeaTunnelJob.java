@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.seatunnel.monitor.util.CommandUtils;
+import com.leo.ad.seatunnel.monitor.util.DingTalkUtil;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,8 @@ public class SeaTunnelJob {
         // 执行命令
         String commandResponse = CommandUtils.executeCommand(seaTunnelHome, executeCommand);
         log.info("{} 执行命令：{}  返回结果:[{}]", this.jobId, executeCommand, commandResponse);
+        // 通知钉钉 当前任务系统启动成功，需要观察真实数据状态
+        DingTalkUtil.INSTANCE.sendMessage(this.fileName, this.jobId);
         this.updateTime = new Date();
     }
 
