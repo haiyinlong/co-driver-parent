@@ -25,4 +25,9 @@ public interface DwdUserWithdrawRecordMapper extends BaseMapper<DwdUserWithdrawR
 
     List<DwdUserWithdrawRecord> queryWithdrawList(@Param("dates") Integer dates, @Param("dateStr") String dateStr,
         @Param("singleFee") BigDecimal singleFee, @Param("startId") long startId, @Param("endId") long endId);
+
+    DwCountDTO getDbCountOfId(@Param("dates") Integer dates);
+
+    List<DwdUserWithdrawRecord> queryListByDates(@Param("dates") Integer dates, @Param("startId") Long startId,
+        @Param("endId") Long endId);
 }

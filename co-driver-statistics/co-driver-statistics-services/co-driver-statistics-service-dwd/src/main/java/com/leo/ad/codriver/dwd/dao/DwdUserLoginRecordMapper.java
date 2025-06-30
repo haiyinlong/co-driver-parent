@@ -25,4 +25,9 @@ public interface DwdUserLoginRecordMapper extends BaseMapper<DwdUserLoginRecord>
 
     List<DwdUserLoginRecord> queryStatisticsByDate(@Param("dates") Integer dates,
         @Param("startSourceId") long startSourceId, @Param("endSourceId") long endSourceId);
+
+    DwCountDTO getDbCountOfId(@Param("dates") Integer dates);
+
+    List<DwdUserLoginRecord> queryListByDates(@Param("dates") Integer dates, @Param("startId") Long startId,
+        @Param("endId") Long endId);
 }

@@ -3,6 +3,7 @@ package com.leo.ad.codriver.dwd.entity;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -26,5 +27,6 @@ public class DwdUserLoginRecord {
     private Integer registerDay;
     private Integer registerCohortDay;
     private Date createTime;
-
+    @TableField(exist = false)
+    private String userSource;
 }

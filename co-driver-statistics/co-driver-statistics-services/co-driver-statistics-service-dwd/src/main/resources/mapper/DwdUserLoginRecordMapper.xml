@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserLoginRecordMapper">
-    
+
     <delete id="deleteByDates">
         delete
         from dwd_user_login_record
@@ -40,6 +40,32 @@
                                                            dulr2.register_day = t.register_day and
                                                            dulr2.user_id = t.user_id and dulr2.version = t.version)
 
+    </select>
+    <select id="getDbCountOfId" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        SELECT count(1) count, min(id) min_id, max(id) max_id
+        FROM dwd_user_login_record
+        WHERE dates = #{dates}
+    </select>
+    <select id="queryListByDates" resultType="com.leo.ad.codriver.dwd.entity.DwdUserLoginRecord">
+        select lr.id,
+               lr.dates,
+               lr.user_id,
+               lr.pkg,
+               lr.country,
+               lr.version,
+               lr.register_date,
+               lr.register_dates,
+               lr.register_version,
+               lr.create_time,
+               lr.register_day,
+               lr.register_cohort_day,
+               lr.source_id,
+               IFNULL(dus.network, 'Unknown') user_source
+        from dwd_user_login_record lr
+                 left join dim_user_source dus on (lr.user_id = dus.user_id)
+        where lr.dates = #{dates}
+          and lr.id >= #{startId}
+          and lr.id  <![CDATA[<= ]]> #{endId}
     </select>
 
 

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -25,4 +26,10 @@ public class DwdQpLtvRecord {
     private Integer sourceType;
     private Date createTime;
 
+    @TableField(exist = false)
+    private String userSource;
+    @TableField(exist = false)
+    private Integer cohortDay;
+    @TableField(exist = false)
+    private Integer registerDates;
 }

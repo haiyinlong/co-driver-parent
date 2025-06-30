@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyCohortPkgWithdrawMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyCohortPkgWithdraw">
+        <result property="id" column="id" jdbcType="BIGINT" />
+        <result property="dates" column="dates" jdbcType="INTEGER" />
+        <result property="registerDates" column="register_dates" jdbcType="INTEGER" />
+        <result property="cohortDay" column="cohort_day" jdbcType="BIGINT" />
+        <result property="pkg" column="pkg" jdbcType="VARCHAR" />
+        <result property="totalRecordNum" column="total_record_num" jdbcType="BIGINT" />
+        <result property="totalUserNum" column="total_user_num" jdbcType="BIGINT" />
+        <result property="processRecordNum" column="process_record_num" jdbcType="BIGINT" />
+        <result property="processUserNum" column="process_user_num" jdbcType="BIGINT" />
+        <result property="successAmount" column="success_amount" jdbcType="DECIMAL" />
+        <result property="successFee" column="success_fee" jdbcType="DECIMAL" />
+        <result property="successAmountFee" column="success_amount_fee" jdbcType="DECIMAL" />
+        <result property="successChangeAmount" column="success_change_amount" jdbcType="DECIMAL" />
+        <result property="successChangeAmountFee" column="success_change_amount_fee" jdbcType="DECIMAL" />
+        <result property="successChangeFee" column="success_change_fee" jdbcType="DECIMAL" />
+        <result property="successRecordNum" column="success_record_num" jdbcType="BIGINT" />
+        <result property="successUserNum" column="success_user_num" jdbcType="BIGINT" />
+        <result property="failedRecordNum" column="failed_record_num" jdbcType="BIGINT" />
+        <result property="failedUserNum" column="failed_user_num" jdbcType="BIGINT" />
+        <result property="awsAmount" column="aws_amount" jdbcType="DECIMAL" />
+        <result property="awsAmountFee" column="aws_amount_fee" jdbcType="DECIMAL" />
+        <result property="awsFee" column="aws_fee" jdbcType="DECIMAL" />
+        <result property="awsChangeAmount" column="aws_change_amount" jdbcType="DECIMAL" />
+        <result property="awsChangeAmountFee" column="aws_change_amount_fee" jdbcType="DECIMAL" />
+        <result property="awsChangeFee" column="aws_change_fee" jdbcType="DECIMAL" />
+        <result property="awsRecordNum" column="aws_record_num" jdbcType="BIGINT" />
+        <result property="awsUserNum" column="aws_user_num" jdbcType="BIGINT" />
+        <result property="bankAmount" column="bank_amount" jdbcType="DECIMAL" />
+        <result property="bankAmountFee" column="bank_amount_fee" jdbcType="DECIMAL" />
+        <result property="bankFee" column="bank_fee" jdbcType="DECIMAL" />
+        <result property="bankChangeAmount" column="bank_change_amount" jdbcType="DECIMAL" />
+        <result property="bankChangeAmountFee" column="bank_change_amount_fee" jdbcType="DECIMAL" />
+        <result property="bankChangeFee" column="bank_change_fee" jdbcType="DECIMAL" />
+        <result property="bankRecordNum" column="bank_record_num" jdbcType="BIGINT" />
+        <result property="bankUserNum" column="bank_user_num" jdbcType="BIGINT" />
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,register_dates,
+        cohort_day,pkg,total_record_num,
+        total_user_num,process_record_num,process_user_num,
+        success_amount,success_fee,success_amount_fee,
+        success_change_amount,success_change_amount_fee,success_change_fee,
+        success_record_num,success_user_num,failed_record_num,
+        failed_user_num,aws_amount,aws_amount_fee,
+        aws_fee,aws_change_amount,aws_change_amount_fee,
+        aws_change_fee,aws_record_num,aws_user_num,
+        bank_amount,bank_amount_fee,bank_fee,
+        bank_change_amount,bank_change_amount_fee,bank_change_fee,
+        bank_record_num,bank_user_num,create_time
+    </sql>
+    <select id="queryDbListByDates" resultType="com.leo.ad.codriver.dws.entity.DwsDailyCohortPkgWithdraw">
+        select
+        <include refid="Base_Column_List" />
+        from dws_daily_cohort_pkg_withdraw
+        where dates=#{dates}
+    </select>
+</mapper>

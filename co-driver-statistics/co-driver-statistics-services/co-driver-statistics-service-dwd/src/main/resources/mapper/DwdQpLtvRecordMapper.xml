@@ -22,4 +22,31 @@
                  INNER JOIN dim_user_info dui on (dui.user_id = oelrd.user_id)
         WHERE oelrd.dates = #{dates}
     </select>
+    <select id="getDbCountOfId" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        SELECT count(1) count, min(oelrd.id) min_id, max(oelrd.id) max_id
+        FROM dwd_qp_ltv_record oelrd
+        WHERE oelrd.dates = #{dates}
+    </select>
+    <select id="queryListByDates" resultType="com.leo.ad.codriver.dwd.entity.DwdQpLtvRecord">
+        SELECT dqlr.id,
+               dqlr.dates,
+               dqlr.user_id,
+               dqlr.version,
+               dqlr.pkg,
+               dqlr.country,
+               dqlr.event_ltv,
+               dqlr.event,
+               dqlr.user_ltv,
+               dqlr.source_type,
+               dqlr.create_time,
+               IFNULL(dus.network, 'Unknown')            user_source,
+               dui.dates                                 register_dates,
+               TIMESTAMPDIFF(DAY, dui.dates, dqlr.dates) cohort_day
+        FROM dwd_qp_ltv_record dqlr
+                 LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id)
+                 LEFT JOIN dim_user_source dus on (dus.user_id = dqlr.user_id)
+        where dqlr.dates = #{dates}
+          and dqlr.id >= #{startId}
+          and dqlr.id <![CDATA[ <= ]]> #{endId}
+    </select>
 </mapper>

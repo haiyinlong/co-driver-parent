@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyCohortPkgQpLtvMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyCohortPkgQpLtv">
+        <result property="id" column="id" jdbcType="BIGINT" />
+        <result property="dates" column="dates" jdbcType="INTEGER" />
+        <result property="registerDates" column="register_dates" jdbcType="INTEGER" />
+        <result property="pkg" column="pkg" jdbcType="VARCHAR" />
+        <result property="cohortDay" column="cohort_day" jdbcType="BIGINT" />
+        <result property="riverUserNum" column="river_user_num" jdbcType="INTEGER" />
+        <result property="riverEventLtv" column="river_event_ltv" jdbcType="DECIMAL" />
+        <result property="riverUserLtv" column="river_user_ltv" jdbcType="DECIMAL" />
+        <result property="mysteryBoxUserNum" column="mystery_box_user_num" jdbcType="INTEGER" />
+        <result property="mysteryBoxEventLtv" column="mystery_box_event_ltv" jdbcType="DECIMAL" />
+        <result property="mysteryBoxUserLtv" column="mystery_box_user_ltv" jdbcType="DECIMAL" />
+        <result property="totalUserNum" column="total_user_num" jdbcType="INTEGER" />
+        <result property="totalEventLtv" column="total_event_ltv" jdbcType="DECIMAL" />
+        <result property="totalUserLtv" column="total_user_ltv" jdbcType="DECIMAL" />
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,register_dates,
+        pkg,cohort_day,river_user_num,river_event_ltv,
+        river_user_ltv,mystery_box_user_num,mystery_box_event_ltv,mystery_box_user_ltv,
+        total_user_num,total_event_ltv,total_user_ltv,
+        create_time
+    </sql>
+    <select id="queryDbListByDates" resultType="com.leo.ad.codriver.dws.entity.DwsDailyCohortPkgQpLtv">
+        select
+        <include refid="Base_Column_List" />
+        from dws_daily_cohort_pkg_qp_ltv
+        where dates = #{dates}
+    </select>
+</mapper>

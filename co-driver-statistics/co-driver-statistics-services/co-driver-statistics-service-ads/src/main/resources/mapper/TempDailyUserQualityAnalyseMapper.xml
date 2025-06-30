@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.ads.dao.TempDailyUserQualityAnalyseMapper">
+
+    <delete id="cleanTempTable">
+        delete
+        from temp_daily_user_quality_analyse
+        where dates = #{dates}
+    </delete>
+</mapper>

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
@@ -34,12 +35,13 @@ public class DwdUserWithdrawRecord implements BaseEntity {
     private Date registerDate;
     private Integer registerDates;
     private String registerVersion;
-    private Long registerDay;
+    private Integer registerDay;
     private Long registerCohortDay;
     private Date createTime;
     private Integer updateDates;
     private Long registerWithdrawDay;
     private Long registerWithdrawCohortDay;
     private Date updateTime;
-
+    @TableField(exist = false)
+    private String userSource;
 }

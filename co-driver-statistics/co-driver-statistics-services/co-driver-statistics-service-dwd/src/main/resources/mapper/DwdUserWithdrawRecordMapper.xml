@@ -55,6 +55,45 @@
           and wr.id >= #{startId}
           and wr.id <![CDATA[<=]]> #{endId}
     </select>
+    <select id="getDbCountOfId" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        select count(1) count, min(id) min_id, max(id) max_id
+        from dwd_user_withdraw_record
+        where update_dates = #{dates}
+    </select>
+    <select id="queryListByDates" resultType="com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord">
+        SELECT duwr.id,
+               duwr.update_dates              dates,
+               duwr.source_id,
+               duwr.project_name,
+               duwr.user_id,
+               duwr.withdraw_type,
+               duwr.amount,
+               duwr.fee,
+               duwr.exchange_rate,
+               duwr.change_amount,
+               duwr.change_fee,
+               duwr.change_total_amount,
+               duwr.status,
+               duwr.version,
+               duwr.pkg,
+               duwr.country,
+               duwr.register_date,
+               duwr.register_dates,
+               duwr.register_version,
+               duwr.register_day,
+               duwr.register_cohort_day,
+               duwr.create_time,
+               duwr.update_dates,
+               duwr.register_withdraw_day,
+               duwr.register_withdraw_cohort_day,
+               duwr.update_time,
+               IFNULL(dus.network, 'Unknown') user_source
+        FROM dwd_user_withdraw_record duwr
+                 left join dim_user_source dus on (duwr.user_id = dus.user_id)
+        WHERE duwr.update_dates = #{dates}
+          and duwr.id >= #{startId}
+          and duwr.id <![CDATA[<]]> #{endId}
+    </select>
 
 
 </mapper>
