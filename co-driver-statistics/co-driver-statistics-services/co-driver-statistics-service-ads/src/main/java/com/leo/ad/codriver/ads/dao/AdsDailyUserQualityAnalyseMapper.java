@@ -22,10 +22,17 @@ public interface AdsDailyUserQualityAnalyseMapper extends BaseMapper<AdsDailyUse
 
     List<AdsDailyUserQualityAnalyse> queryCohortUserAnalysePkgUsrcReportList(@Param("dates") Integer dates);
 
-    List<TempDailyUserQualityAnalyse> queryCohortD1ToD7(@Param("dates") Integer dates);
+    List<TempDailyUserQualityAnalyse> queryPkgUsrcCohortD1ToD7(@Param("dates") Integer dates);
 
-    List<TempDailyUserQualityAnalyse> queryCohortD8ToD14(@Param("dates") Integer dates);
+    List<TempDailyUserQualityAnalyse> queryPkgUsrcCohortD8ToD14(@Param("dates") Integer dates);
 
-    List<TempDailyUserQualityAnalyse> queryCohortD15ToD30(@Param("dates") Integer dates);
+    List<TempDailyUserQualityAnalyse> queryPkgUsrcCohortD15ToD30(@Param("dates") Integer dates);
 
+    List<AdsDailyUserQualityAnalyse> queryCohortUserAnalysePkgReportList(@Param("dates") Integer dates);
+
+    List<TempDailyUserQualityAnalyse> queryPkgCohortD1ToD7(@Param("dates") Integer dates);
+
+    List<TempDailyUserQualityAnalyse> queryPkgCohortD8ToD14(@Param("dates") Integer dates);
+
+    List<TempDailyUserQualityAnalyse> queryPkgCohortD15ToD30(@Param("dates") Integer dates);
 }

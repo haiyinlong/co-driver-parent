@@ -27,21 +27,21 @@ public class AdsDailyUserAnalyseReportServiceImpl implements AdsService {
     private final CohortUserAnalysePkgUsrcReportService cohortUserAnalysePkgUsrcReportService;
     private final CohortUserAnalysePkgReportService cohortUserAnalysePkgReportService;
 
-    // TODO 通过业务数据对象进行计算生成报表
     @Override
     @ShowExecuteTime(name = "AdsDailyUserAnalyseReportServiceImpl syncData")
     @Transactional(rollbackFor = Exception.class)
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
-        cohortUserAnalysePkgUsrcReportService.syncData(dates);
-        cohortUserAnalysePkgReportService.syncData(dates);
-        // 删除不存在的记录
-        // List<Long> notExistsIds = getNotExistsIds(oetaDbList, activeUserList, newUserList, activeUserAllList,
-        // newUserAllList, usrcActiveList, usrcNewList, usrcAllActiveList, usrcAllNewList);
-        // if (!CollectionUtils.isEmpty(notExistsIds)) {
-        // adsDailyOetaBaseReportMapper.deleteBatchIds(notExistsIds);
-        // }
-
+        try {
+            cohortUserAnalysePkgReportService.syncData(dates);
+        } catch (Exception e) {
+            log.error("ads 用户价值分析统计" + dates + "包维度统计 error", e);
+        }
+        try {
+            cohortUserAnalysePkgUsrcReportService.syncData(dates);
+        } catch (Exception e) {
+            log.error("ads 用户价值分析统计" + dates + "广告网络归因统计 error", e);
+        }
     }
 
 }

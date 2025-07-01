@@ -128,7 +128,7 @@
                  left join dws_daily_pkg_usrc_conversion ddcpucb
                            on ddpul.dates = ddcpucb.dates and ddpul.pkg = ddcpucb.pkg and
                               ddpul.user_source = ddcpucb.user_source and ddcpucb.source_type = 2 and
-                              ddcpuc.user_type = 0
+                              ddcpucb.user_type = 0
                  left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql
                            on ddpul.dates = ddcpuql.register_dates and ddpul.pkg = ddcpuql.pkg and
                               ddpul.user_source = ddcpuql.user_source and ddcpuql.cohort_day = 0
@@ -153,7 +153,7 @@
                               aduqa.user_source = ddpul.user_source
         where ddpul.dates = #{dates}
     </select>
-    <select id="queryCohortD1ToD7" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
+    <select id="queryPkgUsrcCohortD1ToD7" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
         select t.dates,
                t.pkg,
                t.user_source,
@@ -222,7 +222,7 @@
                                  on aduqa.dates = ddcpuql.register_dates and aduqa.pkg = ddcpuql.pkg and
                                     aduqa.user_source = ddcpuql.user_source and ddcpuql.cohort_day = 0
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw
-                                 on aduqa.dates = ddcpuw.dates and aduqa.pkg = ddcpuw.pkg and
+                                 on aduqa.dates = ddcpuw.register_dates and aduqa.pkg = ddcpuw.pkg and
                                     aduqa.user_source = ddcpuw.user_source and ddcpuw.cohort_day = 0
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua1
                                  on aduqa.dates = ddcpua1.register_dates and aduqa.pkg = ddcpua1.pkg and
@@ -231,7 +231,7 @@
                                  on aduqa.dates = ddcpuql1.register_dates and aduqa.pkg = ddcpuql1.pkg and
                                     aduqa.user_source = ddcpuql1.user_source and ddcpuql1.cohort_day = 1
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw1
-                                 on aduqa.dates = ddcpuw1.dates and aduqa.pkg = ddcpuw1.pkg and
+                                 on aduqa.dates = ddcpuw1.register_dates and aduqa.pkg = ddcpuw1.pkg and
                                     aduqa.user_source = ddcpuw1.user_source and ddcpuw1.cohort_day = 1
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua2
                                  on aduqa.dates = ddcpua2.register_dates and aduqa.pkg = ddcpua2.pkg and
@@ -240,7 +240,7 @@
                                  on aduqa.dates = ddcpuql2.register_dates and aduqa.pkg = ddcpuql2.pkg and
                                     aduqa.user_source = ddcpuql2.user_source and ddcpuql2.cohort_day = 2
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw2
-                                 on aduqa.dates = ddcpuw2.dates and aduqa.pkg = ddcpuw2.pkg and
+                                 on aduqa.dates = ddcpuw2.register_dates and aduqa.pkg = ddcpuw2.pkg and
                                     aduqa.user_source = ddcpuw2.user_source and ddcpuw2.cohort_day = 2
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua3
                                  on aduqa.dates = ddcpua3.register_dates and aduqa.pkg = ddcpua3.pkg and
@@ -249,7 +249,7 @@
                                  on aduqa.dates = ddcpuql3.register_dates and aduqa.pkg = ddcpuql3.pkg and
                                     aduqa.user_source = ddcpuql3.user_source and ddcpuql3.cohort_day = 3
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw3
-                                 on aduqa.dates = ddcpuw3.dates and aduqa.pkg = ddcpuw3.pkg and
+                                 on aduqa.dates = ddcpuw3.register_dates and aduqa.pkg = ddcpuw3.pkg and
                                     aduqa.user_source = ddcpuw3.user_source and ddcpuw3.cohort_day = 3
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua4
                                  on aduqa.dates = ddcpua4.register_dates and aduqa.pkg = ddcpua4.pkg and
@@ -258,7 +258,7 @@
                                  on aduqa.dates = ddcpuql4.register_dates and aduqa.pkg = ddcpuql4.pkg and
                                     aduqa.user_source = ddcpuql4.user_source and ddcpuql4.cohort_day = 4
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw4
-                                 on aduqa.dates = ddcpuw4.dates and aduqa.pkg = ddcpuw4.pkg and
+                                 on aduqa.dates = ddcpuw4.register_dates and aduqa.pkg = ddcpuw4.pkg and
                                     aduqa.user_source = ddcpuw4.user_source and ddcpuw4.cohort_day = 4
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua5
                                  on aduqa.dates = ddcpua5.register_dates and aduqa.pkg = ddcpua5.pkg and
@@ -267,7 +267,7 @@
                                  on aduqa.dates = ddcpuql5.register_dates and aduqa.pkg = ddcpuql5.pkg and
                                     aduqa.user_source = ddcpuql5.user_source and ddcpuql5.cohort_day = 5
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw5
-                                 on aduqa.dates = ddcpuw5.dates and aduqa.pkg = ddcpuw5.pkg and
+                                 on aduqa.dates = ddcpuw5.register_dates and aduqa.pkg = ddcpuw5.pkg and
                                     aduqa.user_source = ddcpuw5.user_source and ddcpuw5.cohort_day = 5
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua6
                                  on aduqa.dates = ddcpua6.register_dates and aduqa.pkg = ddcpua6.pkg and
@@ -276,20 +276,20 @@
                                  on aduqa.dates = ddcpuql6.register_dates and aduqa.pkg = ddcpuql6.pkg and
                                     aduqa.user_source = ddcpuql6.user_source and ddcpuql6.cohort_day = 6
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw6
-                                 on aduqa.dates = ddcpuw6.dates and aduqa.pkg = ddcpuw6.pkg and
+                                 on aduqa.dates = ddcpuw6.register_dates and aduqa.pkg = ddcpuw6.pkg and
                                     aduqa.user_source = ddcpuw6.user_source and ddcpuw6.cohort_day = 6
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua7
                                  on aduqa.dates = ddcpua7.register_dates and aduqa.pkg = ddcpua7.pkg and
                                     aduqa.user_source = ddcpua7.user_source and ddcpua7.cohort_day = 7
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw7
-                                 on aduqa.dates = ddcpuw7.dates and aduqa.pkg = ddcpuw7.pkg and
+                                 on aduqa.dates = ddcpuw7.register_dates and aduqa.pkg = ddcpuw7.pkg and
                                     aduqa.user_source = ddcpuw7.user_source and ddcpuw7.cohort_day = 7
                        left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql7
                                  on aduqa.dates = ddcpuql7.register_dates and aduqa.pkg = ddcpuql7.pkg and
                                     aduqa.user_source = ddcpuql7.user_source and ddcpuql7.cohort_day = 7
               where aduqa.dates = #{dates}) t
     </select>
-    <select id="queryCohortD8ToD14" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
+    <select id="queryPkgUsrcCohortD8ToD14" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
         select t.id,
                t.dates,
                t.pkg,
@@ -388,7 +388,7 @@
                                  on aduqa.dates = ddcpuql8.register_dates and aduqa.pkg = ddcpuql8.pkg and
                                     aduqa.user_source = ddcpuql8.user_source and ddcpuql8.cohort_day = 8
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw8
-                                 on aduqa.dates = ddcpuw8.dates and aduqa.pkg = ddcpuw8.pkg and
+                                 on aduqa.dates = ddcpuw8.register_dates and aduqa.pkg = ddcpuw8.pkg and
                                     aduqa.user_source = ddcpuw8.user_source and ddcpuw8.cohort_day = 8
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua9
                                  on aduqa.dates = ddcpua9.register_dates and aduqa.pkg = ddcpua9.pkg and
@@ -397,7 +397,7 @@
                                  on aduqa.dates = ddcpuql9.register_dates and aduqa.pkg = ddcpuql9.pkg and
                                     aduqa.user_source = ddcpuql9.user_source and ddcpuql9.cohort_day = 9
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw9
-                                 on aduqa.dates = ddcpuw9.dates and aduqa.pkg = ddcpuw9.pkg and
+                                 on aduqa.dates = ddcpuw9.register_dates and aduqa.pkg = ddcpuw9.pkg and
                                     aduqa.user_source = ddcpuw9.user_source and ddcpuw9.cohort_day = 9
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua10
                                  on aduqa.dates = ddcpua10.register_dates and aduqa.pkg = ddcpua10.pkg and
@@ -406,7 +406,7 @@
                                  on aduqa.dates = ddcpuql10.register_dates and aduqa.pkg = ddcpuql10.pkg and
                                     aduqa.user_source = ddcpuql10.user_source and ddcpuql10.cohort_day = 10
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw10
-                                 on aduqa.dates = ddcpuw10.dates and aduqa.pkg = ddcpuw10.pkg and
+                                 on aduqa.dates = ddcpuw10.register_dates and aduqa.pkg = ddcpuw10.pkg and
                                     aduqa.user_source = ddcpuw10.user_source and ddcpuw10.cohort_day = 10
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua11
                                  on aduqa.dates = ddcpua11.register_dates and aduqa.pkg = ddcpua11.pkg and
@@ -415,7 +415,7 @@
                                  on aduqa.dates = ddcpuql11.register_dates and aduqa.pkg = ddcpuql11.pkg and
                                     aduqa.user_source = ddcpuql11.user_source and ddcpuql11.cohort_day = 11
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw11
-                                 on aduqa.dates = ddcpuw11.dates and aduqa.pkg = ddcpuw11.pkg and
+                                 on aduqa.dates = ddcpuw11.register_dates and aduqa.pkg = ddcpuw11.pkg and
                                     aduqa.user_source = ddcpuw11.user_source and ddcpuw11.cohort_day = 11
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua12
                                  on aduqa.dates = ddcpua12.register_dates and aduqa.pkg = ddcpua12.pkg and
@@ -424,7 +424,7 @@
                                  on aduqa.dates = ddcpuql12.register_dates and aduqa.pkg = ddcpuql12.pkg and
                                     aduqa.user_source = ddcpuql12.user_source and ddcpuql12.cohort_day = 12
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw12
-                                 on aduqa.dates = ddcpuw12.dates and aduqa.pkg = ddcpuw12.pkg and
+                                 on aduqa.dates = ddcpuw12.register_dates and aduqa.pkg = ddcpuw12.pkg and
                                     aduqa.user_source = ddcpuw12.user_source and ddcpuw12.cohort_day = 12
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua13
                                  on aduqa.dates = ddcpua13.register_dates and aduqa.pkg = ddcpua13.pkg and
@@ -433,13 +433,13 @@
                                  on aduqa.dates = ddcpuql13.register_dates and aduqa.pkg = ddcpuql13.pkg and
                                     aduqa.user_source = ddcpuql13.user_source and ddcpuql13.cohort_day = 13
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw13
-                                 on aduqa.dates = ddcpuw13.dates and aduqa.pkg = ddcpuw13.pkg and
+                                 on aduqa.dates = ddcpuw13.register_dates and aduqa.pkg = ddcpuw13.pkg and
                                     aduqa.user_source = ddcpuw13.user_source and ddcpuw13.cohort_day = 13
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua14
                                  on aduqa.dates = ddcpua14.register_dates and aduqa.pkg = ddcpua14.pkg and
                                     aduqa.user_source = ddcpua14.user_source and ddcpua14.cohort_day = 14
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw14
-                                 on aduqa.dates = ddcpuw14.dates and aduqa.pkg = ddcpuw14.pkg and
+                                 on aduqa.dates = ddcpuw14.register_dates and aduqa.pkg = ddcpuw14.pkg and
                                     aduqa.user_source = ddcpuw14.user_source and ddcpuw14.cohort_day = 14
                        left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql14
                                  on aduqa.dates = ddcpuql14.register_dates and aduqa.pkg = ddcpuql14.pkg and
@@ -448,9 +448,8 @@
                                  on aduqa.dates = tduqa.dates and aduqa.pkg = tduqa.pkg and
                                     aduqa.user_source = tduqa.user_source
               where aduqa.dates = #{dates}) t
-
     </select>
-    <select id="queryCohortD15ToD30" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
+    <select id="queryPkgUsrcCohortD15ToD30" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
         select t.id,
                t.dates,
                t.pkg,
@@ -569,7 +568,7 @@
                                  on aduqa.dates = ddcpuql15.register_dates and aduqa.pkg = ddcpuql15.pkg and
                                     aduqa.user_source = ddcpuql15.user_source and ddcpuql15.cohort_day = 15
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw15
-                                 on aduqa.dates = ddcpuw15.dates and aduqa.pkg = ddcpuw15.pkg and
+                                 on aduqa.dates = ddcpuw15.register_dates and aduqa.pkg = ddcpuw15.pkg and
                                     aduqa.user_source = ddcpuw15.user_source and ddcpuw15.cohort_day = 15
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua16
                                  on aduqa.dates = ddcpua16.register_dates and aduqa.pkg = ddcpua16.pkg and
@@ -578,7 +577,7 @@
                                  on aduqa.dates = ddcpuql16.register_dates and aduqa.pkg = ddcpuql16.pkg and
                                     aduqa.user_source = ddcpuql16.user_source and ddcpuql16.cohort_day = 16
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw16
-                                 on aduqa.dates = ddcpuw16.dates and aduqa.pkg = ddcpuw16.pkg and
+                                 on aduqa.dates = ddcpuw16.register_dates and aduqa.pkg = ddcpuw16.pkg and
                                     aduqa.user_source = ddcpuw16.user_source and ddcpuw16.cohort_day = 16
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua17
                                  on aduqa.dates = ddcpua17.register_dates and aduqa.pkg = ddcpua17.pkg and
@@ -587,7 +586,7 @@
                                  on aduqa.dates = ddcpuql17.register_dates and aduqa.pkg = ddcpuql17.pkg and
                                     aduqa.user_source = ddcpuql17.user_source and ddcpuql17.cohort_day = 17
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw17
-                                 on aduqa.dates = ddcpuw17.dates and aduqa.pkg = ddcpuw17.pkg and
+                                 on aduqa.dates = ddcpuw17.register_dates and aduqa.pkg = ddcpuw17.pkg and
                                     aduqa.user_source = ddcpuw17.user_source and ddcpuw17.cohort_day = 17
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua18
                                  on aduqa.dates = ddcpua18.register_dates and aduqa.pkg = ddcpua18.pkg and
@@ -596,7 +595,7 @@
                                  on aduqa.dates = ddcpuql18.register_dates and aduqa.pkg = ddcpuql18.pkg and
                                     aduqa.user_source = ddcpuql18.user_source and ddcpuql18.cohort_day = 18
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw18
-                                 on aduqa.dates = ddcpuw18.dates and aduqa.pkg = ddcpuw18.pkg and
+                                 on aduqa.dates = ddcpuw18.register_dates and aduqa.pkg = ddcpuw18.pkg and
                                     aduqa.user_source = ddcpuw18.user_source and ddcpuw18.cohort_day = 18
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua19
                                  on aduqa.dates = ddcpua19.register_dates and aduqa.pkg = ddcpua19.pkg and
@@ -605,7 +604,7 @@
                                  on aduqa.dates = ddcpuql19.register_dates and aduqa.pkg = ddcpuql19.pkg and
                                     aduqa.user_source = ddcpuql19.user_source and ddcpuql19.cohort_day = 19
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw19
-                                 on aduqa.dates = ddcpuw19.dates and aduqa.pkg = ddcpuw19.pkg and
+                                 on aduqa.dates = ddcpuw19.register_dates and aduqa.pkg = ddcpuw19.pkg and
                                     aduqa.user_source = ddcpuw19.user_source and ddcpuw19.cohort_day = 19
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua20
                                  on aduqa.dates = ddcpua20.register_dates and aduqa.pkg = ddcpua20.pkg and
@@ -614,13 +613,13 @@
                                  on aduqa.dates = ddcpuql20.register_dates and aduqa.pkg = ddcpuql20.pkg and
                                     aduqa.user_source = ddcpuql20.user_source and ddcpuql20.cohort_day = 20
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw20
-                                 on aduqa.dates = ddcpuw20.dates and aduqa.pkg = ddcpuw20.pkg and
+                                 on aduqa.dates = ddcpuw20.register_dates and aduqa.pkg = ddcpuw20.pkg and
                                     aduqa.user_source = ddcpuw20.user_source and ddcpuw20.cohort_day = 20
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua21
                                  on aduqa.dates = ddcpua21.register_dates and aduqa.pkg = ddcpua21.pkg and
                                     aduqa.user_source = ddcpua21.user_source and ddcpua21.cohort_day = 21
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw21
-                                 on aduqa.dates = ddcpuw21.dates and aduqa.pkg = ddcpuw21.pkg and
+                                 on aduqa.dates = ddcpuw21.register_dates and aduqa.pkg = ddcpuw21.pkg and
                                     aduqa.user_source = ddcpuw21.user_source and ddcpuw21.cohort_day = 21
                        left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql21
                                  on aduqa.dates = ddcpuql21.register_dates and aduqa.pkg = ddcpuql21.pkg and
@@ -629,7 +628,7 @@
                                  on aduqa.dates = ddcpua22.register_dates and aduqa.pkg = ddcpua22.pkg and
                                     aduqa.user_source = ddcpua22.user_source and ddcpua22.cohort_day = 22
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw22
-                                 on aduqa.dates = ddcpuw22.dates and aduqa.pkg = ddcpuw22.pkg and
+                                 on aduqa.dates = ddcpuw22.register_dates and aduqa.pkg = ddcpuw22.pkg and
                                     aduqa.user_source = ddcpuw22.user_source and ddcpuw22.cohort_day = 22
                        left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql22
                                  on aduqa.dates = ddcpuql22.register_dates and aduqa.pkg = ddcpuql22.pkg and
@@ -641,7 +640,7 @@
                                  on aduqa.dates = ddcpuql23.register_dates and aduqa.pkg = ddcpuql23.pkg and
                                     aduqa.user_source = ddcpuql23.user_source and ddcpuql23.cohort_day = 23
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw23
-                                 on aduqa.dates = ddcpuw23.dates and aduqa.pkg = ddcpuw23.pkg and
+                                 on aduqa.dates = ddcpuw23.register_dates and aduqa.pkg = ddcpuw23.pkg and
                                     aduqa.user_source = ddcpuw23.user_source and ddcpuw23.cohort_day = 23
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua24
                                  on aduqa.dates = ddcpua24.register_dates and aduqa.pkg = ddcpua24.pkg and
@@ -650,13 +649,13 @@
                                  on aduqa.dates = ddcpuql24.register_dates and aduqa.pkg = ddcpuql24.pkg and
                                     aduqa.user_source = ddcpuql24.user_source and ddcpuql24.cohort_day = 24
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw24
-                                 on aduqa.dates = ddcpuw24.dates and aduqa.pkg = ddcpuw24.pkg and
+                                 on aduqa.dates = ddcpuw24.register_dates and aduqa.pkg = ddcpuw24.pkg and
                                     aduqa.user_source = ddcpuw24.user_source and ddcpuw24.cohort_day = 24
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua25
                                  on aduqa.dates = ddcpua25.register_dates and aduqa.pkg = ddcpua25.pkg and
                                     aduqa.user_source = ddcpua25.user_source and ddcpua25.cohort_day = 25
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw25
-                                 on aduqa.dates = ddcpuw25.dates and aduqa.pkg = ddcpuw25.pkg and
+                                 on aduqa.dates = ddcpuw25.register_dates and aduqa.pkg = ddcpuw25.pkg and
                                     aduqa.user_source = ddcpuw25.user_source and ddcpuw25.cohort_day = 25
                        left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql25
                                  on aduqa.dates = ddcpuql25.register_dates and aduqa.pkg = ddcpuql25.pkg and
@@ -665,7 +664,7 @@
                                  on aduqa.dates = ddcpua26.register_dates and aduqa.pkg = ddcpua26.pkg and
                                     aduqa.user_source = ddcpua26.user_source and ddcpua26.cohort_day = 26
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw26
-                                 on aduqa.dates = ddcpuw26.dates and aduqa.pkg = ddcpuw26.pkg and
+                                 on aduqa.dates = ddcpuw26.register_dates and aduqa.pkg = ddcpuw26.pkg and
                                     aduqa.user_source = ddcpuw26.user_source and ddcpuw26.cohort_day = 26
                        left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql26
                                  on aduqa.dates = ddcpuql26.register_dates and aduqa.pkg = ddcpuql26.pkg and
@@ -677,7 +676,7 @@
                                  on aduqa.dates = ddcpuql27.register_dates and aduqa.pkg = ddcpuql27.pkg and
                                     aduqa.user_source = ddcpuql27.user_source and ddcpuql27.cohort_day = 27
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw27
-                                 on aduqa.dates = ddcpuw27.dates and aduqa.pkg = ddcpuw27.pkg and
+                                 on aduqa.dates = ddcpuw27.register_dates and aduqa.pkg = ddcpuw27.pkg and
                                     aduqa.user_source = ddcpuw27.user_source and ddcpuw27.cohort_day = 27
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua28
                                  on aduqa.dates = ddcpua28.register_dates and aduqa.pkg = ddcpua28.pkg and
@@ -686,13 +685,13 @@
                                  on aduqa.dates = ddcpuql28.register_dates and aduqa.pkg = ddcpuql28.pkg and
                                     aduqa.user_source = ddcpuql28.user_source and ddcpuql28.cohort_day = 28
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw28
-                                 on aduqa.dates = ddcpuw28.dates and aduqa.pkg = ddcpuw28.pkg and
+                                 on aduqa.dates = ddcpuw28.register_dates and aduqa.pkg = ddcpuw28.pkg and
                                     aduqa.user_source = ddcpuw28.user_source and ddcpuw28.cohort_day = 28
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua29
                                  on aduqa.dates = ddcpua29.register_dates and aduqa.pkg = ddcpua29.pkg and
                                     aduqa.user_source = ddcpua29.user_source and ddcpua29.cohort_day = 29
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw29
-                                 on aduqa.dates = ddcpuw29.dates and aduqa.pkg = ddcpuw29.pkg and
+                                 on aduqa.dates = ddcpuw29.register_dates and aduqa.pkg = ddcpuw29.pkg and
                                     aduqa.user_source = ddcpuw29.user_source and ddcpuw29.cohort_day = 29
                        left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql29
                                  on aduqa.dates = ddcpuql29.register_dates and aduqa.pkg = ddcpuql29.pkg and
@@ -701,7 +700,7 @@
                                  on aduqa.dates = ddcpua30.register_dates and aduqa.pkg = ddcpua30.pkg and
                                     aduqa.user_source = ddcpua30.user_source and ddcpua30.cohort_day = 30
                        left join dws_daily_cohort_pkg_usrc_withdraw ddcpuw30
-                                 on aduqa.dates = ddcpuw30.dates and aduqa.pkg = ddcpuw30.pkg and
+                                 on aduqa.dates = ddcpuw30.register_dates and aduqa.pkg = ddcpuw30.pkg and
                                     aduqa.user_source = ddcpuw30.user_source and ddcpuw30.cohort_day = 30
                        left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql30
                                  on aduqa.dates = ddcpuql30.register_dates and aduqa.pkg = ddcpuql30.pkg and
@@ -711,4 +710,641 @@
                                     aduqa.user_source = tduqa.user_source
               where aduqa.dates = #{dates}) t
     </select>
+    <select id="queryCohortUserAnalysePkgReportList"
+            resultType="com.leo.ad.codriver.ads.entity.AdsDailyUserQualityAnalyse">
+        select aduqa.id,
+               ddpul.dates,
+               ddpul.pkg,
+               'ALL'                                                                                    user_source,
+               ddpul.user_num                                                                           activity_user_num,
+               IFNULL(ddpur.user_num, 0)                                                                new_user_num,
+               IFNULL(ddpui.dollar_cost, 0)                                                             dollar_cost,
+               IFNULL(ddpui.dollar_cost / ddpur.user_num, 0)                                            cpi,
+               IFNULL(ddpurnd.retention_user_num, 0)                                                    second_day_user_num,
+               IFNULL(ddpurtd.retention_user_num, 0)                                                    third_day_user_num,
+               IF(IFNULL(ddpur.user_num, 0) = 0, 0, ddcpuo.new_user_online_time /
+                                                    ddpur.user_num)                                     game_online_time,
+               IF(IFNULL(ddpur.user_num, 0) = 0, 0,
+                  IFNULL(ddcpua.reward_not_custom_directsold_user_num, 0) / ddpur.user_num)             ad_reward_rate,
+               IF(IFNULL(ddpur.user_num, 0) = 0, 0,
+                  IFNULL(ddcpua.reward_not_custom_directsold_show_count / ddpur.user_num,
+                         0))                                                                            ad_reward_avg_show_num,
+               IF(IFNULL(ddcpua.reward_not_custom_directsold_show_count, 0) = 0, 0, IFNULL(
+                   ddcpua.reward_not_custom_directsold_income / ddcpua.reward_not_custom_directsold_show_count * 1000,
+                   0))                                                                                  ad_reward_ecpm,
+               IF(IFNULL(ddpur.user_num, 0) = 0, 0,
+                  IFNULL(ddcpua.total_not_custom_directsold_income / ddpur.user_num, 0))                ad_reward_arpu,
+               IF(IFNULL(ddpur.user_num, 0) = 0, 0,
+                  IFNULL((IFNULL(ddcpuc.user_num, 0) + IFNULL(ddcpucb.user_num, 0)) / ddpur.user_num,
+                         0))                                                                            conversion_rate,
+               IF(IFNULL(ddpur.user_num, 0) = 0, 0, IFNULL(ddcpuql.total_user_num / ddpur.user_num, 0)) payment_rate,
+               IF(IFNULL(ddpur.user_num, 0) = 0, 0, IFNULL(ddcpuql.total_user_ltv / ddpur.user_num, 0)) payment_arpu,
+               IFNULL(ddpua.reward_not_custom_directsold_show_count, 0) /
+               ddpul.user_num                                                                           ad_reward_avg_show_num_dau,
+               IF(IFNULL(ddcpua.reward_not_custom_directsold_show_count, 0) = 0, 0,
+                  (IFNULL(ddcpua.reward_not_custom_directsold_income, 0) /
+                   IFNULL(ddcpua.reward_not_custom_directsold_show_count, 1) *
+                   1000))                                                                               ad_reward_ecpm_dau,
+               IFNULL(ddpus.total_user_num / ddpul.user_num, 0)                                         share_rate,
+               IFNULL(ddpua.total_not_custom_directsold_income, 0) /
+               ddpul.user_num                                                                           ad_reward_arpu_dau,
+               (IFNULL(ddpuqlr.active_user_ltv, 0) + IFNULL(ddpuqlb.active_user_ltv, 0)) /
+               ddpul.user_num                                                                           payment_arpu_dau
+        from dws_daily_pkg_login ddpul
+                 left join dws_daily_pkg_register ddpur on ddpur.dates = ddpul.dates and ddpur.pkg = ddpul.pkg
+                 left join dws_daily_pkg_retention ddpurnd
+                           on ddpul.dates = ddpurnd.register_dates and ddpul.pkg = ddpurnd.pkg and
+                              ddpurnd.register_day = 1
+                 left join dws_daily_pkg_retention ddpurtd
+                           on ddpul.dates = ddpurtd.register_dates and ddpul.pkg = ddpurtd.pkg and
+                              ddpurtd.register_day = 2
+                 left join dws_daily_pkg_online ddcpuo on ddpul.dates = ddcpuo.dates and ddpul.pkg = ddcpuo.pkg
+                 left join dws_daily_cohort_pkg_advertising ddcpua
+                           on ddpul.dates = ddcpua.register_dates and ddpul.pkg = ddcpua.pkg and ddcpua.cohort_day = 0
+                 left join dws_daily_pkg_conversion ddcpuc
+                           on ddpul.dates = ddcpuc.dates and ddpul.pkg = ddcpuc.pkg and
+                              ddcpuc.source_type = 1 and ddcpuc.user_type = 0
+                 left join dws_daily_pkg_conversion ddcpucb
+                           on ddpul.dates = ddcpucb.dates and ddpul.pkg = ddcpucb.pkg and
+                              ddcpucb.source_type = 2 and ddcpucb.user_type = 0
+                 left join dws_daily_cohort_pkg_qp_ltv ddcpuql
+                           on ddpul.dates = ddcpuql.register_dates and ddpul.pkg = ddcpuql.pkg and
+                              ddcpuql.cohort_day = 0
+                 left join dws_daily_pkg_advertising ddpua
+                           on ddpul.dates = ddpua.dates and ddpul.pkg = ddpua.pkg and ddpua.user_type = 0
+                 left join dws_daily_pkg_share ddpus on ddpul.dates = ddpus.dates and ddpul.pkg = ddpus.pkg
+                 left join dws_daily_pkg_qp_ltv ddpuqlr
+                           on ddpul.dates = ddpuqlr.dates and ddpul.pkg = ddpuqlr.pkg and ddpuqlr.source_type = 1
+                 left join dws_daily_pkg_qp_ltv ddpuqlb
+                           on ddpul.dates = ddpuqlb.dates and ddpul.pkg = ddpuqlb.pkg and ddpuqlb.source_type = 2
+                 left join dws_daily_pkg_invested ddpui on ddpul.dates = ddpui.dates and ddpul.pkg = ddpui.pkg
+                 left join dws_daily_cohort_pkg_withdraw ddcpuw
+                           on ddpul.dates = ddcpuw.dates and ddpul.pkg = ddcpuw.pkg and ddcpuw.cohort_day = 0
+                 left join ads_daily_user_quality_analyse aduqa
+                           on ddpul.dates = aduqa.dates and ddpul.pkg = aduqa.pkg and
+                              aduqa.user_source = 'ALL'
+        where ddpul.dates = #{dates}
+    </select>
+    <select id="queryPkgCohortD1ToD7" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
+        select t.dates,
+               t.pkg,
+               t.user_source,
+               t.d1_ad,
+               t.d1_box,
+               t.d1_withdraw,
+               t.d3_ad,
+               t.d3_box,
+               t.d3_withdraw,
+               ROUND(t.d7_ad, 4)                                                             d7_ad,
+               ROUND(t.d7_box, 4)                                                            d7_box,
+               ROUND(t.d7_withdraw, 4)                                                       d7_withdraw,
+               ROUND((t.d1_ad + t.d1_box - t.d1_withdraw), 4)                                ad_box_d1_roi,
+               ROUND((t.d3_ad + t.d3_box - t.d3_withdraw), 4)                                ad_box_d3_roi,
+               ROUND((t.d7_ad + t.d7_box - t.d7_withdraw), 4)                                ad_box_d7_roi,
+               ROUND(IF(t.dollar_cost = 0, 0, (t.d1_ad - t.d1_withdraw) / t.dollar_cost), 4) ad_d1_roi,
+               ROUND(IF(t.dollar_cost = 0, 0, (t.d3_ad - t.d3_withdraw) / t.dollar_cost), 4) ad_d3_roi,
+               ROUND(IF(t.dollar_cost = 0, 0, (t.d7_ad - t.d7_withdraw) / t.dollar_cost), 4) ad_d7_roi,
+               ROUND((t.d1_box - t.d1_withdraw), 4)                                          box_d1_roi,
+               ROUND((t.d3_box - t.d3_withdraw), 4)                                          box_d3_roi,
+               ROUND((t.d7_box - t.d7_withdraw), 4)                                          box_d7_roi,
+               ROUND(IF(t.new_user_num = 0, 0, (t.d1_ad + t.d1_box) / t.new_user_num), 4)    ltv1,
+               ROUND(IF(t.new_user_num = 0, 0, (t.d3_ad + t.d3_box) / t.new_user_num), 4)    ltv3,
+               ROUND(IF(t.new_user_num = 0, 0, (t.d7_ad + t.d7_box) / t.new_user_num), 4)    ltv7
+        from (select aduqa.*,
+                     (IFNULL(ddcpua.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua1.total_not_custom_directsold_income, 0)) d1_ad,
+                     ((IFNULL(ddcpuql.mystery_box_user_ltv, 0) + IFNULL(ddcpuql1.mystery_box_user_ltv, 0)) *
+                      0.5)                                                   d1_box,
+                     (IFNULL(ddcpuw.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw1.success_change_amount_fee, 0))          d1_withdraw,
+                     (IFNULL(ddcpua.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua1.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua2.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua3.total_not_custom_directsold_income, 0)) d3_ad,
+                     ((IFNULL(ddcpuql.mystery_box_user_ltv, 0) + IFNULL(ddcpuql1.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql2.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql3.mystery_box_user_ltv, 0)) *
+                      0.5)                                                   d3_box,
+                     (IFNULL(ddcpuw.success_change_amount_fee, 0) + IFNULL(ddcpuw1.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw2.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw3.success_change_amount_fee, 0))          d3_withdraw,
+                     (IFNULL(ddcpua.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua1.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua2.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua3.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua4.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua5.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua6.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua7.total_not_custom_directsold_income, 0)) d7_ad,
+                     ((IFNULL(ddcpuql.mystery_box_user_ltv, 0) + IFNULL(ddcpuql1.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql2.mystery_box_user_ltv, 0) + IFNULL(ddcpuql3.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql4.mystery_box_user_ltv, 0) + IFNULL(ddcpuql5.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql6.mystery_box_user_ltv, 0) + IFNULL(ddcpuql7.mystery_box_user_ltv, 0)) *
+                      0.5)                                                   d7_box,
+                     (IFNULL(ddcpuw.success_change_amount_fee, 0) + IFNULL(ddcpuw1.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw2.success_change_amount_fee, 0) + IFNULL(ddcpuw3.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw4.success_change_amount_fee, 0) + IFNULL(ddcpuw5.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw6.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw7.success_change_amount_fee, 0))          d7_withdraw
+              from ads_daily_user_quality_analyse aduqa
+                       left join dws_daily_cohort_pkg_advertising ddcpua
+                                 on aduqa.dates = ddcpua.register_dates and aduqa.pkg = ddcpua.pkg and
+                                    ddcpua.cohort_day = 0
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql
+                                 on aduqa.dates = ddcpuql.register_dates and aduqa.pkg = ddcpuql.pkg and
+                                    ddcpuql.cohort_day = 0
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw
+                                 on aduqa.dates = ddcpuw.register_dates and aduqa.pkg = ddcpuw.pkg and
+                                    ddcpuw.cohort_day = 0
+                       left join dws_daily_cohort_pkg_advertising ddcpua1
+                                 on aduqa.dates = ddcpua1.register_dates and aduqa.pkg = ddcpua1.pkg and
+                                    ddcpua1.cohort_day = 1
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql1
+                                 on aduqa.dates = ddcpuql1.register_dates and aduqa.pkg = ddcpuql1.pkg and
+                                    ddcpuql1.cohort_day = 1
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw1
+                                 on aduqa.dates = ddcpuw1.register_dates and aduqa.pkg = ddcpuw1.pkg and
+                                    ddcpuw1.cohort_day = 1
+                       left join dws_daily_cohort_pkg_advertising ddcpua2
+                                 on aduqa.dates = ddcpua2.register_dates and aduqa.pkg = ddcpua2.pkg and
+                                    ddcpua2.cohort_day = 2
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql2
+                                 on aduqa.dates = ddcpuql2.register_dates and aduqa.pkg = ddcpuql2.pkg and
+                                    ddcpuql2.cohort_day = 2
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw2
+                                 on aduqa.dates = ddcpuw2.register_dates and aduqa.pkg = ddcpuw2.pkg and
+                                    ddcpuw2.cohort_day = 2
+                       left join dws_daily_cohort_pkg_advertising ddcpua3
+                                 on aduqa.dates = ddcpua3.register_dates and aduqa.pkg = ddcpua3.pkg and
+                                    ddcpua3.cohort_day = 3
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql3
+                                 on aduqa.dates = ddcpuql3.register_dates and aduqa.pkg = ddcpuql3.pkg and
+                                    ddcpuql3.cohort_day = 3
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw3
+                                 on aduqa.dates = ddcpuw3.register_dates and aduqa.pkg = ddcpuw3.pkg and
+                                    ddcpuw3.cohort_day = 3
+                       left join dws_daily_cohort_pkg_advertising ddcpua4
+                                 on aduqa.dates = ddcpua4.register_dates and aduqa.pkg = ddcpua4.pkg and
+                                    ddcpua4.cohort_day = 4
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql4
+                                 on aduqa.dates = ddcpuql4.register_dates and aduqa.pkg = ddcpuql4.pkg and
+                                    ddcpuql4.cohort_day = 4
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw4
+                                 on aduqa.dates = ddcpuw4.register_dates and aduqa.pkg = ddcpuw4.pkg and
+                                    ddcpuw4.cohort_day = 4
+                       left join dws_daily_cohort_pkg_advertising ddcpua5
+                                 on aduqa.dates = ddcpua5.register_dates and aduqa.pkg = ddcpua5.pkg and
+                                    ddcpua5.cohort_day = 5
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql5
+                                 on aduqa.dates = ddcpuql5.register_dates and aduqa.pkg = ddcpuql5.pkg and
+                                    ddcpuql5.cohort_day = 5
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw5
+                                 on aduqa.dates = ddcpuw5.register_dates and aduqa.pkg = ddcpuw5.pkg and
+                                    ddcpuw5.cohort_day = 5
+                       left join dws_daily_cohort_pkg_advertising ddcpua6
+                                 on aduqa.dates = ddcpua6.register_dates and aduqa.pkg = ddcpua6.pkg and
+                                    ddcpua6.cohort_day = 6
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql6
+                                 on aduqa.dates = ddcpuql6.register_dates and aduqa.pkg = ddcpuql6.pkg and
+                                    ddcpuql6.cohort_day = 6
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw6
+                                 on aduqa.dates = ddcpuw6.register_dates and aduqa.pkg = ddcpuw6.pkg and
+                                    ddcpuw6.cohort_day = 6
+                       left join dws_daily_cohort_pkg_advertising ddcpua7
+                                 on aduqa.dates = ddcpua7.register_dates and aduqa.pkg = ddcpua7.pkg and
+                                    ddcpua7.cohort_day = 7
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw7
+                                 on aduqa.dates = ddcpuw7.register_dates and aduqa.pkg = ddcpuw7.pkg and
+                                    ddcpuw7.cohort_day = 7
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql7
+                                 on aduqa.dates = ddcpuql7.register_dates and aduqa.pkg = ddcpuql7.pkg and
+                                    ddcpuql7.cohort_day = 7
+              where aduqa.dates = #{dates}
+                and aduqa.user_source = 'ALL') t
+    </select>
+    <select id="queryPkgCohortD8ToD14" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
+        select t.id,
+               t.dates,
+               t.pkg,
+               t.user_source,
+               ROUND(t.d14_ad, 4)                                                              d14_ad,
+               ROUND(t.d14_box, 4)                                                             d14_box,
+               ROUND(t.d14_withdraw, 4)                                                        d14_withdraw,
+               ROUND((t.d14_ad + t.d14_box - t.d14_withdraw), 4)                               ad_box_d14_roi,
+               ROUND(IF(t.dollar_cost = 0, 0, (t.d14_ad - t.d14_withdraw) / t.dollar_cost), 4) ad_d14_roi,
+               ROUND((t.d14_box - t.d14_withdraw), 4)                                          box_d14_roi,
+               ROUND(IF(t.new_user_num = 0, 0, (t.d14_ad + t.d14_box) / t.new_user_num), 4)    ltv14,
+               t.d1_ad,
+               t.d3_ad,
+               t.d7_ad,
+               t.d30_ad,
+               t.d1_box,
+               t.d3_box,
+               t.d7_box,
+               t.d30_box,
+               t.d1_withdraw,
+               t.d3_withdraw,
+               t.d7_withdraw,
+               t.d30_withdraw,
+               t.ad_box_d1_roi,
+               t.ad_box_d3_roi,
+               t.ad_box_d7_roi,
+               t.ad_box_d30_roi,
+               t.ad_d1_roi,
+               t.ad_d3_roi,
+               t.ad_d7_roi,
+               t.ad_d30_roi,
+               t.box_d1_roi,
+               t.box_d3_roi,
+               t.box_d7_roi,
+               t.box_d30_roi,
+               t.ltv1,
+               t.ltv3,
+               t.ltv7
+        from (select aduqa.new_user_num,
+                     aduqa.dollar_cost,
+                     tduqa.id,
+                     aduqa.dates,
+                     aduqa.pkg,
+                     aduqa.user_source,
+                     tduqa.d1_ad,
+                     tduqa.d3_ad,
+                     tduqa.d7_ad,
+                     tduqa.d30_ad,
+                     tduqa.d1_box,
+                     tduqa.d3_box,
+                     tduqa.d7_box,
+                     tduqa.d30_box,
+                     tduqa.d1_withdraw,
+                     tduqa.d3_withdraw,
+                     tduqa.d7_withdraw,
+                     tduqa.d30_withdraw,
+                     tduqa.ad_box_d1_roi,
+                     tduqa.ad_box_d3_roi,
+                     tduqa.ad_box_d7_roi,
+                     tduqa.ad_box_d30_roi,
+                     tduqa.ad_d1_roi,
+                     tduqa.ad_d3_roi,
+                     tduqa.ad_d7_roi,
+                     tduqa.ad_d30_roi,
+                     tduqa.box_d1_roi,
+                     tduqa.box_d3_roi,
+                     tduqa.box_d7_roi,
+                     tduqa.box_d30_roi,
+                     tduqa.ltv1,
+                     tduqa.ltv3,
+                     tduqa.ltv7,
+                     (IFNULL(tduqa.d7_ad, 0) +
+                      IFNULL(ddcpua8.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua9.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua10.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua11.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua12.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua13.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua14.total_not_custom_directsold_income, 0)) d14_ad,
+                     (IFNULL(tduqa.d7_box, 0) +
+                      (IFNULL(ddcpuql8.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql9.mystery_box_user_ltv, 0) + IFNULL(ddcpuql10.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql11.mystery_box_user_ltv, 0) + IFNULL(ddcpuql12.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql13.mystery_box_user_ltv, 0) + IFNULL(ddcpuql14.mystery_box_user_ltv, 0)) *
+                      0.5)                                                    d14_box,
+                     (IFNULL(tduqa.d7_withdraw, 0) + IFNULL(ddcpuw8.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw9.success_change_amount_fee, 0) + IFNULL(ddcpuw10.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw11.success_change_amount_fee, 0) + IFNULL(ddcpuw12.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw13.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw14.success_change_amount_fee, 0))          d14_withdraw
+              from ads_daily_user_quality_analyse aduqa
+                       left join dws_daily_cohort_pkg_advertising ddcpua8
+                                 on aduqa.dates = ddcpua8.register_dates and aduqa.pkg = ddcpua8.pkg and
+                                    ddcpua8.cohort_day = 8
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql8
+                                 on aduqa.dates = ddcpuql8.register_dates and aduqa.pkg = ddcpuql8.pkg and
+                                    ddcpuql8.cohort_day = 8
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw8
+                                 on aduqa.dates = ddcpuw8.register_dates and aduqa.pkg = ddcpuw8.pkg and
+                                    ddcpuw8.cohort_day = 8
+                       left join dws_daily_cohort_pkg_advertising ddcpua9
+                                 on aduqa.dates = ddcpua9.register_dates and aduqa.pkg = ddcpua9.pkg and
+                                    ddcpua9.cohort_day = 9
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql9
+                                 on aduqa.dates = ddcpuql9.register_dates and aduqa.pkg = ddcpuql9.pkg and
+                                    ddcpuql9.cohort_day = 9
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw9
+                                 on aduqa.dates = ddcpuw9.register_dates and aduqa.pkg = ddcpuw9.pkg and
+                                    ddcpuw9.cohort_day = 9
+                       left join dws_daily_cohort_pkg_advertising ddcpua10
+                                 on aduqa.dates = ddcpua10.register_dates and aduqa.pkg = ddcpua10.pkg and
+                                    ddcpua10.cohort_day = 10
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql10
+                                 on aduqa.dates = ddcpuql10.register_dates and aduqa.pkg = ddcpuql10.pkg and
+                                    ddcpuql10.cohort_day = 10
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw10
+                                 on aduqa.dates = ddcpuw10.register_dates and aduqa.pkg = ddcpuw10.pkg and
+                                    ddcpuw10.cohort_day = 10
+                       left join dws_daily_cohort_pkg_advertising ddcpua11
+                                 on aduqa.dates = ddcpua11.register_dates and aduqa.pkg = ddcpua11.pkg and
+                                    ddcpua11.cohort_day = 11
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql11
+                                 on aduqa.dates = ddcpuql11.register_dates and aduqa.pkg = ddcpuql11.pkg and
+                                    ddcpuql11.cohort_day = 11
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw11
+                                 on aduqa.dates = ddcpuw11.register_dates and aduqa.pkg = ddcpuw11.pkg and
+                                    ddcpuw11.cohort_day = 11
+                       left join dws_daily_cohort_pkg_advertising ddcpua12
+                                 on aduqa.dates = ddcpua12.register_dates and aduqa.pkg = ddcpua12.pkg and
+                                    ddcpua12.cohort_day = 12
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql12
+                                 on aduqa.dates = ddcpuql12.register_dates and aduqa.pkg = ddcpuql12.pkg and
+                                    ddcpuql12.cohort_day = 12
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw12
+                                 on aduqa.dates = ddcpuw12.register_dates and aduqa.pkg = ddcpuw12.pkg and
+                                    ddcpuw12.cohort_day = 12
+                       left join dws_daily_cohort_pkg_advertising ddcpua13
+                                 on aduqa.dates = ddcpua13.register_dates and aduqa.pkg = ddcpua13.pkg and
+                                    ddcpua13.cohort_day = 13
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql13
+                                 on aduqa.dates = ddcpuql13.register_dates and aduqa.pkg = ddcpuql13.pkg and
+                                    ddcpuql13.cohort_day = 13
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw13
+                                 on aduqa.dates = ddcpuw13.register_dates and aduqa.pkg = ddcpuw13.pkg and
+                                    ddcpuw13.cohort_day = 13
+                       left join dws_daily_cohort_pkg_advertising ddcpua14
+                                 on aduqa.dates = ddcpua14.register_dates and aduqa.pkg = ddcpua14.pkg and
+                                    ddcpua14.cohort_day = 14
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw14
+                                 on aduqa.dates = ddcpuw14.register_dates and aduqa.pkg = ddcpuw14.pkg and
+                                    ddcpuw14.cohort_day = 14
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql14
+                                 on aduqa.dates = ddcpuql14.register_dates and aduqa.pkg = ddcpuql14.pkg and
+                                    ddcpuql14.cohort_day = 14
+                       left join temp_daily_user_quality_analyse tduqa
+                                 on aduqa.dates = tduqa.dates and aduqa.pkg = tduqa.pkg and
+                                    aduqa.user_source = tduqa.user_source
+              where aduqa.dates = #{dates}
+                and aduqa.user_source = 'ALL') t
+    </select>
+    <select id="queryPkgCohortD15ToD30"
+            resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
+        select t.id,
+               t.dates,
+               t.pkg,
+               t.user_source,
+               ROUND((t.d30_ad + t.d30_box - t.d30_withdraw), 4)                               ad_box_d30_roi,
+               ROUND(IF(t.dollar_cost = 0, 0, (t.d30_ad - t.d30_withdraw) / t.dollar_cost), 4) ad_d30_roi,
+               ROUND((t.d30_box - t.d30_withdraw), 4)                                          box_d30_roi,
+               ROUND(IF(t.new_user_num = 0, 0, (t.d30_ad + t.d30_box) / t.new_user_num), 4)    ltv30,
+               t.d1_ad,
+               t.d3_ad,
+               t.d7_ad,
+               t.d14_ad,
+               t.d30_ad,
+               t.d1_box,
+               t.d3_box,
+               t.d7_box,
+               t.d14_box,
+               t.d30_box,
+               t.d1_withdraw,
+               t.d3_withdraw,
+               t.d7_withdraw,
+               t.d14_withdraw,
+               t.d30_withdraw,
+               t.ad_box_d1_roi,
+               t.ad_box_d3_roi,
+               t.ad_box_d7_roi,
+               t.ad_box_d14_roi,
+               t.ad_d1_roi,
+               t.ad_d3_roi,
+               t.ad_d7_roi,
+               t.ad_d14_roi,
+               t.box_d1_roi,
+               t.box_d3_roi,
+               t.box_d7_roi,
+               t.box_d14_roi,
+               t.ltv1,
+               t.ltv3,
+               t.ltv7,
+               t.ltv14
+        from (select aduqa.new_user_num,
+                     aduqa.dollar_cost,
+                     tduqa.id,
+                     aduqa.dates,
+                     aduqa.pkg,
+                     aduqa.user_source,
+                     tduqa.d1_ad,
+                     tduqa.d3_ad,
+                     tduqa.d7_ad,
+                     tduqa.d14_ad,
+                     tduqa.d1_box,
+                     tduqa.d3_box,
+                     tduqa.d7_box,
+                     tduqa.d14_box,
+                     tduqa.d1_withdraw,
+                     tduqa.d3_withdraw,
+                     tduqa.d7_withdraw,
+                     tduqa.d14_withdraw,
+                     tduqa.ad_box_d1_roi,
+                     tduqa.ad_box_d3_roi,
+                     tduqa.ad_box_d7_roi,
+                     tduqa.ad_box_d14_roi,
+                     tduqa.ad_d1_roi,
+                     tduqa.ad_d3_roi,
+                     tduqa.ad_d7_roi,
+                     tduqa.ad_d14_roi,
+                     tduqa.box_d1_roi,
+                     tduqa.box_d3_roi,
+                     tduqa.box_d7_roi,
+                     tduqa.box_d14_roi,
+                     tduqa.ltv1,
+                     tduqa.ltv3,
+                     tduqa.ltv7,
+                     tduqa.ltv14,
+                     (IFNULL(tduqa.d14_ad, 0) +
+                      IFNULL(ddcpua15.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua16.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua17.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua18.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua19.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua20.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua21.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua22.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua23.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua24.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua25.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua26.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua27.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua28.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua29.total_not_custom_directsold_income, 0) +
+                      IFNULL(ddcpua30.total_not_custom_directsold_income, 0)) d30_ad,
+                     (IFNULL(tduqa.d14_box, 0) +
+                      (IFNULL(ddcpuql15.mystery_box_user_ltv, 0) + IFNULL(ddcpuql16.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql17.mystery_box_user_ltv, 0) + IFNULL(ddcpuql18.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql19.mystery_box_user_ltv, 0) + IFNULL(ddcpuql20.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql21.mystery_box_user_ltv, 0) + IFNULL(ddcpuql22.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql23.mystery_box_user_ltv, 0) + IFNULL(ddcpuql24.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql25.mystery_box_user_ltv, 0) + IFNULL(ddcpuql26.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql27.mystery_box_user_ltv, 0) + IFNULL(ddcpuql28.mystery_box_user_ltv, 0) +
+                       IFNULL(ddcpuql29.mystery_box_user_ltv, 0) + IFNULL(ddcpuql30.mystery_box_user_ltv, 0)) *
+                      0.5)                                                    d30_box,
+                     (IFNULL(tduqa.d14_withdraw, 0) +
+                      IFNULL(ddcpuw15.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw16.success_change_amount_fee, 0) + IFNULL(ddcpuw17.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw18.success_change_amount_fee, 0) + IFNULL(ddcpuw19.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw20.success_change_amount_fee, 0) + IFNULL(ddcpuw21.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw22.success_change_amount_fee, 0) + IFNULL(ddcpuw23.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw24.success_change_amount_fee, 0) + IFNULL(ddcpuw25.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw26.success_change_amount_fee, 0) + IFNULL(ddcpuw27.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw28.success_change_amount_fee, 0) + IFNULL(ddcpuw29.success_change_amount_fee, 0) +
+                      IFNULL(ddcpuw30.success_change_amount_fee, 0))          d30_withdraw
+              from ads_daily_user_quality_analyse aduqa
+                       left join dws_daily_cohort_pkg_advertising ddcpua15
+                                 on aduqa.dates = ddcpua15.register_dates and aduqa.pkg = ddcpua15.pkg and
+                                    ddcpua15.cohort_day = 15
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql15
+                                 on aduqa.dates = ddcpuql15.register_dates and aduqa.pkg = ddcpuql15.pkg and
+                                    ddcpuql15.cohort_day = 15
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw15
+                                 on aduqa.dates = ddcpuw15.register_dates and aduqa.pkg = ddcpuw15.pkg and
+                                    ddcpuw15.cohort_day = 15
+                       left join dws_daily_cohort_pkg_advertising ddcpua16
+                                 on aduqa.dates = ddcpua16.register_dates and aduqa.pkg = ddcpua16.pkg and
+                                    ddcpua16.cohort_day = 16
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql16
+                                 on aduqa.dates = ddcpuql16.register_dates and aduqa.pkg = ddcpuql16.pkg and
+                                    ddcpuql16.cohort_day = 16
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw16
+                                 on aduqa.dates = ddcpuw16.register_dates and aduqa.pkg = ddcpuw16.pkg and
+                                    ddcpuw16.cohort_day = 16
+                       left join dws_daily_cohort_pkg_advertising ddcpua17
+                                 on aduqa.dates = ddcpua17.register_dates and aduqa.pkg = ddcpua17.pkg and
+                                    ddcpua17.cohort_day = 17
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql17
+                                 on aduqa.dates = ddcpuql17.register_dates and aduqa.pkg = ddcpuql17.pkg and
+                                    ddcpuql17.cohort_day = 17
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw17
+                                 on aduqa.dates = ddcpuw17.register_dates and aduqa.pkg = ddcpuw17.pkg and
+                                    ddcpuw17.cohort_day = 17
+                       left join dws_daily_cohort_pkg_advertising ddcpua18
+                                 on aduqa.dates = ddcpua18.register_dates and aduqa.pkg = ddcpua18.pkg and
+                                    ddcpua18.cohort_day = 18
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql18
+                                 on aduqa.dates = ddcpuql18.register_dates and aduqa.pkg = ddcpuql18.pkg and
+                                    ddcpuql18.cohort_day = 18
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw18
+                                 on aduqa.dates = ddcpuw18.register_dates and aduqa.pkg = ddcpuw18.pkg and
+                                    ddcpuw18.cohort_day = 18
+                       left join dws_daily_cohort_pkg_advertising ddcpua19
+                                 on aduqa.dates = ddcpua19.register_dates and aduqa.pkg = ddcpua19.pkg and
+                                    ddcpua19.cohort_day = 19
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql19
+                                 on aduqa.dates = ddcpuql19.register_dates and aduqa.pkg = ddcpuql19.pkg and
+                                    ddcpuql19.cohort_day = 19
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw19
+                                 on aduqa.dates = ddcpuw19.register_dates and aduqa.pkg = ddcpuw19.pkg and
+                                    ddcpuw19.cohort_day = 19
+                       left join dws_daily_cohort_pkg_advertising ddcpua20
+                                 on aduqa.dates = ddcpua20.register_dates and aduqa.pkg = ddcpua20.pkg and
+                                    ddcpua20.cohort_day = 20
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql20
+                                 on aduqa.dates = ddcpuql20.register_dates and aduqa.pkg = ddcpuql20.pkg and
+                                    ddcpuql20.cohort_day = 20
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw20
+                                 on aduqa.dates = ddcpuw20.register_dates and aduqa.pkg = ddcpuw20.pkg and
+                                    ddcpuw20.cohort_day = 20
+                       left join dws_daily_cohort_pkg_advertising ddcpua21
+                                 on aduqa.dates = ddcpua21.register_dates and aduqa.pkg = ddcpua21.pkg and
+                                    ddcpua21.cohort_day = 21
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw21
+                                 on aduqa.dates = ddcpuw21.register_dates and aduqa.pkg = ddcpuw21.pkg and
+                                    ddcpuw21.cohort_day = 21
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql21
+                                 on aduqa.dates = ddcpuql21.register_dates and aduqa.pkg = ddcpuql21.pkg and
+                                    ddcpuql21.cohort_day = 21
+                       left join dws_daily_cohort_pkg_advertising ddcpua22
+                                 on aduqa.dates = ddcpua22.register_dates and aduqa.pkg = ddcpua22.pkg and
+                                    ddcpua22.cohort_day = 22
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw22
+                                 on aduqa.dates = ddcpuw22.register_dates and aduqa.pkg = ddcpuw22.pkg and
+                                    ddcpuw22.cohort_day = 22
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql22
+                                 on aduqa.dates = ddcpuql22.register_dates and aduqa.pkg = ddcpuql22.pkg and
+                                    ddcpuql22.cohort_day = 22
+                       left join dws_daily_cohort_pkg_advertising ddcpua23
+                                 on aduqa.dates = ddcpua23.register_dates and aduqa.pkg = ddcpua23.pkg and
+                                    ddcpua23.cohort_day = 23
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql23
+                                 on aduqa.dates = ddcpuql23.register_dates and aduqa.pkg = ddcpuql23.pkg and
+                                    ddcpuql23.cohort_day = 23
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw23
+                                 on aduqa.dates = ddcpuw23.register_dates and aduqa.pkg = ddcpuw23.pkg and
+                                    ddcpuw23.cohort_day = 23
+                       left join dws_daily_cohort_pkg_advertising ddcpua24
+                                 on aduqa.dates = ddcpua24.register_dates and aduqa.pkg = ddcpua24.pkg and
+                                    ddcpua24.cohort_day = 24
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql24
+                                 on aduqa.dates = ddcpuql24.register_dates and aduqa.pkg = ddcpuql24.pkg and
+                                    ddcpuql24.cohort_day = 24
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw24
+                                 on aduqa.dates = ddcpuw24.register_dates and aduqa.pkg = ddcpuw24.pkg and
+                                    ddcpuw24.cohort_day = 24
+                       left join dws_daily_cohort_pkg_advertising ddcpua25
+                                 on aduqa.dates = ddcpua25.register_dates and aduqa.pkg = ddcpua25.pkg and
+                                    ddcpua25.cohort_day = 25
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw25
+                                 on aduqa.dates = ddcpuw25.register_dates and aduqa.pkg = ddcpuw25.pkg and
+                                    ddcpuw25.cohort_day = 25
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql25
+                                 on aduqa.dates = ddcpuql25.register_dates and aduqa.pkg = ddcpuql25.pkg and
+                                    ddcpuql25.cohort_day = 25
+                       left join dws_daily_cohort_pkg_advertising ddcpua26
+                                 on aduqa.dates = ddcpua26.register_dates and aduqa.pkg = ddcpua26.pkg and
+                                    ddcpua26.cohort_day = 26
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw26
+                                 on aduqa.dates = ddcpuw26.register_dates and aduqa.pkg = ddcpuw26.pkg and
+                                    ddcpuw26.cohort_day = 26
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql26
+                                 on aduqa.dates = ddcpuql26.register_dates and aduqa.pkg = ddcpuql26.pkg and
+                                    ddcpuql26.cohort_day = 26
+                       left join dws_daily_cohort_pkg_advertising ddcpua27
+                                 on aduqa.dates = ddcpua27.register_dates and aduqa.pkg = ddcpua27.pkg and
+                                    ddcpua27.cohort_day = 27
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql27
+                                 on aduqa.dates = ddcpuql27.register_dates and aduqa.pkg = ddcpuql27.pkg and
+                                    ddcpuql27.cohort_day = 27
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw27
+                                 on aduqa.dates = ddcpuw27.register_dates and aduqa.pkg = ddcpuw27.pkg and
+                                    ddcpuw27.cohort_day = 27
+                       left join dws_daily_cohort_pkg_advertising ddcpua28
+                                 on aduqa.dates = ddcpua28.register_dates and aduqa.pkg = ddcpua28.pkg and
+                                    ddcpua28.cohort_day = 28
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql28
+                                 on aduqa.dates = ddcpuql28.register_dates and aduqa.pkg = ddcpuql28.pkg and
+                                    ddcpuql28.cohort_day = 28
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw28
+                                 on aduqa.dates = ddcpuw28.register_dates and aduqa.pkg = ddcpuw28.pkg and
+                                    ddcpuw28.cohort_day = 28
+                       left join dws_daily_cohort_pkg_advertising ddcpua29
+                                 on aduqa.dates = ddcpua29.register_dates and aduqa.pkg = ddcpua29.pkg and
+                                    ddcpua29.cohort_day = 29
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw29
+                                 on aduqa.dates = ddcpuw29.register_dates and aduqa.pkg = ddcpuw29.pkg and
+                                    ddcpuw29.cohort_day = 29
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql29
+                                 on aduqa.dates = ddcpuql29.register_dates and aduqa.pkg = ddcpuql29.pkg and
+                                    ddcpuql29.cohort_day = 29
+                       left join dws_daily_cohort_pkg_advertising ddcpua30
+                                 on aduqa.dates = ddcpua30.register_dates and aduqa.pkg = ddcpua30.pkg and
+                                    ddcpua30.cohort_day = 30
+                       left join dws_daily_cohort_pkg_withdraw ddcpuw30
+                                 on aduqa.dates = ddcpuw30.register_dates and aduqa.pkg = ddcpuw30.pkg and
+                                    ddcpuw30.cohort_day = 30
+                       left join dws_daily_cohort_pkg_qp_ltv ddcpuql30
+                                 on aduqa.dates = ddcpuql30.register_dates and aduqa.pkg = ddcpuql30.pkg and
+                                    ddcpuql30.cohort_day = 30
+                       left join temp_daily_user_quality_analyse tduqa
+                                 on aduqa.dates = tduqa.dates and aduqa.pkg = tduqa.pkg and
+                                    aduqa.user_source = tduqa.user_source
+              where aduqa.dates = #{dates}
+                and aduqa.user_source = 'ALL') t
+    </select>
+
 </mapper>

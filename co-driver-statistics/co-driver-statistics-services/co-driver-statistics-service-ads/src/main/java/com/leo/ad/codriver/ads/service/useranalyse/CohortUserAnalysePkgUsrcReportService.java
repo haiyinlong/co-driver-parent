@@ -12,7 +12,6 @@ import com.leo.ad.codriver.ads.dao.AdsDailyUserQualityAnalyseMapper;
 import com.leo.ad.codriver.ads.dao.TempDailyUserQualityAnalyseMapper;
 import com.leo.ad.codriver.ads.entity.AdsDailyUserQualityAnalyse;
 import com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse;
-import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 
 import lombok.RequiredArgsConstructor;
@@ -25,13 +24,12 @@ import lombok.RequiredArgsConstructor;
  **/
 @Service
 @RequiredArgsConstructor
-public class CohortUserAnalysePkgUsrcReportService implements AdsService {
+public class CohortUserAnalysePkgUsrcReportService {
     private final AdsDailyUserQualityAnalyseMapper adsDailyUserQualityAnalyseMapper;
     private final TempDailyUserQualityAnalyseMapper tmpDailyUserQualityAnalyseMapper;
     private final DwBatchMapper<AdsDailyUserQualityAnalyse, AdsDailyUserQualityAnalyseMapper> batchMapper;
     private final DwBatchMapper<TempDailyUserQualityAnalyse, TempDailyUserQualityAnalyseMapper> tempBatchMapper;
 
-    @Override
     public void syncData(Integer dates) {
         // 创建和更新数据
         List<AdsDailyUserQualityAnalyse> list =
@@ -41,13 +39,16 @@ public class CohortUserAnalysePkgUsrcReportService implements AdsService {
         // 写入到临时表，先删除临时表数据
         tmpDailyUserQualityAnalyseMapper.cleanTempTable(dates);
         // 计算同期群1-7的数据
-        List<TempDailyUserQualityAnalyse> day1To7List = adsDailyUserQualityAnalyseMapper.queryCohortD1ToD7(dates);
+        List<TempDailyUserQualityAnalyse> day1To7List =
+            adsDailyUserQualityAnalyseMapper.queryPkgUsrcCohortD1ToD7(dates);
         tempBatchMapper.batchInsert(day1To7List, TempDailyUserQualityAnalyseMapper.class);
         // 计算同期群8-14的数据
-        List<TempDailyUserQualityAnalyse> day8To14List = adsDailyUserQualityAnalyseMapper.queryCohortD8ToD14(dates);
+        List<TempDailyUserQualityAnalyse> day8To14List =
+            adsDailyUserQualityAnalyseMapper.queryPkgUsrcCohortD8ToD14(dates);
         tempBatchMapper.batchInsert(day8To14List, TempDailyUserQualityAnalyseMapper.class);
         // 计算同期群15-30的数据
-        List<TempDailyUserQualityAnalyse> day15To30List = adsDailyUserQualityAnalyseMapper.queryCohortD15ToD30(dates);
+        List<TempDailyUserQualityAnalyse> day15To30List =
+            adsDailyUserQualityAnalyseMapper.queryPkgUsrcCohortD15ToD30(dates);
         tempBatchMapper.batchInsert(day15To30List, TempDailyUserQualityAnalyseMapper.class);
         Map<String, TempDailyUserQualityAnalyse> cohortUserQualityDtoMap = getCohortUserQualityDtoMap(day15To30List);
         // 装载数据

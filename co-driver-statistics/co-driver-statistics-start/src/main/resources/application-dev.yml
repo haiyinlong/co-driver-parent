@@ -67,5 +67,8 @@ management:
       external-file: logs/${spring.application.name}.log
 logging:
   level:
-    com.leo.ad.codriver.dwd.dao.DwdUserAdRecordMapper: debug
-    com.leo.ad.codriver.dws.dao.DwsDailyPkgVerAdvertisingMapper: debug
+    com.leo.ad.codriver: debug
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
