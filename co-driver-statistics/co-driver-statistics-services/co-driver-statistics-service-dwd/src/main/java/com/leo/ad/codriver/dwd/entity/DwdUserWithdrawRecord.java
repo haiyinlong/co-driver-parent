@@ -39,8 +39,8 @@ public class DwdUserWithdrawRecord implements BaseEntity {
     private Long registerCohortDay;
     private Date createTime;
     private Integer updateDates;
-    private Long registerWithdrawDay;
-    private Long registerWithdrawCohortDay;
+    private Integer registerWithdrawDay;
+    private Integer registerWithdrawCohortDay;
     private Date updateTime;
     @TableField(exist = false)
     private String userSource;

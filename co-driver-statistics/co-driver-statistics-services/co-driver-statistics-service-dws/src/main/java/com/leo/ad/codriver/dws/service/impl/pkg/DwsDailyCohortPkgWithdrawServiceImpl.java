@@ -104,7 +104,7 @@ public class DwsDailyCohortPkgWithdrawServiceImpl implements DwsService {
                 String uniqueKey = uniqueKey(dwdUserWithdrawRecord);
                 DwsDailyCohortPkgWithdraw dwsDailyCohortPkgWithdraw = cohortPkgUsrcAdMap.getOrDefault(uniqueKey,
                     DwsDailyCohortPkgWithdraw.of(dwdUserWithdrawRecord.getDates(),
-                        dwdUserWithdrawRecord.getRegisterDates(), dwdUserWithdrawRecord.getRegisterDay(),
+                        dwdUserWithdrawRecord.getRegisterDates(), dwdUserWithdrawRecord.getRegisterWithdrawDay(),
                         dwdUserWithdrawRecord.getPkg()));
                 // 缓存各个统计维度的用户数量
                 dwsDailyCohortPkgWithdraw.calculate(dwdUserWithdrawRecord);
@@ -116,7 +116,7 @@ public class DwsDailyCohortPkgWithdrawServiceImpl implements DwsService {
 
     private String uniqueKey(DwdUserWithdrawRecord dwdUserWithdrawRecord) {
         return dwdUserWithdrawRecord.getPkg() + "_" + dwdUserWithdrawRecord.getRegisterDates() + "_"
-            + dwdUserWithdrawRecord.getRegisterDay();
+            + dwdUserWithdrawRecord.getRegisterWithdrawDay();
     }
 
     private String uniqueDbKey(DwsDailyCohortPkgWithdraw dwsDailyCohortPkgWithdraw) {

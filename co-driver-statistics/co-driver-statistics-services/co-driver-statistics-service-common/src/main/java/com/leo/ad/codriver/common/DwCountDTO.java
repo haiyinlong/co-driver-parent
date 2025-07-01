@@ -28,6 +28,9 @@ public class DwCountDTO {
     }
 
     public int loopNum(long pageRowNum) {
+        if (Objects.isNull(maxId) || Objects.isNull(minId)) {
+            return 0;
+        }
         if (Objects.equals(maxId, minId)) {
             return 1;
         }
