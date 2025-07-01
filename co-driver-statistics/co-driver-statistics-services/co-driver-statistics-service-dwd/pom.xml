@@ -35,5 +35,9 @@
             <groupId>com.leo.ad</groupId>
             <artifactId>mysql-spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>co-driver-statistics-service-dim</artifactId>
+        </dependency>
     </dependencies>
 </project>

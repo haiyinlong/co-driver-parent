@@ -7,6 +7,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.ads.dao.AdsDailyUserQualityAnalyseMapper;
 import com.leo.ad.codriver.ads.dao.TempDailyUserQualityAnalyseMapper;
@@ -34,6 +35,9 @@ public class CohortUserAnalysePkgUsrcReportService {
         // 创建和更新数据
         List<AdsDailyUserQualityAnalyse> list =
             adsDailyUserQualityAnalyseMapper.queryCohortUserAnalysePkgUsrcReportList(dates);
+        if (CollectionUtils.isEmpty(list)) {
+            return;
+        }
         list = resetCohortData(list);
         batchMapper.batchInsert(list, AdsDailyUserQualityAnalyseMapper.class);
         // 写入到临时表，先删除临时表数据
