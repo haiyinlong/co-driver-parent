@@ -59,6 +59,7 @@
         select count(1) count, min(id) min_id, max(id) max_id
         from dwd_user_withdraw_record
         where update_dates = #{dates}
+          and status = 1
     </select>
     <select id="queryListByDates" resultType="com.leo.ad.codriver.dwd.entity.DwdUserWithdrawRecord">
         SELECT duwr.id,
@@ -91,6 +92,7 @@
         FROM dwd_user_withdraw_record duwr
                  left join dim_user_source dus on (duwr.user_id = dus.user_id)
         WHERE duwr.update_dates = #{dates}
+          and status = 1
           and duwr.id >= #{startId}
           and duwr.id <![CDATA[<]]> #{endId}
     </select>

@@ -56,7 +56,6 @@ public class DwsDailyCohortPkgUsrcWithdrawServiceImpl implements DwsService {
         if (CollectionUtils.isEmpty(cohortPkgUsrcAdMap)) {
             return;
         }
-
         List<DwsDailyCohortPkgUsrcWithdraw> dbList = dwsDailyCohortPkgUsrcWithdrawMapper.queryDbListByDates(dates);
         List<DwsDailyCohortPkgUsrcWithdraw> newCohortPkgUsrcList = this.setDbIdToNewList(dbList, cohortPkgUsrcAdMap);
         dwBatchMapper.batchInsert(newCohortPkgUsrcList, DwsDailyCohortPkgUsrcWithdrawMapper.class);
