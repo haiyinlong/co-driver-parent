@@ -93,11 +93,9 @@
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
                   IFNULL(ddcpua.total_not_custom_directsold_income / ddpur.user_num, 0))    ad_reward_arpu,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
-                  IFNULL((IFNULL(ddcpuc.user_num, 0) + IFNULL(ddcpucb.user_num, 0)) / ddpur.user_num,
-                         0))                                                                conversion_rate,
-               IF((IFNULL(ddcpuc.user_num, 0) + IFNULL(ddcpucb.user_num, 0)) = 0, 0,
-                  IFNULL(ddcpuql.total_user_num / (IFNULL(ddcpuc.user_num, 0) + IFNULL(ddcpucb.user_num, 0)),
-                         0))                                                                payment_rate,
+                  IFNULL(IFNULL(ddcpucb.user_num, 0) / ddpur.user_num, 0))                  conversion_rate,
+               IF(IFNULL(ddcpucb.user_num, 0) = 0, 0,
+                  IFNULL(ddcpuql.total_user_num / IFNULL(ddcpucb.user_num, 0), 0))          payment_rate,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
                   IFNULL(ddcpuql.total_event_ltv * 0.5 / ddpur.user_num, 0))                payment_arpu,
                # 活跃用户
@@ -126,13 +124,10 @@
                  left join dws_daily_cohort_pkg_usrc_advertising ddcpua
                            on ddpul.dates = ddcpua.register_dates and ddpul.pkg = ddcpua.pkg and
                               ddpul.user_source = ddcpua.user_source and ddcpua.cohort_day = 0
-                 left join dws_daily_pkg_usrc_conversion ddcpuc
-                           on ddpul.dates = ddcpuc.dates and ddpul.pkg = ddcpuc.pkg and
-                              ddpul.user_source = ddcpuc.user_source and ddcpuc.source_type = 1 and ddcpuc.user_type = 0
                  left join dws_daily_pkg_usrc_conversion ddcpucb
                            on ddpul.dates = ddcpucb.dates and ddpul.pkg = ddcpucb.pkg and
                               ddpul.user_source = ddcpucb.user_source and ddcpucb.source_type = 2 and
-                              ddcpucb.user_type = 0
+                              ddcpucb.user_type = 1
                  left join dws_daily_cohort_pkg_usrc_qp_ltv ddcpuql
                            on ddpul.dates = ddcpuql.register_dates and ddpul.pkg = ddcpuql.pkg and
                               ddpul.user_source = ddcpuql.user_source and ddcpuql.cohort_day = 0
@@ -741,10 +736,10 @@
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
                   IFNULL(ddcpua.total_not_custom_directsold_income / ddpur.user_num, 0))    ad_reward_arpu,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
-                  IFNULL((IFNULL(ddcpuc.user_num, 0) + IFNULL(ddcpucb.user_num, 0)) / ddpur.user_num,
+                  IFNULL(IFNULL(ddcpucb.user_num, 0) / ddpur.user_num,
                          0))                                                                conversion_rate,
-               IF(IFNULL((IFNULL(ddcpuc.user_num, 0) + IFNULL(ddcpucb.user_num, 0)), 0) = 0, 0,
-                  IFNULL(ddcpuql.total_user_num / (IFNULL(ddcpuc.user_num, 0) + IFNULL(ddcpucb.user_num, 0)),
+               IF(IFNULL(IFNULL(ddcpucb.user_num, 0), 0) = 0, 0,
+                  IFNULL(ddcpuql.total_user_num / IFNULL(ddcpucb.user_num, 0),
                          0))                                                                payment_rate,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
                   IFNULL(ddcpuql.total_event_ltv * 0.5 / ddpur.user_num, 0))                payment_arpu,
@@ -770,12 +765,9 @@
                  left join dws_daily_pkg_online ddcpuo on ddpul.dates = ddcpuo.dates and ddpul.pkg = ddcpuo.pkg
                  left join dws_daily_cohort_pkg_advertising ddcpua
                            on ddpul.dates = ddcpua.register_dates and ddpul.pkg = ddcpua.pkg and ddcpua.cohort_day = 0
-                 left join dws_daily_pkg_conversion ddcpuc
-                           on ddpul.dates = ddcpuc.dates and ddpul.pkg = ddcpuc.pkg and
-                              ddcpuc.source_type = 1 and ddcpuc.user_type = 0
                  left join dws_daily_pkg_conversion ddcpucb
                            on ddpul.dates = ddcpucb.dates and ddpul.pkg = ddcpucb.pkg and
-                              ddcpucb.source_type = 2 and ddcpucb.user_type = 0
+                              ddcpucb.source_type = 2 and ddcpucb.user_type = 1
                  left join dws_daily_cohort_pkg_qp_ltv ddcpuql
                            on ddpul.dates = ddcpuql.register_dates and ddpul.pkg = ddcpuql.pkg and
                               ddcpuql.cohort_day = 0
@@ -791,8 +783,7 @@
                            on ddpul.dates = ddcpuw.dates and ddpul.pkg = ddcpuw.pkg and ddcpuw.cohort_day = 0
                  left join ads_daily_user_quality_analyse aduqa
                            on ddpul.dates = aduqa.dates and ddpul.pkg = aduqa.pkg and
-                              aduqa.user_source = 'ALL'
-        where ddpul.dates = #{dates}
+                              aduqa.user_source = #{dates}
     </select>
     <select id="queryPkgCohortD1ToD7" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
         select t.dates,
