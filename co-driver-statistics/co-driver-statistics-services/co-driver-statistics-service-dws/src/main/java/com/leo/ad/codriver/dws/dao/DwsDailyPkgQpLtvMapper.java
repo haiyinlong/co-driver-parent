@@ -1,5 +1,6 @@
 package com.leo.ad.codriver.dws.dao;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -20,5 +21,5 @@ import com.leo.ad.codriver.dws.entity.DwsDailyPkgQpLtv;
 public interface DwsDailyPkgQpLtvMapper extends BaseMapper<DwsDailyPkgQpLtv> {
     void deleteByDates(@Param("dates") Integer dates);
 
-    List<DwsDailyPkgQpLtv> selectByDates(@Param("dates") Integer dates);
+    List<DwsDailyPkgQpLtv> selectByDates(@Param("dates") Integer dates, @Param("singleFee") BigDecimal singleFee);
 }

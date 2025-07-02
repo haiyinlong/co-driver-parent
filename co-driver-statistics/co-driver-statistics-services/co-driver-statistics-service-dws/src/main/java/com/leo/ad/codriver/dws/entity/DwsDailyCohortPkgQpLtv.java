@@ -5,6 +5,8 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.util.ObjectUtils;
+
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -124,27 +126,42 @@ public class DwsDailyCohortPkgQpLtv implements BaseEntity {
         return new DwsDailyCohortPkgQpLtv(dates, registerDates, pkg, cohortDay);
     }
 
-    public void calculate(DwdQpLtvRecord dwdQpLtvRecord) {
+    public void calculate(DwdQpLtvRecord dwdQpLtvRecord, BigDecimal indianToDollar) {
         if (null == dwdQpLtvRecord) {
             return;
         }
         // 计算总用户数
+        BigDecimal eventLtv = getEventLtv(dwdQpLtvRecord.getEvent(), indianToDollar);
         totalUser.add(dwdQpLtvRecord.getUserId());
         totalUserNum = totalUser.size();
         totalEventLtv = BigDecimalUtils.add(totalEventLtv, dwdQpLtvRecord.getEventLtv());
+        totalEventLtv = BigDecimalUtils.add(totalEventLtv, eventLtv);
         totalUserLtv = BigDecimalUtils.add(totalUserLtv, dwdQpLtvRecord.getUserLtv());
         // 计算导流用户数
         if (1 == dwdQpLtvRecord.getSourceType()) {
             riverUser.add(dwdQpLtvRecord.getUserId());
             riverUserNum = riverUser.size();
             riverEventLtv = BigDecimalUtils.add(riverEventLtv, dwdQpLtvRecord.getEventLtv());
+            riverEventLtv = BigDecimalUtils.add(riverEventLtv, eventLtv);
             riverUserLtv = BigDecimalUtils.add(riverUserLtv, dwdQpLtvRecord.getUserLtv());
         } else if (2 == dwdQpLtvRecord.getSourceType()) {
             // 计算盲盒用户数
             mysteryBoxUser.add(dwdQpLtvRecord.getUserId());
             mysteryBoxUserNum = mysteryBoxUser.size();
             mysteryBoxEventLtv = BigDecimalUtils.add(mysteryBoxEventLtv, dwdQpLtvRecord.getEventLtv());
+            mysteryBoxEventLtv = BigDecimalUtils.add(mysteryBoxEventLtv, eventLtv);
             mysteryBoxUserLtv = BigDecimalUtils.add(mysteryBoxUserLtv, dwdQpLtvRecord.getUserLtv());
         }
+    }
+
+    public static BigDecimal getEventLtv(String eventStr, BigDecimal indianToDollar) {
+        if (ObjectUtils.isEmpty(eventStr)) {
+            return BigDecimal.ZERO;
+        }
+        if (eventStr.indexOf("_") > 0) {
+            BigDecimal eventLtvIn = new BigDecimal(eventStr.split("_")[1]);
+            return BigDecimalUtils.divide(eventLtvIn, indianToDollar, 8);
+        }
+        return BigDecimal.ZERO;
     }
 }

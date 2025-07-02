@@ -85,4 +85,8 @@ public class BigDecimalUtils {
     public static BigDecimal divideReserved2(BigDecimal divisor, BigDecimal divided) {
         return divide(divisor, divided).setScale(2, RoundingMode.HALF_UP);
     }
+
+    public static BigDecimal divide(BigDecimal divisor, BigDecimal divided, int scale) {
+        return divide(divisor, divided).setScale(scale, RoundingMode.DOWN);
+    }
 }

@@ -1,5 +1,6 @@
 package com.leo.ad.codriver.dws.service.impl.pkg.usrc;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import com.leo.ad.codriver.common.DwCountDTO;
+import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dwd.dao.DwdQpLtvRecordMapper;
 import com.leo.ad.codriver.dwd.entity.DwdQpLtvRecord;
@@ -35,6 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class DwsDailyCohortPkgUsrcQpLtvServiceImpl implements DwsService {
+    private final ExchangeRate exchangeRate;
     private final DwdQpLtvRecordMapper dwdQpLtvRecordMapper;
     private final DwsDailyCohortPkgUsrcQpLtvMapper dwsDailyCohortPkgUsrcQpLtvMapper;
     private final DwBatchMapper<DwsDailyCohortPkgUsrcQpLtv, DwsDailyCohortPkgUsrcQpLtvMapper> dwBatchMapper;
@@ -51,8 +54,9 @@ public class DwsDailyCohortPkgUsrcQpLtvServiceImpl implements DwsService {
             log.info("DwsDailyCohortPkgUsrcQpLtv {} 统计数据为空，跳过处理", dates);
             return;
         }
-
-        Map<String, DwsDailyCohortPkgUsrcQpLtv> cohortPkgUsrcAdMap = getStatisticsDataMap(dates, dbCount);
+        BigDecimal indianToDollar = exchangeRate.getIndianToDollar();
+        Map<String, DwsDailyCohortPkgUsrcQpLtv> cohortPkgUsrcAdMap =
+            getStatisticsDataMap(dates, dbCount, indianToDollar);
         if (CollectionUtils.isEmpty(cohortPkgUsrcAdMap)) {
             return;
         }
@@ -83,7 +87,8 @@ public class DwsDailyCohortPkgUsrcQpLtvServiceImpl implements DwsService {
         return new ArrayList<>(pkgVerAdMap.values());
     }
 
-    private Map<String, DwsDailyCohortPkgUsrcQpLtv> getStatisticsDataMap(Integer dates, DwCountDTO dbCount) {
+    private Map<String, DwsDailyCohortPkgUsrcQpLtv> getStatisticsDataMap(Integer dates, DwCountDTO dbCount,
+        BigDecimal indianToDollar) {
         Long minId = dbCount.getMinId();
         Long endId;
         Long maxId = dbCount.getMaxId() + 1;
@@ -107,7 +112,7 @@ public class DwsDailyCohortPkgUsrcQpLtvServiceImpl implements DwsService {
                         dwdQpLtvRecord.getRegisterDates(), dwdQpLtvRecord.getCohortDay(), dwdQpLtvRecord.getPkg(),
                         dwdQpLtvRecord.getUserSource()));
                 // 缓存各个统计维度的用户数量
-                dwsDailyCohortPkgUsrcQpLtv.calculate(dwdQpLtvRecord);
+                dwsDailyCohortPkgUsrcQpLtv.calculate(dwdQpLtvRecord, indianToDollar);
                 cohortPkgUsrcAdMap.put(uniqueKey, dwsDailyCohortPkgUsrcQpLtv);
             }
         } while (minId <= maxId);

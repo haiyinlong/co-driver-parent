@@ -11,12 +11,19 @@
         SELECT dqlr.dates,
                dqlr.pkg,
                dqlr.source_type,
-               COUNT(distinct dqlr.user_id) active_user_num,
-               SUM(dqlr.event_ltv)          active_event_ltv,
-               SUM(dqlr.user_ltv)           active_user_ltv,
-               COUNT(distinct dui.user_id)  new_user_num,
-               SUM(dqlr.event_ltv)          new_user_event_ltv,
-               SUM(dqlr.user_ltv)           new_user_ltv
+               COUNT(distinct dqlr.user_id)                       active_user_num,
+               SUM(dqlr.event_ltv) +
+               ROUND(SUM(IFNULL(SUBSTRING(event, LOCATE('_', event) + 1, LOCATE('.', event) - LOCATE('_', event) - 1),
+                                0)) / #{singleFee}, 8)
+                                                                  active_event_ltv,
+               SUM(dqlr.user_ltv)                                 active_user_ltv,
+               COUNT(distinct dui.user_id)                        new_user_num,
+               SUM(IF(dui.user_id IS NOT NULL, dqlr.event_ltv, 0)) +
+               ROUND(SUM(IF(dui.user_id IS NOT NULL, IFNULL(
+                   SUBSTRING(event, LOCATE('_', event) + 1, LOCATE('.', event) - LOCATE('_', event) - 1), 0), 0)) /
+                     #{singleFee}, 8)
+                                                                  new_user_event_ltv,
+               SUM(IF(dui.user_id IS NOT NULL, dqlr.user_ltv, 0)) new_user_ltv
         FROM dwd_qp_ltv_record dqlr
                  LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
         where dqlr.dates = #{dates}

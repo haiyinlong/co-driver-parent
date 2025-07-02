@@ -1,11 +1,13 @@
 package com.leo.ad.codriver.dws.service.impl.pkg;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
 import com.leo.ad.codriver.dws.dao.DwsDailyPkgQpLtvMapper;
 import com.leo.ad.codriver.dws.entity.DwsDailyPkgQpLtv;
@@ -28,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 public class DwsDailyPkgQpLtvServiceImpl implements DwsService {
     private final DwsDailyPkgQpLtvMapper dwsDailyPkgQpLtvMapper;
     private final DwBatchMapper<DwsDailyPkgQpLtv, DwsDailyPkgQpLtvMapper> dwBatchMapper;
+    private final ExchangeRate exchangeRate;
 
     @Override
     @ShowExecuteTime(name = "DwsDailyPkgQpLtv")
@@ -35,7 +38,9 @@ public class DwsDailyPkgQpLtvServiceImpl implements DwsService {
     @Lock(paramName = "#dates")
     public void syncData(Integer dates) {
         dwsDailyPkgQpLtvMapper.deleteByDates(dates);
-        List<DwsDailyPkgQpLtv> dwsDailyPackageAllQpLtvList = dwsDailyPkgQpLtvMapper.selectByDates(dates);
+        BigDecimal indianToDollar = exchangeRate.getIndianToDollar();
+        List<DwsDailyPkgQpLtv> dwsDailyPackageAllQpLtvList =
+            dwsDailyPkgQpLtvMapper.selectByDates(dates, indianToDollar);
         if (CollectionUtils.isEmpty(dwsDailyPackageAllQpLtvList)) {
             return;
         }
