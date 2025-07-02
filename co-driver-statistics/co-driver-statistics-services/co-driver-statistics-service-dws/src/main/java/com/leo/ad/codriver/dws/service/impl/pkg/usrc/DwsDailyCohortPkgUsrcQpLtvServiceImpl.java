@@ -60,7 +60,6 @@ public class DwsDailyCohortPkgUsrcQpLtvServiceImpl implements DwsService {
         if (CollectionUtils.isEmpty(cohortPkgUsrcAdMap)) {
             return;
         }
-
         List<DwsDailyCohortPkgUsrcQpLtv> dbList = dwsDailyCohortPkgUsrcQpLtvMapper.queryDbListByDates(dates);
         List<DwsDailyCohortPkgUsrcQpLtv> newCohortPkgUsrcList = this.setDbIdToNewList(dbList, cohortPkgUsrcAdMap);
         dwBatchMapper.batchInsert(newCohortPkgUsrcList, DwsDailyCohortPkgUsrcQpLtvMapper.class);

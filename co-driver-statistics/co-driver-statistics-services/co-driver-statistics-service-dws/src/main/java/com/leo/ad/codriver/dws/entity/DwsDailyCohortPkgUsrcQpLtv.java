@@ -19,6 +19,8 @@ public class DwsDailyCohortPkgUsrcQpLtv extends DwsDailyCohortPkgQpLtv {
      */
     private String userSource;
 
+    public DwsDailyCohortPkgUsrcQpLtv() {}
+
     public DwsDailyCohortPkgUsrcQpLtv(Integer dates, Integer registerDates, String pkg, Integer cohortDay,
         String userSource) {
         super(dates, registerDates, pkg, cohortDay);

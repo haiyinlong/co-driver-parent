@@ -16,11 +16,13 @@ import com.leo.ad.codriver.dwd.entity.DwdQpLtvRecord;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
 
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  *
  * @TableName dws_daily_cohort_pkg_qp_ltv
  */
+@Slf4j
 @TableName(value = "dws_daily_cohort_pkg_qp_ltv")
 @Data
 public class DwsDailyCohortPkgQpLtv implements BaseEntity {
@@ -45,12 +47,12 @@ public class DwsDailyCohortPkgQpLtv implements BaseEntity {
     /**
      * 同期群天数:d0,d1,d2
      */
-    private Integer cohortDay;
+    private Long cohortDay;
 
     /**
      * 导流用户数量
      */
-    private Integer riverUserNum;
+    private Long riverUserNum;
 
     /**
      * 导流event_ltv
@@ -64,7 +66,7 @@ public class DwsDailyCohortPkgQpLtv implements BaseEntity {
     /**
      * 盲盒用户数量
      */
-    private Integer mysteryBoxUserNum;
+    private Long mysteryBoxUserNum;
 
     /**
      * 盲盒event_ltv
@@ -78,7 +80,7 @@ public class DwsDailyCohortPkgQpLtv implements BaseEntity {
     /**
      * 总用户数量
      */
-    private Integer totalUserNum;
+    private Long totalUserNum;
 
     /**
      * 总event_ltv
@@ -102,15 +104,17 @@ public class DwsDailyCohortPkgQpLtv implements BaseEntity {
     @TableField(exist = false)
     private Set<Long> mysteryBoxUser;
 
+    public DwsDailyCohortPkgQpLtv() {}
+
     public DwsDailyCohortPkgQpLtv(Integer dates, Integer registerDates, String pkg, Integer cohortDay) {
         this.dates = dates;
         this.registerDates = registerDates;
         this.pkg = pkg;
-        this.cohortDay = cohortDay;
+        this.cohortDay = Long.valueOf(cohortDay);
         this.createTime = LocalDateTime.now();
-        this.riverUserNum = 0;
-        this.mysteryBoxUserNum = 0;
-        this.totalUserNum = 0;
+        this.riverUserNum = 0L;
+        this.mysteryBoxUserNum = 0L;
+        this.totalUserNum = 0L;
         this.riverEventLtv = BigDecimal.ZERO;
         this.mysteryBoxEventLtv = BigDecimal.ZERO;
         this.totalEventLtv = BigDecimal.ZERO;
@@ -133,21 +137,21 @@ public class DwsDailyCohortPkgQpLtv implements BaseEntity {
         // 计算总用户数
         BigDecimal eventLtv = getEventLtv(dwdQpLtvRecord.getEvent(), indianToDollar);
         totalUser.add(dwdQpLtvRecord.getUserId());
-        totalUserNum = totalUser.size();
+        totalUserNum = (long)totalUser.size();
         totalEventLtv = BigDecimalUtils.add(totalEventLtv, dwdQpLtvRecord.getEventLtv());
         totalEventLtv = BigDecimalUtils.add(totalEventLtv, eventLtv);
         totalUserLtv = BigDecimalUtils.add(totalUserLtv, dwdQpLtvRecord.getUserLtv());
         // 计算导流用户数
         if (1 == dwdQpLtvRecord.getSourceType()) {
             riverUser.add(dwdQpLtvRecord.getUserId());
-            riverUserNum = riverUser.size();
+            riverUserNum = (long)riverUser.size();
             riverEventLtv = BigDecimalUtils.add(riverEventLtv, dwdQpLtvRecord.getEventLtv());
             riverEventLtv = BigDecimalUtils.add(riverEventLtv, eventLtv);
             riverUserLtv = BigDecimalUtils.add(riverUserLtv, dwdQpLtvRecord.getUserLtv());
         } else if (2 == dwdQpLtvRecord.getSourceType()) {
             // 计算盲盒用户数
             mysteryBoxUser.add(dwdQpLtvRecord.getUserId());
-            mysteryBoxUserNum = mysteryBoxUser.size();
+            mysteryBoxUserNum = (long)mysteryBoxUser.size();
             mysteryBoxEventLtv = BigDecimalUtils.add(mysteryBoxEventLtv, dwdQpLtvRecord.getEventLtv());
             mysteryBoxEventLtv = BigDecimalUtils.add(mysteryBoxEventLtv, eventLtv);
             mysteryBoxUserLtv = BigDecimalUtils.add(mysteryBoxUserLtv, dwdQpLtvRecord.getUserLtv());
@@ -158,8 +162,14 @@ public class DwsDailyCohortPkgQpLtv implements BaseEntity {
         if (ObjectUtils.isEmpty(eventStr)) {
             return BigDecimal.ZERO;
         }
-        if (eventStr.indexOf("_") > 0) {
-            BigDecimal eventLtvIn = new BigDecimal(eventStr.split("_")[1]);
+        if (eventStr.startsWith("recharge_") && eventStr.indexOf("_") > 0) {
+            BigDecimal eventLtvIn = BigDecimal.ZERO;
+            String eventLtvValue = eventStr.split("_")[1];
+            try {
+                eventLtvIn = new BigDecimal(eventLtvValue);
+            } catch (Exception e) {
+                log.error("转化数值异常，" + eventStr + " 截取后的值:" + eventLtvValue, e);
+            }
             return BigDecimalUtils.divide(eventLtvIn, indianToDollar, 8);
         }
         return BigDecimal.ZERO;
