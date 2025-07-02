@@ -1,12 +1,10 @@
 package com.leo.ad.codriver.ads.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.common.util.DateUtils;
@@ -44,6 +42,7 @@ public class TaskAdsController {
     private final AdsService adsDailyFragmentReportServiceImpl;
 
     private final List<AdsService> adsServices;
+    private final Map<String, AdsService> adsServiceMap;
 
     @GetMapping("/")
     @Operation(summary = "ads数据同步", description = "触发ads数据同步")
@@ -58,6 +57,17 @@ public class TaskAdsController {
         }
         log.info("{}  ads数据同步结束", dates);
         return "执行完成ads数据同步";
+    }
+
+    @GetMapping("/execute/{serviceImpl}/{dates}")
+    @Operation(summary = "触发ads", description = "触发ads数据同步")
+    public String execute(@PathVariable("serviceImpl") String serviceImpl, @PathVariable("dates") Integer dates) {
+        if (!adsServiceMap.containsKey(serviceImpl)) {
+            return "没有找到" + serviceImpl;
+        }
+        AdsService adsService = adsServiceMap.get(serviceImpl);
+        adsService.syncData(dates);
+        return serviceImpl + "执行完成数据同步";
     }
 
     // @GetMapping("/hemaDataAnalyseFullDaily")
