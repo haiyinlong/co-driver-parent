@@ -115,7 +115,7 @@ public class DwsDailyCohortPkgUsrcWithdrawServiceImpl implements DwsService {
 
     private String uniqueKey(DwdUserWithdrawRecord dwdUserWithdrawRecord) {
         return dwdUserWithdrawRecord.getPkg() + "_" + dwdUserWithdrawRecord.getRegisterDates() + "_"
-            + dwdUserWithdrawRecord.getRegisterDay() + "_" + dwdUserWithdrawRecord.getUserSource();
+            + dwdUserWithdrawRecord.getRegisterWithdrawDay() + "_" + dwdUserWithdrawRecord.getUserSource();
     }
 
     private String uniqueDbKey(DwsDailyCohortPkgUsrcWithdraw dwsDailyCohortPkgUsrcWithdraw) {
