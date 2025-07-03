@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgUsrcQpLtvMapper">
 
 
@@ -13,7 +13,7 @@
     </sql>
     <select id="queryDbList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcQpLtv">
         select
-        <include refid="Base_Column_List"/>
+        <include refid="Base_Column_List" />
         from dws_daily_pkg_usrc_qp_ltv
         where dates = #{dates}
     </select>
@@ -32,13 +32,22 @@
         FROM (SELECT dqlr.dates,
                      dqlr.pkg,
                      dqlr.source_type,
-                     IFNULL(dus.network, 'Unknown') user_source,
-                     COUNT(distinct dqlr.user_id)   active_user_num,
-                     SUM(dqlr.event_ltv)            active_event_ltv,
-                     SUM(dqlr.user_ltv)             active_user_ltv,
-                     COUNT(distinct dui.user_id)    new_user_num,
-                     SUM(dqlr.event_ltv)            new_user_event_ltv,
-                     SUM(dqlr.user_ltv)             new_user_ltv
+                     IFNULL(dus.network, 'Unknown')                     user_source,
+                     COUNT(distinct dqlr.user_id)                       active_user_num,
+                     SUM(dqlr.event_ltv) +
+                     ROUND(SUM(IFNULL(
+                         SUBSTRING(event, LOCATE('_', event) + 1, LOCATE('.', event) - LOCATE('_', event) - 1),
+                         0)) / #{singleFee}, 8)
+                                                                        active_event_ltv,
+                     SUM(dqlr.user_ltv)                                 active_user_ltv,
+                     COUNT(distinct dui.user_id)                        new_user_num,
+                     SUM(IF(dui.user_id IS NOT NULL, dqlr.event_ltv, 0)) +
+                     ROUND(SUM(IF(dui.user_id IS NOT NULL, IFNULL(
+                         SUBSTRING(event, LOCATE('_', event) + 1, LOCATE('.', event) - LOCATE('_', event) - 1), 0),
+                                  0)) /
+                           #{singleFee}, 8)
+                                                                        new_user_event_ltv,
+                     SUM(IF(dui.user_id IS NOT NULL, dqlr.user_ltv, 0)) new_user_ltv
               FROM dwd_qp_ltv_record dqlr
                        LEFT JOIN dim_user_info dui on (dui.user_id = dqlr.user_id and dui.dates = dqlr.dates)
                        left join dim_user_source dus on (dus.user_id = dqlr.user_id)

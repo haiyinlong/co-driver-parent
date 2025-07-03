@@ -783,7 +783,9 @@
                            on ddpul.dates = ddcpuw.dates and ddpul.pkg = ddcpuw.pkg and ddcpuw.cohort_day = 0
                  left join ads_daily_user_quality_analyse aduqa
                            on ddpul.dates = aduqa.dates and ddpul.pkg = aduqa.pkg and
-                              aduqa.user_source = #{dates}
+                              aduqa.user_source = 'ALL'
+        where ddpul.dates = #{dates}
+
     </select>
     <select id="queryPkgCohortD1ToD7" resultType="com.leo.ad.codriver.ads.entity.TempDailyUserQualityAnalyse">
         select t.dates,
