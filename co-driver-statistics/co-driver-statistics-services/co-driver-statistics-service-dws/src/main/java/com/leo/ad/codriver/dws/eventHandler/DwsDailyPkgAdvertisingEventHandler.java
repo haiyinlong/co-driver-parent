@@ -8,6 +8,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.dwd.event.DwdUserAdRecordUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyPkgAdvertisingUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPkgCohortAdvertisingUpdateDwEvent;
 import com.leo.ad.codriver.dws.service.DwsService;
 
 import lombok.RequiredArgsConstructor;
@@ -27,6 +28,8 @@ public class DwsDailyPkgAdvertisingEventHandler {
     private final DwsService dwsDailyPkgVerUsrcAdvertisingServiceImpl;
     private final DwsService dwsDailyPkgAdvertisingServiceImpl;
     private final DwsService dwsDailyPkgUsrcAdvertisingServiceImpl;
+    private final DwsService dwsDailyCohortPkgAdvertisingServiceImpl;
+    private final DwsService dwsDailyCohortPkgUsrcAdvertisingServiceImpl;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
@@ -54,7 +57,18 @@ public class DwsDailyPkgAdvertisingEventHandler {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+        try {
+            dwsDailyCohortPkgAdvertisingServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyCohortPkgUsrcAdvertisingServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
         // 添加事件更新 ads相关计算
         applicationEventPublisher.publishEvent(new DwsDailyPkgAdvertisingUpdateDwEvent(this, dates));
+        applicationEventPublisher.publishEvent(new DwsDailyPkgCohortAdvertisingUpdateDwEvent(this, dates));
     }
 }

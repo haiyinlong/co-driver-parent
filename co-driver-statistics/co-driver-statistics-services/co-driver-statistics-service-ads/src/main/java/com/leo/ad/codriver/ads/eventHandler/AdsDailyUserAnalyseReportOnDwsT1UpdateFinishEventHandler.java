@@ -5,7 +5,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 import com.leo.ad.codriver.ads.service.AdsService;
+import com.leo.ad.codriver.common.event.CoDriverDwEvent;
 import com.leo.ad.codriver.common.util.DateUtils;
+import com.leo.ad.codriver.dws.event.DwsDailyPkgCohortAdvertisingUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsUpdateFinishEvent;
 
 import lombok.RequiredArgsConstructor;
@@ -28,17 +30,20 @@ public class AdsDailyUserAnalyseReportOnDwsT1UpdateFinishEventHandler {
      */
     @EventListener
     @Async("asyncServiceExecutor")
-    public void syncDailyUserAnalyseReport(DwsUpdateFinishEvent dwsUpdateFinishEvent) {
-        Integer dates;
-        Integer updateFinishEventDates = dwsUpdateFinishEvent.getDates();
-        for (int i = 1; i <= 31; i++) {
-            dates = DateUtils.getPreviousDate(updateFinishEventDates, i);
-            try {
-                adsDailyUserAnalyseReportServiceImpl.syncData(dates);
-                log.info("{} adsDailyUserAnalyse 同期群统计30天内的数据  同步结束", dates);
-            } catch (Exception e) {
-                log.error(dates + " adsDailyUserAnalyse 同期群统计30天内的数据 同步结束", e);
+    public void syncDailyUserAnalyseReport(CoDriverDwEvent event) {
+        if (event instanceof DwsDailyPkgCohortAdvertisingUpdateDwEvent || event instanceof DwsUpdateFinishEvent) {
+            Integer dates;
+            Integer updateFinishEventDates = event.getDates();
+            for (int i = 0; i <= 31; i++) {
+                dates = DateUtils.getPreviousDate(updateFinishEventDates, i);
+                try {
+                    adsDailyUserAnalyseReportServiceImpl.syncData(dates);
+                    log.info("{} adsDailyUserAnalyse 同期群统计30天内的数据  同步结束", dates);
+                } catch (Exception e) {
+                    log.error(dates + " adsDailyUserAnalyse 同期群统计30天内的数据 同步结束", e);
+                }
             }
         }
+
     }
 }
