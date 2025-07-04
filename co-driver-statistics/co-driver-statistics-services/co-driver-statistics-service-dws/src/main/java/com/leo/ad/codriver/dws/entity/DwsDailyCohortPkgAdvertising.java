@@ -785,6 +785,8 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
     @TableField(exist = false)
     private Set<Long> rewardVungleBiddingUser;
 
+    public DwsDailyCohortPkgAdvertising() {}
+
     public DwsDailyCohortPkgAdvertising(Integer dates, Integer registerDates, String pkg, Integer cohortDay) {
         this.dates = dates;
         this.registerDates = registerDates;

@@ -4,6 +4,175 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyCohortPkgUsrcAdvertisingMapper">
 
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyCohortPkgUsrcAdvertising">
+        <result property="id" column="id" jdbcType="BIGINT" />
+        <result property="dates" column="dates" jdbcType="INTEGER" />
+        <result property="registerDates" column="register_dates" jdbcType="INTEGER" />
+        <result property="pkg" column="pkg" jdbcType="VARCHAR" />
+        <result property="cohortDay" column="cohort_day" jdbcType="BIGINT" />
+        <result property="userSource" column="user_source" jdbcType="VARCHAR" />
+        <result property="totalUserNum" column="total_user_num" jdbcType="INTEGER" />
+        <result property="totalShowCount" column="total_show_count" jdbcType="INTEGER" />
+        <result property="totalIncome" column="total_income" jdbcType="DECIMAL" />
+        <result property="totalEcpm" column="total_ecpm" jdbcType="DECIMAL" />
+        <result property="totalNotCustomDirectsoldUserNum" column="total_not_custom_directsold_user_num"
+                jdbcType="INTEGER" />
+        <result property="totalNotCustomDirectsoldShowCount" column="total_not_custom_directsold_show_count"
+                jdbcType="INTEGER" />
+        <result property="totalNotCustomDirectsoldIncome" column="total_not_custom_directsold_income"
+                jdbcType="DECIMAL" />
+        <result property="totalNotCustomDirectsoldEcpm" column="total_not_custom_directsold_ecpm" jdbcType="DECIMAL" />
+
+        <result property="totalNotCustomBannerUserNum" column="total_not_custom_banner_user_num"
+                jdbcType="INTEGER" />
+        <result property="totalNotCustomBannerShowCount" column="total_not_custom_banner_show_count"
+                jdbcType="INTEGER" />
+        <result property="totalNotCustomBannerIncome" column="total_not_custom_banner_income"
+                jdbcType="DECIMAL" />
+        <result property="totalNotCustomBannerEcpm" column="total_not_custom_banner_ecpm" jdbcType="DECIMAL" />
+
+        <result property="directsoldUserNum" column="directsold_user_num" jdbcType="INTEGER" />
+        <result property="directsoldShowCount" column="directsold_show_count" jdbcType="INTEGER" />
+        <result property="directsoldIncome" column="directsold_income" jdbcType="DECIMAL" />
+        <result property="directsoldEcpm" column="directsold_ecpm" jdbcType="DECIMAL" />
+        <result property="customNetworkUserNum" column="custom_network_user_num" jdbcType="INTEGER" />
+        <result property="customNetworkShowCount" column="custom_network_show_count" jdbcType="INTEGER" />
+        <result property="customNetworkIncome" column="custom_network_income" jdbcType="DECIMAL" />
+        <result property="customNetworkEcpm" column="custom_network_ecpm" jdbcType="DECIMAL" />
+        <result property="customDirectsoldUserNum" column="custom_directsold_user_num" jdbcType="INTEGER" />
+        <result property="customDirectsoldShowCount" column="custom_directsold_show_count" jdbcType="INTEGER" />
+        <result property="customDirectsoldIncome" column="custom_directsold_income" jdbcType="DECIMAL" />
+        <result property="customDirectsoldEcpm" column="custom_directsold_ecpm" jdbcType="DECIMAL" />
+        <result property="bannerUserNum" column="banner_user_num" jdbcType="INTEGER" />
+        <result property="bannerShowCount" column="banner_show_count" jdbcType="INTEGER" />
+        <result property="bannerIncome" column="banner_income" jdbcType="DECIMAL" />
+        <result property="bannerEcpm" column="banner_ecpm" jdbcType="DECIMAL" />
+        <result property="bannerDirectsoldUserNum" column="banner_directsold_user_num" jdbcType="INTEGER" />
+        <result property="bannerDirectsoldShowCount" column="banner_directsold_show_count" jdbcType="INTEGER" />
+        <result property="bannerDirectsoldIncome" column="banner_directsold_income" jdbcType="DECIMAL" />
+        <result property="bannerDirectsoldEcpm" column="banner_directsold_ecpm" jdbcType="DECIMAL" />
+        <result property="bannerExchangeUserNum" column="banner_exchange_user_num" jdbcType="INTEGER" />
+        <result property="bannerExchangeShowCount" column="banner_exchange_show_count" jdbcType="INTEGER" />
+        <result property="bannerExchangeIncome" column="banner_exchange_income" jdbcType="DECIMAL" />
+        <result property="bannerExchangeEcpm" column="banner_exchange_ecpm" jdbcType="DECIMAL" />
+        <result property="bannerNetworkUserNum" column="banner_network_user_num" jdbcType="INTEGER" />
+        <result property="bannerNetworkShowCount" column="banner_network_show_count" jdbcType="INTEGER" />
+        <result property="bannerNetworkIncome" column="banner_network_income" jdbcType="DECIMAL" />
+        <result property="bannerNetworkEcpm" column="banner_network_ecpm" jdbcType="DECIMAL" />
+        <result property="bannerCustomNetworkUserNum" column="banner_custom_network_user_num" jdbcType="INTEGER" />
+        <result property="bannerCustomNetworkShowCount" column="banner_custom_network_show_count" jdbcType="INTEGER" />
+        <result property="bannerCustomNetworkIncome" column="banner_custom_network_income" jdbcType="DECIMAL" />
+        <result property="bannerCustomNetworkEcpm" column="banner_custom_network_ecpm" jdbcType="DECIMAL" />
+        <result property="bannerMintegralBiddingUserNum" column="banner_mintegral_bidding_user_num"
+                jdbcType="INTEGER" />
+        <result property="bannerMintegralBiddingShowCount" column="banner_mintegral_bidding_show_count"
+                jdbcType="INTEGER" />
+        <result property="bannerMintegralBiddingIncome" column="banner_mintegral_bidding_income" jdbcType="DECIMAL" />
+        <result property="bannerMintegralBiddingEcpm" column="banner_mintegral_bidding_ecpm" jdbcType="DECIMAL" />
+        <result property="bannerNotCustomDirectsoldUserNum" column="banner_not_custom_directsold_user_num"
+                jdbcType="INTEGER" />
+        <result property="bannerNotCustomDirectsoldShowCount" column="banner_not_custom_directsold_show_count"
+                jdbcType="INTEGER" />
+        <result property="bannerNotCustomDirectsoldIncome" column="banner_not_custom_directsold_income"
+                jdbcType="DECIMAL" />
+        <result property="bannerNotCustomDirectsoldEcpm" column="banner_not_custom_directsold_ecpm"
+                jdbcType="DECIMAL" />
+        <result property="interUserNum" column="inter_user_num" jdbcType="INTEGER" />
+        <result property="interShowCount" column="inter_show_count" jdbcType="INTEGER" />
+        <result property="interIncome" column="inter_income" jdbcType="DECIMAL" />
+        <result property="interEcpm" column="inter_ecpm" jdbcType="DECIMAL" />
+        <result property="interDirectsoldUserNum" column="inter_directsold_user_num" jdbcType="INTEGER" />
+        <result property="interDirectsoldShowCount" column="inter_directsold_show_count" jdbcType="INTEGER" />
+        <result property="interDirectsoldIncome" column="inter_directsold_income" jdbcType="DECIMAL" />
+        <result property="interDirectsoldEcpm" column="inter_directsold_ecpm" jdbcType="DECIMAL" />
+        <result property="interExchangeUserNum" column="inter_exchange_user_num" jdbcType="INTEGER" />
+        <result property="interExchangeShowCount" column="inter_exchange_show_count" jdbcType="INTEGER" />
+        <result property="interExchangeIncome" column="inter_exchange_income" jdbcType="DECIMAL" />
+        <result property="interExchangeEcpm" column="inter_exchange_ecpm" jdbcType="DECIMAL" />
+        <result property="interNetworkUserNum" column="inter_network_user_num" jdbcType="INTEGER" />
+        <result property="interNetworkShowCount" column="inter_network_show_count" jdbcType="INTEGER" />
+        <result property="interNetworkIncome" column="inter_network_income" jdbcType="DECIMAL" />
+        <result property="interNetworkEcpm" column="inter_network_ecpm" jdbcType="DECIMAL" />
+        <result property="interMintegralBiddingUserNum" column="inter_mintegral_bidding_user_num" jdbcType="INTEGER" />
+        <result property="interMintegralBiddingShowCount" column="inter_mintegral_bidding_show_count"
+                jdbcType="INTEGER" />
+        <result property="interMintegralBiddingIncome" column="inter_mintegral_bidding_income" jdbcType="DECIMAL" />
+        <result property="interMintegralBiddingEcpm" column="inter_mintegral_bidding_ecpm" jdbcType="DECIMAL" />
+        <result property="interVungleBiddingUserNum" column="inter_vungle_bidding_user_num" jdbcType="INTEGER" />
+        <result property="interVungleBiddingShowCount" column="inter_vungle_bidding_show_count" jdbcType="INTEGER" />
+        <result property="interVungleBiddingIncome" column="inter_vungle_bidding_income" jdbcType="DECIMAL" />
+        <result property="interVungleBiddingEcpm" column="inter_vungle_bidding_ecpm" jdbcType="DECIMAL" />
+        <result property="interNotCustomDirectsoldUserNum" column="inter_not_custom_directsold_user_num"
+                jdbcType="INTEGER" />
+        <result property="interNotCustomDirectsoldShowCount" column="inter_not_custom_directsold_show_count"
+                jdbcType="INTEGER" />
+        <result property="interNotCustomDirectsoldIncome" column="inter_not_custom_directsold_income"
+                jdbcType="DECIMAL" />
+        <result property="interNotCustomDirectsoldEcpm" column="inter_not_custom_directsold_ecpm" jdbcType="DECIMAL" />
+        <result property="mrecUserNum" column="mrec_user_num" jdbcType="INTEGER" />
+        <result property="mrecShowCount" column="mrec_show_count" jdbcType="INTEGER" />
+        <result property="mrecIncome" column="mrec_income" jdbcType="DECIMAL" />
+        <result property="mrecEcpm" column="mrec_ecpm" jdbcType="DECIMAL" />
+        <result property="mrecDirectsoldUserNum" column="mrec_directsold_user_num" jdbcType="INTEGER" />
+        <result property="mrecDirectsoldShowCount" column="mrec_directsold_show_count" jdbcType="INTEGER" />
+        <result property="mrecDirectsoldIncome" column="mrec_directsold_income" jdbcType="DECIMAL" />
+        <result property="mrecDirectsoldEcpm" column="mrec_directsold_ecpm" jdbcType="DECIMAL" />
+        <result property="mrecExchangeUserNum" column="mrec_exchange_user_num" jdbcType="INTEGER" />
+        <result property="mrecExchangeShowCount" column="mrec_exchange_show_count" jdbcType="INTEGER" />
+        <result property="mrecExchangeIncome" column="mrec_exchange_income" jdbcType="DECIMAL" />
+        <result property="mrecExchangeEcpm" column="mrec_exchange_ecpm" jdbcType="DECIMAL" />
+        <result property="mrecCustomNetworkUserNum" column="mrec_custom_network_user_num" jdbcType="INTEGER" />
+        <result property="mrecCustomNetworkShowCount" column="mrec_custom_network_show_count" jdbcType="INTEGER" />
+        <result property="mrecCustomNetworkIncome" column="mrec_custom_network_income" jdbcType="DECIMAL" />
+        <result property="mrecCustomNetworkEcpm" column="mrec_custom_network_ecpm" jdbcType="DECIMAL" />
+        <result property="mrecNotCustomDirectsoldUserNum" column="mrec_not_custom_directsold_user_num"
+                jdbcType="INTEGER" />
+        <result property="mrecNotCustomDirectsoldShowCount" column="mrec_not_custom_directsold_show_count"
+                jdbcType="INTEGER" />
+        <result property="mrecNotCustomDirectsoldIncome" column="mrec_not_custom_directsold_income"
+                jdbcType="DECIMAL" />
+        <result property="mrecNotCustomDirectsoldEcpm" column="mrec_not_custom_directsold_ecpm" jdbcType="DECIMAL" />
+        <result property="rewardUserNum" column="reward_user_num" jdbcType="INTEGER" />
+        <result property="rewardShowCount" column="reward_show_count" jdbcType="INTEGER" />
+        <result property="rewardIncome" column="reward_income" jdbcType="DECIMAL" />
+        <result property="rewardEcpm" column="reward_ecpm" jdbcType="DECIMAL" />
+        <result property="rewardExchangeUserNum" column="reward_exchange_user_num" jdbcType="INTEGER" />
+        <result property="rewardExchangeShowCount" column="reward_exchange_show_count" jdbcType="INTEGER" />
+        <result property="rewardExchangeIncome" column="reward_exchange_income" jdbcType="DECIMAL" />
+        <result property="rewardExchangeEcpm" column="reward_exchange_ecpm" jdbcType="DECIMAL" />
+        <result property="rewardNetworkUserNum" column="reward_network_user_num" jdbcType="INTEGER" />
+        <result property="rewardNetworkShowCount" column="reward_network_show_count" jdbcType="INTEGER" />
+        <result property="rewardNetworkIncome" column="reward_network_income" jdbcType="DECIMAL" />
+        <result property="rewardNetworkEcpm" column="reward_network_ecpm" jdbcType="DECIMAL" />
+        <result property="rewardCustomNetworkUserNum" column="reward_custom_network_user_num" jdbcType="INTEGER" />
+        <result property="rewardCustomNetworkShowCount" column="reward_custom_network_show_count" jdbcType="INTEGER" />
+        <result property="rewardCustomNetworkIncome" column="reward_custom_network_income" jdbcType="DECIMAL" />
+        <result property="rewardCustomNetworkEcpm" column="reward_custom_network_ecpm" jdbcType="DECIMAL" />
+        <result property="rewardFacebookNetworkUserNum" column="reward_facebook_network_user_num" jdbcType="INTEGER" />
+        <result property="rewardFacebookNetworkShowCount" column="reward_facebook_network_show_count"
+                jdbcType="INTEGER" />
+        <result property="rewardFacebookNetworkIncome" column="reward_facebook_network_income" jdbcType="DECIMAL" />
+        <result property="rewardFacebookNetworkEcpm" column="reward_facebook_network_ecpm" jdbcType="DECIMAL" />
+        <result property="rewardMintegralBiddingUserNum" column="reward_mintegral_bidding_user_num"
+                jdbcType="INTEGER" />
+        <result property="rewardMintegralBiddingShowCount" column="reward_mintegral_bidding_show_count"
+                jdbcType="INTEGER" />
+        <result property="rewardMintegralBiddingIncome" column="reward_mintegral_bidding_income" jdbcType="DECIMAL" />
+        <result property="rewardMintegralBiddingEcpm" column="reward_mintegral_bidding_ecpm" jdbcType="DECIMAL" />
+        <result property="rewardVungleBiddingUserNum" column="reward_vungle_bidding_user_num" jdbcType="INTEGER" />
+        <result property="rewardVungleBiddingShowCount" column="reward_vungle_bidding_show_count" jdbcType="INTEGER" />
+        <result property="rewardVungleBiddingIncome" column="reward_vungle_bidding_income" jdbcType="DECIMAL" />
+        <result property="rewardVungleBiddingEcpm" column="reward_vungle_bidding_ecpm" jdbcType="DECIMAL" />
+        <result property="rewardNotCustomDirectsoldUserNum" column="reward_not_custom_directsold_user_num"
+                jdbcType="INTEGER" />
+        <result property="rewardNotCustomDirectsoldShowCount" column="reward_not_custom_directsold_show_count"
+                jdbcType="INTEGER" />
+        <result property="rewardNotCustomDirectsoldIncome" column="reward_not_custom_directsold_income"
+                jdbcType="DECIMAL" />
+        <result property="rewardNotCustomDirectsoldEcpm" column="reward_not_custom_directsold_ecpm"
+                jdbcType="DECIMAL" />
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+    </resultMap>
 
     <sql id="Base_Column_List">
         id,dates,register_dates,
@@ -53,8 +222,7 @@
         reward_vungle_bidding_ecpm,reward_not_custom_directsold_user_num,reward_not_custom_directsold_show_count,
         reward_not_custom_directsold_income,reward_not_custom_directsold_ecpm,create_time
     </sql>
-    <select id="queryDbListByDates"
-            resultType="com.leo.ad.codriver.dws.entity.DwsDailyCohortPkgUsrcAdvertising">
+    <select id="queryDbListByDates" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from dws_daily_cohort_pkg_usrc_advertising
