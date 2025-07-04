@@ -91,7 +91,7 @@
                    ddcpua.reward_not_custom_directsold_income / ddcpua.reward_not_custom_directsold_show_count * 1000,
                    0))                                                                      ad_reward_ecpm,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
-                  IFNULL(ddcpua.total_not_custom_directsold_income / ddpur.user_num, 0))    ad_reward_arpu,
+                  IFNULL(ddcpua.total_not_custom_banner_income / ddpur.user_num, 0))        ad_reward_arpu,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
                   IFNULL(IFNULL(ddcpucb.user_num, 0) / ddpur.user_num, 0))                  conversion_rate,
                IF(IFNULL(ddcpucb.user_num, 0) = 0, 0,
@@ -106,7 +106,7 @@
                    IFNULL(ddpua.reward_not_custom_directsold_show_count, 1) *
                    1000))                                                                   ad_reward_ecpm_dau,
                IFNULL(ddpus.total_user_num / ddpul.user_num, 0)                             share_rate,
-               IFNULL(ddpua.total_not_custom_directsold_income, 0) /
+               IFNULL(ddpua.total_not_custom_banner_income, 0) /
                ddpul.user_num                                                               ad_reward_arpu_dau,
                (IFNULL(ddpuqlr.active_event_ltv, 0) + IFNULL(ddpuqlb.active_event_ltv, 0)) * 0.5 /
                ddpul.user_num                                                               payment_arpu_dau
@@ -178,34 +178,34 @@
                ROUND(IF(t.new_user_num = 0, 0, (t.d3_ad + t.d3_box) / t.new_user_num), 4)               ltv3,
                ROUND(IF(t.new_user_num = 0, 0, (t.d7_ad + t.d7_box) / t.new_user_num), 4)               ltv7
         from (select aduqa.*,
-                     IFNULL(ddcpua.total_not_custom_directsold_income, 0)    d1_ad,
+                     IFNULL(ddcpua.total_not_custom_banner_income, 0)    d1_ad,
                      (IFNULL(ddcpuql.mystery_box_event_ltv, 0) *
-                      0.5)                                                   d1_box,
-                     IFNULL(ddcpuw.success_change_amount_fee, 0)             d1_withdraw,
-                     (IFNULL(ddcpua.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua1.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua2.total_not_custom_directsold_income, 0)) d3_ad,
+                      0.5)                                               d1_box,
+                     IFNULL(ddcpuw.success_change_amount_fee, 0)         d1_withdraw,
+                     (IFNULL(ddcpua.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua1.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua2.total_not_custom_banner_income, 0)) d3_ad,
                      ((IFNULL(ddcpuql.mystery_box_event_ltv, 0) + IFNULL(ddcpuql1.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql2.mystery_box_event_ltv, 0)) *
-                      0.5)                                                   d3_box,
+                      0.5)                                               d3_box,
                      (IFNULL(ddcpuw.success_change_amount_fee, 0) + IFNULL(ddcpuw1.success_change_amount_fee, 0) +
-                      IFNULL(ddcpuw2.success_change_amount_fee, 0))          d3_withdraw,
-                     (IFNULL(ddcpua.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua1.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua2.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua3.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua4.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua5.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua6.total_not_custom_directsold_income, 0)) d7_ad,
+                      IFNULL(ddcpuw2.success_change_amount_fee, 0))      d3_withdraw,
+                     (IFNULL(ddcpua.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua1.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua2.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua3.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua4.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua5.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua6.total_not_custom_banner_income, 0)) d7_ad,
                      ((IFNULL(ddcpuql.mystery_box_event_ltv, 0) + IFNULL(ddcpuql1.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql2.mystery_box_event_ltv, 0) + IFNULL(ddcpuql3.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql4.mystery_box_event_ltv, 0) + IFNULL(ddcpuql5.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql6.mystery_box_event_ltv, 0)) *
-                      0.5)                                                   d7_box,
+                      0.5)                                               d7_box,
                      (IFNULL(ddcpuw.success_change_amount_fee, 0) + IFNULL(ddcpuw1.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw2.success_change_amount_fee, 0) + IFNULL(ddcpuw3.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw4.success_change_amount_fee, 0) + IFNULL(ddcpuw5.success_change_amount_fee, 0) +
-                      IFNULL(ddcpuw6.success_change_amount_fee, 0))          d7_withdraw
+                      IFNULL(ddcpuw6.success_change_amount_fee, 0))      d7_withdraw
               from ads_daily_user_quality_analyse aduqa
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua
                                  on aduqa.dates = ddcpua.register_dates and aduqa.pkg = ddcpua.pkg and
@@ -346,24 +346,24 @@
                      tduqa.ltv3,
                      tduqa.ltv7,
                      (IFNULL(tduqa.d7_ad, 0) +
-                      IFNULL(ddcpua7.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua8.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua9.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua10.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua11.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua12.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua13.total_not_custom_directsold_income, 0)) d14_ad,
+                      IFNULL(ddcpua7.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua8.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua9.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua10.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua11.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua12.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua13.total_not_custom_banner_income, 0)) d14_ad,
                      (IFNULL(tduqa.d7_box, 0) +
                       (IFNULL(ddcpuql7.mystery_box_event_ltv, 0) + IFNULL(ddcpuql8.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql9.mystery_box_event_ltv, 0) + IFNULL(ddcpuql10.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql11.mystery_box_event_ltv, 0) + IFNULL(ddcpuql12.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql13.mystery_box_event_ltv, 0)) *
-                      0.5)                                                    d14_box,
+                      0.5)                                                d14_box,
                      (IFNULL(tduqa.d7_withdraw, 0) + IFNULL(ddcpuw7.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw8.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw9.success_change_amount_fee, 0) + IFNULL(ddcpuw10.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw11.success_change_amount_fee, 0) + IFNULL(ddcpuw12.success_change_amount_fee, 0) +
-                      IFNULL(ddcpuw13.success_change_amount_fee, 0))          d14_withdraw
+                      IFNULL(ddcpuw13.success_change_amount_fee, 0))      d14_withdraw
               from ads_daily_user_quality_analyse aduqa
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua7
                                  on aduqa.dates = ddcpua7.register_dates and aduqa.pkg = ddcpua7.pkg and
@@ -509,22 +509,22 @@
                      tduqa.ltv7,
                      tduqa.ltv14,
                      (IFNULL(tduqa.d14_ad, 0) +
-                      IFNULL(ddcpua14.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua15.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua16.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua17.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua18.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua19.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua20.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua21.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua22.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua23.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua24.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua25.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua26.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua27.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua28.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua29.total_not_custom_directsold_income, 0)) d30_ad,
+                      IFNULL(ddcpua14.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua15.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua16.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua17.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua18.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua19.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua20.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua21.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua22.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua23.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua24.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua25.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua26.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua27.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua28.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua29.total_not_custom_banner_income, 0)) d30_ad,
                      (IFNULL(tduqa.d14_box, 0) +
                       (IFNULL(ddcpuql15.mystery_box_event_ltv, 0) + IFNULL(ddcpuql16.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql17.mystery_box_event_ltv, 0) + IFNULL(ddcpuql18.mystery_box_event_ltv, 0) +
@@ -534,7 +534,7 @@
                        IFNULL(ddcpuql25.mystery_box_event_ltv, 0) + IFNULL(ddcpuql26.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql27.mystery_box_event_ltv, 0) + IFNULL(ddcpuql28.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql29.mystery_box_event_ltv, 0) + IFNULL(ddcpuql14.mystery_box_event_ltv, 0)) *
-                      0.5)                                                    d30_box,
+                      0.5)                                                d30_box,
                      (IFNULL(tduqa.d14_withdraw, 0) +
                       IFNULL(ddcpuw15.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw16.success_change_amount_fee, 0) + IFNULL(ddcpuw17.success_change_amount_fee, 0) +
@@ -544,7 +544,7 @@
                       IFNULL(ddcpuw24.success_change_amount_fee, 0) + IFNULL(ddcpuw25.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw26.success_change_amount_fee, 0) + IFNULL(ddcpuw27.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw28.success_change_amount_fee, 0) + IFNULL(ddcpuw29.success_change_amount_fee, 0) +
-                      IFNULL(ddcpuw14.success_change_amount_fee, 0))          d30_withdraw
+                      IFNULL(ddcpuw14.success_change_amount_fee, 0))      d30_withdraw
               from ads_daily_user_quality_analyse aduqa
                        left join dws_daily_cohort_pkg_usrc_advertising ddcpua14
                                  on aduqa.dates = ddcpua14.register_dates and aduqa.pkg = ddcpua14.pkg and
@@ -718,7 +718,7 @@
                    ddcpua.reward_not_custom_directsold_income / ddcpua.reward_not_custom_directsold_show_count * 1000,
                    0))                                                                      ad_reward_ecpm,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
-                  IFNULL(ddcpua.total_not_custom_directsold_income / ddpur.user_num, 0))    ad_reward_arpu,
+                  IFNULL(ddcpua.total_not_custom_banner_income / ddpur.user_num, 0))        ad_reward_arpu,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
                   IFNULL(IFNULL(ddcpucb.user_num, 0) / ddpur.user_num,
                          0))                                                                conversion_rate,
@@ -734,7 +734,7 @@
                    IFNULL(ddpua.reward_not_custom_directsold_show_count, 1) *
                    1000))                                                                   ad_reward_ecpm_dau,
                IFNULL(ddpus.total_user_num / ddpul.user_num, 0)                             share_rate,
-               IFNULL(ddpua.total_not_custom_directsold_income, 0) /
+               IFNULL(ddpua.total_not_custom_banner_income, 0) /
                ddpul.user_num                                                               ad_reward_arpu_dau,
                (IFNULL(ddpuqlr.active_event_ltv, 0) + IFNULL(ddpuqlb.active_event_ltv, 0)) * 0.5 /
                ddpul.user_num                                                               payment_arpu_dau
@@ -797,34 +797,34 @@
                ROUND(IF(t.new_user_num = 0, 0, (t.d3_ad + t.d3_box) / t.new_user_num), 4)               ltv3,
                ROUND(IF(t.new_user_num = 0, 0, (t.d7_ad + t.d7_box) / t.new_user_num), 4)               ltv7
         from (select aduqa.*,
-                     IFNULL(ddcpua.total_not_custom_directsold_income, 0)    d1_ad,
+                     IFNULL(ddcpua.total_not_custom_banner_income, 0)    d1_ad,
                      (IFNULL(ddcpuql.mystery_box_event_ltv, 0) *
-                      0.5)                                                   d1_box,
-                     IFNULL(ddcpuw.success_change_amount_fee, 0)             d1_withdraw,
-                     (IFNULL(ddcpua.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua1.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua2.total_not_custom_directsold_income, 0)) d3_ad,
+                      0.5)                                               d1_box,
+                     IFNULL(ddcpuw.success_change_amount_fee, 0)         d1_withdraw,
+                     (IFNULL(ddcpua.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua1.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua2.total_not_custom_banner_income, 0)) d3_ad,
                      ((IFNULL(ddcpuql.mystery_box_event_ltv, 0) + IFNULL(ddcpuql1.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql2.mystery_box_event_ltv, 0)) *
-                      0.5)                                                   d3_box,
+                      0.5)                                               d3_box,
                      (IFNULL(ddcpuw.success_change_amount_fee, 0) + IFNULL(ddcpuw1.success_change_amount_fee, 0) +
-                      IFNULL(ddcpuw2.success_change_amount_fee, 0))          d3_withdraw,
-                     (IFNULL(ddcpua.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua1.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua2.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua3.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua4.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua5.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua6.total_not_custom_directsold_income, 0)) d7_ad,
+                      IFNULL(ddcpuw2.success_change_amount_fee, 0))      d3_withdraw,
+                     (IFNULL(ddcpua.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua1.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua2.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua3.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua4.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua5.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua6.total_not_custom_banner_income, 0)) d7_ad,
                      ((IFNULL(ddcpuql.mystery_box_event_ltv, 0) + IFNULL(ddcpuql1.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql2.mystery_box_event_ltv, 0) + IFNULL(ddcpuql3.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql4.mystery_box_event_ltv, 0) + IFNULL(ddcpuql5.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql6.mystery_box_event_ltv, 0)) *
-                      0.5)                                                   d7_box,
+                      0.5)                                               d7_box,
                      (IFNULL(ddcpuw.success_change_amount_fee, 0) + IFNULL(ddcpuw1.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw2.success_change_amount_fee, 0) + IFNULL(ddcpuw3.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw4.success_change_amount_fee, 0) + IFNULL(ddcpuw5.success_change_amount_fee, 0) +
-                      IFNULL(ddcpuw6.success_change_amount_fee, 0))          d7_withdraw
+                      IFNULL(ddcpuw6.success_change_amount_fee, 0))      d7_withdraw
               from ads_daily_user_quality_analyse aduqa
                        left join dws_daily_cohort_pkg_advertising ddcpua
                                  on aduqa.dates = ddcpua.register_dates and aduqa.pkg = ddcpua.pkg and
@@ -966,24 +966,24 @@
                      tduqa.ltv3,
                      tduqa.ltv7,
                      (IFNULL(tduqa.d7_ad, 0) +
-                      IFNULL(ddcpua8.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua9.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua10.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua11.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua12.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua13.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua7.total_not_custom_directsold_income, 0)) d14_ad,
+                      IFNULL(ddcpua8.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua9.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua10.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua11.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua12.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua13.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua7.total_not_custom_banner_income, 0)) d14_ad,
                      (IFNULL(tduqa.d7_box, 0) +
                       (IFNULL(ddcpuql8.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql9.mystery_box_event_ltv, 0) + IFNULL(ddcpuql10.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql11.mystery_box_event_ltv, 0) + IFNULL(ddcpuql12.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql13.mystery_box_event_ltv, 0) + IFNULL(ddcpuql7.mystery_box_event_ltv, 0)) *
-                      0.5)                                                   d14_box,
+                      0.5)                                               d14_box,
                      (IFNULL(tduqa.d7_withdraw, 0) + IFNULL(ddcpuw8.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw9.success_change_amount_fee, 0) + IFNULL(ddcpuw10.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw11.success_change_amount_fee, 0) + IFNULL(ddcpuw12.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw13.success_change_amount_fee, 0) +
-                      IFNULL(ddcpuw7.success_change_amount_fee, 0))          d14_withdraw
+                      IFNULL(ddcpuw7.success_change_amount_fee, 0))      d14_withdraw
               from ads_daily_user_quality_analyse aduqa
                        left join dws_daily_cohort_pkg_advertising ddcpua8
                                  on aduqa.dates = ddcpua8.register_dates and aduqa.pkg = ddcpua8.pkg and
@@ -1131,22 +1131,22 @@
                      tduqa.ltv7,
                      tduqa.ltv14,
                      (IFNULL(tduqa.d14_ad, 0) +
-                      IFNULL(ddcpua15.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua16.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua17.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua18.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua19.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua20.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua21.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua22.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua23.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua24.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua25.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua26.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua27.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua28.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua29.total_not_custom_directsold_income, 0) +
-                      IFNULL(ddcpua14.total_not_custom_directsold_income, 0)) d30_ad,
+                      IFNULL(ddcpua15.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua16.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua17.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua18.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua19.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua20.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua21.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua22.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua23.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua24.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua25.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua26.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua27.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua28.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua29.total_not_custom_banner_income, 0) +
+                      IFNULL(ddcpua14.total_not_custom_banner_income, 0)) d30_ad,
                      (IFNULL(tduqa.d14_box, 0) +
                       (IFNULL(ddcpuql15.mystery_box_event_ltv, 0) + IFNULL(ddcpuql16.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql17.mystery_box_event_ltv, 0) + IFNULL(ddcpuql18.mystery_box_event_ltv, 0) +
@@ -1156,7 +1156,7 @@
                        IFNULL(ddcpuql25.mystery_box_event_ltv, 0) + IFNULL(ddcpuql26.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql27.mystery_box_event_ltv, 0) + IFNULL(ddcpuql28.mystery_box_event_ltv, 0) +
                        IFNULL(ddcpuql29.mystery_box_event_ltv, 0) + IFNULL(ddcpuql14.mystery_box_event_ltv, 0)) *
-                      0.5)                                                    d30_box,
+                      0.5)                                                d30_box,
                      (IFNULL(tduqa.d14_withdraw, 0) +
                       IFNULL(ddcpuw15.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw16.success_change_amount_fee, 0) + IFNULL(ddcpuw17.success_change_amount_fee, 0) +
@@ -1166,7 +1166,7 @@
                       IFNULL(ddcpuw24.success_change_amount_fee, 0) + IFNULL(ddcpuw25.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw26.success_change_amount_fee, 0) + IFNULL(ddcpuw27.success_change_amount_fee, 0) +
                       IFNULL(ddcpuw28.success_change_amount_fee, 0) + IFNULL(ddcpuw29.success_change_amount_fee, 0) +
-                      IFNULL(ddcpuw14.success_change_amount_fee, 0))          d30_withdraw
+                      IFNULL(ddcpuw14.success_change_amount_fee, 0))      d30_withdraw
               from ads_daily_user_quality_analyse aduqa
                        left join dws_daily_cohort_pkg_advertising ddcpua15
                                  on aduqa.dates = ddcpua15.register_dates and aduqa.pkg = ddcpua15.pkg and
