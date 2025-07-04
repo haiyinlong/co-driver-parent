@@ -97,6 +97,26 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
     /**
      * 用户数
      */
+    private Integer totalNotCustomBannerUserNum;
+
+    /**
+     * 展示次数
+     */
+    private Long totalNotCustomBannerShowCount;
+
+    /**
+     * 广告收入
+     */
+    private BigDecimal totalNotCustomBannerIncome;
+
+    /**
+     * ecpm
+     */
+    private BigDecimal totalNotCustomBannerEcpm;
+
+    /**
+     * 用户数
+     */
     private Integer directsoldUserNum;
 
     /**
@@ -703,6 +723,8 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
     @TableField(exist = false)
     private Set<Long> totalNotCustomDirectsoldUser;
     @TableField(exist = false)
+    private Set<Long> totalNotCustomBannerUser;
+    @TableField(exist = false)
     private Set<Long> directsoldUser;
     @TableField(exist = false)
     private Set<Long> customNetworkUser;
@@ -776,6 +798,10 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
         this.totalNotCustomDirectsoldShowCount = 0L;
         this.totalNotCustomDirectsoldIncome = BigDecimal.ZERO;
         this.totalNotCustomDirectsoldEcpm = BigDecimal.ZERO;
+        this.totalNotCustomBannerUserNum = 0;
+        this.totalNotCustomBannerShowCount = 0L;
+        this.totalNotCustomBannerIncome = BigDecimal.ZERO;
+        this.totalNotCustomBannerEcpm = BigDecimal.ZERO;
         this.directsoldUserNum = 0;
         this.directsoldShowCount = 0L;
         this.directsoldIncome = BigDecimal.ZERO;
@@ -920,6 +946,7 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
         // 计算汇总数据
         handleTotal(dwdUserAdRecord);
         handleTotalNotCustomDirectsold(dwdUserAdRecord);
+        handleTotalNotCustomBanner(dwdUserAdRecord);
         // 根据各个广告类型进行汇总
         handleDirectsold(dwdUserAdRecord);
         handleCustomNetwork(dwdUserAdRecord);
@@ -982,6 +1009,23 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
             BigDecimalUtils.add(this.totalNotCustomDirectsoldIncome, dwdUserAdRecord.getRevenue());
         this.totalNotCustomDirectsoldEcpm =
             this.calculateEcpm(this.totalNotCustomDirectsoldIncome, this.totalNotCustomDirectsoldShowCount);
+    }
+
+    private void handleTotalNotCustomBanner(DwdUserAdRecord dwdUserAdRecord) {
+        if (dwdUserAdRecord.isApplovinDirectsold() || dwdUserAdRecord.isCustomNetworkSdk()
+            || dwdUserAdRecord.isBanner()) {
+            return;
+        }
+        if (CollectionUtils.isEmpty(this.totalNotCustomBannerUser)) {
+            this.totalNotCustomBannerUser = new HashSet<>();
+        }
+        this.totalNotCustomBannerUser.add(dwdUserAdRecord.getUserId());
+        this.totalNotCustomBannerUserNum = this.totalNotCustomBannerUser.size();
+        this.totalNotCustomBannerShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
+        this.totalNotCustomBannerIncome =
+            BigDecimalUtils.add(this.totalNotCustomBannerIncome, dwdUserAdRecord.getRevenue());
+        this.totalNotCustomBannerEcpm =
+            this.calculateEcpm(this.totalNotCustomBannerIncome, this.totalNotCustomBannerShowCount);
     }
 
     private void handleDirectsold(DwdUserAdRecord dwdUserAdRecord) {
