@@ -2,8 +2,7 @@ package com.leo.ad.codriver.dws.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 /**
  * 同期群广告数据
@@ -11,8 +10,7 @@ import lombok.Setter;
  * @TableName dws_daily_cohort_pkg_usrc_advertising
  */
 @TableName(value = "dws_daily_cohort_pkg_usrc_advertising")
-@Getter
-@Setter
+@Data
 public class DwsDailyCohortPkgUsrcAdvertising extends DwsDailyCohortPkgAdvertising {
 
     /**
@@ -20,16 +18,18 @@ public class DwsDailyCohortPkgUsrcAdvertising extends DwsDailyCohortPkgAdvertisi
      */
     private String userSource;
 
-    public DwsDailyCohortPkgUsrcAdvertising(Integer dates, Integer registerDates, String pkg, Integer cohortDay,
-        String userSource) {
-        super(dates, registerDates, pkg, cohortDay);
-        this.userSource = userSource;
+    public DwsDailyCohortPkgUsrcAdvertising() {
+        super();
     }
 
-    public static DwsDailyCohortPkgUsrcAdvertising of(Integer dates, Integer registerDates, Integer registerCohortDay,
+    public static DwsDailyCohortPkgUsrcAdvertising ofPkgUsrc(Integer dates, Integer registerDates, Integer registerDay,
         String pkg, String userSource) {
-        return new DwsDailyCohortPkgUsrcAdvertising(dates, registerDates, pkg, registerCohortDay, userSource);
-
+        DwsDailyCohortPkgUsrcAdvertising dwsDailyCohortPkgUsrcAdvertising = new DwsDailyCohortPkgUsrcAdvertising();
+        dwsDailyCohortPkgUsrcAdvertising.setDates(dates);
+        dwsDailyCohortPkgUsrcAdvertising.setRegisterDates(registerDates);
+        dwsDailyCohortPkgUsrcAdvertising.setCohortDay(registerDay);
+        dwsDailyCohortPkgUsrcAdvertising.setPkg(pkg);
+        dwsDailyCohortPkgUsrcAdvertising.setUserSource(userSource);
+        return dwsDailyCohortPkgUsrcAdvertising;
     }
-
 }

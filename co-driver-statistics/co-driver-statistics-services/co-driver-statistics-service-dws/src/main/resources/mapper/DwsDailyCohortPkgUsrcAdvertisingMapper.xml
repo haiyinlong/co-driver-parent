@@ -22,15 +22,11 @@
         <result property="totalNotCustomDirectsoldIncome" column="total_not_custom_directsold_income"
                 jdbcType="DECIMAL" />
         <result property="totalNotCustomDirectsoldEcpm" column="total_not_custom_directsold_ecpm" jdbcType="DECIMAL" />
-
-        <result property="totalNotCustomBannerUserNum" column="total_not_custom_banner_user_num"
-                jdbcType="INTEGER" />
+        <result property="totalNotCustomBannerUserNum" column="total_not_custom_banner_user_num" jdbcType="INTEGER" />
         <result property="totalNotCustomBannerShowCount" column="total_not_custom_banner_show_count"
                 jdbcType="INTEGER" />
-        <result property="totalNotCustomBannerIncome" column="total_not_custom_banner_income"
-                jdbcType="DECIMAL" />
+        <result property="totalNotCustomBannerIncome" column="total_not_custom_banner_income" jdbcType="DECIMAL" />
         <result property="totalNotCustomBannerEcpm" column="total_not_custom_banner_ecpm" jdbcType="DECIMAL" />
-
         <result property="directsoldUserNum" column="directsold_user_num" jdbcType="INTEGER" />
         <result property="directsoldShowCount" column="directsold_show_count" jdbcType="INTEGER" />
         <result property="directsoldIncome" column="directsold_income" jdbcType="DECIMAL" />
@@ -180,47 +176,48 @@
         total_user_num,total_show_count,total_income,
         total_ecpm,total_not_custom_directsold_user_num,total_not_custom_directsold_show_count,
         total_not_custom_directsold_income,total_not_custom_directsold_ecpm,total_not_custom_banner_user_num,
-        total_not_custom_banner_show_count, total_not_custom_banner_income,total_not_custom_banner_ecpm,
-        directsold_user_num,directsold_show_count,directsold_income,directsold_ecpm,
-        custom_network_user_num,custom_network_show_count,custom_network_income,
-        custom_network_ecpm,custom_directsold_user_num,custom_directsold_show_count,
-        custom_directsold_income,custom_directsold_ecpm,banner_user_num,
-        banner_show_count,banner_income,banner_ecpm,
-        banner_directsold_user_num,banner_directsold_show_count,banner_directsold_income,
-        banner_directsold_ecpm,banner_exchange_user_num,banner_exchange_show_count,
-        banner_exchange_income,banner_exchange_ecpm,banner_network_user_num,
-        banner_network_show_count,banner_network_income,banner_network_ecpm,
-        banner_custom_network_user_num,banner_custom_network_show_count,banner_custom_network_income,
-        banner_custom_network_ecpm,banner_mintegral_bidding_user_num,banner_mintegral_bidding_show_count,
-        banner_mintegral_bidding_income,banner_mintegral_bidding_ecpm,banner_not_custom_directsold_user_num,
-        banner_not_custom_directsold_show_count,banner_not_custom_directsold_income,banner_not_custom_directsold_ecpm,
-        inter_user_num,inter_show_count,inter_income,
-        inter_ecpm,inter_directsold_user_num,inter_directsold_show_count,
-        inter_directsold_income,inter_directsold_ecpm,inter_exchange_user_num,
-        inter_exchange_show_count,inter_exchange_income,inter_exchange_ecpm,
-        inter_network_user_num,inter_network_show_count,inter_network_income,
-        inter_network_ecpm,inter_mintegral_bidding_user_num,inter_mintegral_bidding_show_count,
-        inter_mintegral_bidding_income,inter_mintegral_bidding_ecpm,inter_vungle_bidding_user_num,
-        inter_vungle_bidding_show_count,inter_vungle_bidding_income,inter_vungle_bidding_ecpm,
-        inter_not_custom_directsold_user_num,inter_not_custom_directsold_show_count,inter_not_custom_directsold_income,
-        inter_not_custom_directsold_ecpm,mrec_user_num,mrec_show_count,
-        mrec_income,mrec_ecpm,mrec_directsold_user_num,
-        mrec_directsold_show_count,mrec_directsold_income,mrec_directsold_ecpm,
-        mrec_exchange_user_num,mrec_exchange_show_count,mrec_exchange_income,
-        mrec_exchange_ecpm,mrec_custom_network_user_num,mrec_custom_network_show_count,
-        mrec_custom_network_income,mrec_custom_network_ecpm,mrec_not_custom_directsold_user_num,
-        mrec_not_custom_directsold_show_count,mrec_not_custom_directsold_income,mrec_not_custom_directsold_ecpm,
-        reward_user_num,reward_show_count,reward_income,
-        reward_ecpm,reward_exchange_user_num,reward_exchange_show_count,
-        reward_exchange_income,reward_exchange_ecpm,reward_network_user_num,
-        reward_network_show_count,reward_network_income,reward_network_ecpm,
-        reward_custom_network_user_num,reward_custom_network_show_count,reward_custom_network_income,
-        reward_custom_network_ecpm,reward_facebook_network_user_num,reward_facebook_network_show_count,
-        reward_facebook_network_income,reward_facebook_network_ecpm,reward_mintegral_bidding_user_num,
-        reward_mintegral_bidding_show_count,reward_mintegral_bidding_income,reward_mintegral_bidding_ecpm,
-        reward_vungle_bidding_user_num,reward_vungle_bidding_show_count,reward_vungle_bidding_income,
-        reward_vungle_bidding_ecpm,reward_not_custom_directsold_user_num,reward_not_custom_directsold_show_count,
-        reward_not_custom_directsold_income,reward_not_custom_directsold_ecpm,create_time
+        total_not_custom_banner_show_count,total_not_custom_banner_income,total_not_custom_banner_ecpm,
+        directsold_user_num,directsold_show_count,directsold_income,
+        directsold_ecpm,custom_network_user_num,custom_network_show_count,
+        custom_network_income,custom_network_ecpm,custom_directsold_user_num,
+        custom_directsold_show_count,custom_directsold_income,custom_directsold_ecpm,
+        banner_user_num,banner_show_count,banner_income,
+        banner_ecpm,banner_directsold_user_num,banner_directsold_show_count,
+        banner_directsold_income,banner_directsold_ecpm,banner_exchange_user_num,
+        banner_exchange_show_count,banner_exchange_income,banner_exchange_ecpm,
+        banner_network_user_num,banner_network_show_count,banner_network_income,
+        banner_network_ecpm,banner_custom_network_user_num,banner_custom_network_show_count,
+        banner_custom_network_income,banner_custom_network_ecpm,banner_mintegral_bidding_user_num,
+        banner_mintegral_bidding_show_count,banner_mintegral_bidding_income,banner_mintegral_bidding_ecpm,
+        banner_not_custom_directsold_user_num,banner_not_custom_directsold_show_count,banner_not_custom_directsold_income,
+        banner_not_custom_directsold_ecpm,inter_user_num,inter_show_count,
+        inter_income,inter_ecpm,inter_directsold_user_num,
+        inter_directsold_show_count,inter_directsold_income,inter_directsold_ecpm,
+        inter_exchange_user_num,inter_exchange_show_count,inter_exchange_income,
+        inter_exchange_ecpm,inter_network_user_num,inter_network_show_count,
+        inter_network_income,inter_network_ecpm,inter_mintegral_bidding_user_num,
+        inter_mintegral_bidding_show_count,inter_mintegral_bidding_income,inter_mintegral_bidding_ecpm,
+        inter_vungle_bidding_user_num,inter_vungle_bidding_show_count,inter_vungle_bidding_income,
+        inter_vungle_bidding_ecpm,inter_not_custom_directsold_user_num,inter_not_custom_directsold_show_count,
+        inter_not_custom_directsold_income,inter_not_custom_directsold_ecpm,mrec_user_num,
+        mrec_show_count,mrec_income,mrec_ecpm,
+        mrec_directsold_user_num,mrec_directsold_show_count,mrec_directsold_income,
+        mrec_directsold_ecpm,mrec_exchange_user_num,mrec_exchange_show_count,
+        mrec_exchange_income,mrec_exchange_ecpm,mrec_custom_network_user_num,
+        mrec_custom_network_show_count,mrec_custom_network_income,mrec_custom_network_ecpm,
+        mrec_not_custom_directsold_user_num,mrec_not_custom_directsold_show_count,mrec_not_custom_directsold_income,
+        mrec_not_custom_directsold_ecpm,reward_user_num,reward_show_count,
+        reward_income,reward_ecpm,reward_exchange_user_num,
+        reward_exchange_show_count,reward_exchange_income,reward_exchange_ecpm,
+        reward_network_user_num,reward_network_show_count,reward_network_income,
+        reward_network_ecpm,reward_custom_network_user_num,reward_custom_network_show_count,
+        reward_custom_network_income,reward_custom_network_ecpm,reward_facebook_network_user_num,
+        reward_facebook_network_show_count,reward_facebook_network_income,reward_facebook_network_ecpm,
+        reward_mintegral_bidding_user_num,reward_mintegral_bidding_show_count,reward_mintegral_bidding_income,
+        reward_mintegral_bidding_ecpm,reward_vungle_bidding_user_num,reward_vungle_bidding_show_count,
+        reward_vungle_bidding_income,reward_vungle_bidding_ecpm,reward_not_custom_directsold_user_num,
+        reward_not_custom_directsold_show_count,reward_not_custom_directsold_income,reward_not_custom_directsold_ecpm,
+        create_time
     </sql>
     <select id="queryDbListByDates" resultMap="BaseResultMap">
         select

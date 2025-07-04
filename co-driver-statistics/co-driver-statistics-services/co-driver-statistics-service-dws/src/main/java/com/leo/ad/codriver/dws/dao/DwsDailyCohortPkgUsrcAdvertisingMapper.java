@@ -12,7 +12,7 @@ import com.leo.ad.codriver.dws.entity.DwsDailyCohortPkgUsrcAdvertising;
 /**
  * @author user
  * @description 针对表【dws_daily_cohort_pkg_usrc_advertising(同期群广告数据)】的数据库操作Mapper
- * @createDate 2025-06-26 14:47:24
+ * @createDate 2025-07-04 16:28:23
  * @Entity com.leo.ad.codriver.dws.entity.DwsDailyCohortPkgUsrcAdvertising
  */
 @Mapper

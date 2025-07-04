@@ -50,11 +50,6 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
     private Integer cohortDay;
 
     /**
-     * 用户来源
-     */
-    private String userSource;
-
-    /**
      * 用户数
      */
     private Integer totalUserNum;
@@ -785,13 +780,7 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
     @TableField(exist = false)
     private Set<Long> rewardVungleBiddingUser;
 
-    public DwsDailyCohortPkgAdvertising() {}
-
-    public DwsDailyCohortPkgAdvertising(Integer dates, Integer registerDates, String pkg, Integer cohortDay) {
-        this.dates = dates;
-        this.registerDates = registerDates;
-        this.pkg = pkg;
-        this.cohortDay = cohortDay;
+    public DwsDailyCohortPkgAdvertising() {
         this.totalUserNum = 0;
         this.totalShowCount = 0L;
         this.totalIncome = BigDecimal.ZERO;
@@ -929,7 +918,12 @@ public class DwsDailyCohortPkgAdvertising implements BaseEntity {
 
     public static DwsDailyCohortPkgAdvertising of(Integer dates, Integer registerDates, Integer registerDay,
         String pkg) {
-        return new DwsDailyCohortPkgAdvertising(dates, registerDates, pkg, registerDay);
+        DwsDailyCohortPkgAdvertising dwsDailyCohortPkgAdvertising = new DwsDailyCohortPkgAdvertising();
+        dwsDailyCohortPkgAdvertising.setDates(dates);
+        dwsDailyCohortPkgAdvertising.setRegisterDates(registerDates);
+        dwsDailyCohortPkgAdvertising.setCohortDay(registerDay);
+        dwsDailyCohortPkgAdvertising.setPkg(pkg);
+        return dwsDailyCohortPkgAdvertising;
     }
 
     /**

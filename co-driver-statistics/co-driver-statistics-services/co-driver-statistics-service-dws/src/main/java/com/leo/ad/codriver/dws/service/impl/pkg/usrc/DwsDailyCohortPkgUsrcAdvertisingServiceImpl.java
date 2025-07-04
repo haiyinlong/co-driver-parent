@@ -92,8 +92,9 @@ public class DwsDailyCohortPkgUsrcAdvertisingServiceImpl implements DwsService {
                 // 获取唯一key
                 String uniqueKey = uniqueKey(dwdUserAdRecord);
                 DwsDailyCohortPkgUsrcAdvertising ad = cohortPkgUsrcAdMap.getOrDefault(uniqueKey,
-                    DwsDailyCohortPkgUsrcAdvertising.of(dwdUserAdRecord.getDates(), dwdUserAdRecord.getRegisterDates(),
-                        dwdUserAdRecord.getRegisterDay(), dwdUserAdRecord.getPkg(), dwdUserAdRecord.getUserSource()));
+                    DwsDailyCohortPkgUsrcAdvertising.ofPkgUsrc(dwdUserAdRecord.getDates(),
+                        dwdUserAdRecord.getRegisterDates(), dwdUserAdRecord.getRegisterDay(), dwdUserAdRecord.getPkg(),
+                        dwdUserAdRecord.getUserSource()));
                 // 缓存各个统计维度的用户数量
                 ad.calculate(dwdUserAdRecord);
                 cohortPkgUsrcAdMap.put(uniqueKey, ad);
