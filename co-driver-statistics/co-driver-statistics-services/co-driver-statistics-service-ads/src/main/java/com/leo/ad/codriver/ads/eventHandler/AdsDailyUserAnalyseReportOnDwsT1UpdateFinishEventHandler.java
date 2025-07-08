@@ -8,6 +8,7 @@ import com.leo.ad.codriver.ads.service.AdsService;
 import com.leo.ad.codriver.common.event.CoDriverDwEvent;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.event.DwsDailyPkgCohortAdvertisingUpdateDwEvent;
+import com.leo.ad.codriver.dws.event.DwsDailyPromotionUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsUpdateFinishEvent;
 
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,8 @@ public class AdsDailyUserAnalyseReportOnDwsT1UpdateFinishEventHandler {
     @EventListener
     @Async("asyncServiceExecutor")
     public void syncDailyUserAnalyseReport(CoDriverDwEvent event) {
-        if (event instanceof DwsDailyPkgCohortAdvertisingUpdateDwEvent || event instanceof DwsUpdateFinishEvent) {
+        if (event instanceof DwsDailyPkgCohortAdvertisingUpdateDwEvent || event instanceof DwsUpdateFinishEvent
+            || event instanceof DwsDailyPromotionUpdateDwEvent) {
             Integer dates;
             Integer updateFinishEventDates = event.getDates();
             for (int i = 0; i <= 31; i++) {
