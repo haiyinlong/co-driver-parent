@@ -1,5 +1,7 @@
 package com.leo.ad.codriver.dwd.consumer;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
@@ -27,10 +29,14 @@ public class DwdPromotionRecordConsumer {
         autoStartup = "${co-driver.rabbitmq.listener.data_change_queue.enable:true}")
     public void notifyDataChange(String dataChangeMsg) {
         DataChangeDTO dataChangeDTO = JSONObject.parseObject(dataChangeMsg, DataChangeDTO.class);
-        log.info("推广花费数据通过mq接收到：{}", dataChangeDTO);
+        log.info("推广花费数据通过mq接收到：{}, 预计2分钟后执行", dataChangeDTO);
+        // 防止CDC没有同步结束，休息2分钟再执行。
         if (PROMOTE.equalsIgnoreCase(dataChangeDTO.getChangeType())) {
             try {
+                TimeUnit.MINUTES.sleep(2L);
                 dwdPromotionRecordServiceImpl.syncData(dataChangeDTO.getDates());
+            } catch (InterruptedException e) {
+                log.error("sync  dwdPromotionRecordServiceImpl 休息2分钟异常 error", e);
             } catch (Exception e) {
                 log.error("sync  dwdPromotionRecordServiceImpl data error", e);
             }
