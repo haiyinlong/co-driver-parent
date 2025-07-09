@@ -45,6 +45,16 @@
                ddpul.user_num                                                               ad_reward_arpu_dau,
                (IFNULL(ddpuqlr.active_event_ltv, 0) + IFNULL(ddpuqlb.active_event_ltv, 0)) * 0.5 /
                ddpul.user_num                                                               payment_arpu_dau,
+               IFNULL(ddpua.reward_not_custom_directsold_user_num,
+                      0)                                                                    reward_dau_not_custom_directsold_user_num,
+               IFNULL(ddpua.reward_not_custom_directsold_show_count,
+                      0)                                                                    reward_dau_not_custom_directsold_show_count,
+               IFNULL(ddpua.reward_not_custom_directsold_income,
+                      0)                                                                    reward_dau_not_custom_directsold_income,
+               IFNULL(ddpua.total_not_custom_banner_income,
+                      0)                                                                    total_dau_not_custom_banner_income,
+
+               IFNULL(ddpus.total_user_num, 0)                                              share_user_num,
                IFNULL(ddcpua.reward_not_custom_directsold_user_num,
                       0)                                                                    reward_not_custom_directsold_user_num,
                IFNULL(ddcpua.reward_not_custom_directsold_show_count,
@@ -690,6 +700,16 @@
                ddpul.user_num                                                               ad_reward_arpu_dau,
                (IFNULL(ddpuqlr.active_event_ltv, 0) + IFNULL(ddpuqlb.active_event_ltv, 0)) * 0.5 /
                ddpul.user_num                                                               payment_arpu_dau,
+               IFNULL(ddpua.reward_not_custom_directsold_user_num,
+                      0)                                                                    reward_dau_not_custom_directsold_user_num,
+               IFNULL(ddpua.reward_not_custom_directsold_show_count,
+                      0)                                                                    reward_dau_not_custom_directsold_show_count,
+               IFNULL(ddpua.reward_not_custom_directsold_income,
+                      0)                                                                    reward_dau_not_custom_directsold_income,
+               IFNULL(ddpua.total_not_custom_banner_income,
+                      0)                                                                    total_dau_not_custom_banner_income,
+
+               IFNULL(ddpus.total_user_num, 0)                                              share_user_num,
                IFNULL(ddcpua.reward_not_custom_directsold_user_num,
                       0)                                                                    reward_not_custom_directsold_user_num,
                IFNULL(ddcpua.reward_not_custom_directsold_show_count,

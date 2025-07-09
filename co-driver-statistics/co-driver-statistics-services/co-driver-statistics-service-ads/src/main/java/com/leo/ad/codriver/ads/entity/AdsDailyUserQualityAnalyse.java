@@ -261,7 +261,11 @@ public class AdsDailyUserQualityAnalyse implements BaseEntity {
     private BigDecimal paymentEventLtv;
     private BigDecimal paymentDauEventLtv;
     private Long conversionUserNum;
-
+    private Long rewardDauNotCustomDirectsoldUserNum;
+    private Long rewardDauNotCustomDirectsoldShowCount;
+    private BigDecimal rewardDauNotCustomDirectsoldIncome;
+    private BigDecimal totalDauNotCustomBannerIncome;
+    private Long shareUserNum;
     /**
      * 创建时间
      */
