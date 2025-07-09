@@ -233,6 +233,35 @@ public class AdsDailyUserQualityAnalyse implements BaseEntity {
      */
     private BigDecimal ltv30;
 
+    private BigDecimal d1Ad;
+    private BigDecimal d3Ad;
+    private BigDecimal d7Ad;
+    private BigDecimal d14Ad;
+    private BigDecimal d30Ad;
+    private BigDecimal d1Box;
+    private BigDecimal d3Box;
+    private BigDecimal d7Box;
+    private BigDecimal d14Box;
+    private BigDecimal d30Box;
+    private BigDecimal d1Withdraw;
+    private BigDecimal d3Withdraw;
+    private BigDecimal d7Withdraw;
+    private BigDecimal d14Withdraw;
+    private BigDecimal d30Withdraw;
+
+    /**
+     *
+     */
+    private Long rewardNotCustomDirectsoldUserNum;
+    private Long rewardNotCustomDirectsoldShowCount;
+    private BigDecimal rewardNotCustomDirectsoldIncome;
+    private BigDecimal totalNotCustomBannerIncome;
+    private Long newUserOnlineTime;
+    private Long paymentUserNum;
+    private BigDecimal paymentEventLtv;
+    private BigDecimal paymentDauEventLtv;
+    private Long conversionUserNum;
+
     /**
      * 创建时间
      */
@@ -263,6 +292,21 @@ public class AdsDailyUserQualityAnalyse implements BaseEntity {
         this.ltv7 = BigDecimal.ZERO;
         this.ltv14 = BigDecimal.ZERO;
         this.ltv30 = BigDecimal.ZERO;
+        this.d1Ad = BigDecimal.ZERO;
+        this.d3Ad = BigDecimal.ZERO;
+        this.d7Ad = BigDecimal.ZERO;
+        this.d14Ad = BigDecimal.ZERO;
+        this.d30Ad = BigDecimal.ZERO;
+        this.d1Box = BigDecimal.ZERO;
+        this.d3Box = BigDecimal.ZERO;
+        this.d7Box = BigDecimal.ZERO;
+        this.d14Box = BigDecimal.ZERO;
+        this.d30Box = BigDecimal.ZERO;
+        this.d1Withdraw = BigDecimal.ZERO;
+        this.d3Withdraw = BigDecimal.ZERO;
+        this.d7Withdraw = BigDecimal.ZERO;
+        this.d14Withdraw = BigDecimal.ZERO;
+        this.d30Withdraw = BigDecimal.ZERO;
     }
 
     public void updateDay1Day3Day7(TempDailyUserQualityAnalyse tempDailyUserQualityAnalyse) {
@@ -278,6 +322,15 @@ public class AdsDailyUserQualityAnalyse implements BaseEntity {
         this.ltv1 = tempDailyUserQualityAnalyse.getLtv1();
         this.ltv3 = tempDailyUserQualityAnalyse.getLtv3();
         this.ltv7 = tempDailyUserQualityAnalyse.getLtv7();
+        this.d1Ad = tempDailyUserQualityAnalyse.getD1Ad();
+        this.d3Ad = tempDailyUserQualityAnalyse.getD3Ad();
+        this.d7Ad = tempDailyUserQualityAnalyse.getD7Ad();
+        this.d1Box = tempDailyUserQualityAnalyse.getD1Box();
+        this.d3Box = tempDailyUserQualityAnalyse.getD3Box();
+        this.d7Box = tempDailyUserQualityAnalyse.getD7Box();
+        this.d1Withdraw = tempDailyUserQualityAnalyse.getD1Withdraw();
+        this.d3Withdraw = tempDailyUserQualityAnalyse.getD3Withdraw();
+        this.d7Withdraw = tempDailyUserQualityAnalyse.getD7Withdraw();
     }
 
     public void updateDay14(TempDailyUserQualityAnalyse tempDailyUserQualityAnalyse) {
@@ -285,11 +338,17 @@ public class AdsDailyUserQualityAnalyse implements BaseEntity {
         this.adBoxD14Roi = tempDailyUserQualityAnalyse.getAdBoxD14Roi();
         this.adD14Roi = tempDailyUserQualityAnalyse.getAdD14Roi();
         this.ltv14 = tempDailyUserQualityAnalyse.getLtv14();
+        this.d14Ad = tempDailyUserQualityAnalyse.getD14Ad();
+        this.d14Box = tempDailyUserQualityAnalyse.getD14Box();
+        this.d14Withdraw = tempDailyUserQualityAnalyse.getD14Withdraw();
     }
 
     public void updateDay30(TempDailyUserQualityAnalyse tempDailyUserQualityAnalyse) {
         this.boxD30Roi = tempDailyUserQualityAnalyse.getBoxD30Roi();
         this.adBoxD30Roi = tempDailyUserQualityAnalyse.getAdBoxD30Roi();
         this.adD30Roi = tempDailyUserQualityAnalyse.getAdD30Roi();
+        this.d30Ad = tempDailyUserQualityAnalyse.getD30Ad();
+        this.d30Box = tempDailyUserQualityAnalyse.getD30Box();
+        this.d30Withdraw = tempDailyUserQualityAnalyse.getD30Withdraw();
     }
 }

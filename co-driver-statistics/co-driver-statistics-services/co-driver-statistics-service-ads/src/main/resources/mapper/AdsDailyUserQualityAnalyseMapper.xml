@@ -4,70 +4,6 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyUserQualityAnalyseMapper">
 
-    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.ads.entity.AdsDailyUserQualityAnalyse">
-        <id property="id" column="id" jdbcType="BIGINT" />
-        <result property="dates" column="dates" jdbcType="INTEGER" />
-        <result property="pkg" column="pkg" jdbcType="VARCHAR" />
-        <result property="userSource" column="user_source" jdbcType="VARCHAR" />
-        <result property="activityUserNum" column="activity_user_num" jdbcType="BIGINT" />
-        <result property="newUserNum" column="new_user_num" jdbcType="BIGINT" />
-        <result property="dollarCost" column="dollar_cost" jdbcType="DECIMAL" />
-        <result property="cpi" column="cpi" jdbcType="DECIMAL" />
-        <result property="secondDayUserNum" column="second_day_user_num" jdbcType="BIGINT" />
-        <result property="thirdDayUserNum" column="third_day_user_num" jdbcType="BIGINT" />
-        <result property="gameOnlineTime" column="game_online_time" jdbcType="DECIMAL" />
-        <result property="adRewardRate" column="ad_reward_rate" jdbcType="DECIMAL" />
-        <result property="adRewardAvgShowNum" column="ad_reward_avg_show_num" jdbcType="DECIMAL" />
-        <result property="adRewardEcpm" column="ad_reward_ecpm" jdbcType="DECIMAL" />
-        <result property="adRewardArpu" column="ad_reward_arpu" jdbcType="DECIMAL" />
-        <result property="conversionRate" column="conversion_rate" jdbcType="DECIMAL" />
-        <result property="paymentRate" column="payment_rate" jdbcType="DECIMAL" />
-        <result property="paymentArpu" column="payment_arpu" jdbcType="DECIMAL" />
-        <result property="adRewardAvgShowNumDau" column="ad_reward_avg_show_num_dau" jdbcType="DECIMAL" />
-        <result property="adRewardEcpmDau" column="ad_reward_ecpm_dau" jdbcType="DECIMAL" />
-        <result property="shareRate" column="share_rate" jdbcType="DECIMAL" />
-        <result property="adRewardArpuDau" column="ad_reward_arpu_dau" jdbcType="DECIMAL" />
-        <result property="paymentArpuDau" column="payment_arpu_dau" jdbcType="DECIMAL" />
-        <result property="adBoxD1Roi" column="ad_box_d1_roi" jdbcType="DECIMAL" />
-        <result property="adBoxD3Roi" column="ad_box_d3_roi" jdbcType="DECIMAL" />
-        <result property="adBoxD7Roi" column="ad_box_d7_roi" jdbcType="DECIMAL" />
-        <result property="adBoxD14Roi" column="ad_box_d14_roi" jdbcType="DECIMAL" />
-        <result property="adBoxD30Roi" column="ad_box_d30_roi" jdbcType="DECIMAL" />
-        <result property="adD1Roi" column="ad_d1_roi" jdbcType="DECIMAL" />
-        <result property="adD3Roi" column="ad_d3_roi" jdbcType="DECIMAL" />
-        <result property="adD7Roi" column="ad_d7_roi" jdbcType="DECIMAL" />
-        <result property="adD14Roi" column="ad_d14_roi" jdbcType="DECIMAL" />
-        <result property="adD30Roi" column="ad_d30_roi" jdbcType="DECIMAL" />
-        <result property="boxD1Roi" column="box_d1_roi" jdbcType="DECIMAL" />
-        <result property="boxD3Roi" column="box_d3_roi" jdbcType="DECIMAL" />
-        <result property="boxD7Roi" column="box_d7_roi" jdbcType="DECIMAL" />
-        <result property="boxD14Roi" column="box_d14_roi" jdbcType="DECIMAL" />
-        <result property="boxD30Roi" column="box_d30_roi" jdbcType="DECIMAL" />
-        <result property="ltv1" column="ltv1" jdbcType="DECIMAL" />
-        <result property="ltv3" column="ltv3" jdbcType="DECIMAL" />
-        <result property="ltv7" column="ltv7" jdbcType="DECIMAL" />
-        <result property="ltv14" column="ltv14" jdbcType="DECIMAL" />
-        <result property="ltv30" column="ltv30" jdbcType="DECIMAL" />
-        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
-    </resultMap>
-
-    <sql id="Base_Column_List">
-        id,dates,pkg,
-        user_source,activity_user_num,new_user_num,
-        dollar_cost,cpi,second_day_user_num,
-        third_day_user_num,game_online_time,ad_reward_rate,
-        ad_reward_avg_show_num,ad_reward_ecpm,ad_reward_arpu,
-        conversion_rate,payment_rate,payment_arpu,
-        ad_reward_avg_show_num_dau,ad_reward_ecpm_dau,share_rate,
-        ad_reward_arpu_dau,payment_arpu_dau,ad_box_d1_roi,
-        ad_box_d3_roi,ad_box_d7_roi,ad_box_d14_roi,
-        ad_box_d30_roi,ad_d1_roi,ad_d3_roi,
-        ad_d7_roi,ad_d14_roi,ad_d30_roi,
-        box_d1_roi,box_d3_roi,box_d7_roi,
-        box_d14_roi,box_d30_roi,ltv1,
-        ltv3,ltv7,ltv14,
-        ltv30,create_time
-    </sql>
     <select id="queryCohortUserAnalysePkgUsrcReportList"
             resultType="com.leo.ad.codriver.ads.entity.AdsDailyUserQualityAnalyse">
         select aduqa.id,
@@ -98,7 +34,6 @@
                   IFNULL(ddcpuql.total_user_num / IFNULL(ddcpucb.user_num, 0), 0))          payment_rate,
                IF(IFNULL(ddpur.user_num, 0) = 0, 0,
                   IFNULL(ddcpuql.total_event_ltv * 0.5 / ddpur.user_num, 0))                payment_arpu,
-               # 活跃用户
                IFNULL(ddpua.reward_not_custom_directsold_show_count, 0) /
                ddpul.user_num                                                               ad_reward_avg_show_num_dau,
                IF(IFNULL(ddpua.reward_not_custom_directsold_show_count, 0) = 0, 0,
@@ -109,7 +44,20 @@
                IFNULL(ddpua.total_not_custom_banner_income, 0) /
                ddpul.user_num                                                               ad_reward_arpu_dau,
                (IFNULL(ddpuqlr.active_event_ltv, 0) + IFNULL(ddpuqlb.active_event_ltv, 0)) * 0.5 /
-               ddpul.user_num                                                               payment_arpu_dau
+               ddpul.user_num                                                               payment_arpu_dau,
+               IFNULL(ddcpua.reward_not_custom_directsold_user_num,
+                      0)                                                                    reward_not_custom_directsold_user_num,
+               IFNULL(ddcpua.reward_not_custom_directsold_show_count,
+                      0)                                                                    reward_not_custom_directsold_show_count,
+               IFNULL(ddcpua.reward_not_custom_directsold_income,
+                      0)                                                                    reward_not_custom_directsold_income,
+               IFNULL(ddcpua.total_not_custom_banner_income,
+                      0)                                                                    total_not_custom_banner_income,
+               IFNULL(ddcpuo.new_user_online_time, 0)                                       new_user_online_time,
+               IFNULL(ddcpuql.total_user_num, 0)                                            payment_user_num,
+               IFNULL(ddcpuql.total_event_ltv, 0)                                           payment_event_ltv,
+               (IFNULL(ddpuqlr.active_event_ltv, 0) + IFNULL(ddpuqlb.active_event_ltv, 0))  payment_dau_event_ltv,
+               IFNULL(ddcpucb.user_num, 0)                                                  conversion_user_num
         from dws_daily_pkg_usrc_login ddpul
                  left join dws_daily_pkg_usrc_register ddpur on ddpur.dates = ddpul.dates and ddpur.pkg = ddpul.pkg and
                                                                 ddpur.user_source = ddpul.user_source
@@ -177,7 +125,11 @@
                ROUND(IF(t.new_user_num = 0, 0, (t.d1_ad + t.d1_box) / t.new_user_num), 4)               ltv1,
                ROUND(IF(t.new_user_num = 0, 0, (t.d3_ad + t.d3_box) / t.new_user_num), 4)               ltv3,
                ROUND(IF(t.new_user_num = 0, 0, (t.d7_ad + t.d7_box) / t.new_user_num), 4)               ltv7
-        from (select aduqa.*,
+        from (select aduqa.dates,
+                     aduqa.pkg,
+                     aduqa.user_source,
+                     aduqa.dollar_cost,
+                     aduqa.new_user_num,
                      IFNULL(ddcpua.total_not_custom_banner_income, 0)    d1_ad,
                      (IFNULL(ddcpuql.mystery_box_event_ltv, 0) *
                       0.5)                                               d1_box,
@@ -737,7 +689,20 @@
                IFNULL(ddpua.total_not_custom_banner_income, 0) /
                ddpul.user_num                                                               ad_reward_arpu_dau,
                (IFNULL(ddpuqlr.active_event_ltv, 0) + IFNULL(ddpuqlb.active_event_ltv, 0)) * 0.5 /
-               ddpul.user_num                                                               payment_arpu_dau
+               ddpul.user_num                                                               payment_arpu_dau,
+               IFNULL(ddcpua.reward_not_custom_directsold_user_num,
+                      0)                                                                    reward_not_custom_directsold_user_num,
+               IFNULL(ddcpua.reward_not_custom_directsold_show_count,
+                      0)                                                                    reward_not_custom_directsold_show_count,
+               IFNULL(ddcpua.reward_not_custom_directsold_income,
+                      0)                                                                    reward_not_custom_directsold_income,
+               IFNULL(ddcpua.total_not_custom_banner_income,
+                      0)                                                                    total_not_custom_banner_income,
+               IFNULL(ddcpuo.new_user_online_time, 0)                                       new_user_online_time,
+               IFNULL(ddcpuql.total_user_num, 0)                                            payment_user_num,
+               IFNULL(ddcpuql.total_event_ltv, 0)                                           payment_event_ltv,
+               (IFNULL(ddpuqlr.active_event_ltv, 0) + IFNULL(ddpuqlb.active_event_ltv, 0))  payment_dau_event_ltv,
+               IFNULL(ddcpucb.user_num, 0)                                                  conversion_user_num
         from dws_daily_pkg_login ddpul
                  left join dws_daily_pkg_register ddpur on ddpur.dates = ddpul.dates and ddpur.pkg = ddpul.pkg
                  left join dws_daily_pkg_retention ddpurnd
@@ -796,7 +761,11 @@
                ROUND(IF(t.new_user_num = 0, 0, (t.d1_ad + t.d1_box) / t.new_user_num), 4)               ltv1,
                ROUND(IF(t.new_user_num = 0, 0, (t.d3_ad + t.d3_box) / t.new_user_num), 4)               ltv3,
                ROUND(IF(t.new_user_num = 0, 0, (t.d7_ad + t.d7_box) / t.new_user_num), 4)               ltv7
-        from (select aduqa.*,
+        from (select aduqa.dates,
+                     aduqa.pkg,
+                     aduqa.user_source,
+                     aduqa.dollar_cost,
+                     aduqa.new_user_num,
                      IFNULL(ddcpua.total_not_custom_banner_income, 0)    d1_ad,
                      (IFNULL(ddcpuql.mystery_box_event_ltv, 0) *
                       0.5)                                               d1_box,
