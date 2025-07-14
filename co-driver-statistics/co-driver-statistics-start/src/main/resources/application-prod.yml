@@ -82,6 +82,8 @@ co-driver:
     listener:
       data_change_queue:
         enable: true
+      ods_user_version_change_queue:
+        enable: true
       ods_user_change_queue:
         enable: true
       ods_user_config_group_queue:

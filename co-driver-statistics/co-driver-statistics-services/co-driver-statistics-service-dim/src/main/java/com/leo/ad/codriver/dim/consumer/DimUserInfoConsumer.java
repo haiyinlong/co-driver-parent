@@ -1,7 +1,5 @@
 package com.leo.ad.codriver.dim.consumer;
 
-import java.util.concurrent.TimeUnit;
-
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
@@ -30,17 +28,25 @@ public class DimUserInfoConsumer {
         if (ObjectUtils.isEmpty(odsUserChangeMsg)) {
             return;
         }
-        // 休息10秒，保证CDC数据已经落库同步完成
         try {
-            TimeUnit.SECONDS.sleep(20L);
             JSONObject odsUserChangeJson = JSONObject.parseObject(odsUserChangeMsg);
             dimUserInfoService.syncUserInfo(odsUserChangeJson.getString("id"));
-        } catch (InterruptedException e) {
-            log.error("dim_user数据同步 sleep 异常: {}", e.getMessage());
-            throw new RuntimeException(e);
         } catch (Exception e) {
-            log.error("syncUserInfo error: {}", e.getMessage());
+            log.error("syncUserInfo error with ods_user: {}", e.getMessage());
         }
     }
 
+    @RabbitListener(queues = {"ods_user_version_change"},
+        autoStartup = "${co-driver.rabbitmq.listener.ods_user_version_change_queue.enable:true}", concurrency = "4")
+    public void notifyOdsUserVersionDataChange(String odsUserVersionChangeMsg) {
+        if (ObjectUtils.isEmpty(odsUserVersionChangeMsg)) {
+            return;
+        }
+        try {
+            JSONObject odsUserChangeJson = JSONObject.parseObject(odsUserVersionChangeMsg);
+            dimUserInfoService.syncUserInfo(odsUserChangeJson.getString("user_id"));
+        } catch (Exception e) {
+            log.error("syncUserInfo error with ods_user_version: {}", e.getMessage());
+        }
+    }
 }
