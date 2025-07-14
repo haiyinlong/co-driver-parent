@@ -32,7 +32,7 @@ public class DwdT1DataUpdateScheduler {
     private final List<DimService> dimServices;
     private final ApplicationEventPublisher publisher;
 
-    @Scheduled(cron = "10 0 0 * * ?")
+    @Scheduled(cron = "30 0 0 * * ?")
     @Async("asyncServiceExecutor")
     public void syncAllTask() {
         Integer dates = DateUtils.getPreviousDate();
