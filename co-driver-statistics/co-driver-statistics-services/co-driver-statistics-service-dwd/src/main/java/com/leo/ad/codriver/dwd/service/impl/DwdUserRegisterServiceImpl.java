@@ -55,9 +55,6 @@ public class DwdUserRegisterServiceImpl implements DwdService {
             if (CollectionUtils.isEmpty(registerList)) {
                 continue;
             }
-            // 转化数据，入库
-            registerList =
-                registerList.stream().filter(registerItem -> ObjectUtils.isEmpty(registerItem.getId())).toList();
             batchMapper.batchInsert(registerList, DwdUserRegisterMapper.class);
         }
         return true;
