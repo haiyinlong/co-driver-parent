@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import com.leo.ad.codriver.common.ExchangeRate;
@@ -36,7 +35,6 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
 
     @Override
     @ShowExecuteTime(name = "dwdPromotionRecord syncData")
-    @Transactional(rollbackFor = Exception.class)
     @AutoPushEventWithTrue(events = {DwdPromotionRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
