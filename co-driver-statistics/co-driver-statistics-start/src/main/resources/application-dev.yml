@@ -36,11 +36,11 @@ co-driver:
     virtualHost: /devhost
     listener:
       data_change_queue:
-        enable: true
+        enable: false
       ods_user_version_change_queue:
-        enable: true
+        enable: false
       ods_user_change_queue:
-        enable: true
+        enable: false
       ods_user_config_group_queue:
         enable: false
       ods_game_user_queue:
