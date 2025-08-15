@@ -1,5 +1,7 @@
 package com.leo.ad.codriver.dws.eventHandler;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -36,7 +38,13 @@ public class DwdPromotionRecordUpdateDwEventHandler {
     @Async
     public void handleEvent(DwdPromotionRecordUpdateDwEvent dwdPromotionRecordUpdateEvent) {
         Integer dates = dwdPromotionRecordUpdateEvent.getDates();
-        log.info("{} 事件触发 DwdPromotionRecordUpdateDwEventHandler", dates);
+        try {
+            TimeUnit.SECONDS.sleep(30);
+            log.info("{} 事件触发 DwdPromotionRecordUpdateDwEventHandler", dates);
+        } catch (InterruptedException e) {
+            log.info(" {} 推广花费事件，延迟30秒处理", dates);
+            throw new RuntimeException(e);
+        }
         try {
             dwsDailyPkgUsrcInvestedServiceImpl.syncData(dates);
         } catch (Exception e) {

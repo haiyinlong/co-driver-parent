@@ -41,7 +41,7 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
         try {
             TimeUnit.MINUTES.sleep(2);
         } catch (InterruptedException e) {
-            log.info(" {} 推广花费数据，是否延迟2分钟处理", dates);
+            log.info(" {} 推广花费数据，延迟2分钟处理", dates);
             throw new RuntimeException(e);
         }
         dwdPromotionRecordMapper.deleteByDate(dates);
