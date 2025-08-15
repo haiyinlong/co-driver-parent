@@ -1,10 +1,9 @@
 package com.leo.ad.codriver.dws.eventHandler;
 
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.event.TransactionPhase;
-import org.springframework.transaction.event.TransactionalEventListener;
 
 import com.leo.ad.codriver.dwd.event.DwdPromotionRecordUpdateDwEvent;
 import com.leo.ad.codriver.dws.event.DwsDailyPromotionUpdateDwEvent;
@@ -33,7 +32,7 @@ public class DwdPromotionRecordUpdateDwEventHandler {
     private final DwsService dwsDailyPkgInvestedServiceImpl;
     private final ApplicationEventPublisher applicationEventPublisher;
 
-    @TransactionalEventListener(phase = TransactionPhase.AFTER_COMMIT)
+    @EventListener()
     @Async
     public void handleEvent(DwdPromotionRecordUpdateDwEvent dwdPromotionRecordUpdateEvent) {
         Integer dates = dwdPromotionRecordUpdateEvent.getDates();
