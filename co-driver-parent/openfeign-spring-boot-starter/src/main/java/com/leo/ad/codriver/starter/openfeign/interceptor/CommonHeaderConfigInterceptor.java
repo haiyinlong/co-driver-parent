@@ -1,4 +1,4 @@
-package com.leo.ad.codriver.starter.openfeign;
+package com.leo.ad.codriver.starter.openfeign.interceptor;
 
 import java.util.Arrays;
 import java.util.List;
@@ -13,13 +13,13 @@ import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
 
 /**
- * FeignConfiguration
+ * CommonHeaderConfigInterceptor
  *
  * @author HaiYinLong
  * @version 2024/06/03 15:28
  **/
 @Configuration
-public class FeignConfiguration implements RequestInterceptor {
+public class CommonHeaderConfigInterceptor implements RequestInterceptor {
     private static final List<String> FEIGN_HEADERS = Arrays.asList("token", "pkg", "pvc", "svc", "userId");
 
     @Override

@@ -8,10 +8,11 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>openfeign-spring-boot-starter</artifactId>
+    <artifactId>secret-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
 
-    <name>openfeign-spring-boot-starter</name>
+    <name>secret-spring-boot-starter</name>
+    <url>http://maven.apache.org</url>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -22,20 +23,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.leo.ad</groupId>
-            <artifactId>secret-spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 </project>

@@ -5,7 +5,7 @@
 
     <groupId>com.leo.ad</groupId>
     <artifactId>co-driver-parent</artifactId>
-    <version>1.0.13</version>
+    <version>1.0.14</version>
     <packaging>pom</packaging>
     <modules>
         <module>mysql-spring-boot-starter</module>
@@ -17,9 +17,10 @@
         <module>web-spring-boot-starter</module>
         <module>gateway-spring-boot-starter</module>
         <module>redis-exception-spring-boot-starter</module>
+        <module>secret-spring-boot-starter</module>
     </modules>
     <properties>
-        <co-driver.version>1.0.13</co-driver.version>
+        <co-driver.version>1.0.14</co-driver.version>
         <java.version>17</java.version>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
@@ -74,6 +75,11 @@
             <dependency>
                 <groupId>com.leo.ad</groupId>
                 <artifactId>nacos-spring-boot-starter</artifactId>
+                <version>${co-driver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.leo.ad</groupId>
+                <artifactId>secret-spring-boot-starter</artifactId>
                 <version>${co-driver.version}</version>
             </dependency>
             <dependency>

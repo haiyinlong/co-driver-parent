@@ -1,1 +1,3 @@
-com.leo.ad.codriver.starter.openfeign.FeignConfiguration
+com.leo.ad.codriver.starter.openfeign.signature.config.SignatureConfigProperties
+com.leo.ad.codriver.starter.openfeign.interceptor.CommonHeaderConfigInterceptor
+com.leo.ad.codriver.starter.openfeign.interceptor.MultiConfigSignatureInterceptor

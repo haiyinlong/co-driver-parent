@@ -4,7 +4,7 @@
     <parent>
         <groupId>com.leo.ad</groupId>
         <artifactId>co-driver-parent</artifactId>
-        <version>1.0.13</version>
+        <version>1.0.14</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -33,6 +33,10 @@
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.leo.ad</groupId>
+            <artifactId>secret-spring-boot-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
