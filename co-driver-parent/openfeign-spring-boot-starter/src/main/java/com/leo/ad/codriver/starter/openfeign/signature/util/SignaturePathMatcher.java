@@ -1,11 +1,11 @@
 package com.leo.ad.codriver.starter.openfeign.signature.util;
+
 /**
  * SignaturePathMatcher
+ *
  * @author HaiYinLong
  * @version 2025/09/08 16:00
-**/
-
-import java.util.Map;
+ **/
 
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -19,23 +19,22 @@ public class SignaturePathMatcher {
     /**
      * 根据请求路径匹配对应的签名配置
      */
-    public static SignatureConfigProperties.SignatureCredentials matchCredentials(
-            String path,
-            SignatureConfigProperties configProperties) {
-
+    public static SignatureConfigProperties.SignatureCredentials matchCredentials(String path,
+        SignatureConfigProperties configProperties) {
         // 精确匹配
-        if (configProperties.getPathCredentials().containsKey(path)) {
-            return configProperties.getPathCredentials().get(path);
+        SignatureConfigProperties.SignatureCredentials signatureCredentials = configProperties.getPathCredentials()
+            .stream().filter(credentials -> credentials.getPath().equals(path)).findFirst().orElse(null);
+
+        if (null != signatureCredentials) {
+            return signatureCredentials;
         }
 
         // Ant 路径模式匹配
-        for (Map.Entry<String, SignatureConfigProperties.SignatureCredentials> entry :
-                configProperties.getPathCredentials().entrySet()) {
-            if (PATH_MATCHER.match(entry.getKey(), path)) {
-                return entry.getValue();
-            }
+        signatureCredentials = configProperties.getPathCredentials().stream()
+            .filter(credentials -> PATH_MATCHER.match(credentials.getPath(), path)).findFirst().orElse(null);
+        if (null != signatureCredentials) {
+            return signatureCredentials;
         }
-
         // 返回默认配置
         return configProperties.getDefaultCredentials();
     }

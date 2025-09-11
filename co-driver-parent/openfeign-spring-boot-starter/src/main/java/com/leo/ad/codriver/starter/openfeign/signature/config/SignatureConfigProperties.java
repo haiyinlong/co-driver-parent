@@ -1,16 +1,17 @@
 package com.leo.ad.codriver.starter.openfeign.signature.config;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
  * SignatureConfigProperties
+ *
  * @author HaiYinLong
  * @version 2025/09/08 15:58
-**/
+ **/
 @Component
 @ConfigurationProperties(prefix = "one-net.openfeign.signature")
 public class SignatureConfigProperties {
@@ -21,10 +22,9 @@ public class SignatureConfigProperties {
     private SignatureCredentials defaultCredentials = new SignatureCredentials();
 
     /**
-     * 按路径配置的 API Key 和 Secret
-     * key: 路径模式, value: 凭证信息
+     * 按路径配置的 API Key 和 Secret key: 路径模式, value: 凭证信息
      */
-    private Map<String, SignatureCredentials> pathCredentials = new HashMap<>();
+    private List<SignatureCredentials> pathCredentials = new ArrayList<>();
 
     public SignatureCredentials getDefaultCredentials() {
         return defaultCredentials;
@@ -34,18 +34,27 @@ public class SignatureConfigProperties {
         this.defaultCredentials = defaultCredentials;
     }
 
-    public Map<String, SignatureCredentials> getPathCredentials() {
+    public List<SignatureCredentials> getPathCredentials() {
         return pathCredentials;
     }
 
-    public void setPathCredentials(Map<String, SignatureCredentials> pathCredentials) {
+    public void setPathCredentials(List<SignatureCredentials> pathCredentials) {
         this.pathCredentials = pathCredentials;
     }
 
     public static class SignatureCredentials {
+        private String path;
         private String apiKey;
         private String secret;
         private boolean enabled;
+
+        public String getPath() {
+            return path;
+        }
+
+        public void setPath(String path) {
+            this.path = path;
+        }
 
         public String getApiKey() {
             return apiKey;

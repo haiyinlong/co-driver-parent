@@ -16,8 +16,7 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 
 /**
- * 支持多配置的签名拦截器
- * 根据不同路径使用不同的 apiKey 和 secret
+ * 支持多配置的签名拦截器 根据不同路径使用不同的 apiKey 和 secret
  */
 @Component
 public class MultiConfigSignatureInterceptor implements RequestInterceptor {
@@ -28,20 +27,14 @@ public class MultiConfigSignatureInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate template) {
         String path = template.path();
-        // 处理路径，去除前导斜杠以匹配配置
-        if (path.startsWith("/")) {
-            path = path.substring(1);
-        }
         // 获取当前路径对应的签名配置
         SignatureConfigProperties.SignatureCredentials credentials =
-                SignaturePathMatcher.matchCredentials(path, signatureConfigProperties);
-
+            SignaturePathMatcher.matchCredentials(path, signatureConfigProperties);
         // 检查是否启用签名
         if (null == credentials || !credentials.isEnabled()) {
             // 签名功能未启用，跳过签名
             return;
         }
-
         try {
             // 获取请求方法
             String method = template.method();
@@ -57,23 +50,17 @@ public class MultiConfigSignatureInterceptor implements RequestInterceptor {
             }
 
             // 生成签名
-            String signature = SignatureManager.generateSignature(
-                    method,
-                    path,
-                    timestamp,
-                    nonce,
-                    requestBody,
-                    credentials.getSecret()
-            );
+            String signature = SignatureManager.generateSignature(method, path, timestamp, nonce, requestBody,
+                credentials.getSecret());
 
             // 添加签名相关的请求头
             template.header(SignatureConstant.AUTH_API_KEY, credentials.getApiKey());
             template.header(SignatureConstant.AUTH_TIMESTAMP, String.valueOf(timestamp));
             template.header(SignatureConstant.AUTH_NONCE, nonce);
             template.header(SignatureConstant.AUTH_API_SECRET, signature);
-            if(log.isDebugEnabled()){
-                log.debug("生成签名完成 path: {}, method: {}, timestamp: {}, nonce: {}, apiKey:{}, signature:{}",
-                        path, method, timestamp, nonce,credentials.getApiKey(),signature);
+            if (log.isDebugEnabled()) {
+                log.debug("生成签名完成 path: {}, method: {}, timestamp: {}, nonce: {}, apiKey:{}, signature:{}", path,
+                    method, timestamp, nonce, credentials.getApiKey(), signature);
             }
         } catch (Exception e) {
             throw new RuntimeException("生成签名失败: " + e.getMessage(), e);
