@@ -1,0 +1,30 @@
+{
+  "one-net": {
+    "openfeign": {
+      "signature": {
+        "default-credentials": {
+          "api-key": "默认API密钥",
+          "secret": "默认密钥",
+          "enabled": false
+        },
+        "path-credentials": {
+          "/api/example": {
+            "api-key": "特定路径的API密钥",
+            "secret": "特定路径的密钥",
+            "enabled": false
+          },
+          "/api/user/**": {
+            "api-key": "用户相关接口的API密钥",
+            "secret": "用户相关接口的密钥",
+            "enabled": true
+          },
+          "/api/order/**": {
+            "api-key": "订单相关接口的API密钥",
+            "secret": "订单相关接口的密钥",
+            "enabled": true
+          }
+        }
+      }
+    }
+  }
+}
