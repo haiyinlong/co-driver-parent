@@ -92,4 +92,21 @@
         <![CDATA[ <]]>
               #{endId}
     </select>
+    <select id="queryNotExistsOdsId" resultType="java.lang.Long">
+        select duar.source_id
+        from dwd_user_ad_record duar
+                 LEFT JOIN ods_max_ad_stat_detail_ads omasda
+                           ON omasda.id = duar.source_id
+        where duar.dates = #{dates}
+          and omasda.id is null
+        limit #{limitNum}
+    </select>
+    <delete id="deleteSourceId">
+        DELETE
+        FROM dwd_user_ad_record
+        WHERE source_id IN
+        <foreach item="item" collection="notExistsOdsId" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
 </mapper>

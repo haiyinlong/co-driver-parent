@@ -1,12 +1,5 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
-import java.util.List;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
-
 import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
@@ -17,9 +10,14 @@ import com.leo.ad.codriver.dwd.service.DwdService;
 import com.leo.ad.codriver.starter.mysql.BatchConst;
 import com.leo.ad.codriver.starter.mysql.DwBatchMapper;
 import com.leo.ad.codriver.starter.redis.annotation.Lock;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.ObjectUtils;
+
+import java.util.List;
 
 /**
  * TODO 注意，数据会有滞后，目前解决办法是1点的时候再单独执行<br/>
@@ -41,6 +39,15 @@ public class DwdUserAdRecordServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdUserAdRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
+        List<Long> notExistsOdsId;
+        do {
+            // 删除 dwd 中存在 ods中不存在的数据
+            notExistsOdsId = dwdUserAdRecordMapper.queryNotExistsOdsId(dates, BatchConst.BATCH_NUMBER);
+            if (!CollectionUtils.isEmpty(notExistsOdsId)) {
+                dwdUserAdRecordMapper.deleteSourceId(notExistsOdsId);
+            }
+        } while (!CollectionUtils.isEmpty(notExistsOdsId) || notExistsOdsId.size() > 0);
+
         DwCountDTO statisticsCount = dwdUserAdRecordMapper.getStatisticsCount(dates);
         if (ObjectUtils.isEmpty(statisticsCount) || ObjectUtils.isEmpty(statisticsCount.getMinId())) {
             log.info("{} dwdUserAdRecord 统计对象为空,不执行同步", dates);

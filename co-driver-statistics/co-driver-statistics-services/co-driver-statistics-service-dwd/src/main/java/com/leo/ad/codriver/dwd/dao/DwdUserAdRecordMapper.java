@@ -1,14 +1,13 @@
 package com.leo.ad.codriver.dwd.dao;
 
-import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-
 import com.baomidou.dynamic.datasource.annotation.DS;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 /**
  * DwdUserAdRecordMapper
@@ -24,6 +23,8 @@ public interface DwdUserAdRecordMapper extends BaseMapper<DwdUserAdRecord> {
 
     DwCountDTO getStatisticsCount(@Param("dates") Integer dates);
 
+    List<Long> queryNotExistsOdsId(@Param("dates") Integer dates, @Param("limitNum") Integer limitNum);
+
     List<DwdUserAdRecord> queryStatisticsByDate(@Param("dates") Integer dates,
         @Param("startSourceId") long startSourceId, @Param("endSourceId") long endSourceId);
 
@@ -38,4 +39,6 @@ public interface DwdUserAdRecordMapper extends BaseMapper<DwdUserAdRecord> {
 
     List<DwdUserAdRecord> queryDbNewListByDateUsrc(@Param("dates") Integer dates, @Param("startId") Long startId,
         @Param("endId") Long endId);
+
+    void deleteSourceId(@Param("notExistsOdsId") List<Long> notExistsOdsId);
 }
