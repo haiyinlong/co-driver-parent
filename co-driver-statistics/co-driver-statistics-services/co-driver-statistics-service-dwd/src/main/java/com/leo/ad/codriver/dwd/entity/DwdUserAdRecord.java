@@ -1,17 +1,15 @@
 package com.leo.ad.codriver.dwd.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
-import org.springframework.util.ObjectUtils;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
-
 import lombok.Data;
+import org.springframework.util.ObjectUtils;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @TableName("dwd_user_ad_record")
@@ -53,7 +51,8 @@ public class DwdUserAdRecord implements BaseEntity {
     }
 
     public boolean isCustomNetworkSdk() {
-        return "CUSTOM_NETWORK_SDK".equalsIgnoreCase(this.getNetwork());
+        return "CUSTOM_NETWORK_SDK".equalsIgnoreCase(this.getNetwork()) || "OTER_NET".equalsIgnoreCase(
+            this.getNetwork());
     }
 
     public boolean isApplovinExchange() {
