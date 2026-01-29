@@ -1,15 +1,14 @@
 package com.leo.ad.codriver.dwd.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
-
 import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @TableName("dwd_user_withdraw_record")
@@ -38,10 +37,10 @@ public class DwdUserWithdrawRecord implements BaseEntity {
     private Integer registerDay;
     private Long registerCohortDay;
     private Date createTime;
-    private Integer updateDates;
     private Integer registerWithdrawDay;
     private Integer registerWithdrawCohortDay;
     private Date updateTime;
+    private Integer updateDates;
     @TableField(exist = false)
     private String userSource;
 }

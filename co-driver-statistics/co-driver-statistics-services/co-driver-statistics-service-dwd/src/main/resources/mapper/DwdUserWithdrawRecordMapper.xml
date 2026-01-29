@@ -27,12 +27,18 @@
                ROUND((IFNULL(IFNULL(oprw.fee, IFNULL(wr.fee, 0)), 0) + IFNULL(oprw.amount, IFNULL(wr.amount, 0))) /
                      #{singleFee}, 8)                                                  change_total_amount,
                wr.num,
-               uv.max_pvn                                                              version,
+               (SELECT MAX(uv.pvn)
+                FROM ods_user_version uv
+                WHERE uv.user_id = u.id
+                  AND uv.dates <![CDATA[<=]]> #{dates}) AS                                      version,
+               (SELECT MIN(uv.pvn)
+                FROM ods_user_version uv
+                WHERE uv.user_id = u.id
+                  AND uv.dates <![CDATA[<=]]> #{dates}) AS                                      register_version,
                u.pkg,
                IFNULL(uh.address, 'IN')                                                country,
                u.dates                                                                 register_dates,
                u.create_time                                                           register_date,
-               uv.pvn                                                                  register_version,
                TIMESTAMPDIFF(DAY, u.create_time, wr.created)                           register_cohort_day,
                TIMESTAMPDIFF(DAY, u.dates, wr.dates)                                   register_day,
                wr.created                                                              create_time,
@@ -43,10 +49,6 @@
         from ods_withdraw_record wr
                  INNER JOIN ods_user u on (wr.user_id = u.id)
                  LEFT JOIN ods_user_hema uh on (uh.aid = u.aid and uh.pkg = u.pkg)
-                 LEFT JOIN (SELECT uv.user_id, MIN(uv.pvn) pvn, max(uv.pvn) max_pvn
-                            FROM ods_user_version uv
-                            where uv.dates <![CDATA[ <=]]> #{dates}
-                            GROUP BY user_id) uv on (uv.user_id = u.id)
                  LEFT JOIN ods_pay_record_withdraw oprw on (oprw.withdraw_record_id = wr.id and oprw.status = 1)
                  LEFT JOIN dwd_user_withdraw_record duwr on (duwr.source_id = wr.id)
         where wr.updated >= CONCAT(#{dateStr}, ' 00:00:00')

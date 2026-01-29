@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dwd.dao.DwdUserPaymentRecordMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dwd.entity.DwdUserPaymentRecord">
+        <id property="id" column="id" jdbcType="BIGINT" />
+        <result property="dates" column="dates" jdbcType="INTEGER" />
+        <result property="sourceId" column="source_id" jdbcType="BIGINT" />
+        <result property="projectName" column="project_name" jdbcType="VARCHAR" />
+        <result property="userId" column="user_id" jdbcType="BIGINT" />
+        <result property="amount" column="amount" jdbcType="DECIMAL" />
+        <result property="fee" column="fee" jdbcType="DECIMAL" />
+        <result property="exchangeRate" column="exchange_rate" jdbcType="DECIMAL" />
+        <result property="changeAmount" column="change_amount" jdbcType="DECIMAL" />
+        <result property="changeFee" column="change_fee" jdbcType="DECIMAL" />
+        <result property="status" column="status" jdbcType="INTEGER" />
+        <result property="version" column="version" jdbcType="VARCHAR" />
+        <result property="pkg" column="pkg" jdbcType="VARCHAR" />
+        <result property="country" column="country" jdbcType="VARCHAR" />
+        <result property="registerDate" column="register_date" jdbcType="TIMESTAMP" />
+        <result property="registerDates" column="register_dates" jdbcType="INTEGER" />
+        <result property="registerVersion" column="register_version" jdbcType="VARCHAR" />
+        <result property="registerDay" column="register_day" jdbcType="INTEGER" />
+        <result property="registerCohortDay" column="register_cohort_day" jdbcType="INTEGER" />
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,source_id,
+        project_name,user_id,amount,
+        fee,exchange_rate,change_amount,
+        change_fee,status,version,
+        pkg,country,register_date,
+        register_dates,register_version,register_day,
+        register_cohort_day,create_time
+    </sql>
+    <select id="getCountByDates" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        select count(1) count, min(oprw.id) min_id, max(oprw.id) max_id
+        from ods_payment_record_withdraw oprw
+        where oprw.dates = #{dates}
+    </select>
+    <select id="queryList" resultType="com.leo.ad.codriver.dwd.entity.DwdUserPaymentRecord">
+        SELECT dupr.id,
+               wr.dates,
+               wr.id                                         AS source_id,
+               wr.project_name,
+               wr.user_id,
+               wr.status,
+               IFNULL(wr.amount, 0)                          AS amount,
+               IFNULL(wr.fee, 0)                             AS fee,
+               #{singleFee}                                  AS exchange_rate,
+               ROUND(IFNULL(wr.amount, 0) / #{singleFee}, 8) AS change_amount,
+               ROUND(IFNULL(wr.fee, 0) / #{singleFee}, 8)    AS change_fee,
+               (SELECT MAX(uv.pvn)
+                FROM ods_user_version uv
+                WHERE uv.user_id = u.id
+                  AND uv.dates <![CDATA[<=]]> #{dates})               AS version,
+               (SELECT MIN(uv.pvn)
+                FROM ods_user_version uv
+                WHERE uv.user_id = u.id
+                  AND uv.dates <![CDATA[<=]]> #{dates})               AS register_version,
+               'IN'                                          AS country,
+               u.dates                                       AS register_dates,
+               u.create_time                                 AS register_date,
+               TIMESTAMPDIFF(DAY, u.create_time, wr.created) AS register_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, wr.dates)         AS register_day,
+               wr.created                                    AS create_time,
+               DATE_FORMAT(wr.updated, '%Y%m%d')             AS update_dates,
+               TIMESTAMPDIFF(DAY, u.create_time, wr.updated) AS register_withdraw_cohort_day,
+               TIMESTAMPDIFF(DAY, u.dates, wr.updated)       AS register_withdraw_day,
+               wr.updated                                    AS update_time
+        FROM (SELECT *
+              FROM ods_payment_record_withdraw
+              WHERE dates = #{dates}
+                and id >= #{startId}
+                and id <![CDATA[<=]]> #{endId}) wr
+                 INNER JOIN ods_user u ON wr.user_id = u.id
+                 LEFT JOIN dwd_user_payment_record dupr ON dupr.source_id = wr.id
+    </select>
+</mapper>
