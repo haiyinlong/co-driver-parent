@@ -1,15 +1,13 @@
 package com.leo.ad.codriver.ads.eventHandler;
 
-import org.springframework.context.event.EventListener;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Component;
-
 import com.leo.ad.codriver.ads.service.impl.AdsDailyOetaBaseReportServiceImpl;
 import com.leo.ad.codriver.common.event.CoDriverDwEvent;
 import com.leo.ad.codriver.dws.event.*;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
 /**
  * AdsDailyOetaBaseReportEventHandler
@@ -26,12 +24,7 @@ public class AdsDailyOetaBaseReportEventHandler {
     @EventListener
     @Async
     public void handleEvent(CoDriverDwEvent event) {
-        if (event instanceof DwsDailyPackageAdUpdateDwEvent || event instanceof DwsDailyPackageAllAdEventUpdateDwEvent
-            || event instanceof DwsDailyPackageAllVersionPromotionUpdateDwEvent
-            || event instanceof DwsDailyPkgAdvertisingUpdateDwEvent || event instanceof DwsDailyWithdrawUpdateDwEvent
-            || event instanceof DwsDailyPromotionUpdateDwEvent || event instanceof DwsDailyPkgConversionUpdateDwEvent
-            || event instanceof DwsDailyShareUpdateDwEvent || event instanceof DwsDailyQpLtvUpdateDwEvent
-            || event instanceof DwsDailyAdConversionEventUpdateDwEvent) {
+        if (event instanceof DwsDailyPackageAdUpdateDwEvent || event instanceof DwsDailyPackageAllAdEventUpdateDwEvent || event instanceof DwsDailyPackageAllVersionPromotionUpdateDwEvent || event instanceof DwsDailyPkgAdvertisingUpdateDwEvent || event instanceof DwsDailyWithdrawUpdateDwEvent || event instanceof DwsDailyPromotionUpdateDwEvent || event instanceof DwsDailyPkgConversionUpdateDwEvent || event instanceof DwsDailyShareUpdateDwEvent || event instanceof DwsDailyQpLtvUpdateDwEvent || event instanceof DwsDailyAdConversionEventUpdateDwEvent || event instanceof DwsDailyPaymentUpdateDwEvent) {
             try {
                 log.info("{} 事件触发 adsDailyOetaBaseReport", event.getDates());
                 adsDailyOetaBaseReportServiceImpl.syncData(event.getDates());

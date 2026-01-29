@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.leo.ad.codriver.ads.dao.AdsDailyOetaBaseReportMapper">
-    <select id="selectActiveUserVersionList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+    <select id="selectActivePkgVerList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT adobr.id,
                ddpl.dates,
                ddpl.pkg,
@@ -57,14 +57,14 @@
                IFNULL(dwfd.success_change_fee, 0)                                    withdraw_fee,
                IFNULL(dwfd.success_change_amount_fee, 0)                             withdraw_cost,
 
-               IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
-               IFNULL(ddpr.invested_user_num, 0)                                     promotion_cost,
-               IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
-               IFNULL(ddpr.invested_user_num, 0) +
+               IFNULL(IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
+                      IFNULL(ddpr.invested_user_num, 0), 0)                          promotion_cost,
+               IFNULL(IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
+                      IFNULL(ddpr.invested_user_num, 0), 0) +
                IFNULL(dwfd.success_change_amount_fee, 0)                             total_expenditure,
-               IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
-               IFNULL(ddpr.invested_user_num, 0) /
-               ddpr.user_num                                                         cpi,
+               IFNULL(IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
+                      IFNULL(ddpr.invested_user_num, 0) /
+                      ddpr.user_num, 0)                                              cpi,
                IFNULL(ddpa.total_not_custom_banner_income /
                       IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
                       IFNULL(ddpr.invested_user_num, 0),
@@ -73,7 +73,13 @@
                        IFNULL(dwfd.success_change_amount_fee, 0)) /
                       IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
                       IFNULL(ddpr.invested_user_num, 0),
-                      0)                                                             total_roi
+                      0)                                                             total_roi,
+               IFNULL(dwfp.success_change_amount, 0)                                 recharge_cost,
+               IFNULL(ROUND(
+                          (IFNULL(ddpa.total_not_custom_banner_income, 0) - IFNULL(dwfd.success_change_amount_fee, 0) +
+                           IFNULL(dwfp.success_change_amount, 0)) /
+                          (IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
+                           IFNULL(ddpr.invested_user_num, 0)), 3), 0)                first_day_roi
         FROM dws_daily_package_all_login ddpl
                  LEFT JOIN dws_daily_package_all_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and
@@ -102,6 +108,9 @@
                  LEFT JOIN dws_daily_package_all_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                ddpl.version = dwfd.version and dwfd.user_type = 0)
+                 LEFT JOIN dws_daily_pkg_ver_payment dwfp
+                           on (ddpl.dates = dwfp.dates and ddpl.pkg = dwfp.pkg and
+                               ddpl.version = dwfp.version and dwfp.user_type = 0)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_pkg_ver_ad_conversion_event ddpvace
                            on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and
@@ -116,7 +125,7 @@
             and adobr.version = ddpl.version and adobr.user_source = 'ALL' and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
     </select>
-    <select id="selectNewUserVersionList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+    <select id="selectNewPkgVerList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT adobr.id,
                ddpl.dates,
                ddpl.pkg,
@@ -188,7 +197,13 @@
                IFNULL((ddpa.total_not_custom_banner_income + ddpql.active_event_ltv -
                        IFNULL(dwfd.success_change_amount_fee, 0)) /
                       (IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
-                       IFNULL(ddpr.invested_user_num, 0)), 0)                        total_roi
+                       IFNULL(ddpr.invested_user_num, 0)), 0)                        total_roi,
+               IFNULL(dwfp.success_change_amount, 0)                                 recharge_cost,
+               IFNULL(ROUND(
+                          (IFNULL(ddpa.total_not_custom_banner_income, 0) - IFNULL(dwfd.success_change_amount_fee, 0) +
+                           IFNULL(dwfp.success_change_amount, 0)) /
+                          (IFNULL(ddpi.dollar_cost, 0) / IFNULL(ddpr.total_invested_user_num, 0) *
+                           IFNULL(ddpr.invested_user_num, 0)), 3), 0)                first_day_roi
         FROM dws_daily_package_all_login ddpl
                  LEFT JOIN dws_daily_package_all_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and
@@ -217,6 +232,9 @@
                  LEFT JOIN dws_daily_package_all_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                ddpl.version = dwfd.version and dwfd.user_type = 1)
+                 LEFT JOIN dws_daily_pkg_ver_payment dwfp
+                           on (ddpl.dates = dwfp.dates and ddpl.pkg = dwfp.pkg and
+                               ddpl.version = dwfp.version and dwfp.user_type = 1)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_pkg_ver_ad_conversion_event ddpvace
                            on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and
@@ -236,71 +254,87 @@
         from ads_daily_oeta_base_report
         WHERE dates = #{dates}
     </select>
-    <select id="selectActiveUserPkgList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+    <select id="selectActivePkgList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT adobr.id,
                ddpl.dates,
                ddpl.pkg,
-               'ALL'                                                                        version,
-               'ALL'                                                                        user_source,
-               0                                                                            user_type,
-               IFNULL(ddpr.user_num, 0)                                                     new_user_num,
-               IFNULL(ddpr2.retention_user_num, 0)                                          second_user_num,
-               IFNULL(ddpr2.retention_user_num / ddpr.user_num, 0)                          second_user_retention_rate,
-               IFNULL(ddpr3.retention_user_num, 0)                                          tertiary_user_num,
+               'ALL'                                                                                    version,
+               'ALL'                                                                                    user_source,
+               0                                                                                        user_type,
+               IFNULL(ddpr.user_num, 0)                                                                 new_user_num,
+               IFNULL(ddpr2.retention_user_num, 0)                                                      second_user_num,
+               IFNULL(ddpr2.retention_user_num / ddpr.user_num,
+                      0)                                                                                second_user_retention_rate,
+               IFNULL(ddpr3.retention_user_num, 0)                                                      tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num,
-                      0)                                                                    tertiary_user_retention_rate,
-               ddpl.user_num                                                                active_user_num,
-               IFNULL(ddpo.total_online_time / ddpl.user_num, 0)                            avg_user_online_time,
+                      0)                                                                                tertiary_user_retention_rate,
+               ddpl.user_num                                                                            active_user_num,
+               IFNULL(ddpo.total_online_time / ddpl.user_num,
+                      0)                                                                                avg_user_online_time,
 
-               IFNULL(ddpa.total_not_custom_banner_income, 0)                               ad_reward_income,
-               IFNULL(ddpa.reward_show_count, 0)                                            ad_reward_show_num,
-               IFNULL(ddpa.reward_not_custom_directsold_ecpm, 0)                            ad_reward_ecpm,
-               IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                            avg_user_ad_reward_show_num,
-               IFNULL(ddpa.reward_user_num, 0)                                              ad_reward_user_num,
-               IFNULL(ddpa.reward_user_num / ddpl.user_num, 0)                              ad_reward_rate,
-               IFNULL(ddpvace.show_user_num, 0)                                             ad_direct_sold_user_num,
-               IFNULL(ddpvace.show_record_num, 0)                                           ad_direct_sold_show_num,
+               IFNULL(ddpa.total_not_custom_banner_income,
+                      0)                                                                                ad_reward_income,
+               IFNULL(ddpa.reward_show_count, 0)                                                        ad_reward_show_num,
+               IFNULL(ddpa.reward_not_custom_directsold_ecpm, 0)                                        ad_reward_ecpm,
+               IFNULL(ddpa.reward_show_count / ddpl.user_num,
+                      0)                                                                                avg_user_ad_reward_show_num,
+               IFNULL(ddpa.reward_user_num, 0)                                                          ad_reward_user_num,
+               IFNULL(ddpa.reward_user_num / ddpl.user_num, 0)                                          ad_reward_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                         ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                                       ad_direct_sold_show_num,
                IFNULL(ddpvace.show_record_num / ddpl.user_num,
-                      0)                                                                    avg_user_ad_direct_sold_show_num,
-               IFNULL(ddpvace.click_record_num, 0)                                          ad_direct_sold_click_num,
+                      0)                                                                                avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                                      ad_direct_sold_click_num,
                IFNULL(ddpvace.click_record_num / ddpvace.show_record_num,
-                      0)                                                                    ad_direct_sold_click_show_rate,
-               IFNULL(ddpvace.show_user_num / ddpl.user_num, 0)                             ad_direct_sold_rate,
-               IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                            avg_user_ad_show_num,
-               IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                            avg_user_ad_inter_show_num,
-               IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                            avg_user_ad_mrec_show_num,
+                      0)                                                                                ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpl.user_num,
+                      0)                                                                                ad_direct_sold_rate,
+               IFNULL(ddpa.reward_show_count / ddpl.user_num,
+                      0)                                                                                avg_user_ad_show_num,
+               IFNULL(ddpa.reward_show_count / ddpl.user_num,
+                      0)                                                                                avg_user_ad_inter_show_num,
+               IFNULL(ddpa.reward_show_count / ddpl.user_num,
+                      0)                                                                                avg_user_ad_mrec_show_num,
 
-               IFNULL(ddpa.inter_not_custom_directsold_show_count, 0)                       inter_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_ecpm, 0)                             inter_ecpm,
-               IFNULL(ddpa.inter_not_custom_directsold_show_count / ddpl.user_num, 0)       inter_avg_user_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_user_num / ddpl.user_num, 0)         inter_rate,
-               IFNULL(ddpa.banner_not_custom_directsold_show_count, 0)                      banner_show_num,
-               IFNULL(ddpa.banner_not_custom_directsold_ecpm, 0)                            banner_ecpm,
+               IFNULL(ddpa.inter_not_custom_directsold_show_count, 0)                                   inter_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_ecpm, 0)                                         inter_ecpm,
+               IFNULL(ddpa.inter_not_custom_directsold_show_count / ddpl.user_num,
+                      0)                                                                                inter_avg_user_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_user_num / ddpl.user_num, 0)                     inter_rate,
+               IFNULL(ddpa.banner_not_custom_directsold_show_count, 0)                                  banner_show_num,
+               IFNULL(ddpa.banner_not_custom_directsold_ecpm, 0)                                        banner_ecpm,
                IFNULL(ddpa.banner_not_custom_directsold_show_count / ddpl.user_num,
-                      0)                                                                    banner_avg_user_show_num,
-               IFNULL(ddpa.banner_not_custom_directsold_user_num / ddpl.user_num, 0)        banner_rate,
+                      0)                                                                                banner_avg_user_show_num,
+               IFNULL(ddpa.banner_not_custom_directsold_user_num / ddpl.user_num, 0)                    banner_rate,
 
-               IFNULL(ddps.total_user_num, 0)                                               share_new_user_num,
-               IFNULL(ddps.total_user_num / ddpl.user_num, 0)                               share_rate,
-               IFNULL(ddpuc.user_num, 0)                                                    offer_user_num,
-               IFNULL(ddpuc.user_num / ddpl.user_num, 0)                                    offer_rate,
-               IFNULL(ddpucbox.user_num, 0)                                                 offer_mystery_box_user_num,
-               IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                                 offer_mystery_box_rate,
-               IFNULL(ddpql.active_user_num, 0)                                             payment_user_num,
-               IFNULL(ddpql.active_user_num / ddpl.user_num, 0)                             payment_rate,
-               IFNULL(ddpqlbox.active_user_num, 0)                                          payment_mystery_box_user_num,
-               IFNULL(ddpqlbox.active_user_num / ddpl.user_num, 0)                          payment_mystery_box_rate,
-               IFNULL(ddpql.active_event_ltv, 0)                                            qp_ltv,
-               IFNULL(dwfd.success_change_amount, 0)                                        withdraw_amount,
-               IFNULL(dwfd.success_change_fee, 0)                                           withdraw_fee,
-               IFNULL(dwfd.success_change_amount_fee, 0)                                    withdraw_cost,
-               IFNULL(ddpi.dollar_cost, 0)                                                  promotion_cost,
-               IFNULL(ddpi.dollar_cost, 0) + IFNULL(dwfd.success_change_amount_fee, 0)      total_expenditure,
-               IFNULL(IFNULL(ddpi.dollar_cost, 0) / ddpr.user_num, 0)                       cpi,
-               IFNULL(ddpa.total_not_custom_banner_income / IFNULL(ddpi.dollar_cost, 0), 0) ad_roi,
+               IFNULL(ddps.total_user_num, 0)                                                           share_new_user_num,
+               IFNULL(ddps.total_user_num / ddpl.user_num, 0)                                           share_rate,
+               IFNULL(ddpuc.user_num, 0)                                                                offer_user_num,
+               IFNULL(ddpuc.user_num / ddpl.user_num, 0)                                                offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                             offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                                             offer_mystery_box_rate,
+               IFNULL(ddpql.active_user_num, 0)                                                         payment_user_num,
+               IFNULL(ddpql.active_user_num / ddpl.user_num, 0)                                         payment_rate,
+               IFNULL(ddpqlbox.active_user_num, 0)                                                      payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.active_user_num / ddpl.user_num,
+                      0)                                                                                payment_mystery_box_rate,
+               IFNULL(ddpql.active_event_ltv, 0)                                                        qp_ltv,
+               IFNULL(dwfd.success_change_amount, 0)                                                    withdraw_amount,
+               IFNULL(dwfd.success_change_fee, 0)                                                       withdraw_fee,
+               IFNULL(dwfd.success_change_amount_fee, 0)                                                withdraw_cost,
+               IFNULL(ddpi.dollar_cost, 0)                                                              promotion_cost,
+               IFNULL(ddpi.dollar_cost, 0) +
+               IFNULL(dwfd.success_change_amount_fee, 0)                                                total_expenditure,
+               IFNULL(IFNULL(ddpi.dollar_cost, 0) / ddpr.user_num, 0)                                   cpi,
+               IFNULL(ddpa.total_not_custom_banner_income / IFNULL(ddpi.dollar_cost, 0), 0)             ad_roi,
                IFNULL((ddpa.total_not_custom_banner_income + ddpql.active_event_ltv -
                        IFNULL(dwfd.success_change_amount_fee, 0)) /
-                      IFNULL(ddpi.dollar_cost, 0), 0)                                       total_roi
+                      IFNULL(ddpi.dollar_cost, 0), 0)                                                   total_roi,
+               IFNULL(dwfp.success_change_amount, 0)                                                    recharge_cost,
+               IFNULL(ROUND(
+                          (IFNULL(ddpa.total_not_custom_banner_income, 0) - IFNULL(dwfd.success_change_amount_fee, 0) +
+                           IFNULL(dwfp.success_change_amount, 0)) / IFNULL(ddpi.dollar_cost, 0), 3), 0) first_day_roi
+
         FROM dws_daily_pkg_login ddpl
                  LEFT JOIN dws_daily_pkg_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg)
@@ -322,6 +356,8 @@
                                ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_pkg_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and dwfd.user_type = 0)
+                 LEFT JOIN dws_daily_pkg_payment dwfp
+                           on (ddpl.dates = dwfp.dates and ddpl.pkg = dwfp.pkg and dwfp.user_type = 0)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_pkg_ad_conversion_event ddpvace
                            on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and ddpvace.user_type = 0)
@@ -333,75 +369,85 @@
             and adobr.version = 'ALL' and adobr.user_source = 'ALL' and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
     </select>
-    <select id="selectNewUserAllPkgList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+    <select id="selectNewPkgList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT adobr.id,
                ddpl.dates,
                ddpl.pkg,
-               'ALL'                                                                              version,
-               'ALL'                                                                              user_source,
-               1                                                                                  user_type,
-               IFNULL(ddpr.user_num, 0)                                                           new_user_num,
-               IFNULL(ddpr2.retention_user_num, 0)                                                second_user_num,
+               'ALL'                                                                                    version,
+               'ALL'                                                                                    user_source,
+               1                                                                                        user_type,
+               IFNULL(ddpr.user_num, 0)                                                                 new_user_num,
+               IFNULL(ddpr2.retention_user_num, 0)                                                      second_user_num,
                IFNULL(ddpr2.retention_user_num / ddpr.user_num,
-                      0)                                                                          second_user_retention_rate,
-               IFNULL(ddpr3.retention_user_num, 0)                                                tertiary_user_num,
+                      0)                                                                                second_user_retention_rate,
+               IFNULL(ddpr3.retention_user_num, 0)                                                      tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num,
-                      0)                                                                          tertiary_user_retention_rate,
-               ddpl.user_num                                                                      active_user_num,
-               IFNULL(ddpo.new_user_online_time / ddpr.user_num, 0)                               avg_user_online_time,
-               IFNULL(ddpa.total_not_custom_banner_income, 0)                                     ad_reward_income,
-               IFNULL(ddpa.reward_show_count, 0)                                                  ad_reward_show_num,
-               IFNULL(ddpa.reward_not_custom_directsold_ecpm, 0)                                  ad_reward_ecpm,
+                      0)                                                                                tertiary_user_retention_rate,
+               ddpl.user_num                                                                            active_user_num,
+               IFNULL(ddpo.new_user_online_time / ddpr.user_num,
+                      0)                                                                                avg_user_online_time,
+               IFNULL(ddpa.total_not_custom_banner_income,
+                      0)                                                                                ad_reward_income,
+               IFNULL(ddpa.reward_show_count, 0)                                                        ad_reward_show_num,
+               IFNULL(ddpa.reward_not_custom_directsold_ecpm, 0)                                        ad_reward_ecpm,
                IFNULL(ddpa.reward_show_count / ddpr.user_num,
-                      0)                                                                          avg_user_ad_reward_show_num,
-               IFNULL(ddpa.reward_user_num, 0)                                                    ad_reward_user_num,
-               IFNULL(ddpa.reward_user_num / ddpr.user_num, 0)                                    ad_reward_rate,
-               IFNULL(ddpvace.show_user_num, 0)                                                   ad_direct_sold_user_num,
-               IFNULL(ddpvace.show_record_num, 0)                                                 ad_direct_sold_show_num,
+                      0)                                                                                avg_user_ad_reward_show_num,
+               IFNULL(ddpa.reward_user_num, 0)                                                          ad_reward_user_num,
+               IFNULL(ddpa.reward_user_num / ddpr.user_num, 0)                                          ad_reward_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                         ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                                       ad_direct_sold_show_num,
                IFNULL(ddpvace.show_record_num / ddpr.user_num,
-                      0)                                                                          avg_user_ad_direct_sold_show_num,
-               IFNULL(ddpvace.click_record_num, 0)                                                ad_direct_sold_click_num,
+                      0)                                                                                avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                                      ad_direct_sold_click_num,
                IFNULL(ddpvace.click_record_num / ddpvace.show_record_num,
-                      0)                                                                          ad_direct_sold_click_show_rate,
-               IFNULL(ddpvace.show_user_num / ddpr.user_num, 0)                                   ad_direct_sold_rate,
-               IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                                  avg_user_ad_show_num,
+                      0)                                                                                ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpr.user_num,
+                      0)                                                                                ad_direct_sold_rate,
+               IFNULL(ddpa.reward_show_count / ddpr.user_num,
+                      0)                                                                                avg_user_ad_show_num,
                IFNULL(ddpa.inter_show_count / ddpr.user_num,
-                      0)                                                                          avg_user_ad_inter_show_num,
+                      0)                                                                                avg_user_ad_inter_show_num,
                IFNULL(ddpa.mrec_show_count / ddpr.user_num,
-                      0)                                                                          avg_user_ad_mrec_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_show_count, 0)                             inter_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_ecpm, 0)                                   inter_ecpm,
+                      0)                                                                                avg_user_ad_mrec_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_show_count, 0)                                   inter_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_ecpm, 0)                                         inter_ecpm,
                IFNULL(ddpa.inter_not_custom_directsold_show_count / ddpr.user_num,
-                      0)                                                                          inter_avg_user_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_user_num / ddpr.user_num, 0)               inter_rate,
-               IFNULL(ddpa.banner_not_custom_directsold_show_count, 0)                            banner_show_num,
-               IFNULL(ddpa.banner_not_custom_directsold_ecpm, 0)                                  banner_ecpm,
+                      0)                                                                                inter_avg_user_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_user_num / ddpr.user_num, 0)                     inter_rate,
+               IFNULL(ddpa.banner_not_custom_directsold_show_count, 0)                                  banner_show_num,
+               IFNULL(ddpa.banner_not_custom_directsold_ecpm, 0)                                        banner_ecpm,
                IFNULL(ddpa.banner_not_custom_directsold_show_count / ddpr.user_num,
-                      0)                                                                          banner_avg_user_show_num,
-               IFNULL(ddpa.banner_not_custom_directsold_user_num / ddpr.user_num, 0)              banner_rate,
+                      0)                                                                                banner_avg_user_show_num,
+               IFNULL(ddpa.banner_not_custom_directsold_user_num / ddpr.user_num, 0)                    banner_rate,
 
-               IFNULL(ddps.total_user_num, 0)                                                     share_new_user_num,
-               IFNULL(ddps.total_user_num / ddpr.user_num, 0)                                     share_rate,
-               IFNULL(ddpuc.user_num, 0)                                                          offer_user_num,
-               IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                          offer_rate,
-               IFNULL(ddpucbox.user_num, 0)                                                       offer_mystery_box_user_num,
-               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                       offer_mystery_box_rate,
-               IFNULL(ddpql.new_user_num, 0)                                                      payment_user_num,
-               IFNULL(ddpql.new_user_num / ddpr.user_num, 0)                                      payment_rate,
-               IFNULL(ddpqlbox.new_user_num, 0)                                                   payment_mystery_box_user_num,
+               IFNULL(ddps.total_user_num, 0)                                                           share_new_user_num,
+               IFNULL(ddps.total_user_num / ddpr.user_num, 0)                                           share_rate,
+               IFNULL(ddpuc.user_num, 0)                                                                offer_user_num,
+               IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                                offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                             offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                             offer_mystery_box_rate,
+               IFNULL(ddpql.new_user_num, 0)                                                            payment_user_num,
+               IFNULL(ddpql.new_user_num / ddpr.user_num, 0)                                            payment_rate,
+               IFNULL(ddpqlbox.new_user_num, 0)                                                         payment_mystery_box_user_num,
                IFNULL(ddpqlbox.new_user_num / ddpr.user_num,
-                      0)                                                                          payment_mystery_box_rate,
-               IFNULL(ddpql.new_user_event_ltv, 0)                                                qp_ltv,
-               IFNULL(dwfd.success_change_amount, 0)                                              withdraw_amount,
-               IFNULL(dwfd.success_change_fee, 0)                                                 withdraw_fee,
-               IFNULL(dwfd.success_change_amount_fee, 0)                                          withdraw_cost,
-               IFNULL(ddpi.dollar_cost, 0)                                                        promotion_cost,
-               IFNULL(IFNULL(ddpi.dollar_cost, 0) + IFNULL(dwfd.success_change_amount_fee, 0), 0) total_expenditure,
-               IFNULL(IFNULL(ddpi.dollar_cost, 0) / ddpr.user_num, 0)                             cpi,
-               IFNULL(ddpa.total_not_custom_banner_income / IFNULL(ddpi.dollar_cost, 0), 0)       ad_roi,
+                      0)                                                                                payment_mystery_box_rate,
+               IFNULL(ddpql.new_user_event_ltv, 0)                                                      qp_ltv,
+               IFNULL(dwfd.success_change_amount, 0)                                                    withdraw_amount,
+               IFNULL(dwfd.success_change_fee, 0)                                                       withdraw_fee,
+               IFNULL(dwfd.success_change_amount_fee, 0)                                                withdraw_cost,
+               IFNULL(ddpi.dollar_cost, 0)                                                              promotion_cost,
+               IFNULL(IFNULL(ddpi.dollar_cost, 0) + IFNULL(dwfd.success_change_amount_fee, 0),
+                      0)                                                                                total_expenditure,
+               IFNULL(IFNULL(ddpi.dollar_cost, 0) / ddpr.user_num, 0)                                   cpi,
+               IFNULL(ddpa.total_not_custom_banner_income / IFNULL(ddpi.dollar_cost, 0), 0)             ad_roi,
                IFNULL((ddpa.total_not_custom_banner_income + ddpql.active_event_ltv -
                        IFNULL(dwfd.success_change_amount_fee, 0)) /
-                      IFNULL(ddpi.dollar_cost, 0), 0)                                             total_roi
+                      IFNULL(ddpi.dollar_cost, 0), 0)                                                   total_roi,
+               IFNULL(dwfp.success_change_amount, 0)                                                    recharge_cost,
+               IFNULL(ROUND(
+                          (IFNULL(ddpa.total_not_custom_banner_income, 0) - IFNULL(dwfd.success_change_amount_fee, 0) +
+                           IFNULL(dwfp.success_change_amount, 0)) / IFNULL(ddpi.dollar_cost, 0), 3), 0) first_day_roi
+
         FROM dws_daily_pkg_login ddpl
                  LEFT JOIN dws_daily_pkg_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg)
@@ -423,6 +469,8 @@
                                ddpucbox.source_type = 2)
                  LEFT JOIN dws_daily_pkg_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and dwfd.user_type = 1)
+                 LEFT JOIN dws_daily_pkg_payment dwfp
+                           on (ddpl.dates = dwfp.dates and ddpl.pkg = dwfp.pkg and dwfp.user_type = 1)
                  left join dws_daily_pkg_invested ddpi on (ddpi.dates = ddpr.dates and ddpi.pkg = ddpr.pkg)
                  LEFT JOIN dws_daily_pkg_ad_conversion_event ddpvace
                            on (ddpl.dates = ddpvace.dates and ddpl.pkg = ddpvace.pkg and ddpvace.user_type = 1)
@@ -434,7 +482,7 @@
             and adobr.version = 'ALL' and adobr.user_source = 'ALL' and adobr.user_type = 1)
         WHERE ddpl.dates = #{dates}
     </select>
-    <select id="selectActiveUsrcList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+    <select id="selectActivePkgVerUsrcList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT adobr.id,
                ddpl.dates,
                ddpl.pkg,
@@ -499,7 +547,13 @@
                       IFNULL(ddpr.ver_user_num, 0) * IFNULL(ddpr.user_num, 0), 0)    ad_roi,
                IFNULL((ddpa.total_not_custom_banner_income + ddpql.active_event_ltv -
                        IFNULL(dwfd.success_change_amount_fee, 0)) / IFNULL(ddpui.dollar_cost, 0) /
-                      IFNULL(ddpr.ver_user_num, 0) * IFNULL(ddpr.user_num, 0), 0)    total_roi
+                      IFNULL(ddpr.ver_user_num, 0) * IFNULL(ddpr.user_num, 0), 0)    total_roi,
+               IFNULL(dwfp.success_change_amount, 0)                                 recharge_cost,
+               IFNULL(ROUND(
+                          (IFNULL(ddpa.total_not_custom_banner_income, 0) - IFNULL(dwfd.success_change_amount_fee, 0) +
+                           IFNULL(dwfp.success_change_amount, 0)) /
+                          (IFNULL(ddpui.dollar_cost, 0) / IFNULL(ddpr.ver_user_num, 0) *
+                           IFNULL(ddpr.user_num, 0)), 3), 0)                         first_day_roi
         FROM dws_daily_pkg_ver_usrc_login ddpl
                  LEFT JOIN dws_daily_pkg_ver_usrc_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and ddpl.version = ddpr.version and
@@ -532,6 +586,9 @@
                  LEFT JOIN dws_daily_pkg_ver_usrc_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and ddpl.version = dwfd.version and
                                dwfd.user_type = 0 and dwfd.user_source = ddpl.user_source)
+                 LEFT JOIN dws_daily_pkg_ver_usrc_payment dwfp
+                           on (ddpl.dates = dwfp.dates and ddpl.pkg = dwfp.pkg and ddpl.version = dwfp.version and
+                               dwfp.user_type = 0 and dwfp.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_invested ddpui on (ddpl.dates = ddpui.dates and ddpl.pkg = ddpui.pkg and
                                                                  ddpui.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_ver_usrc_ad_conversion_event ddpvace
@@ -549,7 +606,7 @@
             and adobr.version = ddpl.version and adobr.user_source = ddpl.user_source and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
     </select>
-    <select id="selectNewUsrcList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+    <select id="selectNewPkgVerUsrcList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT adobr.id,
                ddpl.dates,
                ddpl.pkg,
@@ -626,7 +683,13 @@
                IFNULL((ddpa.total_not_custom_banner_income + ddpql.active_event_ltv -
                        IFNULL(dwfd.success_change_amount_fee, 0)) /
                       (IFNULL(ddpui.dollar_cost, 0) / IFNULL(ddpr.ver_user_num, 0) * IFNULL(ddpr.user_num, 0)),
-                      0)                                                                              total_roi
+                      0)                                                                              total_roi,
+               IFNULL(dwfp.success_change_amount, 0)                                                  recharge_cost,
+               IFNULL(ROUND(
+                          (IFNULL(ddpa.total_not_custom_banner_income, 0) - IFNULL(dwfd.success_change_amount_fee, 0) +
+                           IFNULL(dwfp.success_change_amount, 0)) /
+                          (IFNULL(ddpui.dollar_cost, 0) / IFNULL(ddpr.ver_user_num, 0) *
+                           IFNULL(ddpr.user_num, 0)), 3), 0)                                          first_day_roi
         FROM dws_daily_pkg_ver_usrc_login ddpl
                  LEFT JOIN dws_daily_pkg_ver_usrc_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and ddpl.version = ddpr.version and
@@ -659,6 +722,9 @@
                  LEFT JOIN dws_daily_pkg_ver_usrc_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and ddpl.version = dwfd.version and
                                dwfd.user_type = 1 and dwfd.user_source = ddpl.user_source)
+                 LEFT JOIN dws_daily_pkg_ver_usrc_payment dwfp
+                           on (ddpl.dates = dwfp.dates and ddpl.pkg = dwfp.pkg and ddpl.version = dwfp.version and
+                               dwfp.user_type = 1 and dwfp.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_invested ddpui on (ddpl.dates = ddpui.dates and ddpl.pkg = ddpui.pkg and
                                                                  ddpui.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_ver_usrc_ad_conversion_event ddpvace
@@ -676,72 +742,85 @@
             and adobr.version = ddpl.version and adobr.user_source = ddpl.user_source and adobr.user_type = 1)
         WHERE ddpl.dates = #{dates}
     </select>
-    <select id="selectAllActiveUsrcList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+    <select id="selectActivePkgUsrcList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT adobr.id,
                ddpl.dates,
                ddpl.pkg,
-               'ALL'                                                                         version,
+               'ALL'                                                                                     version,
                ddpl.user_source,
-               0                                                                             user_type,
-               IFNULL(ddpr.user_num, 0)                                                      new_user_num,
-               IFNULL(ddpr2.retention_user_num, 0)                                           second_user_num,
-               IFNULL(ddpr2.retention_user_num / ddpr.user_num, 0)                           second_user_retention_rate,
-               IFNULL(ddpr3.retention_user_num, 0)                                           tertiary_user_num,
+               0                                                                                         user_type,
+               IFNULL(ddpr.user_num, 0)                                                                  new_user_num,
+               IFNULL(ddpr2.retention_user_num, 0)                                                       second_user_num,
+               IFNULL(ddpr2.retention_user_num / ddpr.user_num,
+                      0)                                                                                 second_user_retention_rate,
+               IFNULL(ddpr3.retention_user_num, 0)                                                       tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num,
-                      0)                                                                     tertiary_user_retention_rate,
-               ddpl.user_num                                                                 active_user_num,
-               IFNULL(ddpo.total_online_time / ddpl.user_num, 0)                             avg_user_online_time,
-               IFNULL(ddpa.total_not_custom_banner_income, 0)                                ad_reward_income,
-               IFNULL(ddpa.reward_show_count, 0)                                             ad_reward_show_num,
-               IFNULL(ddpa.reward_not_custom_directsold_ecpm, 0)                             ad_reward_ecpm,
+                      0)                                                                                 tertiary_user_retention_rate,
+               ddpl.user_num                                                                             active_user_num,
+               IFNULL(ddpo.total_online_time / ddpl.user_num,
+                      0)                                                                                 avg_user_online_time,
+               IFNULL(ddpa.total_not_custom_banner_income,
+                      0)                                                                                 ad_reward_income,
+               IFNULL(ddpa.reward_show_count, 0)                                                         ad_reward_show_num,
+               IFNULL(ddpa.reward_not_custom_directsold_ecpm, 0)                                         ad_reward_ecpm,
                IFNULL(ddpa.reward_show_count / ddpl.user_num,
-                      0)                                                                     avg_user_ad_reward_show_num,
-               IFNULL(ddpa.reward_user_num, 0)                                               ad_reward_user_num,
-               IFNULL(ddpa.reward_user_num / ddpl.user_num, 0)                               ad_reward_rate,
-               IFNULL(ddpvace.show_user_num, 0)                                              ad_direct_sold_user_num,
-               IFNULL(ddpvace.show_record_num, 0)                                            ad_direct_sold_show_num,
+                      0)                                                                                 avg_user_ad_reward_show_num,
+               IFNULL(ddpa.reward_user_num, 0)                                                           ad_reward_user_num,
+               IFNULL(ddpa.reward_user_num / ddpl.user_num, 0)                                           ad_reward_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                          ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                                        ad_direct_sold_show_num,
                IFNULL(ddpvace.show_record_num / ddpl.user_num,
-                      0)                                                                     avg_user_ad_direct_sold_show_num,
-               IFNULL(ddpvace.click_record_num, 0)                                           ad_direct_sold_click_num,
+                      0)                                                                                 avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                                       ad_direct_sold_click_num,
                IFNULL(ddpvace.click_record_num / ddpvace.show_record_num,
-                      0)                                                                     ad_direct_sold_click_show_rate,
-               IFNULL(ddpvace.show_user_num / ddpl.user_num, 0)                              ad_direct_sold_rate,
-               IFNULL(ddpa.reward_show_count / ddpl.user_num, 0)                             avg_user_ad_show_num,
-               IFNULL(ddpa.inter_show_count / ddpl.user_num, 0)                              avg_user_ad_inter_show_num,
-               IFNULL(ddpa.mrec_show_count / ddpl.user_num, 0)                               avg_user_ad_mrec_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_show_count, 0)                        inter_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_ecpm, 0)                              inter_ecpm,
+                      0)                                                                                 ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpl.user_num,
+                      0)                                                                                 ad_direct_sold_rate,
+               IFNULL(ddpa.reward_show_count / ddpl.user_num,
+                      0)                                                                                 avg_user_ad_show_num,
+               IFNULL(ddpa.inter_show_count / ddpl.user_num,
+                      0)                                                                                 avg_user_ad_inter_show_num,
+               IFNULL(ddpa.mrec_show_count / ddpl.user_num,
+                      0)                                                                                 avg_user_ad_mrec_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_show_count, 0)                                    inter_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_ecpm, 0)                                          inter_ecpm,
                IFNULL(ddpa.inter_not_custom_directsold_show_count / ddpl.user_num,
-                      0)                                                                     inter_avg_user_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_user_num / ddpl.user_num, 0)          inter_rate,
-               IFNULL(ddpa.banner_not_custom_directsold_show_count, 0)                       banner_show_num,
-               IFNULL(ddpa.banner_not_custom_directsold_ecpm, 0)                             banner_ecpm,
+                      0)                                                                                 inter_avg_user_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_user_num / ddpl.user_num, 0)                      inter_rate,
+               IFNULL(ddpa.banner_not_custom_directsold_show_count,
+                      0)                                                                                 banner_show_num,
+               IFNULL(ddpa.banner_not_custom_directsold_ecpm, 0)                                         banner_ecpm,
                IFNULL(ddpa.banner_not_custom_directsold_show_count / ddpl.user_num,
-                      0)                                                                     banner_avg_user_show_num,
-               IFNULL(ddpa.banner_not_custom_directsold_user_num / ddpl.user_num, 0)         banner_rate,
+                      0)                                                                                 banner_avg_user_show_num,
+               IFNULL(ddpa.banner_not_custom_directsold_user_num / ddpl.user_num, 0)                     banner_rate,
 
-               IFNULL(ddps.total_user_num, 0)                                                share_new_user_num,
-               IFNULL(ddps.total_user_num / ddpl.user_num, 0)                                share_rate,
-               IFNULL(ddpuc.user_num, 0)                                                     offer_user_num,
-               IFNULL(ddpuc.user_num / ddpl.user_num, 0)                                     offer_rate,
-               IFNULL(ddpucbox.user_num, 0)                                                  offer_mystery_box_user_num,
-               IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                                  offer_mystery_box_rate,
-               IFNULL(ddpql.active_user_num, 0)                                              payment_user_num,
-               IFNULL(ddpql.active_user_num / ddpl.user_num, 0)                              payment_rate,
-               IFNULL(ddpqlbox.active_user_num, 0)                                           payment_mystery_box_user_num,
-               IFNULL(ddpqlbox.active_user_num / ddpl.user_num, 0)                           payment_mystery_box_rate,
-               IFNULL(ddpql.active_event_ltv, 0)                                             qp_ltv,
-               IFNULL(dwfd.success_change_amount, 0)                                         withdraw_amount,
-               IFNULL(dwfd.success_change_fee, 0)                                            withdraw_fee,
-               IFNULL(dwfd.success_change_amount_fee, 0)                                     withdraw_cost,
-               IFNULL(ddpui.dollar_cost, 0)                                                  promotion_cost,
+               IFNULL(ddps.total_user_num, 0)                                                            share_new_user_num,
+               IFNULL(ddps.total_user_num / ddpl.user_num, 0)                                            share_rate,
+               IFNULL(ddpuc.user_num, 0)                                                                 offer_user_num,
+               IFNULL(ddpuc.user_num / ddpl.user_num, 0)                                                 offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                              offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpl.user_num, 0)                                              offer_mystery_box_rate,
+               IFNULL(ddpql.active_user_num, 0)                                                          payment_user_num,
+               IFNULL(ddpql.active_user_num / ddpl.user_num, 0)                                          payment_rate,
+               IFNULL(ddpqlbox.active_user_num, 0)                                                       payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.active_user_num / ddpl.user_num,
+                      0)                                                                                 payment_mystery_box_rate,
+               IFNULL(ddpql.active_event_ltv, 0)                                                         qp_ltv,
+               IFNULL(dwfd.success_change_amount, 0)                                                     withdraw_amount,
+               IFNULL(dwfd.success_change_fee, 0)                                                        withdraw_fee,
+               IFNULL(dwfd.success_change_amount_fee, 0)                                                 withdraw_cost,
+               IFNULL(ddpui.dollar_cost, 0)                                                              promotion_cost,
                IFNULL(IFNULL(ddpui.dollar_cost, 0) + IFNULL(dwfd.success_change_amount_fee, 0),
-                      0)                                                                     total_expenditure,
-               IFNULL(IFNULL(ddpui.dollar_cost, 0) / ddpr.user_num, 0)                       cpi,
-               IFNULL(ddpa.total_not_custom_banner_income / IFNULL(ddpui.dollar_cost, 0), 0) ad_roi,
+                      0)                                                                                 total_expenditure,
+               IFNULL(IFNULL(ddpui.dollar_cost, 0) / ddpr.user_num, 0)                                   cpi,
+               IFNULL(ddpa.total_not_custom_banner_income / IFNULL(ddpui.dollar_cost, 0), 0)             ad_roi,
                IFNULL((ddpa.total_not_custom_banner_income + ddpql.active_event_ltv -
                        IFNULL(dwfd.success_change_amount_fee, 0)) /
-                      IFNULL(ddpui.dollar_cost, 0), 0)                                       total_roi
+                      IFNULL(ddpui.dollar_cost, 0), 0)                                                   total_roi,
+               IFNULL(dwfp.success_change_amount, 0)                                                     recharge_cost,
+               IFNULL(ROUND(
+                          (IFNULL(ddpa.total_not_custom_banner_income, 0) - IFNULL(dwfd.success_change_amount_fee, 0) +
+                           IFNULL(dwfp.success_change_amount, 0)) / IFNULL(ddpui.dollar_cost, 0), 3), 0) first_day_roi
         FROM dws_daily_pkg_usrc_login ddpl
                  LEFT JOIN dws_daily_pkg_usrc_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and
@@ -773,6 +852,9 @@
                  LEFT JOIN dws_daily_pkg_usrc_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                dwfd.user_type = 0 and dwfd.user_source = ddpl.user_source)
+                 LEFT JOIN dws_daily_pkg_usrc_payment dwfp
+                           on (ddpl.dates = dwfp.dates and ddpl.pkg = dwfp.pkg and
+                               dwfp.user_type = 0 and dwfp.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_invested ddpui on (ddpl.dates = ddpui.dates and ddpl.pkg = ddpui.pkg and
                                                                  ddpui.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_ad_conversion_event ddpvace
@@ -788,73 +870,86 @@
             and adobr.version = 'ALL' and adobr.user_source = ddpl.user_source and adobr.user_type = 0)
         WHERE ddpl.dates = #{dates}
     </select>
-    <select id="selectAllNewUsrcList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
+    <select id="selectNewPkgUsrcList" resultType="com.leo.ad.codriver.ads.entity.AdsDailyOetaBaseReport">
         SELECT adobr.id,
                ddpl.dates,
                ddpl.pkg,
-               'ALL'                                                                         version,
+               'ALL'                                                                                     version,
                ddpl.user_source,
-               1                                                                             user_type,
-               IFNULL(ddpr.user_num, 0)                                                      new_user_num,
-               IFNULL(ddpr2.retention_user_num, 0)                                           second_user_num,
-               IFNULL(ddpr2.retention_user_num / ddpr.user_num, 0)                           second_user_retention_rate,
-               IFNULL(ddpr3.retention_user_num, 0)                                           tertiary_user_num,
+               1                                                                                         user_type,
+               IFNULL(ddpr.user_num, 0)                                                                  new_user_num,
+               IFNULL(ddpr2.retention_user_num, 0)                                                       second_user_num,
+               IFNULL(ddpr2.retention_user_num / ddpr.user_num,
+                      0)                                                                                 second_user_retention_rate,
+               IFNULL(ddpr3.retention_user_num, 0)                                                       tertiary_user_num,
                IFNULL(ddpr3.retention_user_num / ddpr.user_num,
-                      0)                                                                     tertiary_user_retention_rate,
-               ddpl.user_num                                                                 active_user_num,
-               IFNULL(ddpo.new_user_online_time / ddpr.user_num, 0)                          avg_user_online_time,
-               IFNULL(ddpa.total_not_custom_banner_income, 0)                                ad_reward_income,
-               IFNULL(ddpa.reward_show_count, 0)                                             ad_reward_show_num,
-               IFNULL(ddpa.reward_not_custom_directsold_ecpm, 0)                             ad_reward_ecpm,
+                      0)                                                                                 tertiary_user_retention_rate,
+               ddpl.user_num                                                                             active_user_num,
+               IFNULL(ddpo.new_user_online_time / ddpr.user_num,
+                      0)                                                                                 avg_user_online_time,
+               IFNULL(ddpa.total_not_custom_banner_income,
+                      0)                                                                                 ad_reward_income,
+               IFNULL(ddpa.reward_show_count, 0)                                                         ad_reward_show_num,
+               IFNULL(ddpa.reward_not_custom_directsold_ecpm, 0)                                         ad_reward_ecpm,
                IFNULL(ddpa.reward_show_count / ddpr.user_num,
-                      0)                                                                     avg_user_ad_reward_show_num,
-               IFNULL(ddpa.reward_user_num, 0)                                               ad_reward_user_num,
-               IFNULL(ddpa.reward_user_num / ddpr.user_num, 0)                               ad_reward_rate,
-               IFNULL(ddpvace.show_user_num, 0)                                              ad_direct_sold_user_num,
-               IFNULL(ddpvace.show_record_num, 0)                                            ad_direct_sold_show_num,
+                      0)                                                                                 avg_user_ad_reward_show_num,
+               IFNULL(ddpa.reward_user_num, 0)                                                           ad_reward_user_num,
+               IFNULL(ddpa.reward_user_num / ddpr.user_num, 0)                                           ad_reward_rate,
+               IFNULL(ddpvace.show_user_num, 0)                                                          ad_direct_sold_user_num,
+               IFNULL(ddpvace.show_record_num, 0)                                                        ad_direct_sold_show_num,
                IFNULL(ddpvace.show_record_num / ddpr.user_num,
-                      0)                                                                     avg_user_ad_direct_sold_show_num,
-               IFNULL(ddpvace.click_record_num, 0)                                           ad_direct_sold_click_num,
+                      0)                                                                                 avg_user_ad_direct_sold_show_num,
+               IFNULL(ddpvace.click_record_num, 0)                                                       ad_direct_sold_click_num,
                IFNULL(ddpvace.click_record_num / ddpvace.show_record_num,
-                      0)                                                                     ad_direct_sold_click_show_rate,
-               IFNULL(ddpvace.show_user_num / ddpr.user_num, 0)                              ad_direct_sold_rate,
-               IFNULL(ddpa.reward_show_count / ddpr.user_num, 0)                             avg_user_ad_show_num,
-               IFNULL(ddpa.inter_show_count / ddpr.user_num, 0)                              avg_user_ad_inter_show_num,
-               IFNULL(ddpa.mrec_show_count / ddpr.user_num, 0)                               avg_user_ad_mrec_show_num,
+                      0)                                                                                 ad_direct_sold_click_show_rate,
+               IFNULL(ddpvace.show_user_num / ddpr.user_num,
+                      0)                                                                                 ad_direct_sold_rate,
+               IFNULL(ddpa.reward_show_count / ddpr.user_num,
+                      0)                                                                                 avg_user_ad_show_num,
+               IFNULL(ddpa.inter_show_count / ddpr.user_num,
+                      0)                                                                                 avg_user_ad_inter_show_num,
+               IFNULL(ddpa.mrec_show_count / ddpr.user_num,
+                      0)                                                                                 avg_user_ad_mrec_show_num,
 
-               IFNULL(ddpa.inter_not_custom_directsold_show_count, 0)                        inter_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_ecpm, 0)                              inter_ecpm,
+               IFNULL(ddpa.inter_not_custom_directsold_show_count, 0)                                    inter_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_ecpm, 0)                                          inter_ecpm,
                IFNULL(ddpa.inter_not_custom_directsold_show_count / ddpr.user_num,
-                      0)                                                                     inter_avg_user_show_num,
-               IFNULL(ddpa.inter_not_custom_directsold_user_num / ddpr.user_num, 0)          inter_rate,
-               IFNULL(ddpa.banner_not_custom_directsold_show_count, 0)                       banner_show_num,
-               IFNULL(ddpa.banner_not_custom_directsold_ecpm, 0)                             banner_ecpm,
+                      0)                                                                                 inter_avg_user_show_num,
+               IFNULL(ddpa.inter_not_custom_directsold_user_num / ddpr.user_num, 0)                      inter_rate,
+               IFNULL(ddpa.banner_not_custom_directsold_show_count,
+                      0)                                                                                 banner_show_num,
+               IFNULL(ddpa.banner_not_custom_directsold_ecpm, 0)                                         banner_ecpm,
                IFNULL(ddpa.banner_not_custom_directsold_show_count / ddpr.user_num,
-                      0)                                                                     banner_avg_user_show_num,
-               IFNULL(ddpa.banner_not_custom_directsold_user_num / ddpr.user_num, 0)         banner_rate,
+                      0)                                                                                 banner_avg_user_show_num,
+               IFNULL(ddpa.banner_not_custom_directsold_user_num / ddpr.user_num, 0)                     banner_rate,
 
-               IFNULL(ddps.total_user_num, 0)                                                share_new_user_num,
-               IFNULL(ddps.total_user_num / ddpr.user_num, 0)                                share_rate,
-               IFNULL(ddpuc.user_num, 0)                                                     offer_user_num,
-               IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                     offer_rate,
-               IFNULL(ddpucbox.user_num, 0)                                                  offer_mystery_box_user_num,
-               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                  offer_mystery_box_rate,
-               IFNULL(ddpql.new_user_num, 0)                                                 payment_user_num,
-               IFNULL(ddpql.new_user_num / ddpr.user_num, 0)                                 payment_rate,
-               IFNULL(ddpqlbox.new_user_num, 0)                                              payment_mystery_box_user_num,
-               IFNULL(ddpqlbox.new_user_num / ddpr.user_num, 0)                              payment_mystery_box_rate,
-               IFNULL(ddpql.new_user_event_ltv, 0)                                           qp_ltv,
-               IFNULL(dwfd.success_change_amount, 0)                                         withdraw_amount,
-               IFNULL(dwfd.success_change_fee, 0)                                            withdraw_fee,
-               IFNULL(dwfd.success_change_amount_fee, 0)                                     withdraw_cost,
-               IFNULL(ddpui.dollar_cost, 0)                                                  promotion_cost,
+               IFNULL(ddps.total_user_num, 0)                                                            share_new_user_num,
+               IFNULL(ddps.total_user_num / ddpr.user_num, 0)                                            share_rate,
+               IFNULL(ddpuc.user_num, 0)                                                                 offer_user_num,
+               IFNULL(ddpuc.user_num / ddpr.user_num, 0)                                                 offer_rate,
+               IFNULL(ddpucbox.user_num, 0)                                                              offer_mystery_box_user_num,
+               IFNULL(ddpucbox.user_num / ddpr.user_num, 0)                                              offer_mystery_box_rate,
+               IFNULL(ddpql.new_user_num, 0)                                                             payment_user_num,
+               IFNULL(ddpql.new_user_num / ddpr.user_num, 0)                                             payment_rate,
+               IFNULL(ddpqlbox.new_user_num, 0)                                                          payment_mystery_box_user_num,
+               IFNULL(ddpqlbox.new_user_num / ddpr.user_num,
+                      0)                                                                                 payment_mystery_box_rate,
+               IFNULL(ddpql.new_user_event_ltv, 0)                                                       qp_ltv,
+               IFNULL(dwfd.success_change_amount, 0)                                                     withdraw_amount,
+               IFNULL(dwfd.success_change_fee, 0)                                                        withdraw_fee,
+               IFNULL(dwfd.success_change_amount_fee, 0)                                                 withdraw_cost,
+               IFNULL(ddpui.dollar_cost, 0)                                                              promotion_cost,
                IFNULL(IFNULL(ddpui.dollar_cost, 0) + IFNULL(dwfd.success_change_amount_fee, 0),
-                      0)                                                                     total_expenditure,
-               IFNULL(IFNULL(ddpui.dollar_cost, 0) / ddpr.user_num, 0)                       cpi,
-               IFNULL(ddpa.total_not_custom_banner_income / IFNULL(ddpui.dollar_cost, 0), 0) ad_roi,
+                      0)                                                                                 total_expenditure,
+               IFNULL(IFNULL(ddpui.dollar_cost, 0) / ddpr.user_num, 0)                                   cpi,
+               IFNULL(ddpa.total_not_custom_banner_income / IFNULL(ddpui.dollar_cost, 0), 0)             ad_roi,
                IFNULL((ddpa.total_not_custom_banner_income + ddpql.active_event_ltv -
                        IFNULL(dwfd.success_change_amount_fee, 0)) /
-                      IFNULL(ddpui.dollar_cost, 0), 0)                                       total_roi
+                      IFNULL(ddpui.dollar_cost, 0), 0)                                                   total_roi,
+               IFNULL(dwfp.success_change_amount, 0)                                                     recharge_cost,
+               IFNULL(ROUND(
+                          (IFNULL(ddpa.total_not_custom_banner_income, 0) - IFNULL(dwfd.success_change_amount_fee, 0) +
+                           IFNULL(dwfp.success_change_amount, 0)) / IFNULL(ddpui.dollar_cost, 0), 3), 0) first_day_roi
         FROM dws_daily_pkg_usrc_login ddpl
                  LEFT JOIN dws_daily_pkg_usrc_register ddpr
                            on (ddpl.dates = ddpr.dates and ddpl.pkg = ddpr.pkg and
@@ -886,6 +981,9 @@
                  LEFT JOIN dws_daily_pkg_usrc_withdraw dwfd
                            on (ddpl.dates = dwfd.dates and ddpl.pkg = dwfd.pkg and
                                dwfd.user_type = 1 and dwfd.user_source = ddpl.user_source)
+                 LEFT JOIN dws_daily_pkg_usrc_payment dwfp
+                           on (ddpl.dates = dwfp.dates and ddpl.pkg = dwfp.pkg and
+                               dwfp.user_type = 1 and dwfp.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_invested ddpui on (ddpl.dates = ddpui.dates and ddpl.pkg = ddpui.pkg and
                                                                  ddpui.user_source = ddpl.user_source)
                  LEFT JOIN dws_daily_pkg_usrc_ad_conversion_event ddpvace

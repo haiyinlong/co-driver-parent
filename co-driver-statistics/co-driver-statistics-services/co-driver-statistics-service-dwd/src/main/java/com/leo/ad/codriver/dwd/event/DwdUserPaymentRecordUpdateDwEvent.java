@@ -12,8 +12,9 @@ import java.io.Serial;
  **/
 @Getter
 public class DwdUserPaymentRecordUpdateDwEvent extends CoDriverDwEvent {
+
     @Serial
-    private static final long serialVersionUID = 4158133776654572026L;
+    private static final long serialVersionUID = -1804552812959278354L;
 
     public DwdUserPaymentRecordUpdateDwEvent(Object source, Integer dates) {
         super(source, dates);

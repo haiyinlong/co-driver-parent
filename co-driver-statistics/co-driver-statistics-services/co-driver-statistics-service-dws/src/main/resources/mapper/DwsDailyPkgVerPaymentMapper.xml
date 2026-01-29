@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.leo.ad.codriver.dws.dao.DwsDailyPkgVerPaymentMapper">
+
+    <resultMap id="BaseResultMap" type="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerPayment">
+        <id property="id" column="id" jdbcType="BIGINT" />
+        <result property="dates" column="dates" jdbcType="INTEGER" />
+        <result property="pkg" column="pkg" jdbcType="VARCHAR" />
+        <result property="version" column="version" jdbcType="VARCHAR" />
+        <result property="userType" column="user_type" jdbcType="INTEGER" />
+        <result property="totalRecordNum" column="total_record_num" jdbcType="BIGINT" />
+        <result property="totalUserNum" column="total_user_num" jdbcType="BIGINT" />
+        <result property="processRecordNum" column="process_record_num" jdbcType="BIGINT" />
+        <result property="processUserNum" column="process_user_num" jdbcType="BIGINT" />
+        <result property="successAmount" column="success_amount" jdbcType="DECIMAL" />
+        <result property="successFee" column="success_fee" jdbcType="DECIMAL" />
+        <result property="successChangeAmount" column="success_change_amount" jdbcType="DECIMAL" />
+        <result property="successChangeFee" column="success_change_fee" jdbcType="DECIMAL" />
+        <result property="successRecordNum" column="success_record_num" jdbcType="BIGINT" />
+        <result property="successUserNum" column="success_user_num" jdbcType="BIGINT" />
+        <result property="failedRecordNum" column="failed_record_num" jdbcType="BIGINT" />
+        <result property="failedUserNum" column="failed_user_num" jdbcType="BIGINT" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,dates,pkg,
+        version,user_type,total_record_num,
+        total_user_num,process_record_num,process_user_num,
+        success_amount,success_fee,success_change_amount,
+        success_change_fee,success_record_num,success_user_num,
+        failed_record_num,failed_user_num
+    </sql>
+    <delete id="deleteByDates">
+        delete
+        from dws_daily_pkg_ver_payment
+        where dates = #{dates}
+    </delete>
+    <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerPayment">
+        SELECT duwr.update_dates                                                     dates,
+               duwr.pkg,
+               duwr.version,
+               0                                                                     user_type,
+               count(1)                                                              total_record_num,
+               count(DISTINCT duwr.user_id)                                          total_user_num,
+               count(case when duwr.status = 0 then duwr.status end)                 process_record_num,
+               count(DISTINCT (case when duwr.status = 0 then duwr.user_id end))     process_user_num,
+               IFNULL(sum(case when duwr.status = 1 then duwr.amount ELSE 0 end), 0) success_amount,
+               IFNULL(sum(case when duwr.status = 1 then duwr.fee ELSE 0 end), 0)    success_fee,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                      0)                                                             success_change_amount,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                      0)                                                             success_change_fee,
+               count(case when duwr.status = 1 then duwr.status end)                 success_record_num,
+               count(DISTINCT (case when duwr.status = 1 then duwr.user_id end))     success_user_num,
+               count(case when duwr.status = 2 then duwr.status end)                 failed_record_num,
+               count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
+        FROM dwd_user_withdraw_record duwr
+        WHERE duwr.update_dates = #{dates}
+        group by duwr.update_dates, duwr.pkg, duwr.version
+    </select>
+    <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerPayment">
+        SELECT duwr.update_dates                                                     dates,
+               duwr.pkg,
+               duwr.version,
+               1                                                                     user_type,
+               count(1)                                                              total_record_num,
+               count(DISTINCT duwr.user_id)                                          total_user_num,
+               count(case when duwr.status = 0 then duwr.status end)                 process_record_num,
+               count(DISTINCT (case when duwr.status = 0 then duwr.user_id end))     process_user_num,
+               IFNULL(sum(case when duwr.status = 1 then duwr.amount ELSE 0 end), 0) success_amount,
+               IFNULL(sum(case when duwr.status = 1 then duwr.fee ELSE 0 end), 0)    success_fee,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                      0)                                                             success_change_amount,
+               IFNULL(sum(case when duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                      0)                                                             success_change_fee,
+               count(case when duwr.status = 1 then duwr.status end)                 success_record_num,
+               count(DISTINCT (case when duwr.status = 1 then duwr.user_id end))     success_user_num,
+               count(case when duwr.status = 2 then duwr.status end)                 failed_record_num,
+               count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
+        FROM dwd_user_withdraw_record duwr
+        WHERE duwr.update_dates = #{dates}
+          and duwr.register_day = 0
+        group by duwr.update_dates, duwr.pkg, duwr.version
+    </select>
+</mapper>

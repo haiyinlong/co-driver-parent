@@ -1,18 +1,16 @@
 package com.leo.ad.codriver.dwd.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.*;
-
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dwd.service.DwdService;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * DwController
@@ -48,6 +46,8 @@ public class TaskDwdController {
 
     private final DwdService dwdUserGameFragmentGoodsServiceImpl;
     private final DwdService dwdUserGameFragmentGoodsRecordServiceImpl;
+
+    private final DwdService dwdUserPaymentRecordServiceImpl;
 
     @GetMapping("/execute/{serviceImpl}/{dates}")
     @Operation(summary = "触发所有dwd", description = "触发dwd数据同步")
@@ -259,4 +259,19 @@ public class TaskDwdController {
         return "执行完成dwd数据同步";
     }
 
+    @GetMapping("/userPaymentRecord")
+    @Operation(summary = "触发同步用户充值数据和记录dwd", description = "触发dwd数据同步")
+    public String syncUserPaymentRecordHandle(@RequestParam("dates") Integer dates) {
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        // 同步数据到dwd
+        try {
+            dwdUserPaymentRecordServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("同步碎片 dwdUserPaymentRecordServiceImpl:" + dates, e);
+        }
+
+        return "执行完成dwd数据同步";
+    }
 }
