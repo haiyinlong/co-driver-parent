@@ -48,6 +48,7 @@
                wr.project_name,
                wr.user_id,
                wr.status,
+               wr.pkg,
                IFNULL(wr.amount, 0)                          AS amount,
                IFNULL(wr.fee, 0)                             AS fee,
                #{singleFee}                                  AS exchange_rate,

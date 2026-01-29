@@ -1,11 +1,5 @@
 package com.leo.ad.codriver.dws.controller;
 
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.*;
-
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dws.service.DwsService;
 import com.leo.ad.codriver.dws.service.impl.DwsDailyPackageUserConversionServiceImpl;
@@ -17,11 +11,15 @@ import com.leo.ad.codriver.dws.service.impl.pkg.usrc.DwsDailyPkgVerUsrcAccumulat
 import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPackageAllConversionServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPkgVerAccumulateAdServiceImpl;
 import com.leo.ad.codriver.dws.service.impl.pkg.ver.DwsDailyPkgVerAccumulateWithdrawServiceImpl;
-
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.ObjectUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * DwController
@@ -129,6 +127,11 @@ public class TaskDwsController {
     // 碎片
     private final DwsDailyPkgFragmentTransactionSummaryServiceImpl dwsDailyPkgFragmentTransactionSummaryServiceImpl;
     private final DwsDailyPkgFragmentSummaryServiceImpl dwsDailyPkgFragmentSummaryServiceImpl;
+    // 充值
+    private final DwsService dwsDailyPkgPaymentServiceImpl;
+    private final DwsService dwsDailyPkgUsrcPaymentServiceImpl;
+    private final DwsService dwsDailyPkgVerPaymentServiceImpl;
+    private final DwsService dwsDailyPkgVerUsrcPaymentServiceImpl;
 
     @GetMapping("/execute/{serviceImpl}/{dates}")
     @Operation(summary = "触发所有dws", description = "触发dws数据同步")
@@ -709,5 +712,41 @@ public class TaskDwsController {
         }
 
         return "执行完成dws包pkgFragment维度数据统计同步";
+    }
+
+    @GetMapping("/calcuatePayment")
+    @Operation(summary = "触发dws包pkgPayment维度数据统计", description = "触发dws数据同步")
+    public String pkgPayment(@RequestParam("dates") Integer dates) {
+        // 获取统计日期
+        if (ObjectUtils.isEmpty(dates)) {
+            dates = DateUtils.getPreviousDate();
+        }
+        try {
+            dwsDailyPkgPaymentServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgPaymentServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgUsrcPaymentServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgUsrcPaymentServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+        try {
+            dwsDailyPkgVerPaymentServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgVerPaymentServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        try {
+            dwsDailyPkgVerUsrcPaymentServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error("dws包dwsDailyPkgVerUsrcPaymentServiceImpl维度数据统计同步异常", e);
+            throw new RuntimeException(e);
+        }
+
+        return "执行完成dws包pkgPayment维度数据统计同步";
     }
 }

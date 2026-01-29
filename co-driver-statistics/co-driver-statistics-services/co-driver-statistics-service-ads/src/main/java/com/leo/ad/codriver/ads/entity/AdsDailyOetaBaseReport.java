@@ -1,14 +1,13 @@
 package com.leo.ad.codriver.ads.entity;
 
-import java.math.BigDecimal;
-import java.util.Date;
-
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.leo.ad.codriver.starter.mysql.entity.BaseEntity;
-
 import lombok.Data;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 @Data
 @TableName("ads_daily_oeta_base_report")
@@ -95,6 +94,7 @@ public class AdsDailyOetaBaseReport implements BaseEntity {
     private BigDecimal bannerRate;
 
     private BigDecimal withdrawAmount;
+    private BigDecimal rechargeAmount;
     private BigDecimal withdrawFee;
     private BigDecimal withdrawCost;
     private BigDecimal promotionCost;
@@ -102,6 +102,7 @@ public class AdsDailyOetaBaseReport implements BaseEntity {
     private BigDecimal cpi;
     private BigDecimal adRoi;
     private BigDecimal totalRoi;
+    private BigDecimal firstDayRoi;
     private Date createTime;
 
     public void init() {

@@ -60,7 +60,7 @@
                t.failed_record_num,
                t.failed_user_num
         FROM (SELECT duwr.update_dates                                                     dates,
-                     duwr.pkg,
+                     dui.pkg,
                      duwr.version,
                      IFNULL(dus.network, 'Unknown')                                        user_source,
                      0                                                                     user_type,
@@ -80,11 +80,13 @@
                      count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
               FROM dwd_user_payment_record duwr
                        left join dim_user_source dus on (duwr.user_id = dus.user_id)
+                       LEFT join dim_user_info dui on dui.user_id = duwr.user_id
               WHERE duwr.update_dates = #{dates}
-              group by duwr.update_dates, duwr.pkg, duwr.version, IFNULL(dus.network, 'Unknown')) t
+              group by duwr.update_dates, dui.pkg, duwr.version, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_ver_usrc_payment ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
                                t.user_source = ddovyo.user_source and t.user_type = ddovyo.user_type)
+
     </select>
     <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerUsrcPayment">
         SELECT ddovyo.id,
@@ -106,7 +108,7 @@
                t.failed_record_num,
                t.failed_user_num
         FROM (SELECT duwr.update_dates                                                     dates,
-                     duwr.pkg,
+                     dui.pkg,
                      duwr.version,
                      IFNULL(dus.network, 'Unknown')                                        user_source,
                      1                                                                     user_type,
@@ -126,9 +128,10 @@
                      count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
               FROM dwd_user_payment_record duwr
                        left join dim_user_source dus on (duwr.user_id = dus.user_id)
+                       LEFT join dim_user_info dui on dui.user_id = duwr.user_id
               WHERE duwr.update_dates = #{dates}
                 and duwr.register_day = 0
-              group by duwr.update_dates, duwr.pkg, duwr.version, IFNULL(dus.network, 'Unknown')) t
+              group by duwr.update_dates, dui.pkg, duwr.version, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_ver_usrc_payment ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and t.version = ddovyo.version and
                                t.user_source = ddovyo.user_source and t.user_type = ddovyo.user_type)

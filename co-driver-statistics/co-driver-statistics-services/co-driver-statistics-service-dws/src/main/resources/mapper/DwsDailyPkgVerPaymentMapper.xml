@@ -39,7 +39,7 @@
     </delete>
     <select id="queryStatisticsActiveList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerPayment">
         SELECT duwr.update_dates                                                     dates,
-               duwr.pkg,
+               dui.pkg,
                duwr.version,
                0                                                                     user_type,
                count(1)                                                              total_record_num,
@@ -57,12 +57,13 @@
                count(case when duwr.status = 2 then duwr.status end)                 failed_record_num,
                count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
         FROM dwd_user_withdraw_record duwr
+                 LEFT join dim_user_info dui on dui.user_id = duwr.user_id
         WHERE duwr.update_dates = #{dates}
-        group by duwr.update_dates, duwr.pkg, duwr.version
+        group by duwr.update_dates, dui.pkg, duwr.version
     </select>
     <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgVerPayment">
         SELECT duwr.update_dates                                                     dates,
-               duwr.pkg,
+               dui.pkg,
                duwr.version,
                1                                                                     user_type,
                count(1)                                                              total_record_num,
@@ -80,8 +81,9 @@
                count(case when duwr.status = 2 then duwr.status end)                 failed_record_num,
                count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
         FROM dwd_user_withdraw_record duwr
+                 LEFT join dim_user_info dui on dui.user_id = duwr.user_id
         WHERE duwr.update_dates = #{dates}
           and duwr.register_day = 0
-        group by duwr.update_dates, duwr.pkg, duwr.version
+        group by duwr.update_dates, dui.pkg, duwr.version
     </select>
 </mapper>

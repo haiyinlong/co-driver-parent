@@ -57,7 +57,7 @@
                t.failed_record_num,
                t.failed_user_num
         FROM (SELECT duwr.update_dates                                                     dates,
-                     duwr.pkg,
+                     dui.pkg,
                      IFNULL(dus.network, 'Unknown')                                        user_source,
                      0                                                                     user_type,
                      count(1)                                                              total_record_num,
@@ -76,11 +76,57 @@
                      count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
               FROM dwd_user_payment_record duwr
                        left join dim_user_source dus on (duwr.user_id = dus.user_id)
+                       LEFT join dim_user_info dui on dui.user_id = duwr.user_id
               WHERE duwr.update_dates = #{dates}
-              group by duwr.update_dates, duwr.pkg, IFNULL(dus.network, 'Unknown')) t
+              group by duwr.update_dates, dui.pkg, IFNULL(dus.network, 'Unknown')) t
                  left join dws_daily_pkg_usrc_payment ddovyo
                            on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and
                                t.user_source = ddovyo.user_source and t.user_type = ddovyo.user_type)
     </select>
-    <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcPayment"></select>
+    <select id="queryStatisticsNewList" resultType="com.leo.ad.codriver.dws.entity.DwsDailyPkgUsrcPayment">
+        SELECT ddovyo.id,
+               t.dates,
+               t.pkg,
+               t.user_source,
+               t.user_type,
+               t.total_record_num,
+               t.total_user_num,
+               t.process_record_num,
+               t.process_user_num,
+               t.success_amount,
+               t.success_fee,
+               t.success_change_amount,
+               t.success_change_fee,
+               t.success_record_num,
+               t.success_user_num,
+               t.failed_record_num,
+               t.failed_user_num
+        FROM (SELECT duwr.update_dates                                                     dates,
+                     dui.pkg,
+                     IFNULL(dus.network, 'Unknown')                                        user_source,
+                     1                                                                     user_type,
+                     count(1)                                                              total_record_num,
+                     count(DISTINCT duwr.user_id)                                          total_user_num,
+                     count(case when duwr.status = 0 then duwr.status end)                 process_record_num,
+                     count(DISTINCT (case when duwr.status = 0 then duwr.user_id end))     process_user_num,
+                     IFNULL(sum(case when duwr.status = 1 then duwr.amount ELSE 0 end), 0) success_amount,
+                     IFNULL(sum(case when duwr.status = 1 then duwr.fee ELSE 0 end), 0)    success_fee,
+                     IFNULL(sum(case when duwr.status = 1 then duwr.change_amount ELSE 0 end),
+                            0)                                                             success_change_amount,
+                     IFNULL(sum(case when duwr.status = 1 then duwr.change_fee ELSE 0 end),
+                            0)                                                             success_change_fee,
+                     count(case when duwr.status = 1 then duwr.status end)                 success_record_num,
+                     count(DISTINCT (case when duwr.status = 1 then duwr.user_id end))     success_user_num,
+                     count(case when duwr.status = 2 then duwr.status end)                 failed_record_num,
+                     count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
+              FROM dwd_user_payment_record duwr
+                       left join dim_user_source dus on (duwr.user_id = dus.user_id)
+                       LEFT join dim_user_info dui on dui.user_id = duwr.user_id
+              WHERE duwr.update_dates = #{dates}
+                and duwr.register_day = 0
+              group by duwr.update_dates, dui.pkg, IFNULL(dus.network, 'Unknown')) t
+                 left join dws_daily_pkg_usrc_payment ddovyo
+                           on (t.dates = ddovyo.dates and t.pkg = ddovyo.pkg and
+                               t.user_source = ddovyo.user_source and t.user_type = ddovyo.user_type)
+    </select>
 </mapper>
