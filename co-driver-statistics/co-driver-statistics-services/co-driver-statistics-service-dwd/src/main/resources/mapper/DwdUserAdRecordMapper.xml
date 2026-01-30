@@ -45,7 +45,7 @@
                 and omasda.id >= #{startSourceId}
                 and omasda.id  <![CDATA[<= ]]> #{endSourceId}
                 and omasda.gaid is not null
-                and omasda.gaid <![CDATA[ <>]]> '') t
+                and omasda.gaid not in ('', '00000000-0000-0000-0000-000000000000')) t
                  LEFT JOIN dwd_user_ad_record duar on (duar.source_id = t.source_id and duar.dates = t.dates)
                  INNER JOIN dim_user_info dui on (dui.gaid = t.gaid and dui.pkg = t.pkg and dui.dates = t.bdates)
 
