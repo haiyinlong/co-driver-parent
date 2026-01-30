@@ -46,11 +46,11 @@ public class DwdUserAdRecord implements BaseEntity {
         return version;
     }
 
-    public boolean isApplovinDirectsold() {
+    public boolean isNetworkApplovinDirectsold() {
         return "APPLOVIN_DIRECTSOLD".equalsIgnoreCase(this.getNetwork());
     }
 
-    public boolean isCustomNetworkSdk() {
+    public boolean isNetworkCustomNetworkSdk() {
         return "CUSTOM_NETWORK_SDK".equalsIgnoreCase(this.getNetwork()) || "OTER_NET".equalsIgnoreCase(
             this.getNetwork());
     }
@@ -75,7 +75,7 @@ public class DwdUserAdRecord implements BaseEntity {
         return "FACEBOOK_NETWORK".equalsIgnoreCase(this.getNetwork());
     }
 
-    public boolean isReward() {
+    public boolean isAdFormatReward() {
         return "reward".equalsIgnoreCase(this.getAdFormat());
     }
 

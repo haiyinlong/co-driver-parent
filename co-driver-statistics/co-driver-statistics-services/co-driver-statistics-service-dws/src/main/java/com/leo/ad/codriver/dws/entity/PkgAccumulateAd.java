@@ -1,12 +1,11 @@
 package com.leo.ad.codriver.dws.entity;
 
-import java.math.BigDecimal;
-
 import com.leo.ad.codriver.common.util.BigDecimalUtils;
 import com.leo.ad.codriver.common.util.LongUtils;
 import com.leo.ad.codriver.dwd.entity.DwdUserAdRecord;
-
 import lombok.Data;
+
+import java.math.BigDecimal;
 
 /**
  * PkgAccumulateAd
@@ -1221,7 +1220,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleTotalNotCustomDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (dwdUserAdRecord.isApplovinDirectsold() || dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (dwdUserAdRecord.isNetworkApplovinDirectsold() || dwdUserAdRecord.isNetworkCustomNetworkSdk()) {
             return;
         }
         this.totalNotCustomDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1232,7 +1231,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isApplovinDirectsold()) {
+        if (!dwdUserAdRecord.isNetworkApplovinDirectsold()) {
             return;
         }
         this.directsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1241,7 +1240,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleCustomNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (!dwdUserAdRecord.isNetworkCustomNetworkSdk()) {
             return;
         }
         this.customNetworkShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1250,7 +1249,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleCustomDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isApplovinDirectsold() && dwdUserAdRecord.isCustomNetworkSdk())) {
+        if (!(dwdUserAdRecord.isNetworkApplovinDirectsold() && dwdUserAdRecord.isNetworkCustomNetworkSdk())) {
             return;
         }
         this.customDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1272,7 +1271,7 @@ public class PkgAccumulateAd {
             return;
         }
 
-        if (dwdUserAdRecord.isApplovinDirectsold() || dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (dwdUserAdRecord.isNetworkApplovinDirectsold() || dwdUserAdRecord.isNetworkCustomNetworkSdk()) {
             return;
         }
         this.bannerNotCustomDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1283,7 +1282,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleBannerDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isApplovinDirectsold())) {
+        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isNetworkApplovinDirectsold())) {
             return;
         }
         this.bannerDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1292,7 +1291,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleBannerCustomNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isCustomNetworkSdk())) {
+        if (!(dwdUserAdRecord.isBanner() && dwdUserAdRecord.isNetworkCustomNetworkSdk())) {
             return;
         }
         this.bannerCustomNetworkShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1345,7 +1344,7 @@ public class PkgAccumulateAd {
             return;
         }
 
-        if (dwdUserAdRecord.isApplovinDirectsold() || dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (dwdUserAdRecord.isNetworkApplovinDirectsold() || dwdUserAdRecord.isNetworkCustomNetworkSdk()) {
             return;
         }
         this.interNotCustomDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1356,7 +1355,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleInterDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isInter() && dwdUserAdRecord.isApplovinDirectsold())) {
+        if (!(dwdUserAdRecord.isInter() && dwdUserAdRecord.isNetworkApplovinDirectsold())) {
             return;
         }
         this.interDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1418,7 +1417,7 @@ public class PkgAccumulateAd {
             return;
         }
 
-        if (dwdUserAdRecord.isApplovinDirectsold() || dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (dwdUserAdRecord.isNetworkApplovinDirectsold() || dwdUserAdRecord.isNetworkCustomNetworkSdk()) {
             return;
         }
         this.mrecNotCustomDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1429,7 +1428,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleMrecDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isMrec() && dwdUserAdRecord.isApplovinDirectsold())) {
+        if (!(dwdUserAdRecord.isMrec() && dwdUserAdRecord.isNetworkApplovinDirectsold())) {
             return;
         }
         this.mrecDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1438,7 +1437,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleMrecCustomNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isMrec() && dwdUserAdRecord.isCustomNetworkSdk())) {
+        if (!(dwdUserAdRecord.isMrec() && dwdUserAdRecord.isNetworkCustomNetworkSdk())) {
             return;
         }
         this.mrecCustomNetworkShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1456,7 +1455,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleReward(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isReward()) {
+        if (!dwdUserAdRecord.isAdFormatReward()) {
             return;
         }
         this.rewardShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1465,11 +1464,11 @@ public class PkgAccumulateAd {
     }
 
     private void handleRewardNotCustomDirectsold(DwdUserAdRecord dwdUserAdRecord) {
-        if (!dwdUserAdRecord.isReward()) {
+        if (!dwdUserAdRecord.isAdFormatReward()) {
             return;
         }
 
-        if (dwdUserAdRecord.isApplovinDirectsold() || dwdUserAdRecord.isCustomNetworkSdk()) {
+        if (dwdUserAdRecord.isNetworkApplovinDirectsold() || dwdUserAdRecord.isNetworkCustomNetworkSdk()) {
             return;
         }
         this.rewardNotCustomDirectsoldShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1480,7 +1479,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleRewardFacebookNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isFacebookNetwork())) {
+        if (!(dwdUserAdRecord.isAdFormatReward() && dwdUserAdRecord.isFacebookNetwork())) {
             return;
         }
         this.rewardFacebookNetworkShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1491,7 +1490,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleRewardCustomNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isCustomNetworkSdk())) {
+        if (!(dwdUserAdRecord.isAdFormatReward() && dwdUserAdRecord.isNetworkCustomNetworkSdk())) {
             return;
         }
         this.rewardCustomNetworkShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1502,7 +1501,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleRewardExchange(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isApplovinExchange())) {
+        if (!(dwdUserAdRecord.isAdFormatReward() && dwdUserAdRecord.isApplovinExchange())) {
             return;
         }
         this.rewardExchangeShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1511,7 +1510,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleRewardNetwork(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isApplovinNetwork())) {
+        if (!(dwdUserAdRecord.isAdFormatReward() && dwdUserAdRecord.isApplovinNetwork())) {
             return;
         }
         this.rewardNetworkShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1520,7 +1519,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleRewardMintegralBidding(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isMintegralBidding())) {
+        if (!(dwdUserAdRecord.isAdFormatReward() && dwdUserAdRecord.isMintegralBidding())) {
             return;
         }
         this.rewardMintegralBiddingShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1531,7 +1530,7 @@ public class PkgAccumulateAd {
     }
 
     private void handleRewardVungleBidding(DwdUserAdRecord dwdUserAdRecord) {
-        if (!(dwdUserAdRecord.isReward() && dwdUserAdRecord.isVungleBidding())) {
+        if (!(dwdUserAdRecord.isAdFormatReward() && dwdUserAdRecord.isVungleBidding())) {
             return;
         }
         this.rewardVungleBiddingShowCount += LongUtils.getDefault(dwdUserAdRecord.getAdExhibit());
@@ -1558,8 +1557,9 @@ public class PkgAccumulateAd {
             BigDecimalUtils.add(this.getAccumulateTotalIncome(), advertisingValue.getTotalIncome());
         this.accumulateTotalEcpm = this.calculateEcpm(this.accumulateTotalIncome, this.accumulateTotalShowCount);
         this.accumulateTotalNotCustomDirectsoldShowCount += advertisingValue.getTotalNotCustomDirectsoldShowCount();
-        this.accumulateTotalNotCustomDirectsoldIncome = BigDecimalUtils
-            .add(this.accumulateTotalNotCustomDirectsoldIncome, advertisingValue.getTotalNotCustomDirectsoldIncome());
+        this.accumulateTotalNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateTotalNotCustomDirectsoldIncome,
+                advertisingValue.getTotalNotCustomDirectsoldIncome());
         this.accumulateTotalNotCustomDirectsoldEcpm = this.calculateEcpm(this.accumulateTotalNotCustomDirectsoldIncome,
             accumulateTotalNotCustomDirectsoldShowCount);
 
@@ -1609,10 +1609,12 @@ public class PkgAccumulateAd {
         this.accumulateBannerMintegralBiddingEcpm =
             this.calculateEcpm(this.accumulateBannerMintegralBiddingIncome, accumulateBannerMintegralBiddingShowCount);
         this.accumulateBannerNotCustomDirectsoldShowCount += advertisingValue.getBannerNotCustomDirectsoldShowCount();
-        this.accumulateBannerNotCustomDirectsoldIncome = BigDecimalUtils
-            .add(this.accumulateBannerNotCustomDirectsoldIncome, advertisingValue.getBannerNotCustomDirectsoldIncome());
-        this.accumulateBannerNotCustomDirectsoldEcpm = this.calculateEcpm(
-            this.accumulateBannerNotCustomDirectsoldIncome, accumulateBannerNotCustomDirectsoldShowCount);
+        this.accumulateBannerNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateBannerNotCustomDirectsoldIncome,
+                advertisingValue.getBannerNotCustomDirectsoldIncome());
+        this.accumulateBannerNotCustomDirectsoldEcpm =
+            this.calculateEcpm(this.accumulateBannerNotCustomDirectsoldIncome,
+                accumulateBannerNotCustomDirectsoldShowCount);
         this.accumulateInterShowCount += advertisingValue.getInterShowCount();
         this.accumulateInterIncome = BigDecimalUtils.add(this.accumulateInterIncome, advertisingValue.getInterIncome());
         this.accumulateInterEcpm = this.calculateEcpm(this.accumulateInterIncome, accumulateInterShowCount);
@@ -1642,8 +1644,9 @@ public class PkgAccumulateAd {
         this.accumulateInterVungleBiddingEcpm =
             this.calculateEcpm(this.accumulateInterVungleBiddingIncome, accumulateInterVungleBiddingShowCount);
         this.accumulateInterNotCustomDirectsoldShowCount += advertisingValue.getInterNotCustomDirectsoldShowCount();
-        this.accumulateInterNotCustomDirectsoldIncome = BigDecimalUtils
-            .add(this.accumulateInterNotCustomDirectsoldIncome, advertisingValue.getInterNotCustomDirectsoldIncome());
+        this.accumulateInterNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateInterNotCustomDirectsoldIncome,
+                advertisingValue.getInterNotCustomDirectsoldIncome());
         this.accumulateInterNotCustomDirectsoldEcpm = this.calculateEcpm(this.accumulateInterNotCustomDirectsoldIncome,
             accumulateInterNotCustomDirectsoldShowCount);
         this.accumulateMrecShowCount += advertisingValue.getMrecShowCount();
@@ -1704,10 +1707,12 @@ public class PkgAccumulateAd {
         this.accumulateRewardVungleBiddingEcpm =
             this.calculateEcpm(this.accumulateRewardVungleBiddingIncome, accumulateRewardVungleBiddingShowCount);
         this.accumulateRewardNotCustomDirectsoldShowCount += advertisingValue.getRewardNotCustomDirectsoldShowCount();
-        this.accumulateRewardNotCustomDirectsoldIncome = BigDecimalUtils
-            .add(this.accumulateRewardNotCustomDirectsoldIncome, advertisingValue.getRewardNotCustomDirectsoldIncome());
-        this.accumulateRewardNotCustomDirectsoldEcpm = this.calculateEcpm(
-            this.accumulateRewardNotCustomDirectsoldIncome, accumulateRewardNotCustomDirectsoldShowCount);
+        this.accumulateRewardNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateRewardNotCustomDirectsoldIncome,
+                advertisingValue.getRewardNotCustomDirectsoldIncome());
+        this.accumulateRewardNotCustomDirectsoldEcpm =
+            this.calculateEcpm(this.accumulateRewardNotCustomDirectsoldIncome,
+                accumulateRewardNotCustomDirectsoldShowCount);
     }
 
     protected void copyAdvertisingValue(PkgAccumulateAd advertisingValue) {
@@ -1814,8 +1819,9 @@ public class PkgAccumulateAd {
         this.accumulateTotalIncome = BigDecimalUtils.add(this.getAccumulateTotalIncome(), this.getTotalIncome());
         this.accumulateTotalEcpm = BigDecimalUtils.add(this.getAccumulateTotalEcpm(), this.getTotalEcpm());
         this.accumulateTotalNotCustomDirectsoldShowCount += this.getTotalNotCustomDirectsoldShowCount();
-        this.accumulateTotalNotCustomDirectsoldIncome = BigDecimalUtils
-            .add(this.accumulateTotalNotCustomDirectsoldIncome, this.getTotalNotCustomDirectsoldIncome());
+        this.accumulateTotalNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateTotalNotCustomDirectsoldIncome,
+                this.getTotalNotCustomDirectsoldIncome());
         this.accumulateTotalNotCustomDirectsoldEcpm =
             BigDecimalUtils.add(this.accumulateTotalNotCustomDirectsoldEcpm, this.getTotalNotCustomDirectsoldEcpm());
         this.accumulateDirectsoldShowCount += this.getDirectsoldShowCount();
@@ -1861,8 +1867,9 @@ public class PkgAccumulateAd {
         this.accumulateBannerMintegralBiddingEcpm =
             BigDecimalUtils.add(this.accumulateBannerMintegralBiddingEcpm, this.getBannerMintegralBiddingEcpm());
         this.accumulateBannerNotCustomDirectsoldShowCount += this.getBannerNotCustomDirectsoldShowCount();
-        this.accumulateBannerNotCustomDirectsoldIncome = BigDecimalUtils
-            .add(this.accumulateBannerNotCustomDirectsoldIncome, this.getBannerNotCustomDirectsoldIncome());
+        this.accumulateBannerNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateBannerNotCustomDirectsoldIncome,
+                this.getBannerNotCustomDirectsoldIncome());
         this.accumulateBannerNotCustomDirectsoldEcpm =
             BigDecimalUtils.add(this.accumulateBannerNotCustomDirectsoldEcpm, this.getBannerNotCustomDirectsoldEcpm());
         this.accumulateInterShowCount += this.getInterShowCount();
@@ -1894,8 +1901,9 @@ public class PkgAccumulateAd {
         this.accumulateInterVungleBiddingEcpm =
             BigDecimalUtils.add(this.accumulateInterVungleBiddingEcpm, this.getInterVungleBiddingEcpm());
         this.accumulateInterNotCustomDirectsoldShowCount += this.getInterNotCustomDirectsoldShowCount();
-        this.accumulateInterNotCustomDirectsoldIncome = BigDecimalUtils
-            .add(this.accumulateInterNotCustomDirectsoldIncome, this.getInterNotCustomDirectsoldIncome());
+        this.accumulateInterNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateInterNotCustomDirectsoldIncome,
+                this.getInterNotCustomDirectsoldIncome());
         this.accumulateInterNotCustomDirectsoldEcpm =
             BigDecimalUtils.add(this.accumulateInterNotCustomDirectsoldEcpm, this.getInterNotCustomDirectsoldEcpm());
         this.accumulateMrecShowCount += this.getMrecShowCount();
@@ -1955,8 +1963,9 @@ public class PkgAccumulateAd {
         this.accumulateRewardVungleBiddingEcpm =
             BigDecimalUtils.add(this.accumulateRewardVungleBiddingEcpm, this.getRewardVungleBiddingEcpm());
         this.accumulateRewardNotCustomDirectsoldShowCount += this.getRewardNotCustomDirectsoldShowCount();
-        this.accumulateRewardNotCustomDirectsoldIncome = BigDecimalUtils
-            .add(this.accumulateRewardNotCustomDirectsoldIncome, this.getRewardNotCustomDirectsoldIncome());
+        this.accumulateRewardNotCustomDirectsoldIncome =
+            BigDecimalUtils.add(this.accumulateRewardNotCustomDirectsoldIncome,
+                this.getRewardNotCustomDirectsoldIncome());
         this.accumulateRewardNotCustomDirectsoldEcpm =
             BigDecimalUtils.add(this.accumulateRewardNotCustomDirectsoldEcpm, this.getRewardNotCustomDirectsoldEcpm());
     }
