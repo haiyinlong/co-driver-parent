@@ -56,7 +56,7 @@
                count(DISTINCT (case when duwr.status = 1 then duwr.user_id end))     success_user_num,
                count(case when duwr.status = 2 then duwr.status end)                 failed_record_num,
                count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
-        FROM dwd_user_withdraw_record duwr
+        FROM dwd_user_payment_record duwr
                  LEFT join dim_user_info dui on dui.user_id = duwr.user_id
         WHERE duwr.update_dates = #{dates}
         group by duwr.update_dates, dui.pkg, duwr.version
@@ -80,7 +80,7 @@
                count(DISTINCT (case when duwr.status = 1 then duwr.user_id end))     success_user_num,
                count(case when duwr.status = 2 then duwr.status end)                 failed_record_num,
                count(DISTINCT (case when duwr.status = 2 then duwr.user_id end))     failed_user_num
-        FROM dwd_user_withdraw_record duwr
+        FROM dwd_user_payment_record duwr
                  LEFT join dim_user_info dui on dui.user_id = duwr.user_id
         WHERE duwr.update_dates = #{dates}
           and duwr.register_day = 0
