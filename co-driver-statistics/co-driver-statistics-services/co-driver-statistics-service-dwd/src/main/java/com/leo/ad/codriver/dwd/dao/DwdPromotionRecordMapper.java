@@ -21,10 +21,7 @@ import java.util.List;
 public interface DwdPromotionRecordMapper extends BaseMapper<DwdPromotionRecord> {
     Integer deleteByDate(@Param("dates") Integer dates);
 
-    DwCountDTO getOdsDbCountOfId(@Param("dates") Integer dates);
-
-    List<DwdPromotionRecord> queryOdsByDateAndId(@Param("dates") Integer dates,
-        @Param("singleFee") BigDecimal singleFee, @Param("startId") long startId, @Param("endId") long endId);
+    List<DwdPromotionRecord> queryByDate(@Param("dates") Integer dates, @Param("singleFee") BigDecimal singleFee);
 
     List<DwdPromotionRecord> queryByDateAndId(@Param("dates") Integer dates, @Param("startId") long startId,
         @Param("endId") long endId);

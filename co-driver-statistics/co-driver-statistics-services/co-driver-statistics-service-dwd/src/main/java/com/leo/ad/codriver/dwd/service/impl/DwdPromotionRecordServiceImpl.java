@@ -1,6 +1,5 @@
 package com.leo.ad.codriver.dwd.service.impl;
 
-import com.leo.ad.codriver.common.DwCountDTO;
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.annotation.AutoPushEventWithTrue;
 import com.leo.ad.codriver.common.annotation.ShowExecuteTime;
@@ -14,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.ObjectUtils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -45,23 +43,13 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
             throw new RuntimeException(e);
         }
         dwdPromotionRecordMapper.deleteByDate(dates);
-
-        DwCountDTO dbCount = dwdPromotionRecordMapper.getOdsDbCountOfId(dates);
-        if (ObjectUtils.isEmpty(dbCount) || dbCount.getCount() == 0) {
-            log.info("ods_adjust_cost {} 统计数据为空，跳过处理", dates);
+        List<DwdPromotionRecord> dwdPromotionRecordList =
+            dwdPromotionRecordMapper.queryByDate(dates, exchangeRate.getIndianToDollar());
+        if (CollectionUtils.isEmpty(dwdPromotionRecordList)) {
             return false;
         }
-        int loopPageRowNum = dbCount.loopNum();
-        for (int i = 1; i <= dbCount.loopNum(loopPageRowNum); i++) {
-            List<DwdPromotionRecord> promotionRecordList =
-                dwdPromotionRecordMapper.queryOdsByDateAndId(dates, exchangeRate.getIndianToDollar(),
-                    dbCount.loopStartId(i), dbCount.loopEndId(i));
-            if (CollectionUtils.isEmpty(promotionRecordList)) {
-                continue;
-            }
-            promotionRecordList.forEach(DwdPromotionRecord::init);
-            batchMapper.batchInsert(promotionRecordList, DwdPromotionRecordMapper.class);
-        }
+        dwdPromotionRecordList.forEach(DwdPromotionRecord::init);
+        batchMapper.batchInsert(dwdPromotionRecordList, DwdPromotionRecordMapper.class);
         return true;
     }
 }
