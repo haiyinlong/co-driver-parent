@@ -1,14 +1,12 @@
 package com.leo.ad.codriver.dwd.scheduler;
 
+import com.leo.ad.codriver.common.util.DateUtils;
+import com.leo.ad.codriver.dwd.service.DwdService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-
-import com.leo.ad.codriver.common.util.DateUtils;
-import com.leo.ad.codriver.dwd.service.DwdService;
-
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * DwdPromotionRecordScheduler
@@ -25,9 +23,13 @@ public class DwdPromotionRecordScheduler {
     @Scheduled(cron = "0 30 3-5 * * ?")
     @Async("asyncServiceExecutor")
     public void syncUpdateHmGameRetention() {
-        Integer dates = DateUtils.getPreviousDate();
-        dwdPromotionRecordServiceImpl.syncData(dates);
-        log.info("{} dwdPromotionRecord 更新数据结束", dates);
+        // 更新最近三天的数据
+        int dates;
+        for (int i = 4; i < 1; i--) {
+            dates = DateUtils.getPreviousDate(i);
+            dwdPromotionRecordServiceImpl.syncData(dates);
+            log.info("{} dwdPromotionRecord 更新数据结束", dates);
+        }
     }
 
 }

@@ -7,7 +7,14 @@
         from dwd_promotion_record
         where dates = #{dates}
     </delete>
-    <select id="queryByDate" resultType="com.leo.ad.codriver.dwd.entity.DwdPromotionRecord">
+    <select id="getOdsDbCountOfId" resultType="com.leo.ad.codriver.common.DwCountDTO">
+        select min(id)  min_id,
+               max(id)  max_id,
+               count(1) count
+        from ods_adjust_cost
+        where dates = #{dates}
+    </select>
+    <select id="queryOdsByDateAndId" resultType="com.leo.ad.codriver.dwd.entity.DwdPromotionRecord">
         select ac.dates,
                ac.pkg,
                ac.network,
@@ -17,7 +24,9 @@
                ac.cost,
                ROUND(ac.cost / #{singleFee}, 8) change_cost
         from ods_adjust_cost ac
-        where ac.dates = #{dates}
+        where dates = #{dates}
+          and id >= #{startId}
+          and id <![CDATA[<= ]]> #{endId}
     </select>
     <select id="queryByDateAndId" resultType="com.leo.ad.codriver.dwd.entity.DwdPromotionRecord">
         select *
