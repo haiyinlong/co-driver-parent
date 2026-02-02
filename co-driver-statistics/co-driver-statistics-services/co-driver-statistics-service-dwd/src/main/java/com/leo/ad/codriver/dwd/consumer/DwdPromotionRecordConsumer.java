@@ -26,6 +26,7 @@ public class DwdPromotionRecordConsumer {
 
     private final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
     private final Map<Integer, ScheduledFuture<?>> scheduledTasks = new ConcurrentHashMap<>();
+    private static final int DELAY_TIME = 5;
 
     @RabbitListener(queues = {"data_change_queue"},
         autoStartup = "${co-driver.rabbitmq.listener.data_change_queue.enable:true}")
@@ -44,7 +45,7 @@ public class DwdPromotionRecordConsumer {
             try {
                 // 为这个特定日期安排倒计时任务，如果1分钟内没有新数据则才执行
                 ScheduledFuture<?> newTask = executorService.schedule(() -> {
-                    log.info("{} 时间内未接收到新数据，开始执行推广花费数据同步", dates);
+                    log.info("{} 时间内未接收到新数据，开始执行 {} 推广花费数据同步", DELAY_TIME, dates);
                     try {
                         dwdPromotionRecordServiceImpl.syncData(dates);
                     } catch (Exception e) {
@@ -52,7 +53,7 @@ public class DwdPromotionRecordConsumer {
                     } finally {
                         scheduledTasks.remove(dates);
                     }
-                }, 2, TimeUnit.MINUTES);
+                }, DELAY_TIME, TimeUnit.MINUTES);
 
                 // 将新任务存储到map中
                 scheduledTasks.put(dates, newTask);
