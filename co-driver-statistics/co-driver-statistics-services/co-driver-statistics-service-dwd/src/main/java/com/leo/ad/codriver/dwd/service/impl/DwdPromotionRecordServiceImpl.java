@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 /**
  * DwdPromotionRecordServiceImpl
@@ -36,12 +35,6 @@ public class DwdPromotionRecordServiceImpl implements DwdService {
     @AutoPushEventWithTrue(events = {DwdPromotionRecordUpdateDwEvent.class})
     @Lock(paramName = "#dates")
     public boolean syncData(Integer dates) {
-        try {
-            TimeUnit.MINUTES.sleep(2);
-        } catch (InterruptedException e) {
-            log.info(" {} 推广花费数据，延迟2分钟处理", dates);
-            throw new RuntimeException(e);
-        }
         dwdPromotionRecordMapper.deleteByDate(dates);
         List<DwdPromotionRecord> dwdPromotionRecordList =
             dwdPromotionRecordMapper.queryByDate(dates, exchangeRate.getIndianToDollar());
