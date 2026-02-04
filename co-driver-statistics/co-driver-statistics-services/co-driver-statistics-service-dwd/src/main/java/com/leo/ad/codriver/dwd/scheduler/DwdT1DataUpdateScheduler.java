@@ -1,21 +1,20 @@
 package com.leo.ad.codriver.dwd.scheduler;
 
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-
-import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 import com.leo.ad.codriver.common.ExchangeRate;
 import com.leo.ad.codriver.common.util.DateUtils;
 import com.leo.ad.codriver.dim.service.DimService;
 import com.leo.ad.codriver.dwd.event.DwdUpdateFinishEvent;
 import com.leo.ad.codriver.dwd.service.DwdService;
-
+import com.leo.ad.codriver.ods.service.OdsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * DwdT1DataUpdateScheduler
@@ -28,6 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class DwdT1DataUpdateScheduler {
     private final ExchangeRate exchangeRate;
+    private final List<OdsService> odsServices;
     private final List<DwdService> dwdServices;
     private final List<DimService> dimServices;
     private final ApplicationEventPublisher publisher;
@@ -47,6 +47,20 @@ public class DwdT1DataUpdateScheduler {
             }
         }
         log.info("dim 全量数据同步结束");
+        log.info("ods 开始全量同步所有数据");
+        for (OdsService service : odsServices) {
+            try {
+                service.syncData(dates);
+            } catch (Exception e) {
+                log.error(service.getClass().getSimpleName() + "全量数据同步异常", e);
+            }
+        }
+        log.info("ods 全量数据同步结束");
+        try {
+            TimeUnit.MINUTES.sleep(2);
+        } catch (InterruptedException e) {
+            log.error(dates + " ods 更新后休息, 休息2分钟异常", e);
+        }
         log.info("{} dwd 开始同步所有数据, 共{} 个", dates, dwdServices.size());
         for (DwdService service : dwdServices) {
             try {

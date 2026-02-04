@@ -20,15 +20,7 @@ import org.springframework.stereotype.Component;
 public class DwdUserAdRecordScheduler {
     private final DwdService dwdUserAdRecordServiceImpl;
 
-    @Scheduled(cron = "0 0 1-5 * * ?")
-    @Async("asyncServiceExecutor")
-    public void syncUpdateHmGameRetention() {
-        Integer dates = DateUtils.getPreviousDate();
-        dwdUserAdRecordServiceImpl.syncData(dates);
-        log.info("{} DwdUserAdRecord 更新数据结束", dates);
-    }
-
-    @Scheduled(cron = "0 0 9-10 * * ?")
+    @Scheduled(cron = "0 0 1-10 * * ?")
     @Async("asyncServiceExecutor")
     public void syncUpdateWithUnityAd() {
         Integer dates = DateUtils.getPreviousDate();
