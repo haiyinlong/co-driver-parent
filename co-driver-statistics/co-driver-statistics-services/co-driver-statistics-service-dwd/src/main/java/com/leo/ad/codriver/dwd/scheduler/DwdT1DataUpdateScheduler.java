@@ -51,15 +51,21 @@ public class DwdT1DataUpdateScheduler {
         for (OdsService service : odsServices) {
             try {
                 service.syncData(dates);
+                try {
+                    log.info("{}  ods数据同步完成, 休息1分钟", service.getClass().getSimpleName());
+                    TimeUnit.MINUTES.sleep(1);
+                } catch (InterruptedException e) {
+                    log.error(dates + " ods 更新后休息, 休息1分钟异常", e);
+                }
             } catch (Exception e) {
                 log.error(service.getClass().getSimpleName() + "全量数据同步异常", e);
             }
         }
         log.info("ods 全量数据同步结束");
         try {
-            TimeUnit.MINUTES.sleep(2);
+            TimeUnit.SECONDS.sleep(30);
         } catch (InterruptedException e) {
-            log.error(dates + " ods 更新后休息, 休息2分钟异常", e);
+            log.error(dates + " ods 更新后休息, 休息30秒异常", e);
         }
         log.info("{} dwd 开始同步所有数据, 共{} 个", dates, dwdServices.size());
         for (DwdService service : dwdServices) {

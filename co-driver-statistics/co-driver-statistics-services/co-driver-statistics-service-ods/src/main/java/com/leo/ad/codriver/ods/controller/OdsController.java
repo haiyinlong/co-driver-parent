@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * OdsController
@@ -36,6 +37,12 @@ public class OdsController {
         }
         for (OdsService service : odsServices) {
             service.syncData(dates);
+            try {
+                log.info("{}  ods数据同步完成, 休息1分钟", service.getClass().getSimpleName());
+                TimeUnit.MINUTES.sleep(1);
+            } catch (InterruptedException e) {
+                log.error(dates + " ods 更新后休息, 休息1分钟异常", e);
+            }
         }
         return "执行完成ods数据同步";
     }
