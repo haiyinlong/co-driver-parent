@@ -25,6 +25,11 @@ public class DwsTodayRealTimeScheduler {
     private final DwsService dwsDailyPkgUsrcLoginServiceImpl;
     private final DwsService dwsDailyPkgVerUsrcLoginServiceImpl;
 
+    // 注册用户数据
+    private final DwsService dwsDailyPackageRegisterServiceImpl;
+    private final DwsService dwsUserRegisterPkgFullDailyServiceImpl;
+    private final DwsService dwsDailyRegisterServiceImpl;
+
     /**
      * 实时更新当天数据，每小时更新一次当天的历史数据，每天晚上同一再处理一次保证数据的真确性<br/>
      */
@@ -32,6 +37,11 @@ public class DwsTodayRealTimeScheduler {
     @Async("asyncServiceExecutor")
     public void triggerUserCalculat() {
         Integer dates = DateUtils.getNowDates();
+        triggerUserLogin(dates);
+        triggerUserRegister(dates);
+    }
+
+    private void triggerUserLogin(Integer dates) {
         log.info("{} dws 用户实时数据同步所有数据", dates);
         try {
             dwsDailyPackageAllLabLoginServiceImpl.syncData(dates);
@@ -67,5 +77,28 @@ public class DwsTodayRealTimeScheduler {
                 e);
         }
         log.info("{} 用户实时数据同步结束", dates);
+    }
+
+    private void triggerUserRegister(Integer dates) {
+        log.info("{} dws 用户注册实时数据同步所有数据", dates);
+        try {
+            dwsDailyPackageRegisterServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error(dates + "当天" + dwsDailyPackageRegisterServiceImpl.getClass().getSimpleName() + " 数据同步异常",
+                e);
+        }
+        try {
+            dwsUserRegisterPkgFullDailyServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error(
+                dates + "当天" + dwsUserRegisterPkgFullDailyServiceImpl.getClass().getSimpleName() + " 数据同步异常",
+                e);
+        }
+        try {
+            dwsDailyRegisterServiceImpl.syncData(dates);
+        } catch (Exception e) {
+            log.error(dates + "当天" + dwsDailyRegisterServiceImpl.getClass().getSimpleName() + " 数据同步异常", e);
+        }
+        log.info("{} 用户注册实时数据同步结束", dates);
     }
 }
