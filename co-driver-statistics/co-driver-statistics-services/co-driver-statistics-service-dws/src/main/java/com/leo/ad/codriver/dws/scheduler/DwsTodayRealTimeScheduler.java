@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Slf4j
 @RequiredArgsConstructor
-public class DwdTodayRealTimeScheduler {
+public class DwsTodayRealTimeScheduler {
     private final DwsService dwsDailyPackageAllLoginServiceImpl;
 
     /**
