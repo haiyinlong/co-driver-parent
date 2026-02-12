@@ -97,8 +97,14 @@ public class AdsDailyOetaBaseReport implements BaseEntity {
      */
     private BigDecimal bannerRate;
 
-    private BigDecimal withdrawAmount;
     private BigDecimal rechargeAmount;
+    private BigDecimal rechargeCost;
+    private BigDecimal rechargeFee;
+    private BigDecimal rechargeRate;
+    private Long rechargeUserNum;
+    private BigDecimal withdrawAmount;
+    private Long withdrawUserNum;
+    private BigDecimal withdrawRate;
     private BigDecimal withdrawFee;
     private BigDecimal withdrawCost;
     private BigDecimal promotionCost;
